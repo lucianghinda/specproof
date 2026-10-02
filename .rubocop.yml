@@ -1,8 +1,40 @@
 AllCops:
-  TargetRubyVersion: 3.2
+  TargetRubyVersion: 3.3
+  NewCops: enable
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
 Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes
+
+# Test and benchmark helpers are deliberately written as cohesive scenarios.
+# Keep production complexity checks focused on shipped code.
+Metrics:
+  Exclude:
+    - "test/**/*"
+    - "spec/**/*"
+    - "benchmark/**/*"
+
+# Sequential domain validation and run orchestration are cohesive algorithms.
+# Keep explicit production budgets, rather than excluding shipped files.
+Metrics/AbcSize:
+  Max: 60
+Metrics/CyclomaticComplexity:
+  Max: 20
+Metrics/PerceivedComplexity:
+  Max: 20
+Metrics/MethodLength:
+  Max: 60
+Metrics/ClassLength:
+  Max: 250
+Metrics/ModuleLength:
+  Max: 200
+Metrics/BlockLength:
+  Max: 40
+
+# Fixture Ruby source is intentionally representative input, so its literal
+# mutability remains part of the test scenario.
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - "test/fixtures/**/*"

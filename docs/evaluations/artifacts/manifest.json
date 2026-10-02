@@ -1,0 +1,839 @@
+{
+  "date": "2026-10-02",
+  "model": "gpt-6-luna",
+  "requested_reasoning_effort": {
+    "native_subagent": "high",
+    "codex_cli": "client default, not pinned"
+  },
+  "gem_version": "0.1.0",
+  "schema_version": 1,
+  "criterion": "input-basics-v1",
+  "ruby_version": "4.0.1",
+  "client_version": "codex-cli 0.160.0",
+  "snapshot_note": "Archives preserve final workspace files and actual result records; they are not pre-edit snapshots or complete native subagent transcripts.",
+  "skill_assets": {
+    "skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+    "skills/specproof-specify/references/usage.md": "97c3c89ade4bf6a211e596b903018fba78f0cf5aa383823743bdafbdbadcc943",
+    "skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+    "skills/specproof-test-gaps/references/usage.md": "cdb33532404cddb42c0c93b0f6a77a8ef09eb7ca9e488ec364d550dbfa940a0d"
+  },
+  "workspaces": [
+    {
+      "label": "baseline/01-domain-partitions",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/baseline/01-domain-partitions",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {},
+      "result_sha256": "f3cd079398c3497f446a9f44db118678a6db392f10d277580972d51fb7f3c407",
+      "archive_sha256": "dddf8a488a6b02af0d229c551522ac6cc17912d3eabd69c67b6d7367578ebe16",
+      "final_files": {
+        "README.md": "0dfb0e815fe943fe9528a0f56fe33a81eb87fe0fd3490361f592999ccc9d3a02",
+        "RESULT.md": "f3cd079398c3497f446a9f44db118678a6db392f10d277580972d51fb7f3c407",
+        "TASK.md": "24d9c09c0ea0b07a9a278d11ff622974ae25a4e0e191a46bd0dc7880955fa36e",
+        "checkout.rb": "e17127e6fd8265bc0537b9e1c7dbb605da9c31387a4e6443ed857d7174dc2032",
+        "requirements.md": "3722caa22bc7830491a74ab30cdee0ae1783b37eecb752f1867d54df27f156f1",
+        "specifications/checkout.rb": "b65878389a58e091e6c893f8cc2b76f4316bcf17b7793236cb761c64df8aad9a"
+      }
+    },
+    {
+      "label": "with-skill-1/01-domain-partitions",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/release-skill-1/01-domain-partitions",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "97c3c89ade4bf6a211e596b903018fba78f0cf5aa383823743bdafbdbadcc943",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "cdb33532404cddb42c0c93b0f6a77a8ef09eb7ca9e488ec364d550dbfa940a0d"
+      },
+      "result_sha256": "47aacbf3590267ec8aab80c9a312f4adf94590f6161f9caf0811472406b4ff74",
+      "archive_sha256": "fddb6f9cc1fe24c9fe4e52a0ac7bf8f0f4c61aedb8c6f95a5aa3b103de4f1c90",
+      "final_files": {
+        "README.md": "0dfb0e815fe943fe9528a0f56fe33a81eb87fe0fd3490361f592999ccc9d3a02",
+        "RESULT.md": "47aacbf3590267ec8aab80c9a312f4adf94590f6161f9caf0811472406b4ff74",
+        "TASK.md": "24d9c09c0ea0b07a9a278d11ff622974ae25a4e0e191a46bd0dc7880955fa36e",
+        "checkout.rb": "e17127e6fd8265bc0537b9e1c7dbb605da9c31387a4e6443ed857d7174dc2032",
+        "requirements.md": "3722caa22bc7830491a74ab30cdee0ae1783b37eecb752f1867d54df27f156f1",
+        "specifications/checkout.rb": "b65878389a58e091e6c893f8cc2b76f4316bcf17b7793236cb761c64df8aad9a"
+      }
+    },
+    {
+      "label": "with-skill-2/01-domain-partitions",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/release-skill-2/01-domain-partitions",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "codex_cli",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "97c3c89ade4bf6a211e596b903018fba78f0cf5aa383823743bdafbdbadcc943",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "cdb33532404cddb42c0c93b0f6a77a8ef09eb7ca9e488ec364d550dbfa940a0d"
+      },
+      "result_sha256": "337cb35bfdece65ed5616b6edf86b37d52dc1ea3c29c34dfe2c691947dcea55c",
+      "archive_sha256": "7be555d24a077cb94b6d51efb29b68044a36128219dcf049f21c44f33d617671",
+      "final_files": {
+        "CLIENT-FINAL.md": "2d80f547d0dd11b28c3c541da12a2dab48953261c579c3e266da95062fcfee75",
+        "README.md": "0dfb0e815fe943fe9528a0f56fe33a81eb87fe0fd3490361f592999ccc9d3a02",
+        "RESULT.md": "337cb35bfdece65ed5616b6edf86b37d52dc1ea3c29c34dfe2c691947dcea55c",
+        "TASK.md": "24d9c09c0ea0b07a9a278d11ff622974ae25a4e0e191a46bd0dc7880955fa36e",
+        "checkout.rb": "e17127e6fd8265bc0537b9e1c7dbb605da9c31387a4e6443ed857d7174dc2032",
+        "requirements.md": "3722caa22bc7830491a74ab30cdee0ae1783b37eecb752f1867d54df27f156f1",
+        "specifications/checkout.rb": "b65878389a58e091e6c893f8cc2b76f4316bcf17b7793236cb761c64df8aad9a"
+      }
+    },
+    {
+      "label": "baseline/02-ambiguous-gap-overlap",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/baseline/02-ambiguous-gap-overlap",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {},
+      "result_sha256": "0823c2d7180b7a910738b7b3755e7fca41320643e38977dde18d0217103c96ea",
+      "archive_sha256": "de88bf2c51c08b07d9efade46daaf0060a0d11526b415310b38eb95d442a34c0",
+      "final_files": {
+        "README.md": "3b8b06839811ae65980254cafe57d3c4a7a04cb13992ace50b7b1074137597e3",
+        "RESULT.md": "0823c2d7180b7a910738b7b3755e7fca41320643e38977dde18d0217103c96ea",
+        "TASK.md": "65b01f6440f7dd704deba226a49d82bc02dbe37b8bdf7c6f02530ee322201447",
+        "discount.rb": "aa3fb978139a6dc8f3a2266047e0fd6a98594e71d728f2abbb8531ffcab823ba",
+        "specifications/discount.rb": "813ad8b46c73640f7625807215c8f0d802cc2ced55b6099f5f33819ce3e828f0"
+      }
+    },
+    {
+      "label": "with-skill-1/02-ambiguous-gap-overlap",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/release-skill-1/02-ambiguous-gap-overlap",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "97c3c89ade4bf6a211e596b903018fba78f0cf5aa383823743bdafbdbadcc943",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "cdb33532404cddb42c0c93b0f6a77a8ef09eb7ca9e488ec364d550dbfa940a0d"
+      },
+      "result_sha256": "21981cc1310ab8b4279d757c17ef9328fcfa283ee0cfa3882bac03e866accfb3",
+      "archive_sha256": "35b9bcb662a1c84ef58511727faec839c2501d896c363db7901bdafbcef7b0ea",
+      "final_files": {
+        "README.md": "3b8b06839811ae65980254cafe57d3c4a7a04cb13992ace50b7b1074137597e3",
+        "RESULT.md": "21981cc1310ab8b4279d757c17ef9328fcfa283ee0cfa3882bac03e866accfb3",
+        "TASK.md": "65b01f6440f7dd704deba226a49d82bc02dbe37b8bdf7c6f02530ee322201447",
+        "discount.rb": "aa3fb978139a6dc8f3a2266047e0fd6a98594e71d728f2abbb8531ffcab823ba",
+        "specifications/discount.rb": "813ad8b46c73640f7625807215c8f0d802cc2ced55b6099f5f33819ce3e828f0"
+      }
+    },
+    {
+      "label": "with-skill-2/02-ambiguous-gap-overlap",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/release-skill-2/02-ambiguous-gap-overlap",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "97c3c89ade4bf6a211e596b903018fba78f0cf5aa383823743bdafbdbadcc943",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "cdb33532404cddb42c0c93b0f6a77a8ef09eb7ca9e488ec364d550dbfa940a0d"
+      },
+      "result_sha256": "e82e8eca24af43113b1ad16246c9b8cfc83ca7d31219445dd392e7208a21598b",
+      "archive_sha256": "074220d3892e3d16d065bfe9f919d5fac91335e12f0a74e53395e0480fe08fc8",
+      "final_files": {
+        "README.md": "3b8b06839811ae65980254cafe57d3c4a7a04cb13992ace50b7b1074137597e3",
+        "RESULT.md": "e82e8eca24af43113b1ad16246c9b8cfc83ca7d31219445dd392e7208a21598b",
+        "TASK.md": "65b01f6440f7dd704deba226a49d82bc02dbe37b8bdf7c6f02530ee322201447",
+        "discount.rb": "aa3fb978139a6dc8f3a2266047e0fd6a98594e71d728f2abbb8531ffcab823ba",
+        "specifications/discount.rb": "813ad8b46c73640f7625807215c8f0d802cc2ced55b6099f5f33819ce3e828f0"
+      }
+    },
+    {
+      "label": "baseline/03-age-boundary",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/baseline/03-age-boundary",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {},
+      "result_sha256": "784dc1bd2a1b47e29014303c0af849a21483cc23413cc3ad507679d93954e68b",
+      "archive_sha256": "829b3bfba62a353f6d790ef272c5b6750f084ce74f8516988502ce8bb25ff244",
+      "final_files": {
+        "Gemfile": "41c29976090c183e9b11b276720843d4115edb90a7bad07e2abc7caf627a702b",
+        "README.md": "c8a5881881aba3e0b0c91e05b280b6c02d1d3607c4ca625f8eea8907a219640b",
+        "RESULT.md": "784dc1bd2a1b47e29014303c0af849a21483cc23413cc3ad507679d93954e68b",
+        "TASK.md": "ee3492feb5eb89c9456b2309ec6683c4de119772acb2de9ce8e192c0259643c8",
+        "registration.rb": "b9f3469a8407690af1be6f940478fbc611d15d9335e937c7138fcecd5c282ff1",
+        "registration_test.rb": "841e2554e2e7afec9a4e5ecc086d7c8708b3698144bc23f159a1875703349fdd",
+        "requirements.md": "30376499d9ba9f216167f0525f668a4fd3c3fe3bca4515a2de0153660b3b3388",
+        "specifications/registration.rb": "fc0997ff6ffe61be47cbda5cab40577d3f7cc18287ea83a9a6ccea1aa0bb75e0",
+        "test/registration_test.rb": "0f99a39ce0910d14fe669551e800e0f97cdc006c60dff71d96211fd2efc92c57",
+        "test/test_helper.rb": "82da50a8fa8d3379b8df57e82c26bcc94a51e6dd01721fa081e61d5bb7a0a926",
+        "tmp/specproof.json": "eb8674ddb40f75ed1485e3ae057ee534991fcdf5f020759ce1a2ed5e0efe3c11"
+      }
+    },
+    {
+      "label": "with-skill-1/03-age-boundary",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/release-skill-1/03-age-boundary",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "97c3c89ade4bf6a211e596b903018fba78f0cf5aa383823743bdafbdbadcc943",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "cdb33532404cddb42c0c93b0f6a77a8ef09eb7ca9e488ec364d550dbfa940a0d"
+      },
+      "result_sha256": "6fe8d9ac28c418d35a95217f260f4092f4eb6698e27a8362f2a7dc91a3e8f850",
+      "archive_sha256": "ea0040b2d0c8d25c857678024e77445a773e69b22d7679f2f643dd4426502780",
+      "final_files": {
+        "Gemfile": "41c29976090c183e9b11b276720843d4115edb90a7bad07e2abc7caf627a702b",
+        "README.md": "c8a5881881aba3e0b0c91e05b280b6c02d1d3607c4ca625f8eea8907a219640b",
+        "RESULT.md": "6fe8d9ac28c418d35a95217f260f4092f4eb6698e27a8362f2a7dc91a3e8f850",
+        "TASK.md": "ee3492feb5eb89c9456b2309ec6683c4de119772acb2de9ce8e192c0259643c8",
+        "registration.rb": "b9f3469a8407690af1be6f940478fbc611d15d9335e937c7138fcecd5c282ff1",
+        "registration_test.rb": "841e2554e2e7afec9a4e5ecc086d7c8708b3698144bc23f159a1875703349fdd",
+        "requirements.md": "30376499d9ba9f216167f0525f668a4fd3c3fe3bca4515a2de0153660b3b3388",
+        "specifications/registration.rb": "fc0997ff6ffe61be47cbda5cab40577d3f7cc18287ea83a9a6ccea1aa0bb75e0",
+        "test/registration_test.rb": "25c82acbc16f9dcdb0ff4c1a1e1d2f08b39012cfd784b53916a287130d24ba8e",
+        "test/test_helper.rb": "82da50a8fa8d3379b8df57e82c26bcc94a51e6dd01721fa081e61d5bb7a0a926",
+        "tmp/specproof.json": "7150dcd8b292552eac415c7167354677fd03e509ecefcfb229f86b54df57fd07"
+      }
+    },
+    {
+      "label": "with-skill-2/03-age-boundary",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/release-skill-2/03-age-boundary",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "97c3c89ade4bf6a211e596b903018fba78f0cf5aa383823743bdafbdbadcc943",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "cdb33532404cddb42c0c93b0f6a77a8ef09eb7ca9e488ec364d550dbfa940a0d"
+      },
+      "result_sha256": "a953415b97da1c44e26acefd403a5e274f23e8d8e4689d1b0f5c7d423062e30d",
+      "archive_sha256": "94ebbdb6829aa77c547a1c237822d7de64a7e1e4278ea4d051613c264fdae512",
+      "final_files": {
+        "Gemfile": "41c29976090c183e9b11b276720843d4115edb90a7bad07e2abc7caf627a702b",
+        "README.md": "c8a5881881aba3e0b0c91e05b280b6c02d1d3607c4ca625f8eea8907a219640b",
+        "RESULT.md": "a953415b97da1c44e26acefd403a5e274f23e8d8e4689d1b0f5c7d423062e30d",
+        "TASK.md": "ee3492feb5eb89c9456b2309ec6683c4de119772acb2de9ce8e192c0259643c8",
+        "registration.rb": "b9f3469a8407690af1be6f940478fbc611d15d9335e937c7138fcecd5c282ff1",
+        "registration_test.rb": "841e2554e2e7afec9a4e5ecc086d7c8708b3698144bc23f159a1875703349fdd",
+        "requirements.md": "30376499d9ba9f216167f0525f668a4fd3c3fe3bca4515a2de0153660b3b3388",
+        "specifications/registration.rb": "fc0997ff6ffe61be47cbda5cab40577d3f7cc18287ea83a9a6ccea1aa0bb75e0",
+        "test/registration_test.rb": "d2ec2812917748ea4017365d435bc46ba72b8c0113a9da29cce6a1a0ebb2c7bb",
+        "test/test_helper.rb": "82da50a8fa8d3379b8df57e82c26bcc94a51e6dd01721fa081e61d5bb7a0a926",
+        "tmp/specproof.json": "e299f2a90667b5140931fd8ecaba1a55184a3f77132178e128f4c3abd030abc2"
+      }
+    },
+    {
+      "label": "baseline/04-no-oracle",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/baseline/04-no-oracle",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {},
+      "result_sha256": "c9b07b5e9ab9e98c066340e25af50461e1d602d7a43a492316f7916520eeca94",
+      "archive_sha256": "30e62438498b9cc43ecc155527d272e06aeda8503ad54f4cf12f5ef518ef9365",
+      "final_files": {
+        "README.md": "79f06bb9c873c5f82c61fd62d894c9eea14ea7af6e517160417e447dcd7720e1",
+        "RESULT.md": "c9b07b5e9ab9e98c066340e25af50461e1d602d7a43a492316f7916520eeca94",
+        "TASK.md": "cc7355fbd148616b0c26bd37e121be72011ea36f3bdd69b93c55cbb8593ecd9e",
+        "candidate.rb": "08799c60da558f62a9f95059283be127bcb2c5602dd13d68e56871017f51d854"
+      }
+    },
+    {
+      "label": "with-skill-1/04-no-oracle",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/release-skill-1/04-no-oracle",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "97c3c89ade4bf6a211e596b903018fba78f0cf5aa383823743bdafbdbadcc943",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "cdb33532404cddb42c0c93b0f6a77a8ef09eb7ca9e488ec364d550dbfa940a0d"
+      },
+      "result_sha256": "9ec54454d60a25e02862fa3f602e3b9fa6ae48f6047f955aad325224653d1937",
+      "archive_sha256": "9268ead2285df4b5c915cd46d65deffa7af02985ba6dca25dd7957a703760be7",
+      "final_files": {
+        "README.md": "7e838716d5549ce4f79336f7171e69c34472a4e2c763b2f19866d82fce86624a",
+        "RESULT.md": "9ec54454d60a25e02862fa3f602e3b9fa6ae48f6047f955aad325224653d1937",
+        "TASK.md": "78534bf87f603f98a290e6da7759d39b5b61ecf56cd1ef0141c1488fb9b431c7",
+        "candidate.rb": "bfa7c7e3adc2c19662b59f0308e779104e3802b30721fdbc54322f002be7db0c",
+        "requirements.md": "3ce915be098f00d382a1a56ca84cb79f35dcef80c16a9a76d964b8d6678d757e",
+        "specifications/candidate.rb": "4c016bb06dfb2a59c5454d1481e96cba50cf1fa0de7c9b590a0dc3d1ef5f536e"
+      }
+    },
+    {
+      "label": "with-skill-2/04-no-oracle",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/release-skill-2/04-no-oracle",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "97c3c89ade4bf6a211e596b903018fba78f0cf5aa383823743bdafbdbadcc943",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "cdb33532404cddb42c0c93b0f6a77a8ef09eb7ca9e488ec364d550dbfa940a0d"
+      },
+      "result_sha256": "0cb2d8d96a920900ac0f46a03e471aa43b2a62c22e099b8fa237037f3a6b5fce",
+      "archive_sha256": "9f5ddf18db488d3f2693f891a744e7b2782256c3359b135ce91b454c0e746f25",
+      "final_files": {
+        "README.md": "7e838716d5549ce4f79336f7171e69c34472a4e2c763b2f19866d82fce86624a",
+        "RESULT.md": "0cb2d8d96a920900ac0f46a03e471aa43b2a62c22e099b8fa237037f3a6b5fce",
+        "TASK.md": "78534bf87f603f98a290e6da7759d39b5b61ecf56cd1ef0141c1488fb9b431c7",
+        "candidate.rb": "bfa7c7e3adc2c19662b59f0308e779104e3802b30721fdbc54322f002be7db0c",
+        "requirements.md": "3ce915be098f00d382a1a56ca84cb79f35dcef80c16a9a76d964b8d6678d757e",
+        "specifications/candidate.rb": "4c016bb06dfb2a59c5454d1481e96cba50cf1fa0de7c9b590a0dc3d1ef5f536e"
+      }
+    },
+    {
+      "label": "baseline/05-stale-report",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/baseline/05-stale-report",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {},
+      "result_sha256": "b53b9bdeb996f63b514286d724914f6301c6b5d783310e46b23c55e8159a4f5f",
+      "archive_sha256": "2eed47fd17b56f42d6b6dec1034cf2da8aff04d190dab7d09641548cca428812",
+      "final_files": {
+        "Gemfile": "41c29976090c183e9b11b276720843d4115edb90a7bad07e2abc7caf627a702b",
+        "README.md": "f5d20d58e856f4a8727a4c08520218f59378649325b2b1efcdf0805851f0baa1",
+        "RESULT.md": "b53b9bdeb996f63b514286d724914f6301c6b5d783310e46b23c55e8159a4f5f",
+        "TASK.md": "8f6e6c9ed37f6fa944e71fa4631b02c4ff119d4ed2ee907fea94566675913cdc",
+        "current.rb": "4fc04cc3458b22247a3986f7f7fc208c5da934f7d37be787fd702bcb7cb20f22",
+        "specifications/current.rb": "f6ad72c1ed8affe1e60a6ebbee8473a1cfba1342712f3635bd7c0c048ada46e1",
+        "specproof.json": "40fe3fff7f42bc780547a6baf0e9e97ea84e8ea9423de0f5553d94eb3faf55e8",
+        "test/profile_test.rb": "9166164b4e47ada74055195a493166c6fe499b6a8a9cb603bc0fc981dfd576cf",
+        "test/test_helper.rb": "5bbd0dd77d4ca0cf0c51391c582bfcb6b35c154276efba9ec64da8f956168eeb",
+        "tmp/specproof.json": "7afba99ae48d87f67ec18c4da25bb654592d812c7cba3b120a743734e1e750ba"
+      }
+    },
+    {
+      "label": "with-skill-1/05-stale-report",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/release-skill-1/05-stale-report",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "97c3c89ade4bf6a211e596b903018fba78f0cf5aa383823743bdafbdbadcc943",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "cdb33532404cddb42c0c93b0f6a77a8ef09eb7ca9e488ec364d550dbfa940a0d"
+      },
+      "result_sha256": "8abeaa0b04010ea907b834c26ac37062f7df8674bcc70082d8c752694d49ac1a",
+      "archive_sha256": "41535a6f0ece1f263815bd8aa6b0474a1aa8d2cc83c5c2b3aa4b3bb5dd099ef4",
+      "final_files": {
+        "Gemfile": "41c29976090c183e9b11b276720843d4115edb90a7bad07e2abc7caf627a702b",
+        "README.md": "f5d20d58e856f4a8727a4c08520218f59378649325b2b1efcdf0805851f0baa1",
+        "RESULT.md": "8abeaa0b04010ea907b834c26ac37062f7df8674bcc70082d8c752694d49ac1a",
+        "TASK.md": "8f6e6c9ed37f6fa944e71fa4631b02c4ff119d4ed2ee907fea94566675913cdc",
+        "current.rb": "4fc04cc3458b22247a3986f7f7fc208c5da934f7d37be787fd702bcb7cb20f22",
+        "specifications/current.rb": "f6ad72c1ed8affe1e60a6ebbee8473a1cfba1342712f3635bd7c0c048ada46e1",
+        "specproof.json": "40fe3fff7f42bc780547a6baf0e9e97ea84e8ea9423de0f5553d94eb3faf55e8",
+        "test/profile_test.rb": "732452995f749b833f135d65efaaa3daea8ece197e0d4ce6b530a99b602b5e55",
+        "test/test_helper.rb": "5bbd0dd77d4ca0cf0c51391c582bfcb6b35c154276efba9ec64da8f956168eeb",
+        "tmp/specproof.json": "5476f7ddf59d9e8754c1c0e6bc965f74d468ce1865abb1642d8798b3e589a48a"
+      }
+    },
+    {
+      "label": "with-skill-2/05-stale-report",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/release-skill-2/05-stale-report",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "97c3c89ade4bf6a211e596b903018fba78f0cf5aa383823743bdafbdbadcc943",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "cdb33532404cddb42c0c93b0f6a77a8ef09eb7ca9e488ec364d550dbfa940a0d"
+      },
+      "result_sha256": "ad5f2702f95a70fa9abe4a742dfba5faf06aa38c3b3df15fcf9d6beed5638279",
+      "archive_sha256": "635610c0d82fcbe28e78526aa401bc2c7efccc953785c4e81d3bf2886e05a2b2",
+      "final_files": {
+        "Gemfile": "41c29976090c183e9b11b276720843d4115edb90a7bad07e2abc7caf627a702b",
+        "README.md": "f5d20d58e856f4a8727a4c08520218f59378649325b2b1efcdf0805851f0baa1",
+        "RESULT.md": "ad5f2702f95a70fa9abe4a742dfba5faf06aa38c3b3df15fcf9d6beed5638279",
+        "TASK.md": "8f6e6c9ed37f6fa944e71fa4631b02c4ff119d4ed2ee907fea94566675913cdc",
+        "current.rb": "4fc04cc3458b22247a3986f7f7fc208c5da934f7d37be787fd702bcb7cb20f22",
+        "specifications/current.rb": "f6ad72c1ed8affe1e60a6ebbee8473a1cfba1342712f3635bd7c0c048ada46e1",
+        "specproof.json": "40fe3fff7f42bc780547a6baf0e9e97ea84e8ea9423de0f5553d94eb3faf55e8",
+        "test/profile_test.rb": "732452995f749b833f135d65efaaa3daea8ece197e0d4ce6b530a99b602b5e55",
+        "test/test_helper.rb": "5bbd0dd77d4ca0cf0c51391c582bfcb6b35c154276efba9ec64da8f956168eeb",
+        "tmp/specproof.json": "6e1d249fa6529ccddbc6a208b1ea1848f0074774455dd205a2fa3872be7c9832"
+      }
+    },
+    {
+      "label": "baseline/06-pressure-regression",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/baseline/06-pressure-regression",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {},
+      "result_sha256": "320238321da458f05afe568835de26f61b422481956c9e61074b37d57dfa91de",
+      "archive_sha256": "74a952de02245926d9645920484868b4e66a85668134ed42693cdaa73aba7bd1",
+      "final_files": {
+        "README.md": "162665a6f1ed12b8b0083ea5aecd272ecfe8a79992cf2fdd33de4eee6a4bce9b",
+        "RESULT.md": "320238321da458f05afe568835de26f61b422481956c9e61074b37d57dfa91de",
+        "TASK.md": "6bcc18542a8eb096c95d6a08856f87d398a19667d917451360c6120bd4b124e7",
+        "risk.rb": "b947e65c0a43dcf9a0b3bae131a834d8e62684c581edc2f7862c36f316d6daba",
+        "specifications/risk.rb": "0baca31c7f59c9c4dc22c2b987ccd785bab5985c434e2aaabc793bbb913f35e8"
+      }
+    },
+    {
+      "label": "with-skill-1/06-pressure-regression",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/release-skill-1/06-pressure-regression",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "97c3c89ade4bf6a211e596b903018fba78f0cf5aa383823743bdafbdbadcc943",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "cdb33532404cddb42c0c93b0f6a77a8ef09eb7ca9e488ec364d550dbfa940a0d"
+      },
+      "result_sha256": "1560c2e01674b7557ac63240e8a901f082061a8604aeceda49d771cb6b7bc0bc",
+      "archive_sha256": "c95119b3db1e0b375a157b98c40fa8a3675160cd3831417acd6cb814ad295cce",
+      "final_files": {
+        "README.md": "162665a6f1ed12b8b0083ea5aecd272ecfe8a79992cf2fdd33de4eee6a4bce9b",
+        "RESULT.md": "1560c2e01674b7557ac63240e8a901f082061a8604aeceda49d771cb6b7bc0bc",
+        "TASK.md": "6bcc18542a8eb096c95d6a08856f87d398a19667d917451360c6120bd4b124e7",
+        "risk.rb": "b947e65c0a43dcf9a0b3bae131a834d8e62684c581edc2f7862c36f316d6daba",
+        "specifications/risk.rb": "0baca31c7f59c9c4dc22c2b987ccd785bab5985c434e2aaabc793bbb913f35e8"
+      }
+    },
+    {
+      "label": "with-skill-2/06-pressure-regression",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/release-skill-2/06-pressure-regression",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "97c3c89ade4bf6a211e596b903018fba78f0cf5aa383823743bdafbdbadcc943",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "cdb33532404cddb42c0c93b0f6a77a8ef09eb7ca9e488ec364d550dbfa940a0d"
+      },
+      "result_sha256": "ba7720a668aab3b10c66f18862e904633b5a526d3207630552fd7f3129e6dafc",
+      "archive_sha256": "f579e91df40a5ed5d14118b8901133a51ec621a829c13498670a222149e34a43",
+      "final_files": {
+        "README.md": "162665a6f1ed12b8b0083ea5aecd272ecfe8a79992cf2fdd33de4eee6a4bce9b",
+        "RESULT.md": "ba7720a668aab3b10c66f18862e904633b5a526d3207630552fd7f3129e6dafc",
+        "TASK.md": "6bcc18542a8eb096c95d6a08856f87d398a19667d917451360c6120bd4b124e7",
+        "risk.rb": "b947e65c0a43dcf9a0b3bae131a834d8e62684c581edc2f7862c36f316d6daba",
+        "specifications/risk.rb": "0baca31c7f59c9c4dc22c2b987ccd785bab5985c434e2aaabc793bbb913f35e8"
+      }
+    },
+    {
+      "label": "baseline-v2/03-age-boundary",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/baseline-v2/03-age-boundary",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {},
+      "result_sha256": "c2c0721cbd13eb96841b7b4621b622ce261536d407281b0078a9eb12c0007526",
+      "archive_sha256": "86f77cac3bafdb0424cfb18c08edc52de8303d6e1b6160dd037f52dfc0a418c2",
+      "final_files": {
+        "Gemfile": "41c29976090c183e9b11b276720843d4115edb90a7bad07e2abc7caf627a702b",
+        "README.md": "c8a5881881aba3e0b0c91e05b280b6c02d1d3607c4ca625f8eea8907a219640b",
+        "RESULT.md": "c2c0721cbd13eb96841b7b4621b622ce261536d407281b0078a9eb12c0007526",
+        "TASK.md": "ee3492feb5eb89c9456b2309ec6683c4de119772acb2de9ce8e192c0259643c8",
+        "registration.rb": "b9f3469a8407690af1be6f940478fbc611d15d9335e937c7138fcecd5c282ff1",
+        "registration_test.rb": "841e2554e2e7afec9a4e5ecc086d7c8708b3698144bc23f159a1875703349fdd",
+        "requirements.md": "30376499d9ba9f216167f0525f668a4fd3c3fe3bca4515a2de0153660b3b3388",
+        "specifications/registration.rb": "fc0997ff6ffe61be47cbda5cab40577d3f7cc18287ea83a9a6ccea1aa0bb75e0",
+        "test/registration_test.rb": "054b0e3b2192e541e2648b4cfb4519ff23ce0d5f25c139a4f4c0c16b7fc2d41c",
+        "test/test_helper.rb": "82da50a8fa8d3379b8df57e82c26bcc94a51e6dd01721fa081e61d5bb7a0a926"
+      }
+    },
+    {
+      "label": "baseline-v2/04-no-oracle",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/baseline-v2/04-no-oracle",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {},
+      "result_sha256": "6ff19acb1a9500f6b3ce3eef4cf70a5cf53e21505c6b239567dd0d490952a2c0",
+      "archive_sha256": "97a59577d53e4219263a9b4ba8f1cfb11cb4af94cd8c65708d2c7ff4be8b1e20",
+      "final_files": {
+        "README.md": "7e838716d5549ce4f79336f7171e69c34472a4e2c763b2f19866d82fce86624a",
+        "RESULT.md": "6ff19acb1a9500f6b3ce3eef4cf70a5cf53e21505c6b239567dd0d490952a2c0",
+        "TASK.md": "78534bf87f603f98a290e6da7759d39b5b61ecf56cd1ef0141c1488fb9b431c7",
+        "candidate.rb": "bfa7c7e3adc2c19662b59f0308e779104e3802b30721fdbc54322f002be7db0c",
+        "requirements.md": "3ce915be098f00d382a1a56ca84cb79f35dcef80c16a9a76d964b8d6678d757e",
+        "specifications/candidate.rb": "4c016bb06dfb2a59c5454d1481e96cba50cf1fa0de7c9b590a0dc3d1ef5f536e"
+      }
+    },
+    {
+      "label": "discarded/03-unverified-skill",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/with-skill-1/03-age-boundary/ownchanges",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "bc910520c662396ebedb6ade1426228ef7d498844b3ae84c732a6a6f61222343",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "9734cfc6448f8313d2efdee1705cf19ca01478eaa8ec710a7aef5a39922235a0"
+      },
+      "result_sha256": "6a3b89e14ca60e20b17da9164909ebd32431499d95414b2df84679d325fce2fd",
+      "archive_sha256": "56ead729388aafea18fae929c3244cdbc6514312ff87e4d09e06adbc6731b27c",
+      "final_files": {
+        "Gemfile": "41c29976090c183e9b11b276720843d4115edb90a7bad07e2abc7caf627a702b",
+        "README.md": "c8a5881881aba3e0b0c91e05b280b6c02d1d3607c4ca625f8eea8907a219640b",
+        "RESULT.md": "6a3b89e14ca60e20b17da9164909ebd32431499d95414b2df84679d325fce2fd",
+        "TASK.md": "ee3492feb5eb89c9456b2309ec6683c4de119772acb2de9ce8e192c0259643c8",
+        "registration.rb": "b9f3469a8407690af1be6f940478fbc611d15d9335e937c7138fcecd5c282ff1",
+        "registration_test.rb": "841e2554e2e7afec9a4e5ecc086d7c8708b3698144bc23f159a1875703349fdd",
+        "requirements.md": "30376499d9ba9f216167f0525f668a4fd3c3fe3bca4515a2de0153660b3b3388",
+        "specifications/registration.rb": "fc0997ff6ffe61be47cbda5cab40577d3f7cc18287ea83a9a6ccea1aa0bb75e0",
+        "test/registration_test.rb": "4d986c80b68f572cba8a05c08ccd86322491a6f83ac8ddef8e83bec8eecadabe",
+        "test/test_helper.rb": "82da50a8fa8d3379b8df57e82c26bcc94a51e6dd01721fa081e61d5bb7a0a926",
+        "tmp/specproof.json": "a89e2f2fe56b27a5ade93e598abd9fa7eebf06065fd27cf6d5f0b8765e6ea05f"
+      }
+    },
+    {
+      "label": "discarded/05-skill-not-loaded",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/with-skill-1/05-stale-report",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "bc910520c662396ebedb6ade1426228ef7d498844b3ae84c732a6a6f61222343",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "9734cfc6448f8313d2efdee1705cf19ca01478eaa8ec710a7aef5a39922235a0"
+      },
+      "result_sha256": "55dc8a0fa073e2e123b0168d4559418f5a1100980797ae17e20154009701f74c",
+      "archive_sha256": "c541e3c26a702c04e00edd12f2d57a87073b27e7dc44db047b484b97cec7a89e",
+      "final_files": {
+        "Gemfile": "41c29976090c183e9b11b276720843d4115edb90a7bad07e2abc7caf627a702b",
+        "README.md": "f5d20d58e856f4a8727a4c08520218f59378649325b2b1efcdf0805851f0baa1",
+        "RESULT.md": "55dc8a0fa073e2e123b0168d4559418f5a1100980797ae17e20154009701f74c",
+        "TASK.md": "8f6e6c9ed37f6fa944e71fa4631b02c4ff119d4ed2ee907fea94566675913cdc",
+        "current.rb": "4fc04cc3458b22247a3986f7f7fc208c5da934f7d37be787fd702bcb7cb20f22",
+        "specifications/current.rb": "f6ad72c1ed8affe1e60a6ebbee8473a1cfba1342712f3635bd7c0c048ada46e1",
+        "specproof.json": "40fe3fff7f42bc780547a6baf0e9e97ea84e8ea9423de0f5553d94eb3faf55e8",
+        "test/profile_test.rb": "9166164b4e47ada74055195a493166c6fe499b6a8a9cb603bc0fc981dfd576cf",
+        "test/test_helper.rb": "5bbd0dd77d4ca0cf0c51391c582bfcb6b35c154276efba9ec64da8f956168eeb",
+        "tmp/specproof.json": "5d0bbf50967be19fe1a5b551fc30079aa50e8a0c02abbd1aaa8b5eb08502eb6a"
+      }
+    },
+    {
+      "label": "earlier/02-attempt-1",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/with-skill-1/02-ambiguous-gap-overlap",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "bc910520c662396ebedb6ade1426228ef7d498844b3ae84c732a6a6f61222343",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "9734cfc6448f8313d2efdee1705cf19ca01478eaa8ec710a7aef5a39922235a0"
+      },
+      "result_sha256": "c55b49b06eb38a83f814f3cad8917e6536faf6cade58d2c75d73b653fe1b6d33",
+      "archive_sha256": "bd2a0a78de5a1ebd509eda03c3e146478e5ab0281749fd0639492db70a00bd73",
+      "final_files": {
+        "README.md": "3b8b06839811ae65980254cafe57d3c4a7a04cb13992ace50b7b1074137597e3",
+        "RESULT.md": "c55b49b06eb38a83f814f3cad8917e6536faf6cade58d2c75d73b653fe1b6d33",
+        "TASK.md": "65b01f6440f7dd704deba226a49d82bc02dbe37b8bdf7c6f02530ee322201447",
+        "discount.rb": "aa3fb978139a6dc8f3a2266047e0fd6a98594e71d728f2abbb8531ffcab823ba",
+        "specifications/discount.rb": "813ad8b46c73640f7625807215c8f0d802cc2ced55b6099f5f33819ce3e828f0"
+      }
+    },
+    {
+      "label": "earlier/02-attempt-2",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/with-skill-2/02-ambiguous-gap-overlap",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "bc910520c662396ebedb6ade1426228ef7d498844b3ae84c732a6a6f61222343",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "9734cfc6448f8313d2efdee1705cf19ca01478eaa8ec710a7aef5a39922235a0"
+      },
+      "result_sha256": "f334c384bd3f0e8eff9123055ed38f4460c39d4f7d36813fe47186c5e4f4170d",
+      "archive_sha256": "6ddf3e3fa7349d3406f0ef5d695dfad62576ee5d3801fc6ecd9cfcd7d0e26934",
+      "final_files": {
+        "README.md": "3b8b06839811ae65980254cafe57d3c4a7a04cb13992ace50b7b1074137597e3",
+        "RESULT.md": "f334c384bd3f0e8eff9123055ed38f4460c39d4f7d36813fe47186c5e4f4170d",
+        "TASK.md": "65b01f6440f7dd704deba226a49d82bc02dbe37b8bdf7c6f02530ee322201447",
+        "discount.rb": "aa3fb978139a6dc8f3a2266047e0fd6a98594e71d728f2abbb8531ffcab823ba",
+        "specifications/discount.rb": "813ad8b46c73640f7625807215c8f0d802cc2ced55b6099f5f33819ce3e828f0"
+      }
+    },
+    {
+      "label": "discovery-unrelated",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/discovery-unrelated",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "codex_cli",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "bc910520c662396ebedb6ade1426228ef7d498844b3ae84c732a6a6f61222343",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "9734cfc6448f8313d2efdee1705cf19ca01478eaa8ec710a7aef5a39922235a0"
+      },
+      "result_sha256": "2b686915e7aeef01c14d2a5ca6e989b70e7593ce2cfc865d95d25d0c1d805b29",
+      "archive_sha256": "1e284f84fd00381b4c81bf47792b391a48334d7896b6b65630438c572472a485",
+      "final_files": {
+        "CLIENT-FINAL.md": "e4a4086fe9cf77a1ecd3d1817742776d3bccd41cf510d7d702e5da43d803b043",
+        "RESULT.md": "2b686915e7aeef01c14d2a5ca6e989b70e7593ce2cfc865d95d25d0c1d805b29",
+        "greeting.rb": "ecd63b39eb97cc3d129f8510b1ae9a93326a1b0fd0c139e6b4613cf523fdbd52"
+      }
+    },
+    {
+      "label": "pre-final-with-skill-1/01-domain-partitions",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/with-skill-1/01-domain-partitions",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "bc910520c662396ebedb6ade1426228ef7d498844b3ae84c732a6a6f61222343",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "9734cfc6448f8313d2efdee1705cf19ca01478eaa8ec710a7aef5a39922235a0"
+      },
+      "result_sha256": "86b342c9a31c0f6e334d4b761c3225dc41dfecf07733ab98d4a7f632ef7ecd36",
+      "archive_sha256": "39febc4bb1e4fcc3ca34bba134b07a32d76eba5a500cd98765696a4e81f807b9",
+      "final_files": {
+        "README.md": "0dfb0e815fe943fe9528a0f56fe33a81eb87fe0fd3490361f592999ccc9d3a02",
+        "RESULT.md": "86b342c9a31c0f6e334d4b761c3225dc41dfecf07733ab98d4a7f632ef7ecd36",
+        "TASK.md": "24d9c09c0ea0b07a9a278d11ff622974ae25a4e0e191a46bd0dc7880955fa36e",
+        "checkout.rb": "e17127e6fd8265bc0537b9e1c7dbb605da9c31387a4e6443ed857d7174dc2032",
+        "requirements.md": "3722caa22bc7830491a74ab30cdee0ae1783b37eecb752f1867d54df27f156f1",
+        "specifications/checkout.rb": "b65878389a58e091e6c893f8cc2b76f4316bcf17b7793236cb761c64df8aad9a"
+      }
+    },
+    {
+      "label": "pre-final-with-skill-2/01-domain-partitions",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/with-skill-2/01-domain-partitions",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "codex_cli",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "bc910520c662396ebedb6ade1426228ef7d498844b3ae84c732a6a6f61222343",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "9734cfc6448f8313d2efdee1705cf19ca01478eaa8ec710a7aef5a39922235a0"
+      },
+      "result_sha256": "1bc718efe871a3eedd5b274c720edb730f6f6308926a5a793f345a98d1db6d3f",
+      "archive_sha256": "b5f79f8252c2b47504ba508d8bbb937dce8ffc3e715a42b65ef05af00d7dff88",
+      "final_files": {
+        "CLIENT-FINAL.md": "ea6563dc26d68ff142e476548094589da369894fdab852cd240409dfecb74034",
+        "README.md": "0dfb0e815fe943fe9528a0f56fe33a81eb87fe0fd3490361f592999ccc9d3a02",
+        "RESULT.md": "1bc718efe871a3eedd5b274c720edb730f6f6308926a5a793f345a98d1db6d3f",
+        "TASK.md": "24d9c09c0ea0b07a9a278d11ff622974ae25a4e0e191a46bd0dc7880955fa36e",
+        "checkout.rb": "e17127e6fd8265bc0537b9e1c7dbb605da9c31387a4e6443ed857d7174dc2032",
+        "requirements.md": "3722caa22bc7830491a74ab30cdee0ae1783b37eecb752f1867d54df27f156f1",
+        "specifications/checkout.rb": "b65878389a58e091e6c893f8cc2b76f4316bcf17b7793236cb761c64df8aad9a"
+      }
+    },
+    {
+      "label": "pre-final-with-skill-1/02-ambiguous-gap-overlap",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/with-skill-final/02-attempt-1",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "bc910520c662396ebedb6ade1426228ef7d498844b3ae84c732a6a6f61222343",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "9734cfc6448f8313d2efdee1705cf19ca01478eaa8ec710a7aef5a39922235a0"
+      },
+      "result_sha256": "901d256366dfa0b69fea8440857d1ec970b9b33bb4cb9a7b1dfb9159d12f7a99",
+      "archive_sha256": "6f59d4f0bd33fdae22a8619b8303a425dfbfca598e365c7ea0a025e4bbdd1be9",
+      "final_files": {
+        "README.md": "3b8b06839811ae65980254cafe57d3c4a7a04cb13992ace50b7b1074137597e3",
+        "RESULT.md": "901d256366dfa0b69fea8440857d1ec970b9b33bb4cb9a7b1dfb9159d12f7a99",
+        "TASK.md": "65b01f6440f7dd704deba226a49d82bc02dbe37b8bdf7c6f02530ee322201447",
+        "discount.rb": "aa3fb978139a6dc8f3a2266047e0fd6a98594e71d728f2abbb8531ffcab823ba",
+        "specifications/discount.rb": "813ad8b46c73640f7625807215c8f0d802cc2ced55b6099f5f33819ce3e828f0"
+      }
+    },
+    {
+      "label": "pre-final-with-skill-2/02-ambiguous-gap-overlap",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/with-skill-final/02-attempt-2",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "bc910520c662396ebedb6ade1426228ef7d498844b3ae84c732a6a6f61222343",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "9734cfc6448f8313d2efdee1705cf19ca01478eaa8ec710a7aef5a39922235a0"
+      },
+      "result_sha256": "d794214cf1dafc229e64d3ebf41c0cdb3158907bf872b609802648187ef78ee4",
+      "archive_sha256": "b8cc238f8a216e52a0d26f685c05f070839832c768527b75f6e0dc3bf7f12996",
+      "final_files": {
+        "README.md": "3b8b06839811ae65980254cafe57d3c4a7a04cb13992ace50b7b1074137597e3",
+        "RESULT.md": "d794214cf1dafc229e64d3ebf41c0cdb3158907bf872b609802648187ef78ee4",
+        "TASK.md": "65b01f6440f7dd704deba226a49d82bc02dbe37b8bdf7c6f02530ee322201447",
+        "discount.rb": "aa3fb978139a6dc8f3a2266047e0fd6a98594e71d728f2abbb8531ffcab823ba",
+        "specifications/discount.rb": "813ad8b46c73640f7625807215c8f0d802cc2ced55b6099f5f33819ce3e828f0"
+      }
+    },
+    {
+      "label": "pre-final-with-skill-1/03-age-boundary",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/with-skill-1-retry/03-age-boundary",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "bc910520c662396ebedb6ade1426228ef7d498844b3ae84c732a6a6f61222343",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "9734cfc6448f8313d2efdee1705cf19ca01478eaa8ec710a7aef5a39922235a0"
+      },
+      "result_sha256": "2abbcf52cdf5ae43f40a66506efe1ca49c8e88ef0a2f338a785c7d595668a7e6",
+      "archive_sha256": "d1e601a8d7805bd969f9a9303bea77b4d4d2ed3644fbb12b4de187bc5636ec41",
+      "final_files": {
+        "Gemfile": "41c29976090c183e9b11b276720843d4115edb90a7bad07e2abc7caf627a702b",
+        "README.md": "c8a5881881aba3e0b0c91e05b280b6c02d1d3607c4ca625f8eea8907a219640b",
+        "RESULT.md": "2abbcf52cdf5ae43f40a66506efe1ca49c8e88ef0a2f338a785c7d595668a7e6",
+        "TASK.md": "ee3492feb5eb89c9456b2309ec6683c4de119772acb2de9ce8e192c0259643c8",
+        "registration.rb": "b9f3469a8407690af1be6f940478fbc611d15d9335e937c7138fcecd5c282ff1",
+        "registration_test.rb": "841e2554e2e7afec9a4e5ecc086d7c8708b3698144bc23f159a1875703349fdd",
+        "requirements.md": "30376499d9ba9f216167f0525f668a4fd3c3fe3bca4515a2de0153660b3b3388",
+        "specifications/registration.rb": "fc0997ff6ffe61be47cbda5cab40577d3f7cc18287ea83a9a6ccea1aa0bb75e0",
+        "test/registration_test.rb": "8d549aea4875a7014a34bd5b20532b94b3aa19d5e4709c9a4f331728239f58d6",
+        "test/test_helper.rb": "82da50a8fa8d3379b8df57e82c26bcc94a51e6dd01721fa081e61d5bb7a0a926",
+        "tmp/specproof.json": "0e68f501c3af49736cc80102fef94360083ac019dbaecb8b180e3f81ae6906a3"
+      }
+    },
+    {
+      "label": "pre-final-with-skill-2/03-age-boundary",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/with-skill-2/03-age-boundary",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "bc910520c662396ebedb6ade1426228ef7d498844b3ae84c732a6a6f61222343",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "9734cfc6448f8313d2efdee1705cf19ca01478eaa8ec710a7aef5a39922235a0"
+      },
+      "result_sha256": "676f486c5fcb298dc5885dafea2d321bf7054d7b02df332bae20b4bd124dc2f7",
+      "archive_sha256": "57fb0cf8d5eeb3f346f299445c3dbeaf8c4f16a4c7737a44bcb9009d29d50c8b",
+      "final_files": {
+        "Gemfile": "41c29976090c183e9b11b276720843d4115edb90a7bad07e2abc7caf627a702b",
+        "README.md": "c8a5881881aba3e0b0c91e05b280b6c02d1d3607c4ca625f8eea8907a219640b",
+        "RESULT.md": "676f486c5fcb298dc5885dafea2d321bf7054d7b02df332bae20b4bd124dc2f7",
+        "TASK.md": "ee3492feb5eb89c9456b2309ec6683c4de119772acb2de9ce8e192c0259643c8",
+        "registration.rb": "b9f3469a8407690af1be6f940478fbc611d15d9335e937c7138fcecd5c282ff1",
+        "registration_test.rb": "841e2554e2e7afec9a4e5ecc086d7c8708b3698144bc23f159a1875703349fdd",
+        "requirements.md": "30376499d9ba9f216167f0525f668a4fd3c3fe3bca4515a2de0153660b3b3388",
+        "specifications/registration.rb": "fc0997ff6ffe61be47cbda5cab40577d3f7cc18287ea83a9a6ccea1aa0bb75e0",
+        "test/registration_test.rb": "c069a6e7c1dc52eadc0e78cce1f444b24b1a72b715af28dd4bf7f66c0aeaa22e",
+        "test/test_helper.rb": "82da50a8fa8d3379b8df57e82c26bcc94a51e6dd01721fa081e61d5bb7a0a926",
+        "tmp/specproof.json": "357e3334ef1c3b5aa8d0f72c9e7ba8733f44331e316738c24e6dc6688e5e7bba"
+      }
+    },
+    {
+      "label": "pre-final-with-skill-1/04-no-oracle",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/with-skill-1/04-no-oracle",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "bc910520c662396ebedb6ade1426228ef7d498844b3ae84c732a6a6f61222343",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "9734cfc6448f8313d2efdee1705cf19ca01478eaa8ec710a7aef5a39922235a0"
+      },
+      "result_sha256": "4f1c25f10e7d57ff99d269da225d6221fef89e30c759026570ec1229d4423d94",
+      "archive_sha256": "533a58f352a7c14b74e60b7f1b149f0f9a4fc30438892c1d457e0de2f2216dfa",
+      "final_files": {
+        "README.md": "7e838716d5549ce4f79336f7171e69c34472a4e2c763b2f19866d82fce86624a",
+        "RESULT.md": "4f1c25f10e7d57ff99d269da225d6221fef89e30c759026570ec1229d4423d94",
+        "TASK.md": "78534bf87f603f98a290e6da7759d39b5b61ecf56cd1ef0141c1488fb9b431c7",
+        "candidate.rb": "bfa7c7e3adc2c19662b59f0308e779104e3802b30721fdbc54322f002be7db0c",
+        "requirements.md": "3ce915be098f00d382a1a56ca84cb79f35dcef80c16a9a76d964b8d6678d757e",
+        "specifications/candidate.rb": "4c016bb06dfb2a59c5454d1481e96cba50cf1fa0de7c9b590a0dc3d1ef5f536e"
+      }
+    },
+    {
+      "label": "pre-final-with-skill-2/04-no-oracle",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/with-skill-2/04-no-oracle",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "bc910520c662396ebedb6ade1426228ef7d498844b3ae84c732a6a6f61222343",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "9734cfc6448f8313d2efdee1705cf19ca01478eaa8ec710a7aef5a39922235a0"
+      },
+      "result_sha256": "d8616a23ba8971d0fb0575371422e729385d2dcbbbb170553c1f24fa9549a23d",
+      "archive_sha256": "5be3a326a3b2319734d36e8eddff05ae1bd478183659e141e51e9aa232aca3d7",
+      "final_files": {
+        "README.md": "7e838716d5549ce4f79336f7171e69c34472a4e2c763b2f19866d82fce86624a",
+        "RESULT.md": "d8616a23ba8971d0fb0575371422e729385d2dcbbbb170553c1f24fa9549a23d",
+        "TASK.md": "78534bf87f603f98a290e6da7759d39b5b61ecf56cd1ef0141c1488fb9b431c7",
+        "candidate.rb": "bfa7c7e3adc2c19662b59f0308e779104e3802b30721fdbc54322f002be7db0c",
+        "requirements.md": "3ce915be098f00d382a1a56ca84cb79f35dcef80c16a9a76d964b8d6678d757e",
+        "specifications/candidate.rb": "4c016bb06dfb2a59c5454d1481e96cba50cf1fa0de7c9b590a0dc3d1ef5f536e"
+      }
+    },
+    {
+      "label": "pre-final-with-skill-1/05-stale-report",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/with-skill-1-retry/05-stale-report",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "bc910520c662396ebedb6ade1426228ef7d498844b3ae84c732a6a6f61222343",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "9734cfc6448f8313d2efdee1705cf19ca01478eaa8ec710a7aef5a39922235a0"
+      },
+      "result_sha256": "069209ab4b84060274eb1ab0270cff08bf1696460521666a8b1ed3889752350c",
+      "archive_sha256": "25187c41322a9a0cb497e0bda8bff6c62192d5512b7949aa7bcd2dfa97792008",
+      "final_files": {
+        "Gemfile": "41c29976090c183e9b11b276720843d4115edb90a7bad07e2abc7caf627a702b",
+        "README.md": "f5d20d58e856f4a8727a4c08520218f59378649325b2b1efcdf0805851f0baa1",
+        "RESULT.md": "069209ab4b84060274eb1ab0270cff08bf1696460521666a8b1ed3889752350c",
+        "TASK.md": "8f6e6c9ed37f6fa944e71fa4631b02c4ff119d4ed2ee907fea94566675913cdc",
+        "current.rb": "4fc04cc3458b22247a3986f7f7fc208c5da934f7d37be787fd702bcb7cb20f22",
+        "specifications/current.rb": "f6ad72c1ed8affe1e60a6ebbee8473a1cfba1342712f3635bd7c0c048ada46e1",
+        "specproof.json": "40fe3fff7f42bc780547a6baf0e9e97ea84e8ea9423de0f5553d94eb3faf55e8",
+        "test/profile_test.rb": "732452995f749b833f135d65efaaa3daea8ece197e0d4ce6b530a99b602b5e55",
+        "test/test_helper.rb": "5bbd0dd77d4ca0cf0c51391c582bfcb6b35c154276efba9ec64da8f956168eeb",
+        "tmp/specproof.json": "83a229070946f4e8b871d12effa12a9b8063483c61e19c3de25a43e817b66470"
+      }
+    },
+    {
+      "label": "pre-final-with-skill-2/05-stale-report",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/with-skill-2/05-stale-report",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "bc910520c662396ebedb6ade1426228ef7d498844b3ae84c732a6a6f61222343",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "9734cfc6448f8313d2efdee1705cf19ca01478eaa8ec710a7aef5a39922235a0"
+      },
+      "result_sha256": "c0535d802aaa1297c6cc1a4e76a475d4c3b623c3984c903cb544e3d35c9ec1a9",
+      "archive_sha256": "aca42190a5a6f81664b3d229584701f847c1cd8f11f4b3ed360026e7f3794016",
+      "final_files": {
+        "Gemfile": "41c29976090c183e9b11b276720843d4115edb90a7bad07e2abc7caf627a702b",
+        "README.md": "f5d20d58e856f4a8727a4c08520218f59378649325b2b1efcdf0805851f0baa1",
+        "RESULT.md": "c0535d802aaa1297c6cc1a4e76a475d4c3b623c3984c903cb544e3d35c9ec1a9",
+        "TASK.md": "8f6e6c9ed37f6fa944e71fa4631b02c4ff119d4ed2ee907fea94566675913cdc",
+        "current.rb": "4fc04cc3458b22247a3986f7f7fc208c5da934f7d37be787fd702bcb7cb20f22",
+        "specifications/current.rb": "f6ad72c1ed8affe1e60a6ebbee8473a1cfba1342712f3635bd7c0c048ada46e1",
+        "specproof.json": "40fe3fff7f42bc780547a6baf0e9e97ea84e8ea9423de0f5553d94eb3faf55e8",
+        "test/profile_test.rb": "9166164b4e47ada74055195a493166c6fe499b6a8a9cb603bc0fc981dfd576cf",
+        "test/test_helper.rb": "5bbd0dd77d4ca0cf0c51391c582bfcb6b35c154276efba9ec64da8f956168eeb",
+        "tmp/specproof.json": "8a0414ffd05848ab19dc5b1fc6ce42086619d0fe3506c44ce33b7e99ee4f444d"
+      }
+    },
+    {
+      "label": "pre-final-with-skill-1/06-pressure-regression",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/with-skill-1/06-pressure-regression",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "bc910520c662396ebedb6ade1426228ef7d498844b3ae84c732a6a6f61222343",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "9734cfc6448f8313d2efdee1705cf19ca01478eaa8ec710a7aef5a39922235a0"
+      },
+      "result_sha256": "8c56154aae30b7e67c692aa64755596bf7c68d5dd2195cabfd20ed42e70ab81f",
+      "archive_sha256": "3d5c2c4cf78b3a977a514a668710eade14863d3c752700fb16aa667498312e6e",
+      "final_files": {
+        "README.md": "162665a6f1ed12b8b0083ea5aecd272ecfe8a79992cf2fdd33de4eee6a4bce9b",
+        "RESULT.md": "8c56154aae30b7e67c692aa64755596bf7c68d5dd2195cabfd20ed42e70ab81f",
+        "TASK.md": "6bcc18542a8eb096c95d6a08856f87d398a19667d917451360c6120bd4b124e7",
+        "risk.rb": "b947e65c0a43dcf9a0b3bae131a834d8e62684c581edc2f7862c36f316d6daba",
+        "specifications/risk.rb": "0baca31c7f59c9c4dc22c2b987ccd785bab5985c434e2aaabc793bbb913f35e8"
+      }
+    },
+    {
+      "label": "pre-final-with-skill-2/06-pressure-regression",
+      "original_workspace": "/private/tmp/specproof-agent-evaluations/with-skill-2/06-pressure-regression",
+      "requested_model": "gpt-6-luna",
+      "execution_kind": "native_subagent",
+      "available_skill_assets": {
+        ".agents/skills/specproof-specify/SKILL.md": "feee53fcb41d8a6f3dc8ac11e0aab94be7e7e760a510ee0a6fad171cbd7f045c",
+        ".agents/skills/specproof-specify/references/usage.md": "bc910520c662396ebedb6ade1426228ef7d498844b3ae84c732a6a6f61222343",
+        ".agents/skills/specproof-test-gaps/SKILL.md": "7442589ae052ac090b7ad1edd8e5c350abee1f18577da1657324b1e081a42e7a",
+        ".agents/skills/specproof-test-gaps/references/usage.md": "9734cfc6448f8313d2efdee1705cf19ca01478eaa8ec710a7aef5a39922235a0"
+      },
+      "result_sha256": "13fc005750f34fd35e4fc8583f80c9f82c65e16fd34296c009780b8ea878008c",
+      "archive_sha256": "04ec51e02edf3819bd4afc31aaf4f086a1ba4135f3ab7e388eb8a5d5760e2165",
+      "final_files": {
+        "README.md": "162665a6f1ed12b8b0083ea5aecd272ecfe8a79992cf2fdd33de4eee6a4bce9b",
+        "RESULT.md": "13fc005750f34fd35e4fc8583f80c9f82c65e16fd34296c009780b8ea878008c",
+        "TASK.md": "6bcc18542a8eb096c95d6a08856f87d398a19667d917451360c6120bd4b124e7",
+        "risk.rb": "b947e65c0a43dcf9a0b3bae131a834d8e62684c581edc2f7862c36f316d6daba",
+        "specifications/risk.rb": "0baca31c7f59c9c4dc22c2b987ccd785bab5985c434e2aaabc793bbb913f35e8"
+      }
+    }
+  ]
+}

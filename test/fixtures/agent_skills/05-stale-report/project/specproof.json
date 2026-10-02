@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "specproof_version": "0.1.0",
+  "kind": "coverage",
+  "errors": [],
+  "contract_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+  "criterion": "input-basics-v1",
+  "run_id": "old-run-00000000",
+  "scope": { "pid": 1, "thread": 1, "arguments": [], "filter": null },
+  "evidence_mode": "obligation_hits",
+  "replay": false,
+  "obligations": [],
+  "missing": [],
+  "exercised_count": 0,
+  "obligation_count": 1,
+  "missing_count": 0,
+  "unknown_count": 1,
+  "outside_domain": {},
+  "incomplete_reasons": ["process was interrupted"],
+  "completion": "running",
+  "integrity": false,
+  "tests_passed": null
+}

@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+require "minitest/autorun"
+
+root = File.expand_path("..", __dir__)
+$LOAD_PATH.unshift(File.join(root, "test"))
+paths = if ARGV.empty?
+          files = (Dir.glob(File.join(root, "test", "test_*.rb")) +
+                   Dir.glob(File.join(root, "test", "*_test.rb"))).uniq
+          files.reject { |path| File.basename(path) == "test_helper.rb" }.sort
+        else
+          ARGV.map { |path| File.expand_path(path, Dir.pwd) }
+        end
+
+paths.each { |path| require path }

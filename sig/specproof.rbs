@@ -1,4 +1,85 @@
+module SpecProof
+  VERSION: String
+
+  def self.load: (Array[String] paths) -> Array[Specification]
+  def self.check: (Array[Specification] specifications) -> Array[Finding]
+  def self.plan: (Array[Specification] specifications, ?criterion: String) -> Array[Obligation]
+
+  class Error < StandardError
+  end
+
+  class ConfigurationError < Error
+    attr_reader code: String
+    attr_reader source: Source?
+    attr_reader path: String?
+  end
+
+  class Specification
+    attr_reader target: String
+    attr_reader inputs: Hash[Symbol, Input]
+    attr_reader source: Source
+  end
+
+  class Input
+    attr_reader name: Symbol
+    attr_reader domain: IntegerDomain | FiniteDomain
+    attr_reader partitions: Array[Partition]
+    attr_reader exhaustive: bool
+    attr_reader disjoint: bool
+    attr_reader source: Source
+  end
+
+  class Partition
+    attr_reader name: Symbol
+    attr_reader domain: IntegerDomain | FiniteDomain
+    attr_reader source: Source
+  end
+
+  class IntegerDomain
+    attr_reader lower: Integer
+    attr_reader upper: Integer
+    def self.from_range: (Range[Integer] range) -> IntegerDomain
+    def include?: (untyped value) -> bool
+  end
+
+  class FiniteDomain
+    attr_reader values: Array[nil | bool | Integer | Symbol]
+    def include?: (untyped value) -> bool
+  end
+
+  class Source
+    attr_reader path: String
+    attr_reader line: Integer
+  end
+
+  class Finding
+    attr_reader code: Symbol
+    attr_reader target: String
+    attr_reader input: Symbol
+    attr_reader witness: untyped
+    attr_reader sources: Array[Source]
+  end
+
+  class Obligation
+    attr_reader id: String
+    attr_reader target: String
+    attr_reader input: Symbol
+    attr_reader value: nil | bool | Integer | Symbol
+    attr_reader reasons: Array[String]
+    attr_reader sources: Array[Source]
+  end
+
+  def self.define: (String target) { () -> void } -> Specification
+end
+
 module Specproof
   VERSION: String
-  # See the writing guide of rbs: https://github.com/ruby/rbs#guides
+  def self.load: (Array[String] paths) -> Array[SpecProof::Specification]
+  def self.check: (Array[SpecProof::Specification] specifications) -> Array[SpecProof::Finding]
+  def self.plan: (Array[SpecProof::Specification] specifications, ?criterion: String) -> Array[SpecProof::Obligation]
+  def self.define: (String target) { () -> void } -> SpecProof::Specification
+end
+
+module SpecProof::Minitest
+  def self.install!: (specifications: Array[String], ?output: String, ?fail_on_missing: bool) -> self
 end
