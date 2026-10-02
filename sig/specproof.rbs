@@ -106,5 +106,5 @@ module Specproof
 end
 
 module SpecProof::Minitest
-  def self.install!: (specifications: Array[String], ?output: String, ?fail_on_missing: bool) -> self
+  def self.install!: (specifications: Array[String], ?rbs: Array[String], ?targets: Array[String], ?output: String, ?fail_on_missing: bool) -> self
 end

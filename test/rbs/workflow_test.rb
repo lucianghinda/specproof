@@ -288,6 +288,237 @@ class RBSWorkflowTest < Minitest::Test
     end
   end
 
+  def test_minitest_collects_the_composed_rbs_and_dsl_domain
+    with_inputs do |directory|
+      dsl, rbs = registration_sources(directory)
+      offline = invoke("plan", dsl, "--rbs", rbs, "--target", "Registration#eligible?", "--format", "json")
+      assert offline[2].success?, offline[1]
+      planned = JSON.parse(offline[0])
+      report_path = File.join(directory, "coverage.json")
+      stdout, stderr, status = run_minitest(
+        directory, specifications: [dsl], rbs: [rbs], targets: ["Registration#eligible?"],
+                   report_path: report_path, test_body: <<~RUBY
+                     policy = Registration.new
+                     assert_equal false, policy.eligible?(age: 0, consent: true)
+                     assert_equal false, policy.eligible?(age: 1, consent: true)
+                     assert_equal false, policy.eligible?(age: 17, consent: true)
+                     assert_equal true, policy.eligible?(age: 18, consent: true)
+                     assert_equal true, policy.eligible?(age: 119, consent: true)
+                     assert_equal true, policy.eligible?(age: 120, consent: true)
+                     assert_equal false, policy.eligible?(age: 18, consent: nil)
+                     assert_equal false, policy.eligible?(age: 18, consent: false)
+                     assert_equal false, policy.eligible?(age: 18)
+                   RUBY
+      )
+
+      assert status.success?, stderr + stdout
+      report = JSON.parse(File.read(report_path))
+      assert_equal "completed", report.fetch("completion")
+      assert_equal true, report.fetch("integrity")
+      assert_equal true, report.fetch("tests_passed")
+      assert_equal planned.fetch("contract_digest"), report.fetch("contract_digest")
+      assert_equal planned.fetch("obligations").map { |row| row.fetch("id") }.sort,
+                   report.fetch("obligations").map { |row| row.fetch("id") }.sort
+      assert_equal ["Registration#eligible?"], report.dig("scope", "targets")
+      assert_equal [File.realpath(dsl)], report.dig("scope", "declaration_sources", "specifications")
+      assert_equal [File.realpath(rbs)], report.dig("scope", "declaration_sources", "rbs")
+      assert_equal ["Registration#eligible?"], report.dig("scope", "declaration_sources", "targets")
+      assert_equal 9, report.fetch("exercised_count")
+      assert_equal 0, report.fetch("missing_count")
+      assert(report.fetch("obligations").all? { |row| row.fetch("status") == "exercised" })
+      nil_consent = report.fetch("obligations").find do |row|
+        row.fetch("input") == "consent" && row.dig("value", "kind") == "nil"
+      end
+      assert_equal 2, nil_consent.fetch("hits")
+      assert_includes stdout, "9/9 obligations exercised"
+    end
+  end
+
+  def test_minitest_filtered_rbs_run_reports_missing_boundary_and_fresh_run_identity
+    with_inputs do |directory|
+      dsl, rbs = registration_sources(directory)
+      report_path = File.join(directory, "coverage.json")
+      arguments = { specifications: [dsl], rbs: [rbs], targets: ["Registration#eligible?"],
+                    report_path: report_path }
+      first_out, first_err, first_status = run_minitest(
+        directory, **arguments,
+        test_body: "assert_equal false, Registration.new.eligible?(age: 0, consent: false)"
+      )
+      assert first_status.success?, first_err + first_out
+      first_report = JSON.parse(File.read(report_path))
+      assert_equal 2, first_report.fetch("exercised_count")
+      assert_equal 7, first_report.fetch("missing_count")
+      missing_age_values = first_report.fetch("missing").filter_map do |row|
+        row.dig("value", "value") if row.fetch("input") == "age"
+      end
+      assert_includes missing_age_values, "18"
+
+      second_out, second_err, second_status = run_minitest(
+        directory, **arguments,
+        test_body: "assert_equal true, Registration.new.eligible?(age: 18, consent: true)\n" \
+                   "assert_equal false, Registration.new.eligible?(age: 0)"
+      )
+      assert second_status.success?, second_err + second_out
+      second_report = JSON.parse(File.read(report_path))
+      refute_equal first_report.fetch("run_id"), second_report.fetch("run_id")
+      assert_equal first_report.fetch("contract_digest"), second_report.fetch("contract_digest")
+      assert_equal first_report.fetch("obligations").map { |row| row.fetch("id") }.sort,
+                   second_report.fetch("obligations").map { |row| row.fetch("id") }.sort
+      assert_equal 4, second_report.fetch("exercised_count")
+    end
+  end
+
+  def test_minitest_accepts_rbs_only_selection_with_empty_specifications
+    with_inputs do |directory|
+      rbs = write(directory, "registration.rbs", <<~RBS)
+        class Registration
+          def ready?: (bool enabled) -> bool
+        end
+      RBS
+      report_path = File.join(directory, "coverage.json")
+      test_body = <<~RUBY
+        assert Registration.new.ready?(enabled: true)
+        refute Registration.new.ready?(enabled: false)
+      RUBY
+      stdout, stderr, status = run_minitest(
+        directory, specifications: [], rbs: [rbs], targets: ["Registration#ready?"], report_path: report_path,
+                   test_body: test_body, method_body: "def ready?(enabled:) = enabled", mutate_options: true
+      )
+
+      assert status.success?, stderr + stdout
+      report = JSON.parse(File.read(report_path))
+      assert_equal 2, report.fetch("obligation_count")
+      assert_equal [File.realpath(rbs)], report.dig("scope", "declaration_sources", "rbs")
+      assert_equal [], report.dig("scope", "declaration_sources", "specifications")
+    end
+  end
+
+  def test_minitest_keeps_unselected_dsl_targets_in_runtime_scope
+    with_inputs do |directory|
+      dsl = write(directory, "policy.rb", <<~RUBY)
+        SpecProof.define "Registration#eligible?" do
+          input :age, range: 18..19
+        end
+        SpecProof.define "Registration#archive?" do
+          input :year, range: 2000..2001
+        end
+      RUBY
+      rbs = write(directory, "registration.rbs", <<~RBS)
+        class Registration
+          def eligible?: (age: Integer) -> bool
+        end
+      RBS
+      report_path = File.join(directory, "coverage.json")
+      stdout, stderr, status = run_minitest(
+        directory, specifications: [dsl], rbs: [rbs], targets: ["Registration#eligible?"],
+                   report_path: report_path, method_body: <<~RUBY, test_body: <<~RUBY
+                     def eligible?(age:) = age >= 18
+                     def archive?(year:) = year < 2001
+                   RUBY
+                     assert Registration.new.eligible?(age: 18)
+                     assert Registration.new.archive?(year: 2000)
+                   RUBY
+      )
+
+      assert status.success?, stderr + stdout
+      report = JSON.parse(File.read(report_path))
+      assert_equal %w[Registration#archive? Registration#eligible?], report.dig("scope", "targets")
+      archive_rows = report.fetch("obligations").select { |row| row.fetch("target") == "Registration#archive?" }
+      assert_equal(1, archive_rows.count { |row| row.fetch("status") == "exercised" })
+      assert_equal(1, archive_rows.count { |row| row.fetch("status") == "not_observed" })
+    end
+  end
+
+  def test_minitest_rbs_preparation_errors_write_incomplete_report_and_preserve_test_result
+    with_inputs do |directory|
+      dsl, rbs = registration_sources(directory)
+      integer_rbs = write(directory, "unbounded.rbs", <<~RBS)
+        class Registration
+          def ready?: (Integer age) -> bool
+        end
+      RBS
+      mismatch_rbs = write(directory, "typed.rbs", <<~RBS)
+        class Registration
+          def ready?: (bool enabled) -> bool
+        end
+      RBS
+      mismatch_dsl = write(directory, "ready.rb", <<~RUBY)
+        SpecProof.define "Registration#ready?" do
+          input :enabled, values: [false, true]
+        end
+      RUBY
+      conflict_rbs = write(directory, "conflict.rbs", <<~RBS)
+        class Registration
+          def eligible?: (bool age, ?consent: bool?) -> bool
+        end
+      RBS
+      malformed_rbs = write(directory, "malformed.rbs", <<~RBS)
+        class Registration
+          def eligible?: (age: Integer
+        end
+      RBS
+      cases = {
+        missing: { specifications: [dsl], rbs: [File.join(directory, "absent.rbs")],
+                   targets: ["Registration#eligible?"] },
+        integer: { specifications: [], rbs: [integer_rbs],
+                   targets: ["Registration#ready?"] },
+        mismatch: { rbs: [mismatch_rbs],
+                    targets: ["Registration#ready?"],
+                    specifications: [mismatch_dsl],
+                    method_body: "def ready?(active:) = active" },
+        conflict: { specifications: [dsl], rbs: [conflict_rbs],
+                    targets: ["Registration#eligible?"] },
+        malformed: { specifications: [dsl], rbs: [malformed_rbs], targets: ["Registration#eligible?"] },
+        unavailable: { specifications: [dsl], rbs: [rbs], targets: ["Registration#eligible?"], disable_rbs: true }
+      }
+      error_codes = { missing: "file_not_found", integer: "domain_refinement_required",
+                      mismatch: "parameter_mismatch", conflict: "type_domain_conflict",
+                      malformed: "rbs_parse_error", unavailable: "rbs_dependency_missing" }
+      cases.each do |name, options|
+        report_path = File.join(directory, "#{name}.json")
+        expected_method = options.delete(:method_body)
+        disable_rbs = options.delete(:disable_rbs) || false
+        _stdout, _stderr, status = run_minitest(
+          directory, **options, method_body: expected_method, disable_rbs: disable_rbs, report_path: report_path,
+                                test_body: "assert_equal 2, 1"
+        )
+        refute status.success?, "#{name} setup error must fail despite the runner's assertion failure"
+        report = JSON.parse(File.read(report_path))
+        assert_equal "incomplete", report.fetch("completion")
+        assert_equal false, report.fetch("integrity")
+        assert_equal false, report.fetch("tests_passed")
+        refute_equal "completed", report.fetch("completion")
+        refute_empty report.fetch("errors")
+        assert_equal error_codes.fetch(name), report.fetch("errors").first.fetch("code")
+        if name == :missing
+          assert_equal File.expand_path(File.join(directory, "absent.rbs")), report.fetch("errors").first.fetch("path")
+        end
+        if name == :malformed
+          assert_equal 4, report.fetch("errors").first.dig("source", "line")
+          assert_equal File.realpath(malformed_rbs), report.fetch("errors").first.dig("source", "path")
+        end
+      end
+    end
+  end
+
+  def test_minitest_requires_a_complete_rbs_keyword_parameter_match
+    with_inputs do |directory|
+      dsl = write(directory, "policy.rb",
+                  "SpecProof.define 'Registration#ready?' do\n input :enabled, values: [false, true]\nend\n")
+      rbs = write(directory, "types.rbs", "class Registration\n def ready?: (bool enabled) -> bool\nend\n")
+      _stdout, _stderr, status = run_minitest(
+        directory, specifications: [dsl], rbs: [rbs], targets: ["Registration#ready?"],
+                   report_path: File.join(directory, "report.json"),
+                   method_body: "def ready?(active:) = active", test_body: "assert true"
+      )
+      refute status.success?
+      report = JSON.parse(File.read(File.join(directory, "report.json")))
+      assert_equal "incomplete", report.fetch("completion")
+      assert_equal false, report.fetch("integrity")
+      assert_equal true, report.fetch("tests_passed")
+    end
+  end
+
   private
 
   def with_inputs(&)
@@ -311,5 +542,71 @@ class RBSWorkflowTest < Minitest::Test
 
   def invoke(*)
     Open3.capture3(RbConfig.ruby, "-Ilib", "exe/specproof", *)
+  end
+
+  def registration_sources(directory)
+    dsl = write(directory, "policy.rb", <<~RUBY)
+      SpecProof.define "Registration#eligible?" do
+        input :age, range: 0..120, exhaustive: true, disjoint: true do
+          partition :minor, range: 0..17
+          partition :adult, range: 18..120
+        end
+      end
+    RUBY
+    rbs = write(directory, "registration.rbs", <<~RBS)
+      class Registration
+        def eligible?: (age: Integer, ?consent: bool?) -> bool
+      end
+    RBS
+    [dsl, rbs]
+  end
+
+  def run_minitest(directory, specifications:, report_path:, test_body:, rbs: [], targets: [], method_body: nil,
+                   disable_rbs: false, mutate_options: false)
+    method_body ||= "def eligible?(age:, consent: nil) = age >= 18 && consent == true"
+    script = <<~RUBY
+      gem "minitest", "~> 5.26.2"
+      $LOAD_PATH.unshift ENV.fetch("SPECPROOF_LIB")
+      require "specproof"
+      require "minitest/autorun"
+      class Registration
+        #{method_body}
+      end
+      class RuntimeCoverageTest < Minitest::Test
+        def test_values
+          #{test_body.gsub("\n", "\n          ").strip}
+        end
+      end
+      require "specproof/minitest"
+      if ENV.fetch("DISABLE_RBS") == "1"
+        Kernel.prepend(Module.new do
+          def require(path)
+            raise LoadError, "simulated missing RBS" if path == "rbs"
+
+            super
+          end
+        end)
+      end
+      specification_paths = ENV.fetch("SPEC_PATHS").split(File::PATH_SEPARATOR)
+      rbs_paths = ENV.fetch("RBS_PATHS").split(File::PATH_SEPARATOR)
+      selected_targets = ENV.fetch("TARGETS").split(File::PATH_SEPARATOR)
+      SpecProof::Minitest.install!(specifications: specification_paths, rbs: rbs_paths, targets: selected_targets,
+                                  output: ENV.fetch("REPORT_PATH"))
+      if ENV.fetch("MUTATE_OPTIONS") == "1"
+        [specification_paths, rbs_paths, selected_targets].each do |values|
+          values.each { |value| value.replace("mutated") }
+          values.clear
+        end
+      end
+    RUBY
+    env = {
+      "RUBYOPT" => nil, "RUBYLIB" => nil, "BUNDLE_GEMFILE" => nil, "BUNDLE_LOCKFILE" => nil,
+      "BUNDLE_BIN_PATH" => nil, "BUNDLER_SETUP" => nil, "BUNDLER_VERSION" => nil,
+      "MT_NO_PLUGINS" => "1", "SPECPROOF_LIB" => File.expand_path("../../lib", __dir__),
+      "SPEC_PATHS" => specifications.join(File::PATH_SEPARATOR), "RBS_PATHS" => rbs.join(File::PATH_SEPARATOR),
+      "TARGETS" => targets.join(File::PATH_SEPARATOR), "REPORT_PATH" => report_path,
+      "DISABLE_RBS" => disable_rbs ? "1" : "0", "MUTATE_OPTIONS" => mutate_options ? "1" : "0"
+    }
+    Open3.capture3(env, RbConfig.ruby, "-e", script, chdir: directory)
   end
 end

@@ -16,15 +16,31 @@ module SpecProof
     MIN_SUPPORTED_MINITEST_VERSION = Gem::Version.new("5.26.2")
 
     class << self
-      def install!(specifications:, output: "tmp/specproof.json", fail_on_missing: false)
+      def install!(specifications:, rbs: [], targets: [], output: "tmp/specproof.json", fail_on_missing: false)
         ensure_supported_version!
         if @installed
           raise ConfigurationError.new("Minitest adapter is already installed",
                                        code: "duplicate_installation")
         end
-        unless specifications.is_a?(Array) && !specifications.empty? && specifications.all?(String)
-          raise ConfigurationError.new("specifications must be a non-empty array of paths",
-                                       code: "invalid_specifications")
+        unless specifications.is_a?(Array) && specifications.all?(String)
+          raise ConfigurationError.new("specifications must be an array of paths", code: "invalid_specifications")
+        end
+        unless rbs.is_a?(Array) && rbs.all?(String)
+          raise ConfigurationError.new("rbs must be an array of paths", code: "invalid_rbs")
+        end
+        unless targets.is_a?(Array) && targets.all?(String)
+          raise ConfigurationError.new("targets must be an array of target names", code: "invalid_targets")
+        end
+
+        if rbs.empty? && targets.empty?
+          unless specifications.any?
+            raise ConfigurationError.new("specifications must be a non-empty array of paths",
+                                         code: "invalid_specifications")
+          end
+        elsif rbs.empty?
+          raise ConfigurationError.new("RBS targets require at least one RBS file", code: "rbs_without_paths")
+        elsif targets.empty?
+          raise ConfigurationError.new("RBS files require at least one selected target", code: "targets_required")
         end
         unless output.is_a?(String) && !output.empty?
           raise ConfigurationError.new("output must be a non-empty path", code: "invalid_output")
@@ -33,6 +49,8 @@ module SpecProof
         @installed = true
         @options = {
           specifications: specifications.map { |path| File.expand_path(path).freeze }.freeze,
+          rbs: rbs.map { |path| File.expand_path(path).freeze }.freeze,
+          targets: targets.map { |target| target.dup.freeze }.freeze,
           output: File.expand_path(output).freeze,
           # Normalize caller truthiness into the boolean report option.
           fail_on_missing: !!fail_on_missing # rubocop:disable Style/DoubleNegation
@@ -74,6 +92,24 @@ module SpecProof
       end
     end
 
+    # Builds honest source-input metadata for the current invocation.
+    module ReportScope
+      def self.declaration_sources(options)
+        canonical_paths = lambda do |paths|
+          paths.map do |path|
+            File.realpath(path)
+          rescue SystemCallError
+            File.expand_path(path)
+          end.uniq.sort.freeze
+        end
+        {
+          specifications: canonical_paths.call(options.fetch(:specifications)),
+          rbs: canonical_paths.call(options.fetch(:rbs)),
+          targets: options.fetch(:targets).uniq.sort.freeze
+        }.freeze
+      end
+    end
+
     # Owns the preparation, collection, and finalization phases for one run.
     class Run
       ERROR_LIMIT = 20
@@ -84,6 +120,7 @@ module SpecProof
         @run_id = SecureRandom.uuid
         @errors = []
         @specifications = []
+        @declaration_sources = ReportScope.declaration_sources(@options)
         @obligations = []
         @coverage = nil
         @collector = nil
@@ -124,7 +161,8 @@ module SpecProof
       private
 
       def prepare
-        @specifications = SpecProof.load(@options.fetch(:specifications))
+        @specifications = SpecProof.load(@options.fetch(:specifications), rbs: @options.fetch(:rbs),
+                                                                          targets: @options.fetch(:targets))
         @obligations = SpecProof.plan(@specifications)
         @coverage = Coverage.new(obligations: @obligations, specifications: @specifications)
         projection = @coverage.to_report
@@ -155,7 +193,11 @@ module SpecProof
         end
       rescue StandardError => e
         @integrity_ok = false
-        add_error(error_code(e), safe_error(e))
+        finding = e.respond_to?(:findings) ? e.findings.first : nil
+        source = e.respond_to?(:source) ? e.source : finding&.sources&.first
+        add_error(error_code(e), safe_error(e), target: finding&.target,
+                                                path: e.respond_to?(:path) ? e.path : nil,
+                                                source: source)
         mark_all_incomplete("coverage analysis could not start")
         @contract_digest ||= ""
         @criterion ||= "input-basics-v1"
@@ -236,6 +278,7 @@ module SpecProof
             input_semantics: "effective_bound_values",
             argument_presence: "not_observed",
             targets: @specifications.map(&:target).sort,
+            declaration_sources: @declaration_sources,
             arguments: @args,
             filter: pattern_value("-n", "--name"),
             exclude: pattern_value("-e", "--exclude")
@@ -295,11 +338,13 @@ module SpecProof
         end
       end
 
-      def add_error(code, message, target: nil)
+      def add_error(code, message, target: nil, path: nil, source: nil)
         return if @errors.length >= ERROR_LIMIT
 
         error = { code: code.to_s, message: safe_string(message) }
         error[:target] = safe_string(target) if target
+        error[:path] = safe_string(path) if path
+        error[:source] = source.to_h if source.respond_to?(:to_h)
         @errors << error unless @errors.include?(error)
       end
 
@@ -320,6 +365,8 @@ module SpecProof
       def error_code(error)
         if error.respond_to?(:code)
           error.code.to_s
+        elsif error.respond_to?(:findings) && (finding = error.findings.first)
+          finding.code.to_s
         else
           error.class.name.split("::").last.gsub(/([a-z])([A-Z])/,
                                                  "\\1_\\2").downcase
