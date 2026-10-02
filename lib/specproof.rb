@@ -51,8 +51,31 @@ module SpecProof
     dsl_paths = normalize_mixed_paths(paths, rbs_paths)
     type_facts = Sources::RBS.load(paths: rbs_paths, targets: selected_targets)
     specifications = dsl_paths.empty? ? [] : Loader.load(dsl_paths)
+    validate_rbs_input_names!(specifications, type_facts)
     Composer.compose(specifications: specifications, type_facts: type_facts)
   end
+
+  def self.validate_rbs_input_names!(specifications, type_facts)
+    facts_by_target = type_facts.group_by(&:target)
+    specifications.sort_by(&:target).each do |specification|
+      target_facts = facts_by_target[specification.target]
+      next unless target_facts
+
+      known_names = target_facts.map(&:input)
+      extra_names = (specification.inputs.keys - known_names).sort_by(&:to_s)
+      next if extra_names.empty?
+
+      input = specification.inputs.fetch(extra_names.first)
+      rbs_source = target_facts.filter_map(&:source).min_by { |source| [source.path, source.line, source.kind] }
+      location = rbs_source ? " at #{rbs_source.path}:#{rbs_source.line}" : ""
+      raise ConfigurationError.new(
+        "DSL input #{extra_names.map(&:inspect).join(", ")} is not declared by RBS for " \
+        "#{specification.target}#{location}",
+        code: "rbs_input_mismatch", source: input.source, path: input.source&.path
+      )
+    end
+  end
+  private_class_method :validate_rbs_input_names!
 
   def self.normalize_mixed_paths(paths, rbs_paths)
     dsl_paths = Array(paths).map { |path| canonical_path(path) }

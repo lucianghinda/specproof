@@ -53,6 +53,33 @@ class RBSWorkflowTest < Minitest::Test
     end
   end
 
+  def test_public_load_rejects_dsl_inputs_missing_from_selected_rbs_target
+    with_inputs do |directory|
+      dsl = write(directory, "policy.rb", <<~RUBY)
+        SpecProof.define "Registration#save" do
+          input :enabled, values: [false, true]
+          input :bogus, values: [1, 2]
+        end
+      RUBY
+      rbs = write(directory, "registration.rbs", <<~RBS)
+        class Registration
+          def save: (enabled: bool) -> void
+        end
+      RBS
+
+      error = assert_raises(SpecProof::ConfigurationError) do
+        SpecProof.load([dsl], rbs: [rbs], targets: ["Registration#save"])
+      end
+
+      assert_equal "rbs_input_mismatch", error.code
+      assert_equal File.realpath(dsl), error.path
+      assert_equal [File.realpath(dsl), 3, "dsl"], [error.source.path, error.source.line, error.source.kind]
+      assert_includes error.message, "Registration#save"
+      assert_includes error.message, "bogus"
+      assert_includes error.message, "#{File.realpath(rbs)}:2"
+    end
+  end
+
   def test_explicit_and_composed_contracts_have_same_semantic_digest_and_obligations
     with_inputs do |directory|
       explicit = write(directory, "explicit.rb", <<~RUBY)
@@ -242,6 +269,39 @@ class RBSWorkflowTest < Minitest::Test
                                 "json")
       assert_equal 1, status.exitstatus, err
       assert_equal "type_domain_conflict", JSON.parse(out).fetch("findings").fetch(0).fetch("code")
+    end
+  end
+
+  def test_cli_rbs_input_mismatch_is_configuration_error_without_plan_obligations
+    with_inputs do |directory|
+      dsl = write(directory, "policy.rb", <<~RUBY)
+        SpecProof.define "Registration#save" do
+          input :enabled, values: [false, true]
+          input :bogus, values: [1, 2]
+        end
+      RUBY
+      rbs = write(directory, "registration.rbs", <<~RBS)
+        class Registration
+          def save: (enabled: bool) -> void
+        end
+      RBS
+
+      %w[check plan].each do |command|
+        out, err, status = invoke(command, dsl, "--rbs", rbs, "--target", "Registration#save", "--format", "json")
+
+        assert_equal 2, status.exitstatus, err
+        assert_empty err
+        payload = JSON.parse(out)
+        error = payload.fetch("errors").fetch(0)
+        assert_equal "rbs_input_mismatch", error.fetch("code")
+        assert_equal File.realpath(dsl), error.fetch("path")
+        assert_equal File.realpath(dsl), error.dig("source", "path")
+        assert_equal 3, error.dig("source", "line")
+        assert_includes error.fetch("message"), "Registration#save"
+        assert_includes error.fetch("message"), "bogus"
+        assert_includes error.fetch("message"), "#{File.realpath(rbs)}:2"
+        assert_empty payload.fetch("obligations", []) if command == "plan"
+      end
     end
   end
 
@@ -516,6 +576,32 @@ class RBSWorkflowTest < Minitest::Test
       assert_equal "incomplete", report.fetch("completion")
       assert_equal false, report.fetch("integrity")
       assert_equal true, report.fetch("tests_passed")
+    end
+  end
+
+  def test_minitest_rbs_input_mismatch_keeps_original_tests_running_and_report_incomplete
+    with_inputs do |directory|
+      dsl = write(directory, "policy.rb", <<~RUBY)
+        SpecProof.define "Registration#ready?" do
+          input :enabled, values: [false, true]
+          input :bogus, values: [1, 2]
+        end
+      RUBY
+      rbs = write(directory, "types.rbs", "class Registration\n def ready?: (bool enabled) -> bool\nend\n")
+      report_path = File.join(directory, "report.json")
+
+      stdout, stderr, status = run_minitest(
+        directory, specifications: [dsl], rbs: [rbs], targets: ["Registration#ready?"],
+                   report_path: report_path, method_body: "def ready?(enabled:, **_options) = enabled",
+                   test_body: "assert Registration.new.ready?(enabled: true, bogus: 1)"
+      )
+
+      refute status.success?, stderr + stdout
+      report = JSON.parse(File.read(report_path))
+      assert_equal "incomplete", report.fetch("completion")
+      assert_equal false, report.fetch("integrity")
+      assert_equal true, report.fetch("tests_passed")
+      assert_equal "rbs_input_mismatch", report.fetch("errors").first.fetch("code")
     end
   end
 

@@ -2,11 +2,18 @@
 
 Offline commands accept `--format json` and write one JSON document to standard output. Diagnostics and any output printed while evaluating the trusted specification file go to standard error. Human output is the default.
 
-Every document includes `schema_version` (`1`), `specproof_version`, `kind`, and `errors`. A check or plan configuration, usage, or I/O error keeps its requested `kind` and puts a stable `code`, explanatory `message`, and optional `path` and `source` in `errors`. An invalid command with no supported command kind uses `kind: "error"`. A source has a file `path` and one-based `line`.
+Every document includes `schema_version` (`1`), `specproof_version`, `kind`, and `errors`. A check or plan configuration, usage, or I/O error keeps its requested `kind` and puts a stable `code`, explanatory `message`, and optional `path` and `source` in `errors`. An invalid command with no supported command kind uses `kind: "error"`. Every source object requires a file `path` and one-based `line`; schema 1 permits additional fields, and consumers must tolerate unknown source fields. The additive `kind` field identifies source provenance (for example, `dsl` or `rbs`) without changing existing fields or obligation identity.
 
 Check and plan results include `contract_digest`, a SHA-256 digest of normalized declarations, behavioral input domains, and partition policies. Source locations are excluded from this digest. For composed DSL/RBS declarations, the digest fingerprints the resulting behavioral input domains: broader type constraints, provenance, RBS text, parser version, and implementation behavior do not change it. Obtain a fresh runtime report after changing a source or implementation; matching digests establish the same normalized input obligations, not that a particular implementation is correct. Check results include `findings`, each with a semantic `code`, target and input names, a concrete `witness`, and source locations. Findings never appear in `errors`.
 
 Plan results include `criterion` (`input-basics-v1`) and `obligations`. Each obligation has a stable `id`, target, input, typed value, merged reasons, and source locations. Values have a `kind`: integer values are decimal strings, symbols are names, booleans are JSON booleans, and nil has a JSON null value. Candidates are marginal inputs and do not specify expected method results or form a complete test suite.
+
+For a target also selected from RBS, DSL refinements must name parameters in
+that selected signature. An extra DSL input produces configuration error
+`rbs_input_mismatch`, with its DSL source and the RBS location in the message;
+check/plan exit 2 without a successful partial plan. Unselected DSL-only targets
+remain valid. This checks declaration names, not Ruby arity/order or output
+conformance.
 
 Finding witnesses use the same tagged primitive values. Integer gap and containment witnesses are an array of two tagged integers denoting inclusive lower and upper bounds. Overlap witnesses are one tagged primitive. An empty-domain witness is either an empty finite array or the normalized, inverted integer bounds. For example, a gap from 65 through 120 is `[{"kind":"integer","value":"65"},{"kind":"integer","value":"120"}]`. Human reports retain ordinary Ruby notation.
 
