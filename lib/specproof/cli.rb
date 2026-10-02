@@ -8,8 +8,8 @@ module SpecProof
     USAGE = <<~TEXT
       Usage:
         specproof --version
-        specproof check SPECIFICATION.rb [SPECIFICATION.rb ...] [--format human|json]
-        specproof plan SPECIFICATION.rb [SPECIFICATION.rb ...] [--format human|json]
+        specproof check [SPECIFICATION.rb ...] [--rbs FILE] [--target TARGET] [--format human|json]
+        specproof plan [SPECIFICATION.rb ...] [--rbs FILE] [--target TARGET] [--format human|json]
         specproof skills export --to DIRECTORY [--format human|json]
     TEXT
 
@@ -60,15 +60,21 @@ module SpecProof
     end
 
     def run_specifications(kind, args)
-      paths, format, option_error = parse_options(args)
+      paths, rbs_paths, targets, format, option_error = parse_options(args)
       return emit_error(option_error, format, kind: kind) if option_error
-      if paths.empty?
-        return emit_error(error("paths_required", "provide at least one specification path"), format,
+      if paths.empty? && rbs_paths.empty? && targets.empty?
+        return emit_error(error("paths_required", "provide specification paths or an RBS selection"), format,
                           kind: kind)
       end
 
       with_errors(kind, format) do
-        specifications = with_loader_output(format) { SpecProof.load(paths) }
+        specifications = with_loader_output(format) do
+          if rbs_paths.empty? && targets.empty?
+            SpecProof.load(paths)
+          else
+            SpecProof.load(paths, rbs: rbs_paths, targets: targets)
+          end
+        end
         kind == "check" ? run_check(specifications, format) : run_plan(specifications, format)
       end
     end
@@ -127,23 +133,38 @@ module SpecProof
     def parse_options(args)
       format = "human"
       paths = []
+      rbs_paths = []
+      targets = []
       parse_error = nil
       while (arg = args.shift)
-        if arg == "--format"
+        case arg
+        when "--format"
           value = args.shift
-          valid_formats = %w[human json]
-          if valid_formats.include?(value)
+          if %w[human json].include?(value)
             format = value
           else
+            args.unshift(value) if value
             parse_error ||= error("invalid_format", "--format requires human or json")
           end
-        elsif arg.start_with?("-")
-          parse_error ||= error("unsupported_option", "unsupported option #{arg.inspect}")
+        when "--rbs", "--target"
+          value = args.shift
+          if value.nil? || value.empty? || value.start_with?("-")
+            args.unshift(value) if value
+            parse_error ||= error("missing_option_value", "#{arg} requires a value")
+          elsif arg == "--rbs"
+            rbs_paths << value
+          else
+            targets << value
+          end
         else
-          paths << arg
+          if arg.start_with?("-")
+            parse_error ||= error("unsupported_option", "unsupported option #{arg.inspect}")
+          else
+            paths << arg
+          end
         end
       end
-      [paths, format, parse_error]
+      [paths, rbs_paths, targets, format, parse_error]
     end
 
     def json_format_requested?(args)

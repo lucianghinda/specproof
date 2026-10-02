@@ -1,7 +1,7 @@
 module SpecProof
   VERSION: String
 
-  def self.load: (Array[String] paths) -> Array[Specification]
+  def self.load: (Array[String] paths, ?rbs: Array[String], ?targets: Array[String]) -> Array[Specification]
   def self.check: (Array[Specification] specifications) -> Array[Finding]
   def self.plan: (Array[Specification] specifications, ?criterion: String) -> Array[Obligation]
 
@@ -27,6 +27,9 @@ module SpecProof
     attr_reader exhaustive: bool
     attr_reader disjoint: bool
     attr_reader source: Source
+    attr_reader type_constraint: ScalarTypeConstraint?
+    attr_reader type_sources: Array[Source]
+    def sources: () -> Array[Source]
   end
 
   class Partition
@@ -50,6 +53,28 @@ module SpecProof
   class Source
     attr_reader path: String
     attr_reader line: Integer
+    attr_reader kind: String
+  end
+
+  class ScalarTypeConstraint
+    attr_reader integer_any: bool
+    attr_reader values: Array[nil | bool | Integer | Symbol]
+    def initialize: (integer_any: bool, values: Array[nil | bool | Integer | Symbol]) -> void
+  end
+
+  class InputTypeFact
+    attr_reader target: String
+    attr_reader input: Symbol
+    attr_reader constraint: ScalarTypeConstraint
+    attr_reader source: Source
+    def initialize: (target: String, input: Symbol, constraint: ScalarTypeConstraint, source: Source) -> void
+  end
+
+  module TypeConstraints
+    def self.include?: (ScalarTypeConstraint constraint, untyped value) -> bool
+    def self.finite_domain: (ScalarTypeConstraint constraint) -> FiniteDomain?
+    def self.first_excluded: (ScalarTypeConstraint constraint, IntegerDomain | FiniteDomain domain) -> untyped
+    def self.union: (Array[ScalarTypeConstraint] constraints) -> ScalarTypeConstraint
   end
 
   class Finding
@@ -74,7 +99,7 @@ end
 
 module Specproof
   VERSION: String
-  def self.load: (Array[String] paths) -> Array[SpecProof::Specification]
+  def self.load: (Array[String] paths, ?rbs: Array[String], ?targets: Array[String]) -> Array[SpecProof::Specification]
   def self.check: (Array[SpecProof::Specification] specifications) -> Array[SpecProof::Finding]
   def self.plan: (Array[SpecProof::Specification] specifications, ?criterion: String) -> Array[SpecProof::Obligation]
   def self.define: (String target) { () -> void } -> SpecProof::Specification

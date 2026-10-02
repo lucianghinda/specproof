@@ -36,9 +36,44 @@ module SpecProof
     end
   end
 
-  def self.load(paths)
-    Loader.load(paths)
+  def self.load(paths, rbs: [], targets: [])
+    rbs_paths = Array(rbs)
+    selected_targets = Array(targets)
+    return Loader.load(paths) if rbs_paths.empty? && selected_targets.empty?
+    if rbs_paths.empty?
+      raise ConfigurationError.new("RBS targets require at least one RBS file", code: "rbs_without_paths")
+    end
+    if selected_targets.empty?
+      raise ConfigurationError.new("RBS files require at least one selected target", code: "targets_required")
+    end
+
+    require_relative "specproof/sources/rbs"
+    dsl_paths = normalize_mixed_paths(paths, rbs_paths)
+    type_facts = Sources::RBS.load(paths: rbs_paths, targets: selected_targets)
+    specifications = dsl_paths.empty? ? [] : Loader.load(dsl_paths)
+    Composer.compose(specifications: specifications, type_facts: type_facts)
   end
+
+  def self.normalize_mixed_paths(paths, rbs_paths)
+    dsl_paths = Array(paths).map { |path| canonical_path(path) }
+    canonical = dsl_paths + rbs_paths.map { |path| canonical_path(path) }
+    if canonical.uniq.length != canonical.length
+      raise ConfigurationError.new("supplied specification and RBS paths must be unique", code: "duplicate_path")
+    end
+
+    dsl_paths.sort.freeze
+  end
+  private_class_method :normalize_mixed_paths
+
+  def self.canonical_path(value)
+    path = File.path(value)
+    File.realpath(path)
+  rescue Errno::ENOENT, Errno::EACCES => e
+    raise ConfigurationError.new(e.message, code: "file_not_found", path: e.respond_to?(:path) ? e.path : path)
+  rescue SystemCallError, TypeError, ArgumentError => e
+    raise ConfigurationError.new(e.message, code: "file_error", path: e.respond_to?(:path) ? e.path : path)
+  end
+  private_class_method :canonical_path
 
   def self.check(specifications)
     Checker.new(specifications).findings
