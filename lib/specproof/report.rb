@@ -20,7 +20,7 @@ module SpecProof
     end
 
     def source(source)
-      { path: source.path, line: source.line }
+      { path: source.path, line: source.line, kind: source.kind }
     end
 
     def obligation(obligation)

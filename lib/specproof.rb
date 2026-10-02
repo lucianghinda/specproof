@@ -3,6 +3,7 @@
 require_relative "specproof/version"
 require_relative "specproof/model"
 require_relative "specproof/domains"
+require_relative "specproof/type_constraints"
 require_relative "specproof/loader"
 require_relative "specproof/checker"
 require_relative "specproof/planner"

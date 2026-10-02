@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module SpecProof
-  Source = Struct.new(:path, :line, keyword_init: true) do
-    def initialize(path:, line:)
-      super(path: path.to_s.dup.freeze, line: Integer(line))
+  Source = Struct.new(:path, :line, :kind, keyword_init: true) do
+    def initialize(path:, line:, kind: "dsl")
+      super(path: path.to_s.dup.freeze, line: Integer(line), kind: kind.to_s.dup.freeze)
       freeze
     end
   end
@@ -37,10 +37,23 @@ module SpecProof
     end
   end
 
-  Input = Struct.new(:name, :domain, :partitions, :exhaustive, :disjoint, :source, keyword_init: true) do
-    def initialize(name:, domain:, partitions:, exhaustive:, disjoint:, source:)
+  Input = Struct.new(:name, :domain, :partitions, :exhaustive, :disjoint, :source,
+                     :type_constraint, :type_sources, keyword_init: true) do
+    def initialize(name:, domain:, partitions:, exhaustive:, disjoint:, source:, type_constraint: nil, type_sources: []) # rubocop:disable Metrics/ParameterLists
       super(name: name.to_sym, domain: domain, partitions: partitions.dup.freeze,
-            exhaustive: exhaustive, disjoint: disjoint, source: source)
+            exhaustive: exhaustive, disjoint: disjoint, source: source, type_constraint: type_constraint,
+            type_sources: type_sources.dup.freeze)
+      freeze
+    end
+
+    def sources
+      ([source] + type_sources).compact.uniq.sort_by { |item| [item.path, item.line, item.kind] }.freeze
+    end
+  end
+
+  InputTypeFact = Struct.new(:target, :input, :constraint, :source, keyword_init: true) do
+    def initialize(target:, input:, constraint:, source:)
+      super(target: target.to_s.dup.freeze, input: input.to_sym, constraint: constraint, source: source)
       freeze
     end
   end
