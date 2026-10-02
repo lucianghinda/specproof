@@ -15,6 +15,14 @@ inside either skill folder, are kept. An interrupted filesystem operation can
 still leave a partial copy; rerun the command after correcting the reported
 filesystem issue.
 
+The skills also document the opt-in RBS workflow: inspect explicitly selected
+signatures, reuse supported finite input types, and add only requirement-backed
+behavioral refinements. The gap-review skill requires fresh runtime evidence
+and checks imported declaration scope, report integrity, test results, and the
+actual test command. RBS supplies no output oracle. Earlier evaluation results
+in this document's linked record describe the workflows and artifacts named
+there; they do not establish agent performance for this newer RBS workflow.
+
 For Codex repository discovery, place the exported folders under
 `.agents/skills` in the repository. Codex searches that directory from the
 current working directory through its repository ancestors. Open a new Codex
@@ -29,6 +37,11 @@ caller; it does not select a home directory, edit global configuration, alter
 `AGENTS.md`, or access the network. The packaged skills and their local
 references are self-contained, so the exported folder can be reviewed and
 removed as ordinary project files.
+
+The current RBS workflow was exercised in six fresh, isolated native Luna
+tasks using skills exported from an installed gem. See the [RBS evaluation
+record](evaluations/rbs-agent-skills-v0.1.md) for actual outcomes, retained
+commands and reports, and the limits of these guided scenarios.
 
 The export and one specification workflow were exercised in Codex CLI
 `0.160.0` with `gpt-6-luna`, using `.agents/skills` in an isolated project and

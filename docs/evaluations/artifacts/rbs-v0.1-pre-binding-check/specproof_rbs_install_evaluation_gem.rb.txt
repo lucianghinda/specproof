@@ -1,0 +1,41 @@
+# frozen_string_literal: true
+require "rubygems/package"
+require "rubygems/installer"
+require "fileutils"
+require "open3"
+require "json"
+require "digest"
+require "rbconfig"
+
+source = ARGV.fetch(0)
+root = "/private/tmp/specproof-rbs-agent-evaluations"
+gem_home = File.join(root, "gem-home")
+package_path = File.join(root, "specproof.gem")
+Dir.chdir(source) do
+  specification = Gem::Specification.load("specproof.gemspec")
+  Gem::Package.build(specification, true, false, package_path)
+end
+abort "runtime dependency added" unless Gem::Package.new(package_path).spec.runtime_dependencies.empty?
+Gem::Installer.at(package_path, install_dir: gem_home, wrappers: true, force: true).install
+dependencies = "/private/tmp/specproof-rbs-compat-40/vendor/bundle/ruby/4.0.0"
+environment = { "GEM_HOME" => gem_home, "GEM_PATH" => [gem_home, dependencies].join(File::PATH_SEPARATOR),
+  "RUBYOPT" => nil, "RUBYLIB" => nil, "BUNDLE_GEMFILE" => nil, "BUNDLE_BIN_PATH" => nil, "BUNDLER_VERSION" => nil,
+  "PATH" => "#{File.dirname(RbConfig.ruby)}:/usr/bin:/bin" }
+export_root = File.join(root, "exported-skills")
+stdout, stderr, status = Open3.capture3(environment, RbConfig.ruby, File.join(gem_home, "bin/specproof"),
+  "skills", "export", "--to", export_root, "--format", "json", chdir: root)
+abort stderr unless status.success?
+File.write(File.join(root, "installed-gem-export.json"), stdout)
+skills = Dir.glob(File.join(export_root, "**", "*"), File::FNM_DOTMATCH).select { |path| File.file?(path) }.to_h do |path|
+  [path.delete_prefix(export_root + "/"), Digest::SHA256.file(path).hexdigest]
+end
+%w[01-finite 02-refinement 03-conflict 04-unsupported 05-stale 06-boundary].each do |name|
+  FileUtils.cp_r(export_root, File.join(root, name, ".agents/skills"))
+end
+File.write(File.join(root, "installed-package.json"), JSON.pretty_generate({
+  package_sha256: Digest::SHA256.file(package_path).hexdigest,
+  package: package_path, gem_home: gem_home, dependencies: dependencies,
+  environment: environment, ruby: RbConfig.ruby, cli: File.join(gem_home, "bin/specproof"),
+  source: source, exported_skill_sha256: skills
+}) + "\n")
+puts JSON.pretty_generate(environment)

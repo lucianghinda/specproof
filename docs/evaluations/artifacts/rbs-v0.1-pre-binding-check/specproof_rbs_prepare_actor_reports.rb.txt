@@ -1,0 +1,32 @@
+# frozen_string_literal: true
+require "json"
+require "open3"
+require "digest"
+
+root = "/private/tmp/specproof-rbs-agent-evaluations"
+package = JSON.parse(File.read(File.join(root, "installed-package.json")))
+environment = package.fetch("environment")
+%w[05-stale 06-boundary].each do |name|
+  directory = File.join(root, name)
+  implementation = File.join(directory, "lib/registration.rb")
+  original_hash = Digest::SHA256.file(implementation).hexdigest
+  command = [package.fetch("ruby"), File.join(root, "capture.rb"), directory,
+    "supplied-baseline", package.fetch("ruby"), "run.rb"]
+  stdout, stderr, status = Open3.capture3(environment.merge("REPORT_NAME" => "baseline.json"), *command)
+  abort "baseline failed: #{stdout}\n#{stderr}" unless status.success?
+  report = JSON.parse(File.read(File.join(directory, "reports/baseline.json")))
+  expected = name == "05-stale" ? 9 : 8
+  abort "unexpected initial evidence" unless report.fetch("exercised_count") == expected && report.fetch("tests_passed")
+  if name == "05-stale"
+    File.write(implementation, File.read(implementation).sub("age >= 18", "age > 18"))
+  end
+  File.write(File.join(directory, "supplied-context.json"), JSON.pretty_generate({
+    source_hash_at_baseline: original_hash,
+    current_source_hash: Digest::SHA256.file(implementation).hexdigest,
+    baseline_run_id: report.fetch("run_id"), baseline_digest: report.fetch("contract_digest"),
+    baseline_obligation_ids: report.fetch("obligations").map { |row| row.fetch("id") }.sort,
+    baseline_exercised: expected, baseline_report: "reports/baseline.json",
+    fixture_edit: name == "05-stale" ? "After baseline, changed >=18 to >18 without changing the input contract or tests." : "No edit after the supplied baseline."
+  }) + "\n")
+  puts "#{name}: supplied baseline #{expected}/9, #{report.fetch('run_id')}"
+end

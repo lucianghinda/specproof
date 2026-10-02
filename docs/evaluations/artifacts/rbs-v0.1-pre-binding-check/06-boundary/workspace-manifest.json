@@ -1,0 +1,29 @@
+{
+  "archive": "workspace.tar.gz",
+  "sha256": "5132fdf1bffed934144e608cdfecd5497f2b7f57f5f19e035b349cb2e8752c74",
+  "files": {
+    ".agents/skills/specproof-specify/SKILL.md": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+    ".agents/skills/specproof-specify/references/usage.md": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+    ".agents/skills/specproof-test-gaps/SKILL.md": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+    ".agents/skills/specproof-test-gaps/references/usage.md": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+    "RESULT.md": "84c7ff89daaf50d2191edafcbb6262b7c1271ffde30aeb4fd502d996c9a9023b",
+    "TASK.md": "8597c5425bb73c6d99972758dbe081344eeba11aa0ea4e4367b66533ee1ea22d",
+    "lib/registration.rb": "ecea83d2754e6fbd1e5ac3944f672c173af69b623503da99370688b987180e18",
+    "logs/check.json": "9f47063901ab2c60c04aad2cd79a67b2b5f9e91dbb83598ec5b6352921ba1817",
+    "logs/final-run.json": "34b6081ec526be944a1366233b29f9b3b948930ad36b67bdfdf072434fd16dc5",
+    "logs/plan.json": "035b9db1e5dbdc0540c91379d6a8c1c00a5b0c4f2c1aa659f41eb1134fc87ec5",
+    "logs/red-run.json": "555b2a475cbc60e0cc81fb25362d4e79474ecf96460088f8f6e30c7ed7e2996d",
+    "logs/supplied-baseline.json": "31bbda8c1b36e252798e080338cb6862e00c625bedfd87f8a5976217a166758a",
+    "reports/baseline.json": "27fcab2e9e4a2771bc2f989f5a5c92ef628c38d2c78442924c87e048b03530b2",
+    "reports/check.json": "06220edb73a845312a9de19ca3e74fb2bbbb4cc7c77bcd68a67f1d005dea1b11",
+    "reports/final.json": "d73984bb0cad3c88cdd4ab4869b7471ad258438cf1835c39692ae4f32359f7ba",
+    "reports/plan.json": "f7968a0f2081cd1d886969480b247dbb030186f44667ea41bdf2351b472e1915",
+    "reports/red.json": "ae477324e44801d5799686114d39020bdb2fc6ec281cbb3bd81864d9c8b4e1b7",
+    "requirements.md": "d75dc8eeba0d6638a882795d6fa6665ba34ea9757a85bdb9ab312604fc9ad568",
+    "run.rb": "ecb59844788fb3e6656ad4fcade76a6c9527f7188c849f32f44e6c35f7fbf526",
+    "sig/project.rbs": "59e7f45b30cdd680e77f0b9d6aaef44c682c0a5aa259da11020659f15ac3e6d0",
+    "specifications/registration.rb": "e3aa5de0666f25074f64e426a148d9a6850542c360f9794fe0bdd1916b4d7478",
+    "supplied-context.json": "3a5c36f0e55606b92667d634fd8f94c27187f05134f6ecf06dea688ef0a6dd49",
+    "test/registration_test.rb": "07b50f16e1e21d3b833bb0d18cef846bfd8fdba453d43c5bfa205d04d6e900f6"
+  }
+}

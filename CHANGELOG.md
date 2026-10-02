@@ -1,5 +1,8 @@
 ## [Unreleased]
 
+- Import explicitly selected RBS scalar input types without a duplicate DSL declaration; require a behavioral refinement for unbounded integers and preserve honest limits for unsupported types.
+- Add an RBS-backed Registration example with a documented age-18 behavior rule, an eight-of-nine baseline gap, a failing boundary assertion, and a fresh corrected report.
+- Update the bundled skills and report references for selected RBS targets, refinements, source scope, fresh report integrity, and the limits of coverage evidence.
 - Observe effective scalar values for named optional positional and keyword parameters, with explicit report semantics and preserved Ruby default behavior.
 - Retain a PStoreLogger scalar persistence pilot with complete filtered exercise and honest incomplete full-suite evidence on Hash inputs.
 - Support correctly labeled Minitest 5.26.2 packages while preserving package/runtime mismatch rejection; use that published release in the development bundle.

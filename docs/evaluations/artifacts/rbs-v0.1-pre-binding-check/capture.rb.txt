@@ -1,0 +1,27 @@
+# frozen_string_literal: true
+require "open3"
+require "json"
+require "time"
+directory, label, *command = ARGV
+abort "directory, label, command required" if !directory || !label || command.empty?
+package = JSON.parse(File.read(File.join(__dir__, "installed-package.json")))
+environment = package.fetch("environment").merge("REPORT_NAME" => ENV["REPORT_NAME"])
+command[0] = package.fetch("ruby") if command[0] == "ruby"
+command = [package.fetch("ruby"), package.fetch("cli"), *command.drop(1)] if command[0] == "specproof"
+start = Time.now.utc.iso8601(6)
+stdout, stderr, status = Open3.capture3(environment, *command, chdir: directory)
+record = { command: command, cwd: directory, started_at: start, completed_at: Time.now.utc.iso8601(6),
+  stdout: stdout, stderr: stderr, exitstatus: status.exitstatus,
+  environment: environment }
+File.write(File.join(directory, "logs", "#{label}.json"), JSON.pretty_generate(record) + "\n")
+begin
+  parsed = JSON.parse(stdout)
+  if %w[check plan].include?(parsed["kind"])
+    File.write(File.join(directory, "reports", "#{label}.json"), JSON.pretty_generate(parsed) + "\n")
+  end
+rescue JSON::ParserError
+  # Minitest output is retained in its command log.
+end
+print stdout
+warn stderr unless stderr.empty?
+exit(status.exitstatus || 1)

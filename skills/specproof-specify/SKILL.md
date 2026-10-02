@@ -15,23 +15,39 @@ intended policy from a method's current behavior.
 1. Read the user request, relevant product requirements, the target Ruby method,
    and its existing tests. Identify the exact `Class#instance_method` target and
    each requested input. Distinguish explicit requirements from assumptions.
+   When RBS is supplied, inspect explicitly selected RBS target signatures
+   first. Reuse supported finite input types directly;
+   add a DSL declaration only for a behavioral range or partition the type
+   cannot express. Do not search for other signatures or duplicate finite
+   values in the DSL.
 2. If an input's allowed domain or partition intent is missing, ask a focused
    question before declaring it. If requirements and implementation disagree,
    report the mismatch with source locations; do not rewrite the requirement or
    implementation to make the check green without direction.
 3. Add a small trusted Ruby specification file. Declare only supported input
-   domains and partitions. Do not declare return values or other output
-   behavior: SpecProof's contract describes inputs only.
+   domains and partitions justified by the requirements. For a selected RBS
+   target, declare only the missing refinement. A finite RBS-only signature
+   needs no duplicate DSL values. Do not infer a finite range for unrestricted
+   `Integer`, guess from a name or implementation, or write partial obligations
+   for unsupported input types or union members. Stop and report the selected
+   target/input and source location when the type is unsupported or needs a
+   bounded refinement.
 4. Mark a partition family `exhaustive: true` only when the requirements say it
    covers the entire input domain. Mark it `disjoint: true` only when the
    requirements say the partitions cannot overlap. Leave either promise out
    when the requirement is unknown, then ask about the missing policy rather
    than choosing a boundary.
 5. Run `specproof check PATH --format json` and inspect the structured
-   `findings`, `errors`, and `contract_digest`. Resolve or report every finding.
-   After the declared promises check clean, run
-   `specproof plan PATH --format json`. Check that the criterion, candidate
-   values, reasons, IDs, and source locations match the requested contract.
+   `findings`, `errors`, and `contract_digest`. For RBS, pass each selected file
+   with `--rbs FILE` and each target with `--target 'Class#method'`; a target
+   selector is required and imports only that target. Unsupported union arms
+   are atomic failures: do not guess, drop an arm, or turn the remainder into a
+   partial contract. Resolve or report every finding before planning. After
+   the check is clean, run `specproof plan` with the same source and target
+   options. Compare the criterion, candidate values, reasons, IDs, and source
+   locations with the stated contract. Optional parameters and nullable types
+   are distinct: optionality permits omission, while `T?` permits an effective
+   `nil` value after Ruby applies defaults.
 6. Report the contract digest, candidate values, and declaration source
    locations. Explain any unresolved question. Describe the plan as boundary
    candidates, not as a complete or proven test suite.
@@ -63,6 +79,21 @@ or keyword inputs, including optional parameters. Declare every parameter.
 Domains describe effective values at method entry, after Ruby applies defaults;
 they do not assert whether the caller omitted an argument. Do not evaluate or
 guess default expressions while authoring the domain.
+
+## Explicit RBS inputs
+
+For an explicitly selected RBS target, `bool`, `nil`, supported scalar
+literals, and finite unions provide finite input candidates without a duplicate
+DSL declaration. A resolved built-in `::Integer` remains unbounded and requires
+an explicit finite range or values before SpecProof can produce candidates.
+Existing DSL range and partition declarations are behavioral refinements, not
+claims inferred from RBS. Check that every declared value is admitted by the
+imported type; a contradiction is a conflict to resolve, not an intersection
+to silently accept. Return types do not supply expected results, behavior
+rules, or an output oracle. The report digest fingerprints normalized input
+domains and partition policies, not all declaration text, a full RBS
+signature, or implementation correctness. Run fresh checks and reports after
+any input source changes.
 Load specification files only from trusted project sources;
 they are executable Ruby. SpecProof does not load the application class while
 checking or planning.

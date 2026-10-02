@@ -30,6 +30,25 @@ including defaults, make collection incomplete; do not hide those failures by
 narrowing or relabeling the run. An intentionally filtered scenario report may
 establish only that explicitly named scope, never total project coverage.
 
+For a mixed DSL/RBS target, pass the same explicit source options to the
+adapter that you used for offline check and plan:
+
+```ruby
+SpecProof::Minitest.install!(
+  specifications: ["spec/registration.rb"],
+  rbs: ["sig/registration.rbs"],
+  targets: ["Registration#eligible?"],
+  output: "tmp/specproof-coverage.json",
+  fail_on_missing: false
+)
+```
+
+For RBS-only input, use `specifications: []` and supply both non-empty `rbs:`
+and `targets:` arrays. Pass `--rbs FILE` and `--target 'Class#instance_method'`
+to offline `check` and `plan`; repeat either option for additional files or
+targets. Check/plan documents contain no runtime scope fields. Only inspect
+`scope.targets` and `scope.declaration_sources` on a fresh coverage report.
+
 Parse the generated JSON and require all of the following before claiming the
 current suite covered its plan:
 
@@ -38,6 +57,11 @@ current suite covered its plan:
   `specproof plan PATH --format json` report for the same specifications.
 - `run_id` is present and belongs to the latest full-suite execution; confirm
   it matches the run summary emitted by that invocation.
+- For imported declarations, `scope.targets` lists the composed runtime
+  targets, while `scope.declaration_sources` records canonical DSL paths, RBS
+  paths, and explicitly selected RBS targets. Compare these values with the
+  actual adapter configuration and the test command you ran. They do not
+  attest which test files the command loaded.
 - `scope` describes the intended full run, with no test-name inclusion filter
   or exclusion pattern. Inspect its original `arguments` as well as `filter`
   and `exclude`; the report cannot attest which test files the caller loaded.

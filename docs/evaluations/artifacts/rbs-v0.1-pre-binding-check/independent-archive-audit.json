@@ -1,0 +1,115 @@
+{
+  "01-finite": {
+    "archive": "workspace.tar.gz",
+    "archive_sha256_matches": true,
+    "manifest_entry_count": 12,
+    "actual_regular_file_count": 12,
+    "missing_entries": [],
+    "unexpected_entries": [],
+    "hash_mismatches": []
+  },
+  "02-refinement": {
+    "archive": "workspace.tar.gz",
+    "archive_sha256_matches": true,
+    "manifest_entry_count": 20,
+    "actual_regular_file_count": 20,
+    "missing_entries": [],
+    "unexpected_entries": [],
+    "hash_mismatches": []
+  },
+  "03-conflict": {
+    "archive": "workspace.tar.gz",
+    "archive_sha256_matches": true,
+    "manifest_entry_count": 11,
+    "actual_regular_file_count": 11,
+    "missing_entries": [],
+    "unexpected_entries": [],
+    "hash_mismatches": []
+  },
+  "04-unsupported": {
+    "archive": "workspace.tar.gz",
+    "archive_sha256_matches": true,
+    "manifest_entry_count": 10,
+    "actual_regular_file_count": 10,
+    "missing_entries": [],
+    "unexpected_entries": [],
+    "hash_mismatches": []
+  },
+  "05-stale": {
+    "archive": "workspace.tar.gz",
+    "archive_sha256_matches": true,
+    "manifest_entry_count": 21,
+    "actual_regular_file_count": 21,
+    "missing_entries": [],
+    "unexpected_entries": [],
+    "hash_mismatches": []
+  },
+  "06-boundary": {
+    "archive": "workspace.tar.gz",
+    "archive_sha256_matches": true,
+    "manifest_entry_count": 23,
+    "actual_regular_file_count": 23,
+    "missing_entries": [],
+    "unexpected_entries": [],
+    "hash_mismatches": []
+  },
+  "branchproof_pilot": {
+    "archive": "workspace.tar.gz",
+    "archive_sha256_matches": true,
+    "manifest_entry_count": 83,
+    "actual_regular_file_count": 83,
+    "missing_entries": [],
+    "unexpected_entries": [],
+    "hash_mismatches": []
+  },
+  "initial_fixtures": {
+    "archive": "initial-fixtures.tar.gz",
+    "archive_sha256_matches": true,
+    "manifest_entry_count": 29,
+    "actual_regular_file_count": 29,
+    "missing_entries": [],
+    "unexpected_entries": [],
+    "hash_mismatches": []
+  },
+  "skills": {
+    "specproof-specify/SKILL.md": {
+      "current_source_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+      "installed_package_export_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+      "pilot_export_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+      "pilot_installed_package_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+      "pilot_copied_skill_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+      "current_matches_installed_export": true,
+      "current_matches_pilot_hashes": true
+    },
+    "specproof-specify/references/usage.md": {
+      "current_source_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+      "installed_package_export_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+      "pilot_export_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+      "pilot_installed_package_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+      "pilot_copied_skill_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+      "current_matches_installed_export": true,
+      "current_matches_pilot_hashes": true
+    },
+    "specproof-test-gaps/SKILL.md": {
+      "current_source_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+      "installed_package_export_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+      "pilot_export_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+      "pilot_installed_package_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+      "pilot_copied_skill_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+      "current_matches_installed_export": true,
+      "current_matches_pilot_hashes": true
+    },
+    "specproof-test-gaps/references/usage.md": {
+      "current_source_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+      "installed_package_export_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+      "pilot_export_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+      "pilot_installed_package_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+      "pilot_copied_skill_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+      "current_matches_installed_export": true,
+      "current_matches_pilot_hashes": true
+    }
+  },
+  "root_audit_skill_claim": {
+    "all_exported_skill_bytes_match_current_source": true
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "archive": "workspace.tar.gz",
+  "sha256": "2b2a3d718055a70bfa042964cd929346df12c5c8147d8914d640f76304447d06",
+  "files": {
+    ".agents/skills/specproof-specify/SKILL.md": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+    ".agents/skills/specproof-specify/references/usage.md": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+    ".agents/skills/specproof-test-gaps/SKILL.md": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+    ".agents/skills/specproof-test-gaps/references/usage.md": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+    "RESULT.md": "c5cf89830eae85e09eb85b7d12997f6d256f56b806477e7698705ba0d22098ae",
+    "TASK.md": "736666b10f063765bb96851075162fe3fbfea06f7bcf7f5870a788932a7a676a",
+    "lib/registration.rb": "49169a649356269f4fd8bd0eb373002b136de78eac1d58e06c4e926b51973ccb",
+    "logs/fresh-check.json": "a492cba0efd13524f7bfcf178126db135316581e7d627921dcc847ff9af99de3",
+    "logs/fresh-plan.json": "fab6cc99fc370ae3a21f3df4a404b095549353debfa034fa01223cd8d055b600",
+    "logs/fresh-run.json": "953ad5c2c45de1f650ba705970d1e76ef0ccf97b0f74ac4d0d5545c44c849d6a",
+    "logs/supplied-baseline.json": "8fd52b90ad070f5adfe2c502265518d81f4a27b425496e623ea1fa770ae3dcc3",
+    "reports/baseline.json": "9944dc89f6dbf8be180a2ad1779fd2ab196dfc3881fb6eaa04e8ea5ff586f553",
+    "reports/fresh-check.json": "06220edb73a845312a9de19ca3e74fb2bbbb4cc7c77bcd68a67f1d005dea1b11",
+    "reports/fresh-plan.json": "785ff3d5608169d68153967ce9c51477e793c3939ebda612ee6fdb00a2a5ead9",
+    "reports/fresh.json": "c6a6b5305ededf52df73b820d13d5219a17d4f0784280565a9dfade58b8c4d40",
+    "requirements.md": "d75dc8eeba0d6638a882795d6fa6665ba34ea9757a85bdb9ab312604fc9ad568",
+    "run.rb": "ecb59844788fb3e6656ad4fcade76a6c9527f7188c849f32f44e6c35f7fbf526",
+    "sig/project.rbs": "59e7f45b30cdd680e77f0b9d6aaef44c682c0a5aa259da11020659f15ac3e6d0",
+    "specifications/registration.rb": "e3aa5de0666f25074f64e426a148d9a6850542c360f9794fe0bdd1916b4d7478",
+    "supplied-context.json": "dde4ba8b415b9340c4b93c2d95480c4589704a5344b2d94ee3b518737bc16177",
+    "test/registration_test.rb": "95f12a14b2ed72c801ce9bc82a73c189d282b41cd95cdccdc97fa608a021a471"
+  }
+}

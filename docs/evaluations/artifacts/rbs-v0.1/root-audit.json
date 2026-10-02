@@ -1,0 +1,61 @@
+{
+  "scenarios": [
+    "01-finite",
+    "02-refinement",
+    "03-conflict",
+    "04-unsupported",
+    "05-stale",
+    "06-boundary"
+  ],
+  "observed_outcomes_passed": true,
+  "source_neutral_library_files_matching_evaluated_package": 17,
+  "all_exported_skill_bytes_match_current_source": true,
+  "supplied_signatures_requirements_unchanged": true,
+  "runtime_results": {
+    "05-stale": [
+      {
+        "run_id": "d5a7eb71-adaf-4af7-8f37-6271c9b634dd",
+        "contract_digest": "03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e",
+        "tests_passed": true,
+        "exercised_count": 9,
+        "obligation_count": 9,
+        "missing_count": 0
+      },
+      {
+        "run_id": "1b68410a-942f-4368-a2b9-f020b16b6035",
+        "contract_digest": "03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e",
+        "tests_passed": false,
+        "exercised_count": 5,
+        "obligation_count": 9,
+        "missing_count": 4
+      }
+    ],
+    "06-boundary": [
+      {
+        "run_id": "7449733b-085d-4bc2-81a5-6bc0d61af414",
+        "contract_digest": "03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e",
+        "tests_passed": true,
+        "exercised_count": 8,
+        "obligation_count": 9,
+        "missing_count": 1
+      },
+      {
+        "run_id": "a4bd94cf-319a-4ea0-b4d0-8b8f50fa080a",
+        "contract_digest": "03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e",
+        "tests_passed": false,
+        "exercised_count": 5,
+        "obligation_count": 9,
+        "missing_count": 4
+      },
+      {
+        "run_id": "34da9e91-2eef-4283-b86b-6266dbcd61cb",
+        "contract_digest": "03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e",
+        "tests_passed": true,
+        "exercised_count": 9,
+        "obligation_count": 9,
+        "missing_count": 0
+      }
+    ]
+  },
+  "caveat": "Six guided native Luna tasks with explicit targets and a supplied command/environment helper. This is not client discovery or a general reliability estimate."
+}

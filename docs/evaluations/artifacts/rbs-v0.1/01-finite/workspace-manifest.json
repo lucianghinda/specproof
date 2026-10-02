@@ -1,0 +1,18 @@
+{
+  "archive": "workspace.tar.gz",
+  "sha256": "5822b2656b6864cbd0aca6aa8fdfbfdcf0581f6b7521f6905a33100e75eaa8ce",
+  "files": {
+    ".agents/skills/specproof-specify/SKILL.md": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+    ".agents/skills/specproof-specify/references/usage.md": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+    ".agents/skills/specproof-test-gaps/SKILL.md": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+    ".agents/skills/specproof-test-gaps/references/usage.md": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+    "RESULT.md": "c6624db71991e036d01354780a7258d27423e16094e4174be6d6072851db186e",
+    "TASK.md": "e29509d3ad288c5dfd2c3e6cd241e62d1e3905f1d2cddcea14a5f2b0ad774f58",
+    "logs/aftercheck.json": "40487ea1adfd84334242d674121ad5ba130ade15a8b027a048348648ee8154f4",
+    "logs/check.json": "59a6d450dfbfa1de58295cbcae92e9731a2ed9fd773b1b9dc497a32ff9294c55",
+    "reports/aftercheck.json": "060ff70cdc2355401759923a3ba291440a0441bd33ea17cd8b57fa8871d4971d",
+    "reports/check.json": "d7f400a5ca128e9020dc09129579c9a3de3630ec6dc65986fbbda4e52e3b98bc",
+    "requirements.md": "b81d02a79b64e10432f78abf6cb4ed47060aa63967f38a3fe167f1eb9b19a6b3",
+    "sig/project.rbs": "4501a3226c6a750191d8a431fe86652b32707e00619e1a8e7fa0594db5ec1d8d"
+  }
+}

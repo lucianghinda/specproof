@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+require "json"
+require "digest"
+require "specproof"
+abort "optional parser loaded eagerly" if defined?(::RBS)
+SpecProof.load([], rbs: [File.join(__dir__, "01-finite/sig/project.rbs")], targets: ["Feature#enabled?"])
+require "minitest"
+packages = %w[specproof rbs minitest].map do |name|
+  spec = Gem.loaded_specs.fetch(name)
+  entry = File.join(spec.full_gem_path, "lib", "#{name}.rb")
+  { name: name, version: spec.version.to_s, platform: spec.platform.to_s,
+    path: spec.full_gem_path, entrypoint: entry, sha256: Digest::SHA256.file(entry).hexdigest }
+end
+result = JSON.pretty_generate({ ruby: RUBY_DESCRIPTION, packages: packages }) + "\n"
+File.write(File.join(__dir__, "runtime-probe.json"), result)
+puts result

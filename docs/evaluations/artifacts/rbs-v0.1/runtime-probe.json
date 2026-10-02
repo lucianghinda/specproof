@@ -1,0 +1,29 @@
+{
+  "ruby": "ruby 4.0.1 (2026-01-13 revision e04267a14b) +PRISM [arm64-darwin25]",
+  "packages": [
+    {
+      "name": "specproof",
+      "version": "0.1.0",
+      "platform": "ruby",
+      "path": "/private/tmp/specproof-rbs-agent-evaluations-final/gem-home/gems/specproof-0.1.0",
+      "entrypoint": "/private/tmp/specproof-rbs-agent-evaluations-final/gem-home/gems/specproof-0.1.0/lib/specproof.rb",
+      "sha256": "d64778b00af5c03ffbfc70b76184ba73477ddec3bd7a1bbe1c544dd9b292550c"
+    },
+    {
+      "name": "rbs",
+      "version": "4.2.0",
+      "platform": "ruby",
+      "path": "/private/tmp/specproof-rbs-compat-40/vendor/bundle/ruby/4.0.0/gems/rbs-4.2.0",
+      "entrypoint": "/private/tmp/specproof-rbs-compat-40/vendor/bundle/ruby/4.0.0/gems/rbs-4.2.0/lib/rbs.rb",
+      "sha256": "4b2194198fb00ee0709eaceff589029cd8aaaa8c89f9a381ff7fcf7620014f02"
+    },
+    {
+      "name": "minitest",
+      "version": "5.26.2",
+      "platform": "ruby",
+      "path": "/private/tmp/specproof-rbs-compat-40/vendor/bundle/ruby/4.0.0/gems/minitest-5.26.2",
+      "entrypoint": "/private/tmp/specproof-rbs-compat-40/vendor/bundle/ruby/4.0.0/gems/minitest-5.26.2/lib/minitest.rb",
+      "sha256": "5829795ede57e738e3ee6e5f1b1dfc0c1348e09c76607266d991a63a0119336e"
+    }
+  ]
+}

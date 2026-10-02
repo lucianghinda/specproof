@@ -1,0 +1,25 @@
+{
+  "package_sha256": "dd34a15eeda389e3453c8cfa6544b22bbaf2d1578aded2000f7f74e2aab2694d",
+  "package": "/private/tmp/specproof-rbs-agent-evaluations-final/specproof.gem",
+  "gem_home": "/private/tmp/specproof-rbs-agent-evaluations-final/gem-home",
+  "dependencies": "/private/tmp/specproof-rbs-compat-40/vendor/bundle/ruby/4.0.0",
+  "environment": {
+    "GEM_HOME": "/private/tmp/specproof-rbs-agent-evaluations-final/gem-home",
+    "GEM_PATH": "/private/tmp/specproof-rbs-agent-evaluations-final/gem-home:/private/tmp/specproof-rbs-compat-40/vendor/bundle/ruby/4.0.0",
+    "RUBYOPT": null,
+    "RUBYLIB": null,
+    "BUNDLE_GEMFILE": null,
+    "BUNDLE_BIN_PATH": null,
+    "BUNDLER_VERSION": null,
+    "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin"
+  },
+  "ruby": "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+  "cli": "/private/tmp/specproof-rbs-agent-evaluations-final/gem-home/bin/specproof",
+  "source": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/rbs-scalar-integration",
+  "exported_skill_sha256": {
+    "specproof-specify/SKILL.md": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+    "specproof-specify/references/usage.md": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+    "specproof-test-gaps/SKILL.md": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+    "specproof-test-gaps/references/usage.md": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b"
+  }
+}

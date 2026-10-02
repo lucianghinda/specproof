@@ -1,0 +1,530 @@
+{
+  "01-finite": {
+    "report_files": [
+      "reports/check.json",
+      "reports/plan.json"
+    ],
+    "runtime_reports": {},
+    "log_captures": {
+      "logs/check.json": {
+        "exitstatus": 0,
+        "command": [
+          "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+          "/private/tmp/specproof-rbs-agent-evaluations/gem-home/bin/specproof",
+          "check",
+          "--rbs",
+          "sig/project.rbs",
+          "--target",
+          "Feature#enabled?",
+          "--format",
+          "json"
+        ],
+        "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"check\",\"errors\":[],\"contract_digest\":\"9d61aada14d5d9099e962658eb1fd43615964b091547faf52ef9050f27220b86\",\"findings\":[]}\n",
+        "stderr": ""
+      },
+      "logs/plan.json": {
+        "exitstatus": 0,
+        "command": [
+          "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+          "/private/tmp/specproof-rbs-agent-evaluations/gem-home/bin/specproof",
+          "plan",
+          "--rbs",
+          "sig/project.rbs",
+          "--target",
+          "Feature#enabled?",
+          "--format",
+          "json"
+        ],
+        "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"plan\",\"errors\":[],\"contract_digest\":\"9d61aada14d5d9099e962658eb1fd43615964b091547faf52ef9050f27220b86\",\"criterion\":\"input-basics-v1\",\"obligations\":[{\"id\":\"f76b2ab8ea9e07e381720027311f872cb71b2cca4da0d25e44bb413924872da9\",\"target\":\"Feature#enabled?\",\"input\":\"enabled\",\"value\":{\"kind\":\"boolean\",\"value\":false},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/01-finite/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]},{\"id\":\"c4648fd52b959579c07acf857c238300a8b2911c47a0e388bdcb9f254bb0992f\",\"target\":\"Feature#enabled?\",\"input\":\"enabled\",\"value\":{\"kind\":\"boolean\",\"value\":true},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/01-finite/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]}]}\n",
+        "stderr": ""
+      }
+    }
+  },
+  "02-refinement": {
+    "report_files": [
+      "reports/check.json",
+      "reports/plan.json"
+    ],
+    "runtime_reports": {},
+    "log_captures": {
+      "logs/author.json": {
+        "exitstatus": 0,
+        "command": [
+          "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+          "-e",
+          "File.write(\"registration.rb\", <<~SPEC)\nrequire \"specproof\"\n\nSpecProof.define \"Registration#eligible?\" do\n  input :age, range: 0..120, exhaustive: true, disjoint: true do\n    partition :minor, range: 0...18\n    partition :adult, range: 18..120\n  end\nend\nSPEC\n"
+        ],
+        "stdout": "",
+        "stderr": ""
+      },
+      "logs/check.json": {
+        "exitstatus": 0,
+        "command": [
+          "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+          "/private/tmp/specproof-rbs-agent-evaluations/gem-home/bin/specproof",
+          "check",
+          "registration.rb",
+          "--rbs",
+          "sig/project.rbs",
+          "--target",
+          "Registration#eligible?",
+          "--format",
+          "json"
+        ],
+        "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"check\",\"errors\":[],\"contract_digest\":\"03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e\",\"findings\":[]}\n",
+        "stderr": ""
+      },
+      "logs/files.json": {
+        "exitstatus": 0,
+        "command": [
+          "/usr/bin/find",
+          ".",
+          "-maxdepth",
+          "4",
+          "-type",
+          "f"
+        ],
+        "stdout": "./requirements.md\n./sig/project.rbs\n./.agents/skills/specproof-specify/SKILL.md\n./.agents/skills/specproof-test-gaps/SKILL.md\n./logs/input.json\n./TASK.md\n",
+        "stderr": ""
+      },
+      "logs/input.json": {
+        "exitstatus": 0,
+        "command": [
+          "/bin/cat",
+          "TASK.md",
+          "requirements.md",
+          "sig/project.rbs"
+        ],
+        "stdout": "# Evaluation task\n\nCreate only missing behavioral refinements. Age is 0..120, minor is 0...18, adult is 18..120; these partitions are exhaustive and disjoint. Consent is supplied by RBS.\n\nSelected target: `Registration#eligible?`. Explicit supplied signature: `sig/project.rbs`.\n# Independent supplied behavior rule\n\nA registration is eligible exactly when age is at least 18 and consent is true. Ages are integers 0..120. Nil and false consent deny eligibility. Age minor 0...18 and adult 18..120 cover the age domain without overlap. This rule is independent of the implementation.\nclass Registration\n def eligible?: (age: Integer, ?consent: bool?) -> bool\nend\n",
+        "stderr": ""
+      },
+      "logs/plan.json": {
+        "exitstatus": 0,
+        "command": [
+          "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+          "/private/tmp/specproof-rbs-agent-evaluations/gem-home/bin/specproof",
+          "plan",
+          "registration.rb",
+          "--rbs",
+          "sig/project.rbs",
+          "--target",
+          "Registration#eligible?",
+          "--format",
+          "json"
+        ],
+        "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"plan\",\"errors\":[],\"contract_digest\":\"03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e\",\"criterion\":\"input-basics-v1\",\"obligations\":[{\"id\":\"a0ce72a452fa1da6205d97037b74d3276eb94a62b6b6511712e4233348929148\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"0\"},\"reasons\":[\"input lower endpoint\",\"minor lower endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/registration.rb\",\"line\":4,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/registration.rb\",\"line\":5,\"kind\":\"dsl\"}]},{\"id\":\"8dc293fbbfb65d10023df9e5a33360c390cafa797af5867edc968016162ca10f\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"1\"},\"reasons\":[\"input lower neighbor\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/registration.rb\",\"line\":4,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]},{\"id\":\"783dfd341bc46233cf3000c2c92b0d2465de4bda222ce08efc6f0251c0f1645e\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"17\"},\"reasons\":[\"minor upper endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/registration.rb\",\"line\":5,\"kind\":\"dsl\"}]},{\"id\":\"f34bb1fa38998396c7ddf02a20ba326da6c30131d696dabee7e7f6acff06daa8\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"18\"},\"reasons\":[\"adult lower endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/registration.rb\",\"line\":6,\"kind\":\"dsl\"}]},{\"id\":\"f756e72b34bdebd754f2c4a48c5ba7ec0dbcb327b495f1fb1a9dea0eb25583ac\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"119\"},\"reasons\":[\"input upper neighbor\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/registration.rb\",\"line\":4,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]},{\"id\":\"f39bb78ecf44b538080246ff42cca8dcdbf6c9ac21439805a4a147233a030c2e\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"120\"},\"reasons\":[\"input upper endpoint\",\"adult upper endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/registration.rb\",\"line\":4,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/registration.rb\",\"line\":6,\"kind\":\"dsl\"}]},{\"id\":\"23826b3017000bf39e3283ebee68dc8be7dae0abbc5f5924b779954c87587ac8\",\"target\":\"Registration#eligible?\",\"input\":\"consent\",\"value\":{\"kind\":\"nil\",\"value\":null},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]},{\"id\":\"54dcd861f11245f8e11881860573f98171c8c62039bc66e22589e63857e978d5\",\"target\":\"Registration#eligible?\",\"input\":\"consent\",\"value\":{\"kind\":\"boolean\",\"value\":false},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]},{\"id\":\"8ee02c02edee4ad2a3213061a1c021b094e7c5fce6b9999a543705688aaa71ba\",\"target\":\"Registration#eligible?\",\"input\":\"consent\",\"value\":{\"kind\":\"boolean\",\"value\":true},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]}]}\n",
+        "stderr": ""
+      },
+      "logs/result.json": {
+        "exitstatus": 0,
+        "command": [
+          "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+          "-e",
+          "File.write(\"RESULT.md\", <<~RESULT)\n# Refinement result\n\nLoaded and followed `.agents/skills/specproof-specify/SKILL.md` and its `references/usage.md` in the supplied workspace. The selected RBS target is `Registration#eligible?` from `sig/project.rbs`.\n\nAdded only the missing age refinement in `registration.rb`: age is `0..120`, with exhaustive, disjoint `minor` (`0...18`) and `adult` (`18..120`) partitions. Consent remains RBS-supplied (`bool?`); no consent declaration was duplicated in the DSL.\n\nVerified with SpecProof 0.1.0. The `check` report has no errors or findings and contract digest `03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e`. The subsequent `input-basics-v1` plan has the same digest.\n\nThe plan proposes age candidates `0`, `1`, `17`, `18`, `119`, and `120`, covering the domain endpoints, endpoint neighbors, and partition boundaries. It also gets consent candidates `nil`, `false`, and `true` directly from the RBS signature. DSL provenance is `registration.rb:4` for the age range, `registration.rb:5` for `minor`, and `registration.rb:6` for `adult`; RBS provenance is `sig/project.rbs:2` for the selected signature and consent candidates.\n\nLimitations: these are boundary candidates, not a complete or proven test suite. The isolated workspace supplies the independent behavior rule and signature but no implementation or tests, so this result checks the input contract and does not verify the method’s actual behavior or expected outputs. All CLI commands, including version, check, and plan, were run through the supplied capture helper; their command logs and JSON reports are in `logs/` and `reports/`.\nRESULT\n"
+        ],
+        "stdout": "",
+        "stderr": ""
+      },
+      "logs/review.json": {
+        "exitstatus": 0,
+        "command": [
+          "/bin/cat",
+          "registration.rb",
+          "RESULT.md",
+          "reports/check.json",
+          "reports/plan.json"
+        ],
+        "stdout": "require \"specproof\"\n\nSpecProof.define \"Registration#eligible?\" do\n  input :age, range: 0..120, exhaustive: true, disjoint: true do\n    partition :minor, range: 0...18\n    partition :adult, range: 18..120\n  end\nend\n# Refinement result\n\nLoaded and followed `.agents/skills/specproof-specify/SKILL.md` and its `references/usage.md` in the supplied workspace. The selected RBS target is `Registration#eligible?` from `sig/project.rbs`.\n\nAdded only the missing age refinement in `registration.rb`: age is `0..120`, with exhaustive, disjoint `minor` (`0...18`) and `adult` (`18..120`) partitions. Consent remains RBS-supplied (`bool?`); no consent declaration was duplicated in the DSL.\n\nVerified with SpecProof 0.1.0. The `check` report has no errors or findings and contract digest `03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e`. The subsequent `input-basics-v1` plan has the same digest.\n\nThe plan proposes age candidates `0`, `1`, `17`, `18`, `119`, and `120`, covering the domain endpoints, endpoint neighbors, and partition boundaries. It also gets consent candidates `nil`, `false`, and `true` directly from the RBS signature. DSL provenance is `registration.rb:4` for the age range, `registration.rb:5` for `minor`, and `registration.rb:6` for `adult`; RBS provenance is `sig/project.rbs:2` for the selected signature and consent candidates.\n\nLimitations: these are boundary candidates, not a complete or proven test suite. The isolated workspace supplies the independent behavior rule and signature but no implementation or tests, so this result checks the input contract and does not verify the method’s actual behavior or expected outputs. All CLI commands, including version, check, and plan, were run through the supplied capture helper; their command logs and JSON reports are in `logs/` and `reports/`.\n{\n  \"schema_version\": 1,\n  \"specproof_version\": \"0.1.0\",\n  \"kind\": \"check\",\n  \"errors\": [],\n  \"contract_digest\": \"03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e\",\n  \"findings\": []\n}\n{\n  \"schema_version\": 1,\n  \"specproof_version\": \"0.1.0\",\n  \"kind\": \"plan\",\n  \"errors\": [],\n  \"contract_digest\": \"03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e\",\n  \"criterion\": \"input-basics-v1\",\n  \"obligations\": [\n    {\n      \"id\": \"a0ce72a452fa1da6205d97037b74d3276eb94a62b6b6511712e4233348929148\",\n      \"target\": \"Registration#eligible?\",\n      \"input\": \"age\",\n      \"value\": {\n        \"kind\": \"integer\",\n        \"value\": \"0\"\n      },\n      \"reasons\": [\n        \"input lower endpoint\",\n        \"minor lower endpoint\"\n      ],\n      \"sources\": [\n        {\n          \"path\": \"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/registration.rb\",\n          \"line\": 4,\n          \"kind\": \"dsl\"\n        },\n        {\n          \"path\": \"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/sig/project.rbs\",\n          \"line\": 2,\n          \"kind\": \"rbs\"\n        },\n        {\n          \"path\": \"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/registration.rb\",\n          \"line\": 5,\n          \"kind\": \"dsl\"\n        }\n      ]\n    },\n    {\n      \"id\": \"8dc293fbbfb65d10023df9e5a33360c390cafa797af5867edc968016162ca10f\",\n      \"target\": \"Registration#eligible?\",\n      \"input\": \"age\",\n      \"value\": {\n        \"kind\": \"integer\",\n        \"value\": \"1\"\n      },\n      \"reasons\": [\n        \"input lower neighbor\"\n      ],\n      \"sources\": [\n        {\n          \"path\": \"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/registration.rb\",\n          \"line\": 4,\n          \"kind\": \"dsl\"\n        },\n        {\n          \"path\": \"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/sig/project.rbs\",\n          \"line\": 2,\n          \"kind\": \"rbs\"\n        }\n      ]\n    },\n    {\n      \"id\": \"783dfd341bc46233cf3000c2c92b0d2465de4bda222ce08efc6f0251c0f1645e\",\n      \"target\": \"Registration#eligible?\",\n      \"input\": \"age\",\n      \"value\": {\n        \"kind\": \"integer\",\n        \"value\": \"17\"\n      },\n      \"reasons\": [\n        \"minor upper endpoint\"\n      ],\n      \"sources\": [\n        {\n          \"path\": \"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/registration.rb\",\n          \"line\": 5,\n          \"kind\": \"dsl\"\n        }\n      ]\n    },\n    {\n      \"id\": \"f34bb1fa38998396c7ddf02a20ba326da6c30131d696dabee7e7f6acff06daa8\",\n      \"target\": \"Registration#eligible?\",\n      \"input\": \"age\",\n      \"value\": {\n        \"kind\": \"integer\",\n        \"value\": \"18\"\n      },\n      \"reasons\": [\n        \"adult lower endpoint\"\n      ],\n      \"sources\": [\n        {\n          \"path\": \"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/registration.rb\",\n          \"line\": 6,\n          \"kind\": \"dsl\"\n        }\n      ]\n    },\n    {\n      \"id\": \"f756e72b34bdebd754f2c4a48c5ba7ec0dbcb327b495f1fb1a9dea0eb25583ac\",\n      \"target\": \"Registration#eligible?\",\n      \"input\": \"age\",\n      \"value\": {\n        \"kind\": \"integer\",\n        \"value\": \"119\"\n      },\n      \"reasons\": [\n        \"input upper neighbor\"\n      ],\n      \"sources\": [\n        {\n          \"path\": \"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/registration.rb\",\n          \"line\": 4,\n          \"kind\": \"dsl\"\n        },\n        {\n          \"path\": \"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/sig/project.rbs\",\n          \"line\": 2,\n          \"kind\": \"rbs\"\n        }\n      ]\n    },\n    {\n      \"id\": \"f39bb78ecf44b538080246ff42cca8dcdbf6c9ac21439805a4a147233a030c2e\",\n      \"target\": \"Registration#eligible?\",\n      \"input\": \"age\",\n      \"value\": {\n        \"kind\": \"integer\",\n        \"value\": \"120\"\n      },\n      \"reasons\": [\n        \"input upper endpoint\",\n        \"adult upper endpoint\"\n      ],\n      \"sources\": [\n        {\n          \"path\": \"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/registration.rb\",\n          \"line\": 4,\n          \"kind\": \"dsl\"\n        },\n        {\n          \"path\": \"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/sig/project.rbs\",\n          \"line\": 2,\n          \"kind\": \"rbs\"\n        },\n        {\n          \"path\": \"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/registration.rb\",\n          \"line\": 6,\n          \"kind\": \"dsl\"\n        }\n      ]\n    },\n    {\n      \"id\": \"23826b3017000bf39e3283ebee68dc8be7dae0abbc5f5924b779954c87587ac8\",\n      \"target\": \"Registration#eligible?\",\n      \"input\": \"consent\",\n      \"value\": {\n        \"kind\": \"nil\",\n        \"value\": null\n      },\n      \"reasons\": [\n        \"finite input value\"\n      ],\n      \"sources\": [\n        {\n          \"path\": \"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/sig/project.rbs\",\n          \"line\": 2,\n          \"kind\": \"rbs\"\n        }\n      ]\n    },\n    {\n      \"id\": \"54dcd861f11245f8e11881860573f98171c8c62039bc66e22589e63857e978d5\",\n      \"target\": \"Registration#eligible?\",\n      \"input\": \"consent\",\n      \"value\": {\n        \"kind\": \"boolean\",\n        \"value\": false\n      },\n      \"reasons\": [\n        \"finite input value\"\n      ],\n      \"sources\": [\n        {\n          \"path\": \"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/sig/project.rbs\",\n          \"line\": 2,\n          \"kind\": \"rbs\"\n        }\n      ]\n    },\n    {\n      \"id\": \"8ee02c02edee4ad2a3213061a1c021b094e7c5fce6b9999a543705688aaa71ba\",\n      \"target\": \"Registration#eligible?\",\n      \"input\": \"consent\",\n      \"value\": {\n        \"kind\": \"boolean\",\n        \"value\": true\n      },\n      \"reasons\": [\n        \"finite input value\"\n      ],\n      \"sources\": [\n        {\n          \"path\": \"/private/tmp/specproof-rbs-agent-evaluations/02-refinement/sig/project.rbs\",\n          \"line\": 2,\n          \"kind\": \"rbs\"\n        }\n      ]\n    }\n  ]\n}\n",
+        "stderr": ""
+      },
+      "logs/skill.json": {
+        "exitstatus": 0,
+        "command": [
+          "/bin/cat",
+          ".agents/skills/specproof-specify/SKILL.md",
+          ".agents/skills/specproof-specify/references/usage.md"
+        ],
+        "stdout": "---\nname: specproof-specify\ndescription: Creates and reviews explicit SpecProof input specifications for Ruby methods. Use when a task asks to define input domains or partitions, check gaps and overlaps, or plan boundary candidates with SpecProof.\n---\n\n# Specify Ruby method inputs with SpecProof\n\nCreate a bounded input contract from stated requirements and verify its\npartitions with the project's SpecProof command line. Keep the contract tied\nto independent requirements and the implementation source. Do not infer an\nintended policy from a method's current behavior.\n\n## Workflow\n\n1. Read the user request, relevant product requirements, the target Ruby method,\n   and its existing tests. Identify the exact `Class#instance_method` target and\n   each requested input. Distinguish explicit requirements from assumptions.\n   When RBS is supplied, inspect explicitly selected RBS target signatures\n   first. Reuse supported finite input types directly;\n   add a DSL declaration only for a behavioral range or partition the type\n   cannot express. Do not search for other signatures or duplicate finite\n   values in the DSL.\n2. If an input's allowed domain or partition intent is missing, ask a focused\n   question before declaring it. If requirements and implementation disagree,\n   report the mismatch with source locations; do not rewrite the requirement or\n   implementation to make the check green without direction.\n3. Add a small trusted Ruby specification file. Declare only supported input\n   domains and partitions justified by the requirements. For a selected RBS\n   target, declare only the missing refinement. A finite RBS-only signature\n   needs no duplicate DSL values. Do not infer a finite range for unrestricted\n   `Integer`, guess from a name or implementation, or write partial obligations\n   for unsupported input types or union members. Stop and report the selected\n   target/input and source location when the type is unsupported or needs a\n   bounded refinement.\n4. Mark a partition family `exhaustive: true` only when the requirements say it\n   covers the entire input domain. Mark it `disjoint: true` only when the\n   requirements say the partitions cannot overlap. Leave either promise out\n   when the requirement is unknown, then ask about the missing policy rather\n   than choosing a boundary.\n5. Run `specproof check PATH --format json` and inspect the structured\n   `findings`, `errors`, and `contract_digest`. For RBS, pass each selected file\n   with `--rbs FILE` and each target with `--target 'Class#method'`; a target\n   selector is required and imports only that target. Unsupported union arms\n   are atomic failures: do not guess, drop an arm, or turn the remainder into a\n   partial contract. Resolve or report every finding before planning. After\n   the check is clean, run `specproof plan` with the same source and target\n   options. Compare the criterion, candidate values, reasons, IDs, and source\n   locations with the stated contract. Optional parameters and nullable types\n   are distinct: optionality permits omission, while `T?` permits an effective\n   `nil` value after Ruby applies defaults.\n6. Report the contract digest, candidate values, and declaration source\n   locations. Explain any unresolved question. Describe the plan as boundary\n   candidates, not as a complete or proven test suite.\n\nUse the project's established command environment. For a Bundler-managed\nproject, prefix commands with `bundle exec`. For JSON output and schema details,\nread [the bundled command and report reference](references/usage.md).\n\n## Supported declarations\n\nSpecProof accepts bounded integer ranges and finite arrays of `nil`, booleans,\nintegers, or symbols. Integer range endpoints are inclusive unless Ruby's\nexclusive range form (`...`) is used. A specification declares a target and\none or more named inputs:\n\n```ruby\nrequire \"specproof\"\n\nSpecProof.define \"Registration#adult?\" do\n  input :age, range: 0..120, exhaustive: true, disjoint: true do\n    partition :minor, range: 0...18\n    partition :adult, range: 18..120\n  end\nend\n```\n\nKeep the declared method signature aligned with the real named positional\nor keyword inputs, including optional parameters. Declare every parameter.\nDomains describe effective values at method entry, after Ruby applies defaults;\nthey do not assert whether the caller omitted an argument. Do not evaluate or\nguess default expressions while authoring the domain.\n\n## Explicit RBS inputs\n\nFor an explicitly selected RBS target, `bool`, `nil`, supported scalar\nliterals, and finite unions provide finite input candidates without a duplicate\nDSL declaration. A resolved built-in `::Integer` remains unbounded and requires\nan explicit finite range or values before SpecProof can produce candidates.\nExisting DSL range and partition declarations are behavioral refinements, not\nclaims inferred from RBS. Check that every declared value is admitted by the\nimported type; a contradiction is a conflict to resolve, not an intersection\nto silently accept. Return types do not supply expected results, behavior\nrules, or an output oracle. The report digest fingerprints normalized input\ndomains and partition policies, not all declaration text, a full RBS\nsignature, or implementation correctness. Run fresh checks and reports after\nany input source changes.\nLoad specification files only from trusted project sources;\nthey are executable Ruby. SpecProof does not load the application class while\nchecking or planning.\n# SpecProof command and report reference\n\nThis reference targets SpecProof `0.1.x`, JSON schema `1`, and\n`input-basics-v1`. Confirm `specproof --version` and the report's\n`specproof_version` before applying it; report unsupported versions instead of\nguessing field meanings.\n\nRun commands from the application project and use its normal Ruby/Bundler\nenvironment:\n\n```sh\nspecproof check spec/registration.rb --format json\nspecproof plan spec/registration.rb --format json\n```\n\nFor a mixed DSL/RBS declaration, repeat `--rbs FILE` for supplied RBS files\nand `--target 'Class#instance_method'` for each selected target. RBS requires\nat least one explicit target, and a target without an RBS file is an error.\nKeep both options the same across check and plan:\n\n```sh\nbundle exec specproof check spec/registration.rb --rbs sig/registration.rbs --target 'Registration#eligible?' --format json\nbundle exec specproof plan spec/registration.rb --rbs sig/registration.rbs --target 'Registration#eligible?' --format json\n```\n\nFor an RBS-only contract, omit the positional DSL path and retain both explicit\nRBS options:\n\n```sh\nbundle exec specproof plan --rbs sig/registration.rbs --target 'Registration#eligible?' --format json\n```\n\n`check` returns declared gap, overlap, empty-domain, and out-of-domain findings.\nIt cannot decide which of two conflicting policies is intended. `plan` requires\na specification with no semantic findings and uses the `input-basics-v1`\ncriterion. It proposes domain endpoints, neighboring values, and declared\npartition boundaries; its output is a set of candidates for review.\n\nJSON reports use `schema_version: 1`. Check reports include `kind: \"check\"`,\n`contract_digest`, and `findings`. Plan reports include `kind: \"plan\"`, the\nsame digest, `criterion`, and `obligations`. Every planned obligation has a\nstable `id`, target, input name, typed value, reasons, and source locations.\nInteger values are decimal strings inside a typed value object. Compare the\ndigest when comparing reports; compare obligation IDs when linking tests to\nplanned values. Re-run the current command before relying on old output.\n\nUse only the declaration forms supported by SpecProof:\n\n```ruby\nSpecProof.define \"Checkout#shipping\" do\n  input :cents, range: 0..100_000, exhaustive: true, disjoint: true do\n    partition :standard, range: 0..4_999\n    partition :free, range: 5_000..100_000\n  end\nend\n```\n\nDo not add inferred partitions to close a gap or remove an overlap. Explain\nthe witnesses and ask for the intended policy.\n\nThe report digest represents normalized behavioral domains and partition\npolicies. It does not fingerprint all DSL source text, the full RBS signature,\nor implementation correctness. Provenance source objects require `path` and\n`line`; schema 1 permits additional fields, so consumers must tolerate unknown\nfields. A source's `kind` identifies its family but does not change obligation\nidentity. Read the coverage reference for runtime `declaration_sources` and\ncollection scope; offline check/plan output does not attest that tests loaded.\n",
+        "stderr": ""
+      },
+      "logs/version.json": {
+        "exitstatus": 0,
+        "command": [
+          "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+          "/private/tmp/specproof-rbs-agent-evaluations/gem-home/bin/specproof",
+          "--version"
+        ],
+        "stdout": "SpecProof 0.1.0\n",
+        "stderr": ""
+      }
+    }
+  },
+  "03-conflict": {
+    "report_files": [
+      "reports/check.json"
+    ],
+    "runtime_reports": {},
+    "log_captures": {
+      "logs/check.json": {
+        "exitstatus": 1,
+        "command": [
+          "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+          "/private/tmp/specproof-rbs-agent-evaluations/gem-home/bin/specproof",
+          "check",
+          "specifications/feature.rb",
+          "--rbs",
+          "sig/project.rbs",
+          "--target",
+          "Feature#enabled?",
+          "--format",
+          "json"
+        ],
+        "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"check\",\"errors\":[],\"contract_digest\":\"71b36d3d0323686b580327e63ee26d978baf25d6fb568c743ecea6335bd79592\",\"findings\":[{\"code\":\"type_domain_conflict\",\"target\":\"Feature#enabled?\",\"input\":\"enabled\",\"witness\":{\"kind\":\"symbol\",\"value\":\"unexpected\"},\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/03-conflict/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/03-conflict/specifications/feature.rb\",\"line\":2,\"kind\":\"dsl\"}]}]}\n",
+        "stderr": ""
+      }
+    }
+  },
+  "04-unsupported": {
+    "report_files": [
+      "reports/check.json"
+    ],
+    "runtime_reports": {},
+    "log_captures": {
+      "logs/check.json": {
+        "exitstatus": 2,
+        "command": [
+          "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+          "/private/tmp/specproof-rbs-agent-evaluations/gem-home/bin/specproof",
+          "check",
+          "--rbs",
+          "sig/project.rbs",
+          "--target",
+          "Feature#enabled?",
+          "--format",
+          "json"
+        ],
+        "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"check\",\"errors\":[{\"code\":\"unsupported_rbs_type\",\"message\":\"unsupported RBS input type ::String: Feature#enabled? / input enabled\",\"source\":{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/04-unsupported/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}}]}\n",
+        "stderr": ""
+      }
+    }
+  },
+  "05-stale": {
+    "report_files": [
+      "reports/baseline.json",
+      "reports/fresh-check.json",
+      "reports/fresh-plan.json",
+      "reports/fresh.json"
+    ],
+    "runtime_reports": {
+      "reports/baseline.json": {
+        "run_id": "09120df6-5fd2-405c-a8cc-d6cf66086945",
+        "contract_digest": "03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e",
+        "tests_passed": true,
+        "exercised_count": 9,
+        "obligation_count": 9,
+        "missing_count": 0,
+        "unknown_count": 0,
+        "obligation_id_count": 9,
+        "targets": [
+          "Registration#eligible?"
+        ],
+        "declaration_sources": {
+          "specifications": [
+            "/private/tmp/specproof-rbs-agent-evaluations/05-stale/specifications/registration.rb"
+          ],
+          "rbs": [
+            "/private/tmp/specproof-rbs-agent-evaluations/05-stale/sig/project.rbs"
+          ],
+          "targets": [
+            "Registration#eligible?"
+          ]
+        }
+      },
+      "reports/fresh.json": {
+        "run_id": "10a9b1ba-7010-4609-958d-335cec024cf6",
+        "contract_digest": "03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e",
+        "tests_passed": false,
+        "exercised_count": 5,
+        "obligation_count": 9,
+        "missing_count": 4,
+        "unknown_count": 0,
+        "obligation_id_count": 9,
+        "targets": [
+          "Registration#eligible?"
+        ],
+        "declaration_sources": {
+          "specifications": [
+            "/private/tmp/specproof-rbs-agent-evaluations/05-stale/specifications/registration.rb"
+          ],
+          "rbs": [
+            "/private/tmp/specproof-rbs-agent-evaluations/05-stale/sig/project.rbs"
+          ],
+          "targets": [
+            "Registration#eligible?"
+          ]
+        }
+      }
+    },
+    "log_captures": {
+      "logs/fresh-check.json": {
+        "exitstatus": 0,
+        "command": [
+          "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+          "/private/tmp/specproof-rbs-agent-evaluations/gem-home/bin/specproof",
+          "check",
+          "specifications/registration.rb",
+          "--rbs",
+          "sig/project.rbs",
+          "--target",
+          "Registration#eligible?",
+          "--format",
+          "json"
+        ],
+        "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"check\",\"errors\":[],\"contract_digest\":\"03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e\",\"findings\":[]}\n",
+        "stderr": ""
+      },
+      "logs/fresh-plan.json": {
+        "exitstatus": 0,
+        "command": [
+          "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+          "/private/tmp/specproof-rbs-agent-evaluations/gem-home/bin/specproof",
+          "plan",
+          "specifications/registration.rb",
+          "--rbs",
+          "sig/project.rbs",
+          "--target",
+          "Registration#eligible?",
+          "--format",
+          "json"
+        ],
+        "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"plan\",\"errors\":[],\"contract_digest\":\"03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e\",\"criterion\":\"input-basics-v1\",\"obligations\":[{\"id\":\"a0ce72a452fa1da6205d97037b74d3276eb94a62b6b6511712e4233348929148\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"0\"},\"reasons\":[\"input lower endpoint\",\"minor lower endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/05-stale/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/05-stale/specifications/registration.rb\",\"line\":2,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/05-stale/specifications/registration.rb\",\"line\":3,\"kind\":\"dsl\"}]},{\"id\":\"8dc293fbbfb65d10023df9e5a33360c390cafa797af5867edc968016162ca10f\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"1\"},\"reasons\":[\"input lower neighbor\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/05-stale/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/05-stale/specifications/registration.rb\",\"line\":2,\"kind\":\"dsl\"}]},{\"id\":\"783dfd341bc46233cf3000c2c92b0d2465de4bda222ce08efc6f0251c0f1645e\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"17\"},\"reasons\":[\"minor upper endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/05-stale/specifications/registration.rb\",\"line\":3,\"kind\":\"dsl\"}]},{\"id\":\"f34bb1fa38998396c7ddf02a20ba326da6c30131d696dabee7e7f6acff06daa8\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"18\"},\"reasons\":[\"adult lower endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/05-stale/specifications/registration.rb\",\"line\":4,\"kind\":\"dsl\"}]},{\"id\":\"f756e72b34bdebd754f2c4a48c5ba7ec0dbcb327b495f1fb1a9dea0eb25583ac\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"119\"},\"reasons\":[\"input upper neighbor\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/05-stale/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/05-stale/specifications/registration.rb\",\"line\":2,\"kind\":\"dsl\"}]},{\"id\":\"f39bb78ecf44b538080246ff42cca8dcdbf6c9ac21439805a4a147233a030c2e\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"120\"},\"reasons\":[\"input upper endpoint\",\"adult upper endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/05-stale/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/05-stale/specifications/registration.rb\",\"line\":2,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/05-stale/specifications/registration.rb\",\"line\":4,\"kind\":\"dsl\"}]},{\"id\":\"23826b3017000bf39e3283ebee68dc8be7dae0abbc5f5924b779954c87587ac8\",\"target\":\"Registration#eligible?\",\"input\":\"consent\",\"value\":{\"kind\":\"nil\",\"value\":null},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/05-stale/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]},{\"id\":\"54dcd861f11245f8e11881860573f98171c8c62039bc66e22589e63857e978d5\",\"target\":\"Registration#eligible?\",\"input\":\"consent\",\"value\":{\"kind\":\"boolean\",\"value\":false},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/05-stale/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]},{\"id\":\"8ee02c02edee4ad2a3213061a1c021b094e7c5fce6b9999a543705688aaa71ba\",\"target\":\"Registration#eligible?\",\"input\":\"consent\",\"value\":{\"kind\":\"boolean\",\"value\":true},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/05-stale/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]}]}\n",
+        "stderr": ""
+      },
+      "logs/fresh-run.json": {
+        "exitstatus": 1,
+        "command": [
+          "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+          "run.rb"
+        ],
+        "stdout": "Run options: --seed 60896\n\n# Running:\n\nF\n\nFinished in 0.000582s, 1718.2130 runs/s, 6872.8521 assertions/s.\n\n  1) Failure:\nRegistrationTest#test_supplied_examples [test/registration_test.rb:7]:\nExpected false to be truthy.\n\n1 runs, 4 assertions, 1 failures, 0 errors, 0 skips\nSpecProof coverage run 10a9b1ba-7010-4609-958d-335cec024cf6: 5/9 obligations exercised, 4 missing; missing values: Registration#eligible?/age=119, Registration#eligible?/age=120, Registration#eligible?/consent=nil, Registration#eligible?/consent=false (completed)\n",
+        "stderr": ""
+      },
+      "logs/supplied-baseline.json": {
+        "exitstatus": 0,
+        "command": [
+          "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+          "run.rb"
+        ],
+        "stdout": "Run options: --seed 35387\n\n# Running:\n\n.\n\nFinished in 0.000440s, 2272.7274 runs/s, 18181.8192 assertions/s.\n\n1 runs, 8 assertions, 0 failures, 0 errors, 0 skips\nSpecProof coverage run 09120df6-5fd2-405c-a8cc-d6cf66086945: 9/9 obligations exercised (completed)\n",
+        "stderr": ""
+      }
+    }
+  },
+  "06-boundary": {
+    "report_files": [
+      "reports/baseline.json",
+      "reports/check.json",
+      "reports/final.json",
+      "reports/plan.json",
+      "reports/red.json"
+    ],
+    "runtime_reports": {
+      "reports/baseline.json": {
+        "run_id": "575987b7-acc6-4d3f-bc6b-8a85372a33ef",
+        "contract_digest": "03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e",
+        "tests_passed": true,
+        "exercised_count": 8,
+        "obligation_count": 9,
+        "missing_count": 1,
+        "unknown_count": 0,
+        "obligation_id_count": 9,
+        "targets": [
+          "Registration#eligible?"
+        ],
+        "declaration_sources": {
+          "specifications": [
+            "/private/tmp/specproof-rbs-agent-evaluations/06-boundary/specifications/registration.rb"
+          ],
+          "rbs": [
+            "/private/tmp/specproof-rbs-agent-evaluations/06-boundary/sig/project.rbs"
+          ],
+          "targets": [
+            "Registration#eligible?"
+          ]
+        }
+      },
+      "reports/final.json": {
+        "run_id": "947eeff1-0683-4892-9d1c-361191111844",
+        "contract_digest": "03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e",
+        "tests_passed": true,
+        "exercised_count": 9,
+        "obligation_count": 9,
+        "missing_count": 0,
+        "unknown_count": 0,
+        "obligation_id_count": 9,
+        "targets": [
+          "Registration#eligible?"
+        ],
+        "declaration_sources": {
+          "specifications": [
+            "/private/tmp/specproof-rbs-agent-evaluations/06-boundary/specifications/registration.rb"
+          ],
+          "rbs": [
+            "/private/tmp/specproof-rbs-agent-evaluations/06-boundary/sig/project.rbs"
+          ],
+          "targets": [
+            "Registration#eligible?"
+          ]
+        }
+      },
+      "reports/red.json": {
+        "run_id": "99156b88-94ca-4551-a1f7-aaf9a6f562ae",
+        "contract_digest": "03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e",
+        "tests_passed": false,
+        "exercised_count": 5,
+        "obligation_count": 9,
+        "missing_count": 4,
+        "unknown_count": 0,
+        "obligation_id_count": 9,
+        "targets": [
+          "Registration#eligible?"
+        ],
+        "declaration_sources": {
+          "specifications": [
+            "/private/tmp/specproof-rbs-agent-evaluations/06-boundary/specifications/registration.rb"
+          ],
+          "rbs": [
+            "/private/tmp/specproof-rbs-agent-evaluations/06-boundary/sig/project.rbs"
+          ],
+          "targets": [
+            "Registration#eligible?"
+          ]
+        }
+      }
+    },
+    "log_captures": {
+      "logs/check.json": {
+        "exitstatus": 0,
+        "command": [
+          "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+          "/private/tmp/specproof-rbs-agent-evaluations/gem-home/bin/specproof",
+          "check",
+          "specifications/registration.rb",
+          "--rbs",
+          "sig/project.rbs",
+          "--target",
+          "Registration#eligible?",
+          "--format",
+          "json"
+        ],
+        "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"check\",\"errors\":[],\"contract_digest\":\"03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e\",\"findings\":[]}\n",
+        "stderr": ""
+      },
+      "logs/final-run.json": {
+        "exitstatus": 0,
+        "command": [
+          "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+          "run.rb"
+        ],
+        "stdout": "Run options: --seed 41074\n\n# Running:\n\n.\n\nFinished in 0.000517s, 1934.2361 runs/s, 15473.8885 assertions/s.\n\n1 runs, 8 assertions, 0 failures, 0 errors, 0 skips\nSpecProof coverage run 947eeff1-0683-4892-9d1c-361191111844: 9/9 obligations exercised (completed)\n",
+        "stderr": ""
+      },
+      "logs/plan.json": {
+        "exitstatus": 0,
+        "command": [
+          "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+          "/private/tmp/specproof-rbs-agent-evaluations/gem-home/bin/specproof",
+          "plan",
+          "specifications/registration.rb",
+          "--rbs",
+          "sig/project.rbs",
+          "--target",
+          "Registration#eligible?",
+          "--format",
+          "json"
+        ],
+        "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"plan\",\"errors\":[],\"contract_digest\":\"03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e\",\"criterion\":\"input-basics-v1\",\"obligations\":[{\"id\":\"a0ce72a452fa1da6205d97037b74d3276eb94a62b6b6511712e4233348929148\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"0\"},\"reasons\":[\"input lower endpoint\",\"minor lower endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/06-boundary/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/06-boundary/specifications/registration.rb\",\"line\":2,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/06-boundary/specifications/registration.rb\",\"line\":3,\"kind\":\"dsl\"}]},{\"id\":\"8dc293fbbfb65d10023df9e5a33360c390cafa797af5867edc968016162ca10f\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"1\"},\"reasons\":[\"input lower neighbor\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/06-boundary/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/06-boundary/specifications/registration.rb\",\"line\":2,\"kind\":\"dsl\"}]},{\"id\":\"783dfd341bc46233cf3000c2c92b0d2465de4bda222ce08efc6f0251c0f1645e\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"17\"},\"reasons\":[\"minor upper endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/06-boundary/specifications/registration.rb\",\"line\":3,\"kind\":\"dsl\"}]},{\"id\":\"f34bb1fa38998396c7ddf02a20ba326da6c30131d696dabee7e7f6acff06daa8\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"18\"},\"reasons\":[\"adult lower endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/06-boundary/specifications/registration.rb\",\"line\":4,\"kind\":\"dsl\"}]},{\"id\":\"f756e72b34bdebd754f2c4a48c5ba7ec0dbcb327b495f1fb1a9dea0eb25583ac\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"119\"},\"reasons\":[\"input upper neighbor\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/06-boundary/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/06-boundary/specifications/registration.rb\",\"line\":2,\"kind\":\"dsl\"}]},{\"id\":\"f39bb78ecf44b538080246ff42cca8dcdbf6c9ac21439805a4a147233a030c2e\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"120\"},\"reasons\":[\"input upper endpoint\",\"adult upper endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/06-boundary/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/06-boundary/specifications/registration.rb\",\"line\":2,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/06-boundary/specifications/registration.rb\",\"line\":4,\"kind\":\"dsl\"}]},{\"id\":\"23826b3017000bf39e3283ebee68dc8be7dae0abbc5f5924b779954c87587ac8\",\"target\":\"Registration#eligible?\",\"input\":\"consent\",\"value\":{\"kind\":\"nil\",\"value\":null},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/06-boundary/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]},{\"id\":\"54dcd861f11245f8e11881860573f98171c8c62039bc66e22589e63857e978d5\",\"target\":\"Registration#eligible?\",\"input\":\"consent\",\"value\":{\"kind\":\"boolean\",\"value\":false},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/06-boundary/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]},{\"id\":\"8ee02c02edee4ad2a3213061a1c021b094e7c5fce6b9999a543705688aaa71ba\",\"target\":\"Registration#eligible?\",\"input\":\"consent\",\"value\":{\"kind\":\"boolean\",\"value\":true},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations/06-boundary/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]}]}\n",
+        "stderr": ""
+      },
+      "logs/red-run.json": {
+        "exitstatus": 1,
+        "command": [
+          "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+          "run.rb"
+        ],
+        "stdout": "Run options: --seed 41719\n\n# Running:\n\nF\n\nFinished in 0.000383s, 2610.9660 runs/s, 10443.8641 assertions/s.\n\n  1) Failure:\nRegistrationTest#test_supplied_examples [test/registration_test.rb:7]:\nrequirements.md: eligibility begins at age 18 when consent is true; SpecProof obligation f34bb1fa38998396c7ddf02a20ba326da6c30131d696dabee7e7f6acff06daa8\n\n1 runs, 4 assertions, 1 failures, 0 errors, 0 skips\nSpecProof coverage run 99156b88-94ca-4551-a1f7-aaf9a6f562ae: 5/9 obligations exercised, 4 missing; missing values: Registration#eligible?/age=119, Registration#eligible?/age=120, Registration#eligible?/consent=nil, Registration#eligible?/consent=false (completed)\n",
+        "stderr": ""
+      },
+      "logs/supplied-baseline.json": {
+        "exitstatus": 0,
+        "command": [
+          "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+          "run.rb"
+        ],
+        "stdout": "Run options: --seed 11644\n\n# Running:\n\n.\n\nFinished in 0.000528s, 1893.9392 runs/s, 13257.5742 assertions/s.\n\n1 runs, 7 assertions, 0 failures, 0 errors, 0 skips\nSpecProof coverage run 575987b7-acc6-4d3f-bc6b-8a85372a33ef: 8/9 obligations exercised, 1 missing; missing values: Registration#eligible?/age=18 (completed)\n",
+        "stderr": ""
+      }
+    }
+  },
+  "pilot_source_verification": {
+    "original_commit": "85611af97461d1714bffffff42a4719952b9cbc4",
+    "manifest_file_count": 59,
+    "present_and_matching_count": 59,
+    "missing_or_mismatched": []
+  },
+  "matrix_counts": {
+    "33": {
+      "core": {
+        "tests": 156,
+        "assertions": 786,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      },
+      "rbs-optional": {
+        "tests": 36,
+        "assertions": 353,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      }
+    },
+    "34": {
+      "core": {
+        "tests": 156,
+        "assertions": 786,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      },
+      "rbs-optional": {
+        "tests": 36,
+        "assertions": 353,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      }
+    },
+    "40": {
+      "core": {
+        "tests": 156,
+        "assertions": 786,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      },
+      "rbs-optional": {
+        "tests": 36,
+        "assertions": 353,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      }
+    }
+  },
+  "historical_snapshot": {
+    "declared_paths": 125,
+    "missing_paths": [],
+    "changed_hashes": []
+  }
+}

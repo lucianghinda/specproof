@@ -37,10 +37,18 @@ tests, infer expected results, or prove application correctness.
    against the current implementation. Capture the failure. Then make the
    smallest implementation change supported by the requirement and rerun that
    test to confirm it passes.
-7. Rerun the full suite in a fresh command after the final edit. Collection
-   observes calls made during that run only; a previous report cannot establish
-   fresh coverage. Verify the generated report against the current plan before
-   making a completion claim.
+7. Rerun the intended test command in a fresh process after the final source or
+   test edit. Collection observes calls made during that run only; a previous
+   report cannot establish fresh coverage. Verify the newly written report has
+   a new `run_id`, the current `contract_digest` and obligation IDs, completed
+   `completion`, intact `integrity`, and `tests_passed: true`. Confirm its
+   `scope.targets`, `scope.declaration_sources`, run arguments, and filters
+   match the actual test command and loaded test files. `scope.targets` and
+   `scope.declaration_sources` are runtime coverage fields; offline check and
+   plan results do not have them. If a source changes, run the suite again and
+   inspect a fresh report. A matching digest does not
+   fingerprint all source text, the full RBS signature, or implementation
+   correctness.
 
 For adapter setup, report fields, and evidence checks, read
 [the bundled coverage report reference](references/usage.md).
@@ -72,3 +80,9 @@ the suite's existing pass/fail behavior. Preserve an existing
 unobserved obligations make the run fail. Never disable that strict policy just
 to obtain a green result. Use the report to decide whether gaps remain; a
 passing suite alone does not close them.
+
+RBS supplies input types only. It does not supply expected return values or
+behavioral output assertions. Derive each assertion from an independent rule
+or trusted stated requirement. A coverage candidate or a successful hit
+establishes only that an input obligation was exercised; it does not establish
+the expected result or prove correctness.

@@ -23,6 +23,8 @@ class PackagingTest < Minitest::Test
       assert_includes contents, "lib/specproof.rb"
       assert_includes contents, "skills/specproof-specify/SKILL.md"
       assert_includes contents, "skills/specproof-test-gaps/SKILL.md"
+      assert_includes contents, "examples/rbs_registration/sig/registration.rbs"
+      assert_includes contents, "examples/rbs_registration/requirements.md"
       assert_includes contents, "exe/specproof"
 
       Gem::Installer.at(package_path, install_dir: gem_home, wrappers: true, force: true).install
@@ -40,12 +42,28 @@ class PackagingTest < Minitest::Test
           gem "specproof"
           require "specproof"
           abort "SpecProof unexpectedly loaded Minitest" if defined?(Minitest)
+          abort "SpecProof unexpectedly loaded optional RBS" if defined?(::RBS)
           puts SpecProof::VERSION
         RUBY
         chdir: directory
       )
       assert status.success?, stderr
       assert_equal "#{SpecProof::VERSION}\n", stdout
+
+      specification = File.expand_path("../examples/age_policy/specification.rb", __dir__)
+      check, check_error, check_status = Open3.capture3(
+        environment, RbConfig.ruby, File.join(gem_home, "bin/specproof"),
+        "check", specification, "--format", "json", chdir: directory
+      )
+      assert check_status.success?, check_error
+      assert_equal "check", JSON.parse(check).fetch("kind")
+
+      plan, plan_error, plan_status = Open3.capture3(
+        environment, RbConfig.ruby, File.join(gem_home, "bin/specproof"),
+        "plan", specification, "--format", "json", chdir: directory
+      )
+      assert plan_status.success?, plan_error
+      assert_equal "plan", JSON.parse(plan).fetch("kind")
 
       cli, cli_error, cli_status = Open3.capture3(
         environment, RbConfig.ruby, File.join(gem_home, "bin/specproof"), "--version", chdir: directory
@@ -63,6 +81,16 @@ class PackagingTest < Minitest::Test
       assert File.file?(owned_skill), cli
       original_content = File.read(owned_skill)
       refute_empty original_content
+
+      cli, cli_error, cli_status = Open3.capture3(
+        environment, RbConfig.ruby, File.join(gem_home, "bin/specproof"),
+        "skills", "export", "--to", destination, "--format", "json", chdir: directory
+      )
+      assert cli_status.success?, cli_error
+      assert_equal %w[specproof-specify/SKILL.md specproof-specify/references/usage.md
+                      specproof-test-gaps/SKILL.md specproof-test-gaps/references/usage.md]
+        .map { |path| File.join(destination, path) },
+                   JSON.parse(cli).fetch("unchanged")
 
       File.write(owned_skill, "client-owned edit\n")
       cli, cli_error, cli_status = Open3.capture3(

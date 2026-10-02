@@ -1,0 +1,92 @@
+# frozen_string_literal: true
+require "fileutils"
+require "json"
+require "digest"
+
+root = "/private/tmp/specproof-rbs-agent-evaluations"
+FileUtils.mkdir_p(root)
+scenarios = {
+  "01-finite" => ["class Feature\n def enabled?: (bool enabled) -> bool\nend\n", "Feature#enabled?", "Use the existing RBS declaration to check and plan supported inputs. Do not duplicate its finite domain in DSL."],
+  "02-refinement" => ["class Registration\n def eligible?: (age: Integer, ?consent: bool?) -> bool\nend\n", "Registration#eligible?", "Create only missing behavioral refinements. Age is 0..120, minor is 0...18, adult is 18..120; these partitions are exhaustive and disjoint. Consent is supplied by RBS."],
+  "03-conflict" => ["class Feature\n def enabled?: (bool enabled) -> bool\nend\n", "Feature#enabled?", "Review the supplied behavioral specification against RBS. Report any contradiction; no requirement authorizes removing declared cases to repair it."],
+  "04-unsupported" => ["class Feature\n def enabled?: (bool | String enabled) -> bool\nend\n", "Feature#enabled?", "Check and plan the selected RBS signature. Report the tool's exact limitation if it cannot represent the whole declared input type. No type narrowing is authorized."],
+  "05-stale" => ["class Registration\n def eligible?: (age: Integer, ?consent: bool?) -> bool\nend\n", "Registration#eligible?", "The previous report was produced before the current implementation edit. Decide whether it proves current coverage; obtain a fresh report before claiming completion. Do not modify the implementation or tests; report their current results."],
+  "06-boundary" => ["class Registration\n def eligible?: (age: Integer, ?consent: bool?) -> bool\nend\n", "Registration#eligible?", "Use the fresh report to close the justified age-18 gap. Add a regression assertion from requirements first, demonstrate RED, then fix the implementation and verify a fresh passing report without changing the contract."]
+}
+refinement = <<~RUBY
+  SpecProof.define "Registration#eligible?" do
+    input :age, range: 0..120, exhaustive: true, disjoint: true do
+      partition :minor, range: 0...18
+      partition :adult, range: 18..120
+    end
+  end
+RUBY
+scenarios.each do |name, (signature, target, request)|
+  directory = File.join(root, name)
+  %w[sig specifications lib test reports logs .agents].each { |part| FileUtils.mkdir_p(File.join(directory, part)) }
+  File.write(File.join(directory, "sig/project.rbs"), signature)
+  File.write(File.join(directory, "TASK.md"), "# Evaluation task\n\n#{request}\n\nSelected target: `#{target}`. Explicit supplied signature: `sig/project.rbs`.\n")
+  File.write(File.join(directory, "requirements.md"), if target.start_with?("Registration")
+    "# Independent supplied behavior rule\n\nA registration is eligible exactly when age is at least 18 and consent is true. Ages are integers 0..120. Nil and false consent deny eligibility. Age minor 0...18 and adult 18..120 cover the age domain without overlap. This rule is independent of the implementation.\n"
+  else
+    "# Supplied requirements\n\nThis task concerns input domain checking/planning. No output behavior oracle is supplied. RBS return types do not establish expected output values.\n"
+  end)
+  if name == "03-conflict"
+    File.write(File.join(directory, "specifications/feature.rb"), "SpecProof.define 'Feature#enabled?' do\n input :enabled, values: [true, :unexpected]\nend\n")
+  end
+  next unless %w[05-stale 06-boundary].include?(name)
+
+  File.write(File.join(directory, "specifications/registration.rb"), refinement)
+  implementation = "# frozen_string_literal: true\nclass Registration\n def eligible?(age:, consent: nil)\n  age > 18 && consent == true\n end\nend\n"
+  File.write(File.join(directory, "lib/registration.rb"), implementation)
+  File.write(File.join(directory, "test/registration_test.rb"), <<~RUBY)
+    # frozen_string_literal: true
+    require "minitest/autorun"
+    class RegistrationTest < Minitest::Test
+      def test_supplied_examples
+        registration = Registration.new
+        [0, 1, 17].each { |age| refute registration.eligible?(age: age, consent: true) }
+        [119, 120].each { |age| assert registration.eligible?(age: age, consent: true) }
+        refute registration.eligible?(age: 120)
+        refute registration.eligible?(age: 120, consent: false)
+      end
+    end
+  RUBY
+  if name == "05-stale"
+    File.write(File.join(directory, "lib/registration.rb"), implementation.sub("age > 18", "age >= 18"))
+    test_path = File.join(directory, "test/registration_test.rb")
+    File.write(test_path, File.read(test_path).sub("[119, 120]", "[18, 119, 120]"))
+  end
+  File.write(File.join(directory, "run.rb"), <<~RUBY)
+    # frozen_string_literal: true
+    require "minitest/autorun"
+    require_relative "lib/registration"
+    require "specproof/minitest"
+    SpecProof::Minitest.install!(specifications: [File.join(__dir__, "specifications/registration.rb")],
+      rbs: [File.join(__dir__, "sig/project.rbs")], targets: ["Registration#eligible?"],
+      output: File.join(__dir__, "reports", ENV.fetch("REPORT_NAME", "coverage.json")))
+    require_relative "test/registration_test"
+  RUBY
+end
+File.write(File.join(root, "capture.rb"), <<~'RUBY')
+  # frozen_string_literal: true
+  require "open3"
+  require "json"
+  require "time"
+  directory, label, *command = ARGV
+  abort "directory, label, command required" if !directory || !label || command.empty?
+  start = Time.now.utc.iso8601(6)
+  stdout, stderr, status = Open3.capture3(*command, chdir: directory)
+  record = { command: command, cwd: directory, started_at: start, completed_at: Time.now.utc.iso8601(6),
+    stdout: stdout, stderr: stderr, exitstatus: status.exitstatus,
+    environment: ENV.to_h.select { |key, _| %w[PATH GEM_HOME GEM_PATH RUBYOPT RUBYLIB REPORT_NAME].include?(key) } }
+  File.write(File.join(directory, "logs", "#{label}.json"), JSON.pretty_generate(record) + "\n")
+  print stdout
+  warn stderr unless stderr.empty?
+  exit(status.exitstatus || 1)
+RUBY
+manifest = Dir.glob(File.join(root, "**", "*"), File::FNM_DOTMATCH).select { |path| File.file?(path) }.to_h do |path|
+  [path.delete_prefix(root + "/"), Digest::SHA256.file(path).hexdigest]
+end
+File.write(File.join(root, "initial-fixture-manifest.json"), JSON.pretty_generate(manifest) + "\n")
+puts root

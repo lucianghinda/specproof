@@ -1,0 +1,110 @@
+# frozen_string_literal: true
+require "json"
+require "digest"
+
+root = ENV.fetch("SPECPROOF_EVALUATION_ROOT", "/private/tmp/specproof-rbs-agent-evaluations")
+source = ARGV.fetch(0)
+package = JSON.parse(File.read(File.join(root, "installed-package.json")))
+def assert!(condition, message)
+  abort message unless condition
+end
+def read_json(path)
+  JSON.parse(File.read(path))
+end
+def ids(report)
+  report.fetch("obligations").map { |row| row.fetch("id") }.sort
+end
+def report_label(directory, kind)
+  paths = Dir.glob(File.join(directory, "reports/*.json")).select { |path| read_json(path)["kind"] == kind }
+  assert!(paths.length == 1, "expected one #{kind} report in #{directory}")
+  File.basename(paths.first, ".json")
+end
+names = %w[01-finite 02-refinement 03-conflict 04-unsupported 05-stale 06-boundary]
+names.each do |name|
+  directory = File.join(root, name)
+  assert!(File.file?(File.join(directory, "RESULT.md")), "missing #{name} result")
+  package.fetch("exported_skill_sha256").each do |relative, digest|
+    assert!(Digest::SHA256.file(File.join(directory, ".agents/skills", relative)).hexdigest == digest, "changed exported #{name} skill")
+    assert!(Digest::SHA256.file(File.join(source, "skills", relative)).hexdigest == digest, "export no longer matches source skill")
+  end
+  check_label = report_label(directory, "check")
+  check = read_json(File.join(directory, "reports/#{check_label}.json"))
+  status = read_json(File.join(directory, "logs/#{check_label}.json")).fetch("exitstatus")
+  if name == "03-conflict"
+    finding = check.fetch("findings").fetch(0)
+    assert!(status == 1 && finding.fetch("code") == "type_domain_conflict", "conflict diagnostic lost")
+    assert!(finding.fetch("witness") == { "kind" => "symbol", "value" => "unexpected" }, "conflict witness lost")
+    assert!(finding.fetch("sources").map { |item| item.fetch("kind") }.sort == %w[dsl rbs], "conflict provenance lost")
+  elsif name == "04-unsupported"
+    assert!(status == 2 && check.fetch("errors").first.fetch("code") == "unsupported_rbs_type", "unsupported type hidden")
+    assert!(Dir.glob(File.join(directory, "specifications/*")).empty?, "unsupported union narrowed")
+  else
+    plan_label = report_label(directory, "plan")
+    assert!(status.zero? && check.fetch("errors").empty? && check.fetch("findings").empty?, "unclean #{name} check")
+    plan = read_json(File.join(directory, "reports/#{plan_label}.json"))
+    assert!(read_json(File.join(directory, "logs/#{plan_label}.json")).fetch("exitstatus").zero?, "failed #{name} plan")
+    assert!(plan.fetch("contract_digest") == check.fetch("contract_digest"), "plan/check mismatch")
+    assert!(plan.fetch("obligations").size == (name == "01-finite" ? 2 : 9), "unexpected #{name} obligations")
+    if name == "02-refinement"
+      consent = plan.fetch("obligations").select { |row| row.fetch("input") == "consent" }
+      assert!(consent.all? { |row| row.fetch("sources").all? { |item| item.fetch("kind") == "rbs" } }, "duplicated consent DSL")
+    end
+  end
+end
+initial = read_json(File.join(root, "initial-fixture-manifest.json"))
+initial.each do |relative, digest|
+  next unless relative.match?(%r{/(?:sig/|requirements\.md|TASK\.md)}) || relative.start_with?("03-conflict/specifications/")
+
+  assert!(Digest::SHA256.file(File.join(root, relative)).hexdigest == digest, "changed supplied #{relative}")
+end
+runtime_results = {}
+%w[05-stale 06-boundary].each do |name|
+  directory = File.join(root, name)
+  baseline = read_json(File.join(directory, "reports/baseline.json"))
+  plan_path = File.join(directory, "reports/#{report_label(directory, 'plan')}.json")
+  plan = read_json(plan_path)
+  report_names = name == "05-stale" ? %w[fresh] : %w[red final]
+  reports = report_names.map { |part| read_json(File.join(directory, "reports/#{part}.json")) }
+  reports.each do |report|
+    assert!(ids(report) == ids(plan) && ids(report) == ids(baseline), "runtime IDs changed")
+    assert!(report.fetch("contract_digest") == plan.fetch("contract_digest") && report.fetch("contract_digest") == baseline.fetch("contract_digest"), "runtime digest changed")
+    assert!(report.fetch("completion") == "completed" && report.fetch("integrity") && report.fetch("unknown_count").zero?, "runtime incomplete")
+    scope = report.fetch("scope")
+    expected_sources = {
+      "specifications" => [File.realpath(File.join(directory, "specifications/registration.rb"))],
+      "rbs" => [File.realpath(File.join(directory, "sig/project.rbs"))],
+      "targets" => ["Registration#eligible?"]
+    }
+    assert!(scope.fetch("declaration_sources") == expected_sources && scope.fetch("targets") == ["Registration#eligible?"], "wrong runtime scope")
+    assert!(scope.fetch("arguments").empty? && scope.fetch("filter").nil? && scope.fetch("exclude").nil?, "unexpected filter")
+  end
+  assert!(([baseline, *reports].map { |report| report.fetch("run_id") }).uniq.length == reports.length + 1, "reused run UUID")
+  if name == "05-stale"
+    current = reports.first
+    context = read_json(File.join(directory, "supplied-context.json"))
+    assert!(baseline.fetch("tests_passed") && baseline.fetch("exercised_count") == 9 && !current.fetch("tests_passed"), "stale report not rejected")
+    assert!(Digest::SHA256.file(File.join(directory, "lib/registration.rb")).hexdigest == context.fetch("current_source_hash"), "stale actor modified implementation")
+    assert!(Digest::SHA256.file(File.join(directory, "test/registration_test.rb")).hexdigest == initial.fetch("05-stale/test/registration_test.rb"), "stale actor modified tests")
+    assert!(read_json(File.join(directory, "logs/fresh-run.json")).fetch("exitstatus") == 1, "missing fresh failing command")
+  else
+    red, final = reports
+    assert!(baseline.fetch("exercised_count") == 8 && !red.fetch("tests_passed") && final.fetch("tests_passed") && final.fetch("exercised_count") == 9, "boundary sequence invalid")
+    assert!(read_json(File.join(directory, "logs/red-run.json")).fetch("exitstatus") == 1 && read_json(File.join(directory, "logs/final-run.json")).fetch("exitstatus").zero?, "missing RED/green commands")
+    assert!(File.read(File.join(directory, "test/registration_test.rb")).include?("requirements.md"), "unjustified oracle")
+  end
+  runtime_results[name] = [baseline, *reports].map { |report| report.slice("run_id", "contract_digest", "tests_passed", "exercised_count", "obligation_count", "missing_count") }
+end
+library_files = Dir.glob(File.join(source, "lib/**/*")).select { |path| File.file?(path) }
+installed = File.join(package.fetch("gem_home"), "gems/specproof-0.1.0")
+library_files.each do |path|
+  relative = path.delete_prefix(source + "/")
+  assert!(Digest::SHA256.file(path).hexdigest == Digest::SHA256.file(File.join(installed, relative)).hexdigest, "evaluated package library drift: #{relative}")
+end
+File.write(File.join(root, "root-audit.json"), JSON.pretty_generate({
+  scenarios: names, observed_outcomes_passed: true,
+  source_neutral_library_files_matching_evaluated_package: library_files.length,
+  all_exported_skill_bytes_match_current_source: true,
+  supplied_signatures_requirements_unchanged: true, runtime_results: runtime_results,
+  caveat: "Six guided native Luna tasks with explicit targets and a supplied command/environment helper. This is not client discovery or a general reliability estimate."
+}) + "\n")
+puts "Verified six scenario outcomes, exact exported skills, and #{library_files.length} installed library files."

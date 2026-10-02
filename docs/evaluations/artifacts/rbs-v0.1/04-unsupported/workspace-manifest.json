@@ -1,0 +1,16 @@
+{
+  "archive": "workspace.tar.gz",
+  "sha256": "468911d9c7b2879cbacd07f0818f7f3b0650f875ccd7d62446c77b0c5ff9ff54",
+  "files": {
+    ".agents/skills/specproof-specify/SKILL.md": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+    ".agents/skills/specproof-specify/references/usage.md": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+    ".agents/skills/specproof-test-gaps/SKILL.md": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+    ".agents/skills/specproof-test-gaps/references/usage.md": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+    "RESULT.md": "b10a11faa2e8c70a7d567102f2c33fe281e1f0a8012c48fe8dcdaf9f6a906ec4",
+    "TASK.md": "541e5389dc087290a3a44f47fcf7b48a49d55492d6a7a0814aec800b88671c8d",
+    "logs/check.json": "25b90f7f5839a623e4a7dd6e9fd6d841a05f9392641a48db13e38dbb3f71e838",
+    "reports/check.json": "d1070eac987b830347f8848d2fde0eee380f1488801b74ccb808a69c7a8e9222",
+    "requirements.md": "b81d02a79b64e10432f78abf6cb4ed47060aa63967f38a3fe167f1eb9b19a6b3",
+    "sig/project.rbs": "48fad4bd335831e4fb895391ec87967efbe4dbbc4c61ac806cf3bb6dac13f4d5"
+  }
+}

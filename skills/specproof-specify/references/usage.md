@@ -13,6 +13,23 @@ specproof check spec/registration.rb --format json
 specproof plan spec/registration.rb --format json
 ```
 
+For a mixed DSL/RBS declaration, repeat `--rbs FILE` for supplied RBS files
+and `--target 'Class#instance_method'` for each selected target. RBS requires
+at least one explicit target, and a target without an RBS file is an error.
+Keep both options the same across check and plan:
+
+```sh
+bundle exec specproof check spec/registration.rb --rbs sig/registration.rbs --target 'Registration#eligible?' --format json
+bundle exec specproof plan spec/registration.rb --rbs sig/registration.rbs --target 'Registration#eligible?' --format json
+```
+
+For an RBS-only contract, omit the positional DSL path and retain both explicit
+RBS options:
+
+```sh
+bundle exec specproof plan --rbs sig/registration.rbs --target 'Registration#eligible?' --format json
+```
+
 `check` returns declared gap, overlap, empty-domain, and out-of-domain findings.
 It cannot decide which of two conflicting policies is intended. `plan` requires
 a specification with no semantic findings and uses the `input-basics-v1`
@@ -40,3 +57,11 @@ end
 
 Do not add inferred partitions to close a gap or remove an overlap. Explain
 the witnesses and ask for the intended policy.
+
+The report digest represents normalized behavioral domains and partition
+policies. It does not fingerprint all DSL source text, the full RBS signature,
+or implementation correctness. Provenance source objects require `path` and
+`line`; schema 1 permits additional fields, so consumers must tolerate unknown
+fields. A source's `kind` identifies its family but does not change obligation
+identity. Read the coverage reference for runtime `declaration_sources` and
+collection scope; offline check/plan output does not attest that tests loaded.

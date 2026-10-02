@@ -1,0 +1,20 @@
+{
+  "record_kind": "coordinator_record_of_successful_native_spawn_requests",
+  "date": "2026-10-02",
+  "settings": {
+    "agent_type": "default",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "fork_turns": "none"
+  },
+  "tasks": [
+    { "task_name": "luna_rbs_eval_finite", "workspace": "01-finite" },
+    { "task_name": "luna_rbs_eval_refinement", "workspace": "02-refinement" },
+    { "task_name": "luna_rbs_eval_conflict", "workspace": "03-conflict" },
+    { "task_name": "luna_rbs_eval_unsupported", "workspace": "04-unsupported" },
+    { "task_name": "luna_rbs_eval_stale", "workspace": "05-stale" },
+    { "task_name": "luna_rbs_eval_boundary", "workspace": "06-boundary" }
+  ],
+  "prompt_context": "Each request assigned an isolated workspace, directed loading its exported SKILL.md and reference, supplied explicit selectors and the Ruby command recorder, and required preserved source/rules plus a RESULT.md. TASK.md and actual actions are archived per workspace.",
+  "limitation": "This records requested routing and context settings. It is not independent server attestation of the model used, and no complete native-agent transcript is retained."
+}
