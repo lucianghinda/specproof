@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "survey": {
+    "status": "complete",
+    "root": "/Users/luciang/Dropbox/workprojects/opensource",
+    "excluded_project": "specproof",
+    "exclusions": [
+      "vendor",
+      "node_modules",
+      ".git",
+      ".worktrees",
+      "tmp",
+      ".bundle",
+      "generated caches"
+    ],
+    "method_criteria": "Direct public Class instance method with exactly one RBS signature; every argument bool, nil, primitive literal, or union thereof. Integer only where a repository rule bounds the accepted domain. No rest args, blocks, overloads, typealiases, objects, strings, generics, or class methods. Return types not analyzed.",
+    "rbs_projects_found": 7,
+    "projects_examined": [
+      {
+        "project": "web-author",
+        "commit": "91b30df53fb24fdd2d8386883f8abb094b4fb3f5",
+        "rbs_files": [
+          "sig/webauthor.rbs"
+        ]
+      },
+      {
+        "project": "quality_gate/gems/quality_gate",
+        "commit": "74890a14655c8333762d58e080b11790159d0c90",
+        "rbs_files": [
+          "sig/quality_gate.rbs"
+        ]
+      },
+      {
+        "project": "quality_gate/public-release/quality_gate",
+        "commit": "17c701abeadd5c2ddf7e15984f88d32aa3429262",
+        "rbs_files": [
+          "sig/quality_gate.rbs"
+        ]
+      },
+      {
+        "project": "guardrails_for_rails/guardrails_for_rails",
+        "commit": "ec8780fd74833a3f6780c822f8402ad3f3836277",
+        "rbs_files": [
+          "sig/guardrails_for_rails.rbs"
+        ]
+      },
+      {
+        "project": "phlex",
+        "commit": null,
+        "rbs_files": [
+          "sig/phlex.rbs"
+        ],
+        "note": "No git repository metadata was available at this path; signature file is empty."
+      },
+      {
+        "project": "branchproof/gems/branchproof",
+        "commit": "85611af97461d1714bffffff42a4719952b9cbc4",
+        "rbs_files": [
+          "sig/branchproof.rbs"
+        ]
+      },
+      {
+        "project": "herb",
+        "commit": "a8216c9f00c4802fd1bb00805b5842f3761a361f",
+        "rbs_files": [
+          "sig/herb.rbs",
+          "sig/rubyvm.rbs",
+          "sig/herb/engine/validation_errors.rbs",
+          "sig/herb/engine/compiler.rbs",
+          "sig/herb/engine/validators/render_validator.rbs",
+          "sig/herb/engine/validators/accessibility_validator.rbs",
+          "sig/herb/engine/validators/security_validator.rbs",
+          "sig/herb/engine/validators/nesting_validator.rbs",
+          "sig/herb/engine/validation_error_overlay.rbs",
+          "sig/herb/engine/debug.rbs",
+          "sig/herb/engine/debug_visitor.rbs",
+          "sig/herb/engine/parser_error_overlay.rbs",
+          "sig/herb/engine/validator.rbs",
+          "sig/herb/ast.rbs",
+          "sig/herb/warnings.rbs",
+          "sig/herb/parser_options.rbs",
+          "sig/herb/range.rbs",
+          "sig/herb/dev/runner.rbs",
+          "sig/herb/dev/server_entry.rbs",
+          "sig/herb/dev/server.rbs",
+          "sig/herb/ast/nodes.rbs",
+          "sig/herb/ast/helpers.rbs",
+          "sig/herb/ast/erb_content_node.rbs",
+          "sig/herb/ast/node.rbs",
+          "sig/herb/ast/erb_render_node.rbs",
+          "sig/herb/version.rbs",
+          "sig/herb/parse_result.rbs",
+          "sig/herb/configuration.rbs",
+          "sig/herb/html/util.rbs",
+          "sig/herb/prism_inspect.rbs",
+          "sig/herb/diff_operation.rbs",
+          "sig/herb/action_view/helper_registry.rbs",
+          "sig/herb/action_view/render_analyzer.rbs",
+          "sig/herb/diff_result.rbs",
+          "sig/herb/token_list.rbs",
+          "sig/herb/lex_result.rbs",
+          "sig/herb/token.rbs",
+          "sig/herb/position.rbs",
+          "sig/herb/engine.rbs",
+          "sig/herb/colors.rbs",
+          "sig/herb/visitor.rbs",
+          "sig/herb/errors.rbs",
+          "sig/herb_c_extension.rbs",
+          "sig/serialized.rbs"
+        ]
+      }
+    ],
+    "candidate_count": 1
+  },
+  "candidates": [
+    {
+      "project": "branchproof/gems/branchproof",
+      "project_root": "/Users/luciang/Dropbox/workprojects/opensource/branchproof/gems/branchproof",
+      "commit": "85611af97461d1714bffffff42a4719952b9cbc4",
+      "method": "Branchproof::ComparisonReport#exit_code",
+      "signature": {
+        "path": "sig/branchproof.rbs",
+        "line": 355,
+        "text": "def exit_code: (?fail_on_regression: bool) -> Integer",
+        "input_classification": "one optional keyword bool",
+        "overload_count": 1,
+        "return_analysis": "not analyzed"
+      },
+      "implementation": {
+        "path": "lib/branchproof/comparison_report.rb",
+        "line": 26,
+        "snippet": "def exit_code(fail_on_regression: false)\n  return 2 if status != \"complete\"\n  return 1 if fail_on_regression && (regression? || decision_table_regression?)\n  0\nend"
+      },
+      "minitest": {
+        "runnable": true,
+        "command": "bundle exec ruby -Itest test/test_comparison_report.rb",
+        "paths": [
+          "test/test_comparison_report.rb",
+          "test/test_decision_table_comparison_contract.rb"
+        ],
+        "normative_assertions": [
+          {
+            "path": "test/test_comparison_report.rb",
+            "line": 27,
+            "snippet": "assert_equal 1, report.exit_code(fail_on_regression: true)"
+          },
+          {
+            "path": "test/test_comparison_report.rb",
+            "line": 28,
+            "snippet": "assert_equal 0, report.exit_code"
+          },
+          {
+            "path": "test/test_comparison_report.rb",
+            "line": 32,
+            "snippet": "assert_equal 2, Branchproof::ComparisonReport.new(document: document(status: \"comparison incomplete\")).exit_code"
+          },
+          {
+            "path": "test/test_decision_table_comparison_contract.rb",
+            "line": 18,
+            "snippet": "assert_equal 1, Branchproof::ComparisonReport.new(document: result).exit_code(fail_on_regression: true)"
+          },
+          {
+            "path": "test/test_decision_table_comparison_contract.rb",
+            "line": 42,
+            "snippet": "assert_equal 2, Branchproof::ComparisonReport.new(document: result).exit_code(fail_on_regression: true)"
+          }
+        ]
+      },
+      "decision": "eligible"
+    }
+  ],
+  "rejections": [
+    {
+      "project": "web-author",
+      "reason": "The checked-in RBS file contains only a VERSION constant and no method signatures.",
+      "example": {
+        "path": "sig/webauthor.rbs",
+        "line": 2,
+        "text": "VERSION: String"
+      }
+    },
+    {
+      "project": "quality_gate/gems/quality_gate",
+      "reason": "The RBS APIs mostly take String, generic/container, interface/object, or untyped inputs. Nearest primitive candidate HookLog#recent uses unbounded Integer; implementation only rejects nonpositive values and then uses the requested count, with no upper bound. Return is generic and not analyzed, but integer input still fails criterion.",
+      "examples": [
+        {
+          "path": "sig/quality_gate.rbs",
+          "line": 87,
+          "text": "def recent: (?limit: Integer) -> Array[Hash[String, untyped]]"
+        },
+        {
+          "path": "lib/quality_gate/hook_log.rb",
+          "line": 23,
+          "text": "def recent(limit: 20); return [] unless limit.positive?"
+        }
+      ]
+    },
+    {
+      "project": "quality_gate/public-release/quality_gate",
+      "reason": "Its checked-in API has the same rejected unbounded HookLog#recent Integer input and otherwise String/container/interface inputs.",
+      "example": {
+        "path": "sig/quality_gate.rbs",
+        "line": 87,
+        "text": "def recent: (?limit: Integer) -> Array[Hash[String, untyped]]"
+      }
+    },
+    {
+      "project": "guardrails_for_rails/guardrails_for_rails",
+      "reason": "The checked-in RBS file contains only a VERSION constant and no method signatures.",
+      "example": {
+        "path": "sig/guardrails_for_rails.rbs",
+        "line": 2,
+        "text": "VERSION: String"
+      }
+    },
+    {
+      "project": "phlex",
+      "reason": "The discovered RBS file is empty and the path has no git metadata; no actual method signature can be adopted.",
+      "example": {
+        "path": "sig/phlex.rbs",
+        "line": null,
+        "text": "(empty file)"
+      }
+    },
+    {
+      "project": "herb",
+      "reason": "Most signatures use String, RBS object names, generic containers, aliases, or are class methods. Herb::ParserOptions#initialize is a structural near-match with optional bool keywords, but no direct Minitest assertion for the constructor or its stored values was found; existing parser tests exercise options through integration helpers, so it was excluded under the assertion-source requirement.",
+      "examples": [
+        {
+          "path": "sig/herb/parser_options.rbs",
+          "line": 46,
+          "text": "def initialize: (?strict: bool, ?track_whitespace: bool, ?analyze: bool, ?action_view_helpers: bool, ?transform_conditionals: bool, ?render_nodes: bool, ?strict_locals: bool, ?prism_nodes: bool, ?prism_nodes_deep: bool, ?prism_program: bool) -> void"
+        },
+        {
+          "path": "lib/herb/parser_options.rb",
+          "line": 28,
+          "text": "def initialize(strict: DEFAULT_STRICT, track_whitespace: DEFAULT_TRACK_WHITESPACE, analyze: DEFAULT_ANALYZE, action_view_helpers: DEFAULT_ACTION_VIEW_HELPERS, transform_conditionals: DEFAULT_TRANSFORM_CONDITIONALS, render_nodes: DEFAULT_RENDER_NODES, strict_locals: DEFAULT_STRICT_LOCALS, prism_nodes: DEFAULT_PRISM_NODES, prism_nodes_deep: DEFAULT_PRISM_NODES_DEEP, prism_program: DEFAULT_PRISM_PROGRAM)"
+        },
+        {
+          "path": "test/engine/optional_closing_tags_test.rb",
+          "line": 15,
+          "text": "assert_compiled_snapshot(template, parser_options: { strict: false }) (indirect integration assertion)"
+        }
+      ]
+    },
+    {
+      "project": "branchproof/gems/branchproof",
+      "reason": "Other nearby methods are excluded for class-level definition, type aliases/objects/generics/strings, or unsupported input structure. Example near misses: Branchproof::Records methods are class methods; Report#exit_code is zero-argument; ComparisonReport#write accepts an object and a Symbol/String union; ReportSelection methods accept document/record objects.",
+      "examples": [
+        {
+          "path": "sig/branchproof.rbs",
+          "line": 14,
+          "text": "def self.canonical: (untyped value) -> String"
+        },
+        {
+          "path": "sig/branchproof.rbs",
+          "line": 245,
+          "text": "def exit_code: () -> Integer"
+        },
+        {
+          "path": "sig/branchproof.rbs",
+          "line": 354,
+          "text": "def write: (io: _WriteIO, format: Symbol | String) -> nil"
+        },
+        {
+          "path": "sig/branchproof.rbs",
+          "line": 250,
+          "text": "def initialize: (inventory: document, evidence: document, analysis: document?, minima: Array[document], baseline: document, diagnostics: Array[document], ?level: Integer, ?missing_only: bool, ...) -> void"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Survey is bounded to RBS files discoverable beneath /Users/luciang/Dropbox/workprojects/opensource under the requested exclusions; no remote projects or package registry projects were considered.",
+    "Tests were identified as runnable Minitest sources but were not executed during this read-only survey.",
+    "RBS signatures were read from checked-in files; no signatures were generated or modified."
+  ]
+}

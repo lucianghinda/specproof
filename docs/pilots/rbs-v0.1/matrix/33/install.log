@@ -1,0 +1,13 @@
+$ "/Users/luciang/.rubies/ruby-3.3.6/bin/ruby" "/Users/luciang/.rubies/ruby-3.3.6/bin/bundle" "config" "set" "--local" "path" "vendor/bundle"
+[exit 0]
+$ "/Users/luciang/.rubies/ruby-3.3.6/bin/ruby" "/Users/luciang/.rubies/ruby-3.3.6/bin/bundle" "install" "--local"
+Resolving dependencies...
+Installing logger 1.7.0
+Installing minitest 5.26.2
+Installing prism 1.9.0 with native extensions
+Installing tsort 0.2.0
+Installing rbs 4.2.0 with native extensions
+Updating files in vendor/cache
+Bundle complete! 3 Gemfile dependencies, 7 gems now installed.
+Bundled gems are installed into `./vendor/bundle`
+[exit 0]

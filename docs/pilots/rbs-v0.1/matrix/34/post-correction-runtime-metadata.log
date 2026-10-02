@@ -1,0 +1,11 @@
+Started: 2026-10-02T18:07:36Z
+Environment: env -i BUNDLE_GEMFILE=/private/tmp/specproof-rbs-compat-34/Gemfile BUNDLE_PATH=/private/tmp/specproof-rbs-compat-34/vendor/bundle HOME=/private/tmp/specproof-rbs-compat-34/home PATH=/Users/luciang/.rubies/ruby-3.4.7/bin:/usr/bin:/bin TMPDIR=/private/tmp/specproof-rbs-compat-34/tmp
+Command: "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby" "/Users/luciang/.rubies/ruby-3.4.7/bin/bundle" "exec" "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby" "-Ilib" "-e" "require \"json\"; require \"minitest\"; require \"rbs\"; require \"specproof/sources/rbs\"; puts JSON.pretty_generate(ruby: RUBY_VERSION, minitest: Minitest::VERSION, rbs: RBS::VERSION, rbs_platform: Gem.loaded_specs.fetch(\"rbs\").platform.to_s, specproof_path: $LOADED_FEATURES.find { |path| path.end_with?(\"/lib/specproof/sources/rbs.rb\") })"
+Exit: 0
+{
+  "ruby": "3.4.7",
+  "minitest": "5.26.2",
+  "rbs": "4.2.0",
+  "rbs_platform": "ruby",
+  "specproof_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/rbs-scalar-integration/lib/specproof/sources/rbs.rb"
+}

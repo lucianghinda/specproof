@@ -1,0 +1,53 @@
+{
+  "package": "/private/tmp/specproof-rbs-agent-evaluations-final/specproof.gem",
+  "package_sha256": "dd34a15eeda389e3453c8cfa6544b22bbaf2d1578aded2000f7f74e2aab2694d",
+  "package_version": "0.1.0",
+  "installed_package_metadata": "/private/tmp/specproof-rbs-agent-evaluations-final/installed-package.json",
+  "runtime_probe_metadata": "/private/tmp/specproof-rbs-agent-evaluations-final/runtime-probe.json",
+  "exported_skill_source": "/private/tmp/specproof-rbs-agent-evaluations-final/exported-skills",
+  "installed_package_skill_path": "/private/tmp/specproof-rbs-agent-evaluations-final/gem-home/gems/specproof-0.1.0/skills",
+  "pilot_skill_path": "/private/tmp/specproof-rbs-real-project-pilot/branchproof/.agents/skills",
+  "exported_skill_sha256": {
+    "specproof-specify/SKILL.md": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+    "specproof-specify/references/usage.md": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+    "specproof-test-gaps/SKILL.md": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+    "specproof-test-gaps/references/usage.md": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b"
+  },
+  "installed_package_skill_sha256": {
+    "specproof-specify/SKILL.md": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+    "specproof-specify/references/usage.md": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+    "specproof-test-gaps/SKILL.md": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+    "specproof-test-gaps/references/usage.md": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b"
+  },
+  "copied_pilot_skill_sha256": {
+    "specproof-specify/SKILL.md": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+    "specproof-specify/references/usage.md": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+    "specproof-test-gaps/SKILL.md": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+    "specproof-test-gaps/references/usage.md": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b"
+  },
+  "specproof_live_worktree": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/rbs-scalar-integration",
+  "live_worktree_head": "85611af97461d1714bffffff42a4719952b9cbc4",
+  "live_worktree_public_entrypoint_sha256": "d64778b00af5c03ffbfc70b76184ba73477ddec3bd7a1bbe1c544dd9b292550c",
+  "installed_package_public_entrypoint_sha256": "d64778b00af5c03ffbfc70b76184ba73477ddec3bd7a1bbe1c544dd9b292550c",
+  "lib_file_count": 17,
+  "package_lib_file_sha256": {
+    "specproof/checker.rb": "9bae445552efe0c3a2668336f719e9a04cfd3c011739c282522424fdb0044543",
+    "specproof/cli.rb": "e09f4125e866f2d7f87ece83b682419219bc2d4f21a46e9257345152ba21adf3",
+    "specproof/collector.rb": "56f4a39e18d7730296996c3ac47ae7fb1a46257daefb03056169d60d43f425b8",
+    "specproof/composer.rb": "330ef47145abc55b18a1f6f95c0d441044af5fd2c2841fc777239738cf21544d",
+    "specproof/coverage.rb": "51e8192c6b56d7d22487d9be992b3a810f7bda7bdfd70906857a55da2eee2d24",
+    "specproof/domains.rb": "7baf62ec2be2f9c3106615de4a49f87f7901c3060f2122b784422bf58cd8c054",
+    "specproof/loader.rb": "98b90788a8ef90252f6529fc3c270ef174b8c5e49114ecebbed6d675e51eb0f7",
+    "specproof/minitest.rb": "7f3a9c1fa9ecbf5af1c41b15add759d9f3e45c755c1c34b7d373cd91ef910fa1",
+    "specproof/model.rb": "7ec1d2acf37016fa6a9834f2d20464d934e4d728fb579884fc2d0471479242af",
+    "specproof/planner.rb": "598afe1dd368847d5d4c93d4b1dc87108bf5a96bfd0eafa12a6d42ce76ed9092",
+    "specproof/report.rb": "a2f7e004c78deda25c6158c3b2fbe7497fc0380c0bcdd994f1e067b5e3e88f56",
+    "specproof/skills.rb": "7eeae2f70b6e1ee6af95883ebd4fd69557c0cfc30c05c159ffe42f7870162e6f",
+    "specproof/sources/rbs.rb": "c355d4b9d6ada6600d916b8403745677dc1e8de0a788036eb9bb464c081e09e3",
+    "specproof/sources/rbs_projector.rb": "bd5c12c0d2a02cf989496f620b196c4b95e3a024267fa94e268a705978cb5a31",
+    "specproof/type_constraints.rb": "ed166aee098ca428da27629c4bf96cf8e498528b0f841b6007c1e774490c04d8",
+    "specproof/version.rb": "770cd5018d68868abf30e1b808c02ceda3d4c866e3e0e1c8ea282f5b6e61e014",
+    "specproof.rb": "d64778b00af5c03ffbfc70b76184ba73477ddec3bd7a1bbe1c544dd9b292550c"
+  },
+  "lib_files_match_live_worktree": true
+}

@@ -45,6 +45,45 @@ bundle exec specproof plan examples/age_policy/specification.rb --format json
 
 The age example plans `0`, `1`, `17`, `18`, `119`, and `120`. The shipping example in [examples/shipping.rb](examples/shipping.rb) shows finite domains. [examples/partition_gap.rb](examples/partition_gap.rb) is intentionally incomplete and makes `check` exit with a semantic finding.
 
+## Reuse an explicit RBS signature
+
+RBS can supply supported finite scalar input types for explicitly selected
+instance-method targets. Add only behavioral bounds and partitions that the
+signature cannot express; an unrestricted `Integer` needs such a refinement.
+For a target selected from RBS, every DSL input must use a name declared in
+that signature. A mismatch reports `rbs_input_mismatch`; other DSL-only targets
+can still be supplied alongside the selected RBS targets.
+The reader supports the verified RBS `4.2.0` parser only. RBS remains an
+optional dependency, so consumers who use this workflow must add it to their
+own bundle:
+
+```ruby
+gem "rbs", "4.2.0", require: false
+```
+
+The core gem has no runtime gem dependencies. See
+[the supported integration limits](docs/rbs-implementation-status.md). For
+the opt-in adapter bundle in this checkout, the [registration example](examples/rbs_registration) combines
+`sig/registration.rbs` with a DSL age refinement. Its independent
+[eligibility rule](examples/rbs_registration/requirements.md) says an applicant
+is eligible exactly when `age >= 18` and consent is true.
+
+From this checkout, run the check and plan with the explicit file and target:
+
+```sh
+BUNDLE_GEMFILE=Gemfile.rbs bundle exec ruby -Ilib exe/specproof check examples/rbs_registration/specification.rb --rbs examples/rbs_registration/sig/registration.rbs --target 'Registration#eligible?' --format json
+BUNDLE_GEMFILE=Gemfile.rbs bundle exec ruby -Ilib exe/specproof plan examples/rbs_registration/specification.rb --rbs examples/rbs_registration/sig/registration.rbs --target 'Registration#eligible?' --format json
+```
+
+The plan contains nine marginal obligations: six age candidates and three
+consent values (`nil`, `false`, and `true`). They are not nine input
+combinations, do not specify expected results, and do not prove output
+behavior. The runnable example shows an eight-of-nine report when age 18 is
+omitted, the independent boundary assertion failing against an `age > 18`
+implementation, and a fresh complete report with the corrected `age >= 18`
+implementation. The faulty and corrected versions are separate files and each
+checkpoint runs in its own process. See the example README for exact commands.
+
 ## Observe an existing Minitest suite
 
 The optional adapter records calls to directly owned public instance methods with named required or optional positional/keyword parameters. Declare every parameter, including optional ones. It observes effective bound scalar values at method entry after Ruby applies defaults; an omitted argument and an explicitly supplied equal value exercise the same obligation. A default that raises before entry contributes no entry observation. Rest, keyword-rest, forwarding, and explicit block parameters remain unsupported.
@@ -71,7 +110,7 @@ Reports distinguish exercised, not-observed, and unknown obligations; the `missi
 
 ## Scope and limits
 
-SpecProof currently focuses on bounded integer ranges and finite primitive values. It does not analyze floats, time values, arbitrary objects, imported types, stateful or multi-call behavior, or SMT-based constraints. Specifications are trusted Ruby code; do not load declarations from untrusted sources. Collection adds an observation hook to selected application methods during the test run, so inspect the report as supporting evidence rather than as a semantic proof.
+SpecProof currently focuses on bounded integer ranges and finite primitive values. The opt-in RBS reader supports only explicitly selected scalar signatures and rejects unsupported types rather than guessing. It does not analyze floats, time values, arbitrary objects, stateful or multi-call behavior, or SMT-based constraints. Specifications are trusted Ruby code; do not load declarations from untrusted sources. Collection adds an observation hook to selected application methods during the test run, so inspect the report as supporting evidence rather than as a semantic proof.
 
 ## Agent skills
 
@@ -86,6 +125,10 @@ The exporter reports the files it writes and refuses conflicting destination con
 Try “Use specproof-specify to check whether these age partitions cover their declared range” or “Use specproof-test-gaps to find missing boundary inputs and add tests justified by the supplied eligibility rules.” See the [behavioral evaluation record](docs/evaluations/agent-skills-v0.1.md) for observed outcomes and limits.
 
 The [optional-argument pilot](docs/optional-arguments-results.md) shows adoption on PStoreLogger and the distinction between a complete scalar scenario report and incomplete full-suite collection on object payloads.
+
+The [RBS implementation results](docs/rbs-implementation-status.md) include
+the three-Ruby matrix, [six guided agent scenarios](docs/evaluations/rbs-agent-skills-v0.1.md),
+and [unchanged-signature BranchProof adoption](docs/pilots/rbs-v0.1/README.md).
 
 ## Development
 

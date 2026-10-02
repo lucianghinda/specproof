@@ -1,0 +1,1218 @@
+{
+  "final_actor_archives": {
+    "01-finite": {
+      "archive_sha256_matches": true,
+      "manifest_entry_count": 12,
+      "actual_tar_regular_file_count": 12,
+      "missing_entries": [],
+      "unexpected_entries": [],
+      "member_hash_mismatches": []
+    },
+    "02-refinement": {
+      "archive_sha256_matches": true,
+      "manifest_entry_count": 13,
+      "actual_tar_regular_file_count": 13,
+      "missing_entries": [],
+      "unexpected_entries": [],
+      "member_hash_mismatches": []
+    },
+    "03-conflict": {
+      "archive_sha256_matches": true,
+      "manifest_entry_count": 11,
+      "actual_tar_regular_file_count": 11,
+      "missing_entries": [],
+      "unexpected_entries": [],
+      "member_hash_mismatches": []
+    },
+    "04-unsupported": {
+      "archive_sha256_matches": true,
+      "manifest_entry_count": 10,
+      "actual_tar_regular_file_count": 10,
+      "missing_entries": [],
+      "unexpected_entries": [],
+      "member_hash_mismatches": []
+    },
+    "05-stale": {
+      "archive_sha256_matches": true,
+      "manifest_entry_count": 21,
+      "actual_tar_regular_file_count": 21,
+      "missing_entries": [],
+      "unexpected_entries": [],
+      "member_hash_mismatches": []
+    },
+    "06-boundary": {
+      "archive_sha256_matches": true,
+      "manifest_entry_count": 23,
+      "actual_tar_regular_file_count": 23,
+      "missing_entries": [],
+      "unexpected_entries": [],
+      "member_hash_mismatches": []
+    }
+  },
+  "initial_fixtures_archive": {
+    "archive_sha256_matches": true,
+    "manifest_entry_count": 29,
+    "actual_tar_regular_file_count": 29,
+    "missing_entries": [],
+    "unexpected_entries": [],
+    "member_hash_mismatches": []
+  },
+  "pilot_archive": {
+    "archive_sha256_matches": true,
+    "manifest_entry_count": 98,
+    "actual_tar_regular_file_count": 98,
+    "missing_entries": [],
+    "unexpected_entries": [],
+    "member_hash_mismatches": []
+  },
+  "pre_binding_pass_archives": {
+    "01-finite": {
+      "archive_sha256_matches": true,
+      "manifest_entry_count": 12,
+      "actual_tar_regular_file_count": 12,
+      "missing_entries": [],
+      "unexpected_entries": [],
+      "member_hash_mismatches": []
+    },
+    "02-refinement": {
+      "archive_sha256_matches": true,
+      "manifest_entry_count": 20,
+      "actual_tar_regular_file_count": 20,
+      "missing_entries": [],
+      "unexpected_entries": [],
+      "member_hash_mismatches": []
+    },
+    "03-conflict": {
+      "archive_sha256_matches": true,
+      "manifest_entry_count": 11,
+      "actual_tar_regular_file_count": 11,
+      "missing_entries": [],
+      "unexpected_entries": [],
+      "member_hash_mismatches": []
+    },
+    "04-unsupported": {
+      "archive_sha256_matches": true,
+      "manifest_entry_count": 10,
+      "actual_tar_regular_file_count": 10,
+      "missing_entries": [],
+      "unexpected_entries": [],
+      "member_hash_mismatches": []
+    },
+    "05-stale": {
+      "archive_sha256_matches": true,
+      "manifest_entry_count": 21,
+      "actual_tar_regular_file_count": 21,
+      "missing_entries": [],
+      "unexpected_entries": [],
+      "member_hash_mismatches": []
+    },
+    "06-boundary": {
+      "archive_sha256_matches": true,
+      "manifest_entry_count": 23,
+      "actual_tar_regular_file_count": 23,
+      "missing_entries": [],
+      "unexpected_entries": [],
+      "member_hash_mismatches": []
+    }
+  },
+  "scenario_evidence": {
+    "01-finite": {
+      "report_paths": [
+        "reports/aftercheck.json",
+        "reports/check.json"
+      ],
+      "plan_contract_digest": null,
+      "plan_obligation_ids": [],
+      "runtime_reports": {},
+      "runtime_reports_match_plan_ids_and_digest": {},
+      "capture_exitstatuses": {
+        "logs/aftercheck.json": 0,
+        "logs/check.json": 0
+      },
+      "capture_records": {
+        "logs/aftercheck.json": {
+          "exitstatus": 0,
+          "command": [
+            "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+            "/private/tmp/specproof-rbs-agent-evaluations-final/gem-home/bin/specproof",
+            "plan",
+            "--rbs",
+            "sig/project.rbs",
+            "--target",
+            "Feature#enabled?",
+            "--format",
+            "json"
+          ],
+          "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"plan\",\"errors\":[],\"contract_digest\":\"9d61aada14d5d9099e962658eb1fd43615964b091547faf52ef9050f27220b86\",\"criterion\":\"input-basics-v1\",\"obligations\":[{\"id\":\"f76b2ab8ea9e07e381720027311f872cb71b2cca4da0d25e44bb413924872da9\",\"target\":\"Feature#enabled?\",\"input\":\"enabled\",\"value\":{\"kind\":\"boolean\",\"value\":false},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/01-finite/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]},{\"id\":\"c4648fd52b959579c07acf857c238300a8b2911c47a0e388bdcb9f254bb0992f\",\"target\":\"Feature#enabled?\",\"input\":\"enabled\",\"value\":{\"kind\":\"boolean\",\"value\":true},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/01-finite/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]}]}\n",
+          "stderr": ""
+        },
+        "logs/check.json": {
+          "exitstatus": 0,
+          "command": [
+            "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+            "/private/tmp/specproof-rbs-agent-evaluations-final/gem-home/bin/specproof",
+            "check",
+            "--rbs",
+            "sig/project.rbs",
+            "--target",
+            "Feature#enabled?",
+            "--format",
+            "json"
+          ],
+          "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"check\",\"errors\":[],\"contract_digest\":\"9d61aada14d5d9099e962658eb1fd43615964b091547faf52ef9050f27220b86\",\"findings\":[]}\n",
+          "stderr": ""
+        }
+      }
+    },
+    "02-refinement": {
+      "report_paths": [
+        "reports/check.json",
+        "reports/plan.json"
+      ],
+      "plan_contract_digest": "03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e",
+      "plan_obligation_ids": [
+        "a0ce72a452fa1da6205d97037b74d3276eb94a62b6b6511712e4233348929148",
+        "8dc293fbbfb65d10023df9e5a33360c390cafa797af5867edc968016162ca10f",
+        "783dfd341bc46233cf3000c2c92b0d2465de4bda222ce08efc6f0251c0f1645e",
+        "f34bb1fa38998396c7ddf02a20ba326da6c30131d696dabee7e7f6acff06daa8",
+        "f756e72b34bdebd754f2c4a48c5ba7ec0dbcb327b495f1fb1a9dea0eb25583ac",
+        "f39bb78ecf44b538080246ff42cca8dcdbf6c9ac21439805a4a147233a030c2e",
+        "23826b3017000bf39e3283ebee68dc8be7dae0abbc5f5924b779954c87587ac8",
+        "54dcd861f11245f8e11881860573f98171c8c62039bc66e22589e63857e978d5",
+        "8ee02c02edee4ad2a3213061a1c021b094e7c5fce6b9999a543705688aaa71ba"
+      ],
+      "runtime_reports": {},
+      "runtime_reports_match_plan_ids_and_digest": {},
+      "capture_exitstatuses": {
+        "logs/check.json": 0,
+        "logs/plan.json": 0
+      },
+      "capture_records": {
+        "logs/check.json": {
+          "exitstatus": 0,
+          "command": [
+            "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+            "/private/tmp/specproof-rbs-agent-evaluations-final/gem-home/bin/specproof",
+            "check",
+            "specifications/registration.rb",
+            "--rbs",
+            "sig/project.rbs",
+            "--target",
+            "Registration#eligible?",
+            "--format",
+            "json"
+          ],
+          "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"check\",\"errors\":[],\"contract_digest\":\"03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e\",\"findings\":[]}\n",
+          "stderr": ""
+        },
+        "logs/plan.json": {
+          "exitstatus": 0,
+          "command": [
+            "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+            "/private/tmp/specproof-rbs-agent-evaluations-final/gem-home/bin/specproof",
+            "plan",
+            "specifications/registration.rb",
+            "--rbs",
+            "sig/project.rbs",
+            "--target",
+            "Registration#eligible?",
+            "--format",
+            "json"
+          ],
+          "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"plan\",\"errors\":[],\"contract_digest\":\"03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e\",\"criterion\":\"input-basics-v1\",\"obligations\":[{\"id\":\"a0ce72a452fa1da6205d97037b74d3276eb94a62b6b6511712e4233348929148\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"0\"},\"reasons\":[\"input lower endpoint\",\"minor lower endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/02-refinement/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/02-refinement/specifications/registration.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/02-refinement/specifications/registration.rb\",\"line\":7,\"kind\":\"dsl\"}]},{\"id\":\"8dc293fbbfb65d10023df9e5a33360c390cafa797af5867edc968016162ca10f\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"1\"},\"reasons\":[\"input lower neighbor\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/02-refinement/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/02-refinement/specifications/registration.rb\",\"line\":6,\"kind\":\"dsl\"}]},{\"id\":\"783dfd341bc46233cf3000c2c92b0d2465de4bda222ce08efc6f0251c0f1645e\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"17\"},\"reasons\":[\"minor upper endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/02-refinement/specifications/registration.rb\",\"line\":7,\"kind\":\"dsl\"}]},{\"id\":\"f34bb1fa38998396c7ddf02a20ba326da6c30131d696dabee7e7f6acff06daa8\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"18\"},\"reasons\":[\"adult lower endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/02-refinement/specifications/registration.rb\",\"line\":8,\"kind\":\"dsl\"}]},{\"id\":\"f756e72b34bdebd754f2c4a48c5ba7ec0dbcb327b495f1fb1a9dea0eb25583ac\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"119\"},\"reasons\":[\"input upper neighbor\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/02-refinement/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/02-refinement/specifications/registration.rb\",\"line\":6,\"kind\":\"dsl\"}]},{\"id\":\"f39bb78ecf44b538080246ff42cca8dcdbf6c9ac21439805a4a147233a030c2e\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"120\"},\"reasons\":[\"input upper endpoint\",\"adult upper endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/02-refinement/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/02-refinement/specifications/registration.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/02-refinement/specifications/registration.rb\",\"line\":8,\"kind\":\"dsl\"}]},{\"id\":\"23826b3017000bf39e3283ebee68dc8be7dae0abbc5f5924b779954c87587ac8\",\"target\":\"Registration#eligible?\",\"input\":\"consent\",\"value\":{\"kind\":\"nil\",\"value\":null},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/02-refinement/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]},{\"id\":\"54dcd861f11245f8e11881860573f98171c8c62039bc66e22589e63857e978d5\",\"target\":\"Registration#eligible?\",\"input\":\"consent\",\"value\":{\"kind\":\"boolean\",\"value\":false},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/02-refinement/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]},{\"id\":\"8ee02c02edee4ad2a3213061a1c021b094e7c5fce6b9999a543705688aaa71ba\",\"target\":\"Registration#eligible?\",\"input\":\"consent\",\"value\":{\"kind\":\"boolean\",\"value\":true},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/02-refinement/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]}]}\n",
+          "stderr": ""
+        }
+      }
+    },
+    "03-conflict": {
+      "report_paths": [
+        "reports/check.json"
+      ],
+      "plan_contract_digest": null,
+      "plan_obligation_ids": [],
+      "runtime_reports": {},
+      "runtime_reports_match_plan_ids_and_digest": {},
+      "capture_exitstatuses": {
+        "logs/check.json": 1
+      },
+      "capture_records": {
+        "logs/check.json": {
+          "exitstatus": 1,
+          "command": [
+            "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+            "/private/tmp/specproof-rbs-agent-evaluations-final/gem-home/bin/specproof",
+            "check",
+            "specifications/feature.rb",
+            "--rbs",
+            "sig/project.rbs",
+            "--target",
+            "Feature#enabled?",
+            "--format",
+            "json"
+          ],
+          "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"check\",\"errors\":[],\"contract_digest\":\"71b36d3d0323686b580327e63ee26d978baf25d6fb568c743ecea6335bd79592\",\"findings\":[{\"code\":\"type_domain_conflict\",\"target\":\"Feature#enabled?\",\"input\":\"enabled\",\"witness\":{\"kind\":\"symbol\",\"value\":\"unexpected\"},\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/03-conflict/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/03-conflict/specifications/feature.rb\",\"line\":2,\"kind\":\"dsl\"}]}]}\n",
+          "stderr": ""
+        }
+      }
+    },
+    "04-unsupported": {
+      "report_paths": [
+        "reports/check.json"
+      ],
+      "plan_contract_digest": null,
+      "plan_obligation_ids": [],
+      "runtime_reports": {},
+      "runtime_reports_match_plan_ids_and_digest": {},
+      "capture_exitstatuses": {
+        "logs/check.json": 2
+      },
+      "capture_records": {
+        "logs/check.json": {
+          "exitstatus": 2,
+          "command": [
+            "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+            "/private/tmp/specproof-rbs-agent-evaluations-final/gem-home/bin/specproof",
+            "check",
+            "--rbs",
+            "sig/project.rbs",
+            "--target",
+            "Feature#enabled?",
+            "--format",
+            "json"
+          ],
+          "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"check\",\"errors\":[{\"code\":\"unsupported_rbs_type\",\"message\":\"unsupported RBS input type ::String: Feature#enabled? / input enabled\",\"source\":{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/04-unsupported/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}}]}\n",
+          "stderr": ""
+        }
+      }
+    },
+    "05-stale": {
+      "report_paths": [
+        "reports/baseline.json",
+        "reports/check.json",
+        "reports/fresh.json",
+        "reports/plan.json"
+      ],
+      "plan_contract_digest": "03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e",
+      "plan_obligation_ids": [
+        "a0ce72a452fa1da6205d97037b74d3276eb94a62b6b6511712e4233348929148",
+        "8dc293fbbfb65d10023df9e5a33360c390cafa797af5867edc968016162ca10f",
+        "783dfd341bc46233cf3000c2c92b0d2465de4bda222ce08efc6f0251c0f1645e",
+        "f34bb1fa38998396c7ddf02a20ba326da6c30131d696dabee7e7f6acff06daa8",
+        "f756e72b34bdebd754f2c4a48c5ba7ec0dbcb327b495f1fb1a9dea0eb25583ac",
+        "f39bb78ecf44b538080246ff42cca8dcdbf6c9ac21439805a4a147233a030c2e",
+        "23826b3017000bf39e3283ebee68dc8be7dae0abbc5f5924b779954c87587ac8",
+        "54dcd861f11245f8e11881860573f98171c8c62039bc66e22589e63857e978d5",
+        "8ee02c02edee4ad2a3213061a1c021b094e7c5fce6b9999a543705688aaa71ba"
+      ],
+      "runtime_reports": {
+        "reports/baseline.json": {
+          "run_id": "d5a7eb71-adaf-4af7-8f37-6271c9b634dd",
+          "contract_digest": "03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e",
+          "tests_passed": true,
+          "completion": "completed",
+          "integrity": true,
+          "exercised_count": 9,
+          "obligation_count": 9,
+          "missing_count": 0,
+          "unknown_count": 0,
+          "obligation_id_count": 9,
+          "obligation_ids": [
+            "a0ce72a452fa1da6205d97037b74d3276eb94a62b6b6511712e4233348929148",
+            "8dc293fbbfb65d10023df9e5a33360c390cafa797af5867edc968016162ca10f",
+            "783dfd341bc46233cf3000c2c92b0d2465de4bda222ce08efc6f0251c0f1645e",
+            "f34bb1fa38998396c7ddf02a20ba326da6c30131d696dabee7e7f6acff06daa8",
+            "f756e72b34bdebd754f2c4a48c5ba7ec0dbcb327b495f1fb1a9dea0eb25583ac",
+            "f39bb78ecf44b538080246ff42cca8dcdbf6c9ac21439805a4a147233a030c2e",
+            "23826b3017000bf39e3283ebee68dc8be7dae0abbc5f5924b779954c87587ac8",
+            "54dcd861f11245f8e11881860573f98171c8c62039bc66e22589e63857e978d5",
+            "8ee02c02edee4ad2a3213061a1c021b094e7c5fce6b9999a543705688aaa71ba"
+          ],
+          "scope": {
+            "ruby_engine": "ruby",
+            "pid": 67646,
+            "thread": 120,
+            "window": "minitest_run",
+            "method_identity": "direct_owner_definition",
+            "input_semantics": "effective_bound_values",
+            "argument_presence": "not_observed",
+            "targets": [
+              "Registration#eligible?"
+            ],
+            "declaration_sources": {
+              "specifications": [
+                "/private/tmp/specproof-rbs-agent-evaluations-final/05-stale/specifications/registration.rb"
+              ],
+              "rbs": [
+                "/private/tmp/specproof-rbs-agent-evaluations-final/05-stale/sig/project.rbs"
+              ],
+              "targets": [
+                "Registration#eligible?"
+              ]
+            },
+            "arguments": [],
+            "filter": null,
+            "exclude": null
+          }
+        },
+        "reports/fresh.json": {
+          "run_id": "1b68410a-942f-4368-a2b9-f020b16b6035",
+          "contract_digest": "03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e",
+          "tests_passed": false,
+          "completion": "completed",
+          "integrity": true,
+          "exercised_count": 5,
+          "obligation_count": 9,
+          "missing_count": 4,
+          "unknown_count": 0,
+          "obligation_id_count": 9,
+          "obligation_ids": [
+            "a0ce72a452fa1da6205d97037b74d3276eb94a62b6b6511712e4233348929148",
+            "8dc293fbbfb65d10023df9e5a33360c390cafa797af5867edc968016162ca10f",
+            "783dfd341bc46233cf3000c2c92b0d2465de4bda222ce08efc6f0251c0f1645e",
+            "f34bb1fa38998396c7ddf02a20ba326da6c30131d696dabee7e7f6acff06daa8",
+            "f756e72b34bdebd754f2c4a48c5ba7ec0dbcb327b495f1fb1a9dea0eb25583ac",
+            "f39bb78ecf44b538080246ff42cca8dcdbf6c9ac21439805a4a147233a030c2e",
+            "23826b3017000bf39e3283ebee68dc8be7dae0abbc5f5924b779954c87587ac8",
+            "54dcd861f11245f8e11881860573f98171c8c62039bc66e22589e63857e978d5",
+            "8ee02c02edee4ad2a3213061a1c021b094e7c5fce6b9999a543705688aaa71ba"
+          ],
+          "scope": {
+            "ruby_engine": "ruby",
+            "pid": 88771,
+            "thread": 120,
+            "window": "minitest_run",
+            "method_identity": "direct_owner_definition",
+            "input_semantics": "effective_bound_values",
+            "argument_presence": "not_observed",
+            "targets": [
+              "Registration#eligible?"
+            ],
+            "declaration_sources": {
+              "specifications": [
+                "/private/tmp/specproof-rbs-agent-evaluations-final/05-stale/specifications/registration.rb"
+              ],
+              "rbs": [
+                "/private/tmp/specproof-rbs-agent-evaluations-final/05-stale/sig/project.rbs"
+              ],
+              "targets": [
+                "Registration#eligible?"
+              ]
+            },
+            "arguments": [],
+            "filter": null,
+            "exclude": null
+          }
+        }
+      },
+      "runtime_reports_match_plan_ids_and_digest": {
+        "reports/baseline.json": true,
+        "reports/fresh.json": true
+      },
+      "capture_exitstatuses": {
+        "logs/check.json": 0,
+        "logs/fresh-run.json": 1,
+        "logs/plan.json": 0,
+        "logs/supplied-baseline.json": 0
+      },
+      "capture_records": {
+        "logs/check.json": {
+          "exitstatus": 0,
+          "command": [
+            "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+            "/private/tmp/specproof-rbs-agent-evaluations-final/gem-home/bin/specproof",
+            "check",
+            "specifications/registration.rb",
+            "--rbs",
+            "sig/project.rbs",
+            "--target",
+            "Registration#eligible?",
+            "--format",
+            "json"
+          ],
+          "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"check\",\"errors\":[],\"contract_digest\":\"03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e\",\"findings\":[]}\n",
+          "stderr": ""
+        },
+        "logs/fresh-run.json": {
+          "exitstatus": 1,
+          "command": [
+            "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+            "run.rb"
+          ],
+          "stdout": "Run options: --seed 37468\n\n# Running:\n\nF\n\nFinished in 0.000503s, 1988.0716 runs/s, 7952.2865 assertions/s.\n\n  1) Failure:\nRegistrationTest#test_supplied_examples [test/registration_test.rb:7]:\nExpected false to be truthy.\n\n1 runs, 4 assertions, 1 failures, 0 errors, 0 skips\nSpecProof coverage run 1b68410a-942f-4368-a2b9-f020b16b6035: 5/9 obligations exercised, 4 missing; missing values: Registration#eligible?/age=119, Registration#eligible?/age=120, Registration#eligible?/consent=nil, Registration#eligible?/consent=false (completed)\n",
+          "stderr": ""
+        },
+        "logs/plan.json": {
+          "exitstatus": 0,
+          "command": [
+            "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+            "/private/tmp/specproof-rbs-agent-evaluations-final/gem-home/bin/specproof",
+            "plan",
+            "specifications/registration.rb",
+            "--rbs",
+            "sig/project.rbs",
+            "--target",
+            "Registration#eligible?",
+            "--format",
+            "json"
+          ],
+          "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"plan\",\"errors\":[],\"contract_digest\":\"03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e\",\"criterion\":\"input-basics-v1\",\"obligations\":[{\"id\":\"a0ce72a452fa1da6205d97037b74d3276eb94a62b6b6511712e4233348929148\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"0\"},\"reasons\":[\"input lower endpoint\",\"minor lower endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/05-stale/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/05-stale/specifications/registration.rb\",\"line\":2,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/05-stale/specifications/registration.rb\",\"line\":3,\"kind\":\"dsl\"}]},{\"id\":\"8dc293fbbfb65d10023df9e5a33360c390cafa797af5867edc968016162ca10f\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"1\"},\"reasons\":[\"input lower neighbor\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/05-stale/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/05-stale/specifications/registration.rb\",\"line\":2,\"kind\":\"dsl\"}]},{\"id\":\"783dfd341bc46233cf3000c2c92b0d2465de4bda222ce08efc6f0251c0f1645e\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"17\"},\"reasons\":[\"minor upper endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/05-stale/specifications/registration.rb\",\"line\":3,\"kind\":\"dsl\"}]},{\"id\":\"f34bb1fa38998396c7ddf02a20ba326da6c30131d696dabee7e7f6acff06daa8\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"18\"},\"reasons\":[\"adult lower endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/05-stale/specifications/registration.rb\",\"line\":4,\"kind\":\"dsl\"}]},{\"id\":\"f756e72b34bdebd754f2c4a48c5ba7ec0dbcb327b495f1fb1a9dea0eb25583ac\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"119\"},\"reasons\":[\"input upper neighbor\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/05-stale/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/05-stale/specifications/registration.rb\",\"line\":2,\"kind\":\"dsl\"}]},{\"id\":\"f39bb78ecf44b538080246ff42cca8dcdbf6c9ac21439805a4a147233a030c2e\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"120\"},\"reasons\":[\"input upper endpoint\",\"adult upper endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/05-stale/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/05-stale/specifications/registration.rb\",\"line\":2,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/05-stale/specifications/registration.rb\",\"line\":4,\"kind\":\"dsl\"}]},{\"id\":\"23826b3017000bf39e3283ebee68dc8be7dae0abbc5f5924b779954c87587ac8\",\"target\":\"Registration#eligible?\",\"input\":\"consent\",\"value\":{\"kind\":\"nil\",\"value\":null},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/05-stale/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]},{\"id\":\"54dcd861f11245f8e11881860573f98171c8c62039bc66e22589e63857e978d5\",\"target\":\"Registration#eligible?\",\"input\":\"consent\",\"value\":{\"kind\":\"boolean\",\"value\":false},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/05-stale/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]},{\"id\":\"8ee02c02edee4ad2a3213061a1c021b094e7c5fce6b9999a543705688aaa71ba\",\"target\":\"Registration#eligible?\",\"input\":\"consent\",\"value\":{\"kind\":\"boolean\",\"value\":true},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/05-stale/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]}]}\n",
+          "stderr": ""
+        },
+        "logs/supplied-baseline.json": {
+          "exitstatus": 0,
+          "command": [
+            "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+            "run.rb"
+          ],
+          "stdout": "Run options: --seed 46299\n\n# Running:\n\n.\n\nFinished in 0.000431s, 2320.1855 runs/s, 18561.4840 assertions/s.\n\n1 runs, 8 assertions, 0 failures, 0 errors, 0 skips\nSpecProof coverage run d5a7eb71-adaf-4af7-8f37-6271c9b634dd: 9/9 obligations exercised (completed)\n",
+          "stderr": ""
+        }
+      }
+    },
+    "06-boundary": {
+      "report_paths": [
+        "reports/baseline.json",
+        "reports/check.json",
+        "reports/final.json",
+        "reports/plan.json",
+        "reports/red.json"
+      ],
+      "plan_contract_digest": "03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e",
+      "plan_obligation_ids": [
+        "a0ce72a452fa1da6205d97037b74d3276eb94a62b6b6511712e4233348929148",
+        "8dc293fbbfb65d10023df9e5a33360c390cafa797af5867edc968016162ca10f",
+        "783dfd341bc46233cf3000c2c92b0d2465de4bda222ce08efc6f0251c0f1645e",
+        "f34bb1fa38998396c7ddf02a20ba326da6c30131d696dabee7e7f6acff06daa8",
+        "f756e72b34bdebd754f2c4a48c5ba7ec0dbcb327b495f1fb1a9dea0eb25583ac",
+        "f39bb78ecf44b538080246ff42cca8dcdbf6c9ac21439805a4a147233a030c2e",
+        "23826b3017000bf39e3283ebee68dc8be7dae0abbc5f5924b779954c87587ac8",
+        "54dcd861f11245f8e11881860573f98171c8c62039bc66e22589e63857e978d5",
+        "8ee02c02edee4ad2a3213061a1c021b094e7c5fce6b9999a543705688aaa71ba"
+      ],
+      "runtime_reports": {
+        "reports/baseline.json": {
+          "run_id": "7449733b-085d-4bc2-81a5-6bc0d61af414",
+          "contract_digest": "03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e",
+          "tests_passed": true,
+          "completion": "completed",
+          "integrity": true,
+          "exercised_count": 8,
+          "obligation_count": 9,
+          "missing_count": 1,
+          "unknown_count": 0,
+          "obligation_id_count": 9,
+          "obligation_ids": [
+            "a0ce72a452fa1da6205d97037b74d3276eb94a62b6b6511712e4233348929148",
+            "8dc293fbbfb65d10023df9e5a33360c390cafa797af5867edc968016162ca10f",
+            "783dfd341bc46233cf3000c2c92b0d2465de4bda222ce08efc6f0251c0f1645e",
+            "f34bb1fa38998396c7ddf02a20ba326da6c30131d696dabee7e7f6acff06daa8",
+            "f756e72b34bdebd754f2c4a48c5ba7ec0dbcb327b495f1fb1a9dea0eb25583ac",
+            "f39bb78ecf44b538080246ff42cca8dcdbf6c9ac21439805a4a147233a030c2e",
+            "23826b3017000bf39e3283ebee68dc8be7dae0abbc5f5924b779954c87587ac8",
+            "54dcd861f11245f8e11881860573f98171c8c62039bc66e22589e63857e978d5",
+            "8ee02c02edee4ad2a3213061a1c021b094e7c5fce6b9999a543705688aaa71ba"
+          ],
+          "scope": {
+            "ruby_engine": "ruby",
+            "pid": 67778,
+            "thread": 120,
+            "window": "minitest_run",
+            "method_identity": "direct_owner_definition",
+            "input_semantics": "effective_bound_values",
+            "argument_presence": "not_observed",
+            "targets": [
+              "Registration#eligible?"
+            ],
+            "declaration_sources": {
+              "specifications": [
+                "/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/specifications/registration.rb"
+              ],
+              "rbs": [
+                "/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/sig/project.rbs"
+              ],
+              "targets": [
+                "Registration#eligible?"
+              ]
+            },
+            "arguments": [],
+            "filter": null,
+            "exclude": null
+          }
+        },
+        "reports/final.json": {
+          "run_id": "34da9e91-2eef-4283-b86b-6266dbcd61cb",
+          "contract_digest": "03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e",
+          "tests_passed": true,
+          "completion": "completed",
+          "integrity": true,
+          "exercised_count": 9,
+          "obligation_count": 9,
+          "missing_count": 0,
+          "unknown_count": 0,
+          "obligation_id_count": 9,
+          "obligation_ids": [
+            "a0ce72a452fa1da6205d97037b74d3276eb94a62b6b6511712e4233348929148",
+            "8dc293fbbfb65d10023df9e5a33360c390cafa797af5867edc968016162ca10f",
+            "783dfd341bc46233cf3000c2c92b0d2465de4bda222ce08efc6f0251c0f1645e",
+            "f34bb1fa38998396c7ddf02a20ba326da6c30131d696dabee7e7f6acff06daa8",
+            "f756e72b34bdebd754f2c4a48c5ba7ec0dbcb327b495f1fb1a9dea0eb25583ac",
+            "f39bb78ecf44b538080246ff42cca8dcdbf6c9ac21439805a4a147233a030c2e",
+            "23826b3017000bf39e3283ebee68dc8be7dae0abbc5f5924b779954c87587ac8",
+            "54dcd861f11245f8e11881860573f98171c8c62039bc66e22589e63857e978d5",
+            "8ee02c02edee4ad2a3213061a1c021b094e7c5fce6b9999a543705688aaa71ba"
+          ],
+          "scope": {
+            "ruby_engine": "ruby",
+            "pid": 95012,
+            "thread": 120,
+            "window": "minitest_run",
+            "method_identity": "direct_owner_definition",
+            "input_semantics": "effective_bound_values",
+            "argument_presence": "not_observed",
+            "targets": [
+              "Registration#eligible?"
+            ],
+            "declaration_sources": {
+              "specifications": [
+                "/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/specifications/registration.rb"
+              ],
+              "rbs": [
+                "/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/sig/project.rbs"
+              ],
+              "targets": [
+                "Registration#eligible?"
+              ]
+            },
+            "arguments": [],
+            "filter": null,
+            "exclude": null
+          }
+        },
+        "reports/red.json": {
+          "run_id": "a4bd94cf-319a-4ea0-b4d0-8b8f50fa080a",
+          "contract_digest": "03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e",
+          "tests_passed": false,
+          "completion": "completed",
+          "integrity": true,
+          "exercised_count": 5,
+          "obligation_count": 9,
+          "missing_count": 4,
+          "unknown_count": 0,
+          "obligation_id_count": 9,
+          "obligation_ids": [
+            "a0ce72a452fa1da6205d97037b74d3276eb94a62b6b6511712e4233348929148",
+            "8dc293fbbfb65d10023df9e5a33360c390cafa797af5867edc968016162ca10f",
+            "783dfd341bc46233cf3000c2c92b0d2465de4bda222ce08efc6f0251c0f1645e",
+            "f34bb1fa38998396c7ddf02a20ba326da6c30131d696dabee7e7f6acff06daa8",
+            "f756e72b34bdebd754f2c4a48c5ba7ec0dbcb327b495f1fb1a9dea0eb25583ac",
+            "f39bb78ecf44b538080246ff42cca8dcdbf6c9ac21439805a4a147233a030c2e",
+            "23826b3017000bf39e3283ebee68dc8be7dae0abbc5f5924b779954c87587ac8",
+            "54dcd861f11245f8e11881860573f98171c8c62039bc66e22589e63857e978d5",
+            "8ee02c02edee4ad2a3213061a1c021b094e7c5fce6b9999a543705688aaa71ba"
+          ],
+          "scope": {
+            "ruby_engine": "ruby",
+            "pid": 93657,
+            "thread": 120,
+            "window": "minitest_run",
+            "method_identity": "direct_owner_definition",
+            "input_semantics": "effective_bound_values",
+            "argument_presence": "not_observed",
+            "targets": [
+              "Registration#eligible?"
+            ],
+            "declaration_sources": {
+              "specifications": [
+                "/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/specifications/registration.rb"
+              ],
+              "rbs": [
+                "/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/sig/project.rbs"
+              ],
+              "targets": [
+                "Registration#eligible?"
+              ]
+            },
+            "arguments": [],
+            "filter": null,
+            "exclude": null
+          }
+        }
+      },
+      "runtime_reports_match_plan_ids_and_digest": {
+        "reports/baseline.json": true,
+        "reports/final.json": true,
+        "reports/red.json": true
+      },
+      "capture_exitstatuses": {
+        "logs/check.json": 0,
+        "logs/final-run.json": 0,
+        "logs/plan.json": 0,
+        "logs/red-run.json": 1,
+        "logs/supplied-baseline.json": 0
+      },
+      "capture_records": {
+        "logs/check.json": {
+          "exitstatus": 0,
+          "command": [
+            "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+            "/private/tmp/specproof-rbs-agent-evaluations-final/gem-home/bin/specproof",
+            "check",
+            "specifications/registration.rb",
+            "--rbs",
+            "sig/project.rbs",
+            "--target",
+            "Registration#eligible?",
+            "--format",
+            "json"
+          ],
+          "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"check\",\"errors\":[],\"contract_digest\":\"03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e\",\"findings\":[]}\n",
+          "stderr": ""
+        },
+        "logs/final-run.json": {
+          "exitstatus": 0,
+          "command": [
+            "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+            "run.rb"
+          ],
+          "stdout": "Run options: --seed 12745\n\n# Running:\n\n.\n\nFinished in 0.000554s, 1805.0541 runs/s, 14440.4325 assertions/s.\n\n1 runs, 8 assertions, 0 failures, 0 errors, 0 skips\nSpecProof coverage run 34da9e91-2eef-4283-b86b-6266dbcd61cb: 9/9 obligations exercised (completed)\n",
+          "stderr": ""
+        },
+        "logs/plan.json": {
+          "exitstatus": 0,
+          "command": [
+            "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+            "/private/tmp/specproof-rbs-agent-evaluations-final/gem-home/bin/specproof",
+            "plan",
+            "specifications/registration.rb",
+            "--rbs",
+            "sig/project.rbs",
+            "--target",
+            "Registration#eligible?",
+            "--format",
+            "json"
+          ],
+          "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"plan\",\"errors\":[],\"contract_digest\":\"03501b28c964e6614a246f1520ecdb367e9d94f021ec3e7ea7b1dfc2f52dad3e\",\"criterion\":\"input-basics-v1\",\"obligations\":[{\"id\":\"a0ce72a452fa1da6205d97037b74d3276eb94a62b6b6511712e4233348929148\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"0\"},\"reasons\":[\"input lower endpoint\",\"minor lower endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/specifications/registration.rb\",\"line\":2,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/specifications/registration.rb\",\"line\":3,\"kind\":\"dsl\"}]},{\"id\":\"8dc293fbbfb65d10023df9e5a33360c390cafa797af5867edc968016162ca10f\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"1\"},\"reasons\":[\"input lower neighbor\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/specifications/registration.rb\",\"line\":2,\"kind\":\"dsl\"}]},{\"id\":\"783dfd341bc46233cf3000c2c92b0d2465de4bda222ce08efc6f0251c0f1645e\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"17\"},\"reasons\":[\"minor upper endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/specifications/registration.rb\",\"line\":3,\"kind\":\"dsl\"}]},{\"id\":\"f34bb1fa38998396c7ddf02a20ba326da6c30131d696dabee7e7f6acff06daa8\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"18\"},\"reasons\":[\"adult lower endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/specifications/registration.rb\",\"line\":4,\"kind\":\"dsl\"}]},{\"id\":\"f756e72b34bdebd754f2c4a48c5ba7ec0dbcb327b495f1fb1a9dea0eb25583ac\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"119\"},\"reasons\":[\"input upper neighbor\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/specifications/registration.rb\",\"line\":2,\"kind\":\"dsl\"}]},{\"id\":\"f39bb78ecf44b538080246ff42cca8dcdbf6c9ac21439805a4a147233a030c2e\",\"target\":\"Registration#eligible?\",\"input\":\"age\",\"value\":{\"kind\":\"integer\",\"value\":\"120\"},\"reasons\":[\"input upper endpoint\",\"adult upper endpoint\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/specifications/registration.rb\",\"line\":2,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/specifications/registration.rb\",\"line\":4,\"kind\":\"dsl\"}]},{\"id\":\"23826b3017000bf39e3283ebee68dc8be7dae0abbc5f5924b779954c87587ac8\",\"target\":\"Registration#eligible?\",\"input\":\"consent\",\"value\":{\"kind\":\"nil\",\"value\":null},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]},{\"id\":\"54dcd861f11245f8e11881860573f98171c8c62039bc66e22589e63857e978d5\",\"target\":\"Registration#eligible?\",\"input\":\"consent\",\"value\":{\"kind\":\"boolean\",\"value\":false},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]},{\"id\":\"8ee02c02edee4ad2a3213061a1c021b094e7c5fce6b9999a543705688aaa71ba\",\"target\":\"Registration#eligible?\",\"input\":\"consent\",\"value\":{\"kind\":\"boolean\",\"value\":true},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-agent-evaluations-final/06-boundary/sig/project.rbs\",\"line\":2,\"kind\":\"rbs\"}]}]}\n",
+          "stderr": ""
+        },
+        "logs/red-run.json": {
+          "exitstatus": 1,
+          "command": [
+            "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+            "run.rb"
+          ],
+          "stdout": "Run options: --seed 304\n\n# Running:\n\nF\n\nFinished in 0.000461s, 2169.1973 runs/s, 8676.7893 assertions/s.\n\n  1) Failure:\nRegistrationTest#test_supplied_examples [test/registration_test.rb:7]:\nobligation f34bb1fa38998396c7ddf02a20ba326da6c30131d696dabee7e7f6acff06daa8; requirements.md: eligibility starts at age 18 when consent is true\n\n1 runs, 4 assertions, 1 failures, 0 errors, 0 skips\nSpecProof coverage run a4bd94cf-319a-4ea0-b4d0-8b8f50fa080a: 5/9 obligations exercised, 4 missing; missing values: Registration#eligible?/age=119, Registration#eligible?/age=120, Registration#eligible?/consent=nil, Registration#eligible?/consent=false (completed)\n",
+          "stderr": ""
+        },
+        "logs/supplied-baseline.json": {
+          "exitstatus": 0,
+          "command": [
+            "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+            "run.rb"
+          ],
+          "stdout": "Run options: --seed 39789\n\n# Running:\n\n.\n\nFinished in 0.000536s, 1865.6716 runs/s, 13059.7013 assertions/s.\n\n1 runs, 7 assertions, 0 failures, 0 errors, 0 skips\nSpecProof coverage run 7449733b-085d-4bc2-81a5-6bc0d61af414: 8/9 obligations exercised, 1 missing; missing values: Registration#eligible?/age=18 (completed)\n",
+          "stderr": ""
+        }
+      }
+    }
+  },
+  "installed_gem": {
+    "package_sha256_recorded": "dd34a15eeda389e3453c8cfa6544b22bbaf2d1578aded2000f7f74e2aab2694d",
+    "package_sha256_actual": "dd34a15eeda389e3453c8cfa6544b22bbaf2d1578aded2000f7f74e2aab2694d",
+    "package_sha256_matches": true,
+    "gem_install_path": "/private/tmp/specproof-rbs-agent-evaluations-final/gem-home/gems/specproof-0.1.0/lib",
+    "current_library_file_count": 17,
+    "installed_library_file_count": 17,
+    "library_files": {
+      "specproof.rb": {
+        "source_sha256": "d64778b00af5c03ffbfc70b76184ba73477ddec3bd7a1bbe1c544dd9b292550c",
+        "installed_sha256": "d64778b00af5c03ffbfc70b76184ba73477ddec3bd7a1bbe1c544dd9b292550c"
+      },
+      "specproof/checker.rb": {
+        "source_sha256": "9bae445552efe0c3a2668336f719e9a04cfd3c011739c282522424fdb0044543",
+        "installed_sha256": "9bae445552efe0c3a2668336f719e9a04cfd3c011739c282522424fdb0044543"
+      },
+      "specproof/cli.rb": {
+        "source_sha256": "e09f4125e866f2d7f87ece83b682419219bc2d4f21a46e9257345152ba21adf3",
+        "installed_sha256": "e09f4125e866f2d7f87ece83b682419219bc2d4f21a46e9257345152ba21adf3"
+      },
+      "specproof/collector.rb": {
+        "source_sha256": "56f4a39e18d7730296996c3ac47ae7fb1a46257daefb03056169d60d43f425b8",
+        "installed_sha256": "56f4a39e18d7730296996c3ac47ae7fb1a46257daefb03056169d60d43f425b8"
+      },
+      "specproof/composer.rb": {
+        "source_sha256": "330ef47145abc55b18a1f6f95c0d441044af5fd2c2841fc777239738cf21544d",
+        "installed_sha256": "330ef47145abc55b18a1f6f95c0d441044af5fd2c2841fc777239738cf21544d"
+      },
+      "specproof/coverage.rb": {
+        "source_sha256": "51e8192c6b56d7d22487d9be992b3a810f7bda7bdfd70906857a55da2eee2d24",
+        "installed_sha256": "51e8192c6b56d7d22487d9be992b3a810f7bda7bdfd70906857a55da2eee2d24"
+      },
+      "specproof/domains.rb": {
+        "source_sha256": "7baf62ec2be2f9c3106615de4a49f87f7901c3060f2122b784422bf58cd8c054",
+        "installed_sha256": "7baf62ec2be2f9c3106615de4a49f87f7901c3060f2122b784422bf58cd8c054"
+      },
+      "specproof/loader.rb": {
+        "source_sha256": "98b90788a8ef90252f6529fc3c270ef174b8c5e49114ecebbed6d675e51eb0f7",
+        "installed_sha256": "98b90788a8ef90252f6529fc3c270ef174b8c5e49114ecebbed6d675e51eb0f7"
+      },
+      "specproof/minitest.rb": {
+        "source_sha256": "7f3a9c1fa9ecbf5af1c41b15add759d9f3e45c755c1c34b7d373cd91ef910fa1",
+        "installed_sha256": "7f3a9c1fa9ecbf5af1c41b15add759d9f3e45c755c1c34b7d373cd91ef910fa1"
+      },
+      "specproof/model.rb": {
+        "source_sha256": "7ec1d2acf37016fa6a9834f2d20464d934e4d728fb579884fc2d0471479242af",
+        "installed_sha256": "7ec1d2acf37016fa6a9834f2d20464d934e4d728fb579884fc2d0471479242af"
+      },
+      "specproof/planner.rb": {
+        "source_sha256": "598afe1dd368847d5d4c93d4b1dc87108bf5a96bfd0eafa12a6d42ce76ed9092",
+        "installed_sha256": "598afe1dd368847d5d4c93d4b1dc87108bf5a96bfd0eafa12a6d42ce76ed9092"
+      },
+      "specproof/report.rb": {
+        "source_sha256": "a2f7e004c78deda25c6158c3b2fbe7497fc0380c0bcdd994f1e067b5e3e88f56",
+        "installed_sha256": "a2f7e004c78deda25c6158c3b2fbe7497fc0380c0bcdd994f1e067b5e3e88f56"
+      },
+      "specproof/skills.rb": {
+        "source_sha256": "7eeae2f70b6e1ee6af95883ebd4fd69557c0cfc30c05c159ffe42f7870162e6f",
+        "installed_sha256": "7eeae2f70b6e1ee6af95883ebd4fd69557c0cfc30c05c159ffe42f7870162e6f"
+      },
+      "specproof/sources/rbs.rb": {
+        "source_sha256": "c355d4b9d6ada6600d916b8403745677dc1e8de0a788036eb9bb464c081e09e3",
+        "installed_sha256": "c355d4b9d6ada6600d916b8403745677dc1e8de0a788036eb9bb464c081e09e3"
+      },
+      "specproof/sources/rbs_projector.rb": {
+        "source_sha256": "bd5c12c0d2a02cf989496f620b196c4b95e3a024267fa94e268a705978cb5a31",
+        "installed_sha256": "bd5c12c0d2a02cf989496f620b196c4b95e3a024267fa94e268a705978cb5a31"
+      },
+      "specproof/type_constraints.rb": {
+        "source_sha256": "ed166aee098ca428da27629c4bf96cf8e498528b0f841b6007c1e774490c04d8",
+        "installed_sha256": "ed166aee098ca428da27629c4bf96cf8e498528b0f841b6007c1e774490c04d8"
+      },
+      "specproof/version.rb": {
+        "source_sha256": "770cd5018d68868abf30e1b808c02ceda3d4c866e3e0e1c8ea282f5b6e61e014",
+        "installed_sha256": "770cd5018d68868abf30e1b808c02ceda3d4c866e3e0e1c8ea282f5b6e61e014"
+      }
+    },
+    "all_current_library_files_match_installed": true,
+    "installed_package_sha256": "dd34a15eeda389e3453c8cfa6544b22bbaf2d1578aded2000f7f74e2aab2694d",
+    "installed_package_sha256_actual": "dd34a15eeda389e3453c8cfa6544b22bbaf2d1578aded2000f7f74e2aab2694d",
+    "installed_package_sha256_matches": true
+  },
+  "skills": {
+    "specproof-specify/SKILL.md": {
+      "current_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+      "installed_package_export_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+      "pilot_export_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+      "pilot_installed_package_skill_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+      "current_matches_installed_package_export": true,
+      "current_matches_pilot_hashes": true
+    },
+    "specproof-specify/references/usage.md": {
+      "current_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+      "installed_package_export_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+      "pilot_export_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+      "pilot_installed_package_skill_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+      "current_matches_installed_package_export": true,
+      "current_matches_pilot_hashes": true
+    },
+    "specproof-test-gaps/SKILL.md": {
+      "current_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+      "installed_package_export_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+      "pilot_export_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+      "pilot_installed_package_skill_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+      "current_matches_installed_package_export": true,
+      "current_matches_pilot_hashes": true
+    },
+    "specproof-test-gaps/references/usage.md": {
+      "current_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+      "installed_package_export_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+      "pilot_export_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+      "pilot_installed_package_skill_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+      "current_matches_installed_package_export": true,
+      "current_matches_pilot_hashes": true
+    }
+  },
+  "published_package_hashes": [
+    {
+      "name": "rbs",
+      "version": "4.2.0",
+      "published_sha256": "51f7b886dcc05bc09e10b901daa6a81829f6adc03101d6ca9ea4aac6103e0674",
+      "cached_sha256": "51f7b886dcc05bc09e10b901daa6a81829f6adc03101d6ca9ea4aac6103e0674",
+      "actual_cache_sha256_by_path": {
+        "/private/tmp/specproof-rbs-compat-33/vendor/cache/rbs-4.2.0.gem": "51f7b886dcc05bc09e10b901daa6a81829f6adc03101d6ca9ea4aac6103e0674",
+        "/private/tmp/specproof-rbs-compat-34/vendor/cache/rbs-4.2.0.gem": "51f7b886dcc05bc09e10b901daa6a81829f6adc03101d6ca9ea4aac6103e0674",
+        "/private/tmp/specproof-rbs-compat-40/vendor/cache/rbs-4.2.0.gem": "51f7b886dcc05bc09e10b901daa6a81829f6adc03101d6ca9ea4aac6103e0674"
+      },
+      "all_actual_cache_hashes_match": true
+    },
+    {
+      "name": "prism",
+      "version": "1.9.0",
+      "published_sha256": "7b530c6a9f92c24300014919c9dcbc055bf4cdf51ec30aed099b06cd6674ef85",
+      "cached_sha256": "7b530c6a9f92c24300014919c9dcbc055bf4cdf51ec30aed099b06cd6674ef85",
+      "actual_cache_sha256_by_path": {
+        "/private/tmp/specproof-rbs-compat-33/vendor/cache/prism-1.9.0.gem": "7b530c6a9f92c24300014919c9dcbc055bf4cdf51ec30aed099b06cd6674ef85",
+        "/private/tmp/specproof-rbs-compat-34/vendor/cache/prism-1.9.0.gem": "7b530c6a9f92c24300014919c9dcbc055bf4cdf51ec30aed099b06cd6674ef85",
+        "/private/tmp/specproof-rbs-compat-40/vendor/cache/prism-1.9.0.gem": "7b530c6a9f92c24300014919c9dcbc055bf4cdf51ec30aed099b06cd6674ef85"
+      },
+      "all_actual_cache_hashes_match": true
+    },
+    {
+      "name": "logger",
+      "version": "1.7.0",
+      "published_sha256": "196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203",
+      "cached_sha256": "196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203",
+      "actual_cache_sha256_by_path": {
+        "/private/tmp/specproof-rbs-compat-33/vendor/cache/logger-1.7.0.gem": "196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203",
+        "/private/tmp/specproof-rbs-compat-34/vendor/cache/logger-1.7.0.gem": "196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203",
+        "/private/tmp/specproof-rbs-compat-40/vendor/cache/logger-1.7.0.gem": "196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203"
+      },
+      "all_actual_cache_hashes_match": true
+    },
+    {
+      "name": "tsort",
+      "version": "0.2.0",
+      "published_sha256": "9650a793f6859a43b6641671278f79cfead60ac714148aabe4e3f0060480089f",
+      "cached_sha256": "9650a793f6859a43b6641671278f79cfead60ac714148aabe4e3f0060480089f",
+      "actual_cache_sha256_by_path": {
+        "/private/tmp/specproof-rbs-compat-33/vendor/cache/tsort-0.2.0.gem": "9650a793f6859a43b6641671278f79cfead60ac714148aabe4e3f0060480089f",
+        "/private/tmp/specproof-rbs-compat-34/vendor/cache/tsort-0.2.0.gem": "9650a793f6859a43b6641671278f79cfead60ac714148aabe4e3f0060480089f",
+        "/private/tmp/specproof-rbs-compat-40/vendor/cache/tsort-0.2.0.gem": "9650a793f6859a43b6641671278f79cfead60ac714148aabe4e3f0060480089f"
+      },
+      "all_actual_cache_hashes_match": true
+    }
+  ],
+  "pilot_source": {
+    "original_commit": "85611af97461d1714bffffff42a4719952b9cbc4",
+    "manifest_file_count": 59,
+    "files_matching_original_checkout": 59,
+    "mismatches_or_missing": [],
+    "original_project_head": "85611af97461d1714bffffff42a4719952b9cbc4",
+    "original_project_head_matches": true,
+    "original_project_worktree_clean": true,
+    "original_specproof_checkout_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees",
+    "original_specproof_checkout_clean": true
+  },
+  "pilot_runtime": {
+    "fresh_run_id": "56cbf645-432f-441d-b1b1-a6a6f5ac5270",
+    "completion": "completed",
+    "integrity": true,
+    "tests_passed": true,
+    "obligations": null,
+    "exercised": null,
+    "missing": null,
+    "original_commit": null,
+    "source_manifest_entries": 59,
+    "snapshot_files_match_manifest": null,
+    "original_files_match_manifest": null,
+    "installed_gem_package_sha256": "dd34a15eeda389e3453c8cfa6544b22bbaf2d1578aded2000f7f74e2aab2694d",
+    "live_and_installed_entrypoint_sha256": "d64778b00af5c03ffbfc70b76184ba73477ddec3bd7a1bbe1c544dd9b292550c"
+  },
+  "final_matrix": {
+    "33": {
+      "ruby": "3.3.6",
+      "rbs": "4.2.0",
+      "rbs_platform": "ruby",
+      "minitest": "5.26.2",
+      "runtime_source_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/rbs-scalar-integration/lib/specproof/sources/rbs.rb",
+      "specproof_entrypoint_sha256": "d64778b00af5c03ffbfc70b76184ba73477ddec3bd7a1bbe1c544dd9b292550c",
+      "suites": {
+        "core": {
+          "path": "docs/pilots/rbs-v0.1/matrix/33/FINAL-core.log",
+          "tests": 156,
+          "assertions": 786,
+          "failures": 0,
+          "errors": 0,
+          "skips": 0,
+          "exitstatus": 0,
+          "command": "\"/Users/luciang/.rubies/ruby-3.3.6/bin/ruby\" \"bin/test\"",
+          "explicit_test_files": []
+        },
+        "rbs-optional": {
+          "path": "docs/pilots/rbs-v0.1/matrix/33/FINAL-rbs-optional.log",
+          "tests": 39,
+          "assertions": 396,
+          "failures": 0,
+          "errors": 0,
+          "skips": 0,
+          "exitstatus": 0,
+          "command": "\"/Users/luciang/.rubies/ruby-3.3.6/bin/ruby\" \"bin/test\" \"test/rbs/source_test.rb\" \"test/rbs/workflow_test.rb\"",
+          "explicit_test_files": [
+            "test/rbs/source_test.rb",
+            "test/rbs/workflow_test.rb"
+          ]
+        }
+      }
+    },
+    "34": {
+      "ruby": "3.4.7",
+      "rbs": "4.2.0",
+      "rbs_platform": "ruby",
+      "minitest": "5.26.2",
+      "runtime_source_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/rbs-scalar-integration/lib/specproof/sources/rbs.rb",
+      "specproof_entrypoint_sha256": "d64778b00af5c03ffbfc70b76184ba73477ddec3bd7a1bbe1c544dd9b292550c",
+      "suites": {
+        "core": {
+          "path": "docs/pilots/rbs-v0.1/matrix/34/FINAL-core.log",
+          "tests": 156,
+          "assertions": 786,
+          "failures": 0,
+          "errors": 0,
+          "skips": 0,
+          "exitstatus": 0,
+          "command": "\"/Users/luciang/.rubies/ruby-3.4.7/bin/ruby\" \"bin/test\"",
+          "explicit_test_files": []
+        },
+        "rbs-optional": {
+          "path": "docs/pilots/rbs-v0.1/matrix/34/FINAL-rbs-optional.log",
+          "tests": 39,
+          "assertions": 396,
+          "failures": 0,
+          "errors": 0,
+          "skips": 0,
+          "exitstatus": 0,
+          "command": "\"/Users/luciang/.rubies/ruby-3.4.7/bin/ruby\" \"bin/test\" \"test/rbs/source_test.rb\" \"test/rbs/workflow_test.rb\"",
+          "explicit_test_files": [
+            "test/rbs/source_test.rb",
+            "test/rbs/workflow_test.rb"
+          ]
+        }
+      }
+    },
+    "40": {
+      "ruby": "4.0.1",
+      "rbs": "4.2.0",
+      "rbs_platform": "ruby",
+      "minitest": "5.26.2",
+      "runtime_source_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/rbs-scalar-integration/lib/specproof/sources/rbs.rb",
+      "specproof_entrypoint_sha256": "d64778b00af5c03ffbfc70b76184ba73477ddec3bd7a1bbe1c544dd9b292550c",
+      "suites": {
+        "core": {
+          "path": "docs/pilots/rbs-v0.1/matrix/40/FINAL-core.log",
+          "tests": 156,
+          "assertions": 786,
+          "failures": 0,
+          "errors": 0,
+          "skips": 0,
+          "exitstatus": 0,
+          "command": "\"/Users/luciang/.rubies/ruby-4.0.1/bin/ruby\" \"bin/test\"",
+          "explicit_test_files": []
+        },
+        "rbs-optional": {
+          "path": "docs/pilots/rbs-v0.1/matrix/40/FINAL-rbs-optional.log",
+          "tests": 39,
+          "assertions": 396,
+          "failures": 0,
+          "errors": 0,
+          "skips": 0,
+          "exitstatus": 0,
+          "command": "\"/Users/luciang/.rubies/ruby-4.0.1/bin/ruby\" \"bin/test\" \"test/rbs/source_test.rb\" \"test/rbs/workflow_test.rb\"",
+          "explicit_test_files": [
+            "test/rbs/source_test.rb",
+            "test/rbs/workflow_test.rb"
+          ]
+        }
+      }
+    }
+  },
+  "historical_original_hash_map": {
+    "source_file": "/private/tmp/specproof-rbs-historical-artifacts-before.json",
+    "path_count": 125,
+    "missing_paths": [],
+    "changed_hashes": []
+  },
+  "scenario_skill_copies": {
+    "01-finite": {
+      "specproof-specify/SKILL.md": {
+        "archive_path": ".agents/skills/specproof-specify/SKILL.md",
+        "archive_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+        "current_source_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+        "matches": true
+      },
+      "specproof-specify/references/usage.md": {
+        "archive_path": ".agents/skills/specproof-specify/references/usage.md",
+        "archive_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+        "current_source_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+        "matches": true
+      },
+      "specproof-test-gaps/SKILL.md": {
+        "archive_path": ".agents/skills/specproof-test-gaps/SKILL.md",
+        "archive_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+        "current_source_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+        "matches": true
+      },
+      "specproof-test-gaps/references/usage.md": {
+        "archive_path": ".agents/skills/specproof-test-gaps/references/usage.md",
+        "archive_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+        "current_source_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+        "matches": true
+      }
+    },
+    "02-refinement": {
+      "specproof-specify/SKILL.md": {
+        "archive_path": ".agents/skills/specproof-specify/SKILL.md",
+        "archive_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+        "current_source_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+        "matches": true
+      },
+      "specproof-specify/references/usage.md": {
+        "archive_path": ".agents/skills/specproof-specify/references/usage.md",
+        "archive_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+        "current_source_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+        "matches": true
+      },
+      "specproof-test-gaps/SKILL.md": {
+        "archive_path": ".agents/skills/specproof-test-gaps/SKILL.md",
+        "archive_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+        "current_source_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+        "matches": true
+      },
+      "specproof-test-gaps/references/usage.md": {
+        "archive_path": ".agents/skills/specproof-test-gaps/references/usage.md",
+        "archive_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+        "current_source_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+        "matches": true
+      }
+    },
+    "03-conflict": {
+      "specproof-specify/SKILL.md": {
+        "archive_path": ".agents/skills/specproof-specify/SKILL.md",
+        "archive_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+        "current_source_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+        "matches": true
+      },
+      "specproof-specify/references/usage.md": {
+        "archive_path": ".agents/skills/specproof-specify/references/usage.md",
+        "archive_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+        "current_source_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+        "matches": true
+      },
+      "specproof-test-gaps/SKILL.md": {
+        "archive_path": ".agents/skills/specproof-test-gaps/SKILL.md",
+        "archive_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+        "current_source_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+        "matches": true
+      },
+      "specproof-test-gaps/references/usage.md": {
+        "archive_path": ".agents/skills/specproof-test-gaps/references/usage.md",
+        "archive_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+        "current_source_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+        "matches": true
+      }
+    },
+    "04-unsupported": {
+      "specproof-specify/SKILL.md": {
+        "archive_path": ".agents/skills/specproof-specify/SKILL.md",
+        "archive_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+        "current_source_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+        "matches": true
+      },
+      "specproof-specify/references/usage.md": {
+        "archive_path": ".agents/skills/specproof-specify/references/usage.md",
+        "archive_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+        "current_source_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+        "matches": true
+      },
+      "specproof-test-gaps/SKILL.md": {
+        "archive_path": ".agents/skills/specproof-test-gaps/SKILL.md",
+        "archive_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+        "current_source_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+        "matches": true
+      },
+      "specproof-test-gaps/references/usage.md": {
+        "archive_path": ".agents/skills/specproof-test-gaps/references/usage.md",
+        "archive_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+        "current_source_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+        "matches": true
+      }
+    },
+    "05-stale": {
+      "specproof-specify/SKILL.md": {
+        "archive_path": ".agents/skills/specproof-specify/SKILL.md",
+        "archive_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+        "current_source_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+        "matches": true
+      },
+      "specproof-specify/references/usage.md": {
+        "archive_path": ".agents/skills/specproof-specify/references/usage.md",
+        "archive_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+        "current_source_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+        "matches": true
+      },
+      "specproof-test-gaps/SKILL.md": {
+        "archive_path": ".agents/skills/specproof-test-gaps/SKILL.md",
+        "archive_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+        "current_source_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+        "matches": true
+      },
+      "specproof-test-gaps/references/usage.md": {
+        "archive_path": ".agents/skills/specproof-test-gaps/references/usage.md",
+        "archive_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+        "current_source_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+        "matches": true
+      }
+    },
+    "06-boundary": {
+      "specproof-specify/SKILL.md": {
+        "archive_path": ".agents/skills/specproof-specify/SKILL.md",
+        "archive_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+        "current_source_sha256": "8a475879140f00850bf7abac748a600863ac93e75241a03a1b66bc3383f40130",
+        "matches": true
+      },
+      "specproof-specify/references/usage.md": {
+        "archive_path": ".agents/skills/specproof-specify/references/usage.md",
+        "archive_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+        "current_source_sha256": "498136aa1ce5628ed6f9c091c6a929a697541ac27db83ac9637921373cc3b8f6",
+        "matches": true
+      },
+      "specproof-test-gaps/SKILL.md": {
+        "archive_path": ".agents/skills/specproof-test-gaps/SKILL.md",
+        "archive_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+        "current_source_sha256": "26ed4be79156d985d70ada4db5f26ec9e2b1695fd41a3001fb5ff4d3a37147de",
+        "matches": true
+      },
+      "specproof-test-gaps/references/usage.md": {
+        "archive_path": ".agents/skills/specproof-test-gaps/references/usage.md",
+        "archive_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+        "current_source_sha256": "59ea0440701e7f764212bd85672f810c5308695ce338a1fb7a260d08a15cbf3b",
+        "matches": true
+      }
+    }
+  },
+  "coordinator_requests": {
+    "record_kind": "coordinator_record_of_successful_native_spawn_requests",
+    "settings": {
+      "agent_type": "default",
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high",
+      "fork_turns": "none"
+    },
+    "tasks": [
+      {
+        "task_name": "luna_rbs_final_finite",
+        "workspace": "01-finite"
+      },
+      {
+        "task_name": "luna_rbs_final_refinement",
+        "workspace": "02-refinement"
+      },
+      {
+        "task_name": "luna_rbs_final_conflict",
+        "workspace": "03-conflict"
+      },
+      {
+        "task_name": "luna_rbs_final_unsupported",
+        "workspace": "04-unsupported"
+      },
+      {
+        "task_name": "luna_rbs_final_stale",
+        "workspace": "05-stale"
+      },
+      {
+        "task_name": "luna_rbs_final_boundary",
+        "workspace": "06-boundary"
+      }
+    ],
+    "limitation": "This records requested routing and context settings. It is not independent server attestation of the model used, and no complete native-agent transcript is retained.",
+    "phase": "fresh_repeat_after_final_name_binding_fix_c0d32ad"
+  }
+}

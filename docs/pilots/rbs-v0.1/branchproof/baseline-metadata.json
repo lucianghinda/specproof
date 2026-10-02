@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "original_commit": "85611af97461d1714bffffff42a4719952b9cbc4",
+  "snapshot_source_files": 59,
+  "verified_source_hashes": 59,
+  "copied_source_hashes_match_manifest_and_original_clean_commit": true,
+  "original_worktree_clean": true,
+  "generated_specproof_cache_absent_before_run": true,
+  "cwd": "/private/tmp/specproof-rbs-real-project-pilot/branchproof",
+  "command": "ruby -S bundle exec ruby -Iproject/test project/test/test_comparison_report.rb",
+  "environment": {
+    "GEM_HOME": "<unset>",
+    "GEM_PATH": "<unset>",
+    "RUBYOPT": "<unset>",
+    "RUBYLIB": "<unset>",
+    "BUNDLE_GEMFILE": "<unset>",
+    "BUNDLE_PATH": "<unset>",
+    "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+    "SPECPROOF_ROOT": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/rbs-scalar-integration"
+  },
+  "started_at_utc": "2026-10-02T16:30:47Z",
+  "ended_at_utc": "2026-10-02T16:30:47Z",
+  "exit_status": 0,
+  "stdout": "Run options: --seed 17340\n\n# Running:\n\n..\n\nFinished in 0.000548s, 3649.6344 runs/s, 14598.5375 assertions/s.\n\n2 runs, 8 assertions, 0 failures, 0 errors, 0 skips",
+  "stderr": "",
+  "log": "logs/baseline-comparison-report.log",
+  "copied_source_hashes_verified_after_baseline": true,
+  "generated_specproof_cache_absent_after_run": true,
+  "baseline_result": "2 runs, 8 assertions, 0 failures, 0 errors, 0 skips"
+}

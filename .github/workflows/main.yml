@@ -32,3 +32,29 @@ jobs:
           bundler-cache: true
       - name: Run the default task
         run: bundle exec rake
+
+  rbs:
+    runs-on: ubuntu-latest
+    name: RBS ${{ matrix.ruby }}
+    env:
+      BUNDLE_GEMFILE: Gemfile.rbs
+    strategy:
+      matrix:
+        ruby:
+          - '3.3'
+          - '3.4'
+          - '4.0'
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Run RBS adapter tests
+        run: bundle exec ruby bin/test test/rbs/source_test.rb test/rbs/workflow_test.rb
+      - name: Validate API signatures
+        run: bundle exec rbs -I sig validate

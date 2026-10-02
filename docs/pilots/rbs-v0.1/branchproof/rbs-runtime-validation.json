@@ -1,0 +1,85 @@
+{
+  "package_sha256": "dd34a15eeda389e3453c8cfa6544b22bbaf2d1578aded2000f7f74e2aab2694d",
+  "live_worktree_head": "85611af97461d1714bffffff42a4719952b9cbc4",
+  "live_worktree_public_entrypoint_sha256": "d64778b00af5c03ffbfc70b76184ba73477ddec3bd7a1bbe1c544dd9b292550c",
+  "installed_package_public_entrypoint_sha256": "d64778b00af5c03ffbfc70b76184ba73477ddec3bd7a1bbe1c544dd9b292550c",
+  "package_lib_file_count": 17,
+  "package_lib_matches_live_worktree": true,
+  "skills_match_export_and_installed_package": true,
+  "skill_count": 4,
+  "branchproof_commit": "85611af97461d1714bffffff42a4719952b9cbc4",
+  "branchproof_worktree_clean": true,
+  "source_manifest_sha256": "69b8f8688372b469ec9770576650e3c6d07d8f0893df7e10689ead3f0bbded55",
+  "source_manifest_entries": 59,
+  "snapshot_hashes_match_manifest": true,
+  "original_hashes_match_manifest": true,
+  "test_file": "project/test/test_comparison_report.rb",
+  "test_scope": "focused file only: 2 runs, 8 assertions; not the full project suite",
+  "target": "Branchproof::ComparisonReport#exit_code",
+  "specifications": [],
+  "run_id": "56cbf645-432f-441d-b1b1-a6a6f5ac5270",
+  "contract_digest": "d0f6f2f3dda709bfeba00b3b10e458e62995ee24a0e1f716b14024e3f110fc10",
+  "obligation_ids": [
+    "1a4851e3489c5ee8800a578a0ab1d4697ac4e692d5215c5ebc667f9040fa446b",
+    "2c391c03cf1537c94e21d7936bde6066e1d637524e0fc2c915e743210eb94258"
+  ],
+  "completion": "completed",
+  "integrity": true,
+  "tests_passed": true,
+  "obligation_count": 2,
+  "exercised_count": 2,
+  "missing_count": 0,
+  "unknown_count": 0,
+  "runtime_declaration_sources": {
+    "specifications": [],
+    "rbs": [
+      "/private/tmp/specproof-rbs-real-project-pilot/branchproof/project/sig/branchproof.rbs"
+    ],
+    "targets": [
+      "Branchproof::ComparisonReport#exit_code"
+    ]
+  },
+  "runtime_arguments": [],
+  "runtime_filter": null,
+  "runtime_exclude": null,
+  "package_paths_and_hashes": [
+    {
+      "name": "specproof",
+      "version": "0.1.0",
+      "full_gem_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/rbs-scalar-integration",
+      "full_require_paths": [
+        "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/rbs-scalar-integration/lib"
+      ],
+      "loaded_from": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/rbs-scalar-integration/specproof.gemspec",
+      "loaded_from_sha256": "1f84213111a79ef178081e25e998a2f1f7b256ceeabee1a178eb3d442e8fa743",
+      "entrypoint": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/rbs-scalar-integration/lib/specproof.rb",
+      "entrypoint_sha256": "d64778b00af5c03ffbfc70b76184ba73477ddec3bd7a1bbe1c544dd9b292550c"
+    },
+    {
+      "name": "rbs",
+      "version": "4.2.0",
+      "full_gem_path": "/private/tmp/specproof-rbs-real-project-pilot/branchproof/vendor/bundle/ruby/4.0.0/gems/rbs-4.2.0",
+      "full_require_paths": [
+        "/private/tmp/specproof-rbs-real-project-pilot/branchproof/vendor/bundle/ruby/4.0.0/gems/rbs-4.2.0/lib",
+        "/private/tmp/specproof-rbs-real-project-pilot/branchproof/vendor/bundle/ruby/4.0.0/extensions/arm64-darwin-25/4.0.0-static/rbs-4.2.0"
+      ],
+      "loaded_from": "/private/tmp/specproof-rbs-real-project-pilot/branchproof/vendor/bundle/ruby/4.0.0/specifications/rbs-4.2.0.gemspec",
+      "loaded_from_sha256": "7dff914e4fadb291f76c4c2ad0da36ec199598424ebe634f73c5c775133771f4",
+      "entrypoint": "/private/tmp/specproof-rbs-real-project-pilot/branchproof/vendor/bundle/ruby/4.0.0/gems/rbs-4.2.0/lib/rbs.rb",
+      "entrypoint_sha256": "4b2194198fb00ee0709eaceff589029cd8aaaa8c89f9a381ff7fcf7620014f02"
+    },
+    {
+      "name": "minitest",
+      "version": "5.26.2",
+      "full_gem_path": "/private/tmp/specproof-rbs-real-project-pilot/branchproof/vendor/bundle/ruby/4.0.0/gems/minitest-5.26.2",
+      "full_require_paths": [
+        "/private/tmp/specproof-rbs-real-project-pilot/branchproof/vendor/bundle/ruby/4.0.0/gems/minitest-5.26.2/lib"
+      ],
+      "loaded_from": "/private/tmp/specproof-rbs-real-project-pilot/branchproof/vendor/bundle/ruby/4.0.0/specifications/minitest-5.26.2.gemspec",
+      "loaded_from_sha256": "693fc9ba74c65f51a48bdd08cbf77b02832f4b64c01efcf30776c024739f0205",
+      "entrypoint": "/private/tmp/specproof-rbs-real-project-pilot/branchproof/vendor/bundle/ruby/4.0.0/gems/minitest-5.26.2/lib/minitest.rb",
+      "entrypoint_sha256": "5829795ede57e738e3ee6e5f1b1dfc0c1348e09c76607266d991a63a0119336e"
+    }
+  ],
+  "generated_vendor_cache_absent": true
+}

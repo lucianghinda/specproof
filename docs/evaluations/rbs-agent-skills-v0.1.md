@@ -38,3 +38,7 @@ Each scenario directory contains the actor's actual `RESULT.md`, a `workspace.ta
 The command recorder and setup/audit scripts are retained as `.rb.txt` files in [the artifact directory](artifacts/rbs-v0.1). Absolute paths in command records describe the original run. To rerun tools, extract a workspace into a scratch directory and use a normal Ruby environment containing this SpecProof implementation, RBS 4.2.0, and Minitest 5.26.2. Check and plan with its recorded explicit DSL paths, `--rbs sig/project.rbs`, and selected `--target`. Runtime fixtures use `REPORT_NAME=new-report.json ruby run.rb`. Reconstruct the original boundary workspace from the initial-fixture archive for a new RED/fix sequence; the final boundary workspace already contains the fix. Do not overwrite retained reports when reproducing.
 
 The audit checks CLI exit codes and diagnostics, preserved signatures/requirements, imported consent provenance, runtime IDs/digests/scope, fresh UUIDs, RED/green results, unchanged stale-case code/tests, and exact skill/library hashes. A separate review audits these records. Neither the root audit nor six guided tasks establish general agent reliability, client skill discovery, full-project coverage, or arbitrary Ruby behavior conformance.
+
+The [independent final audit](../pilots/rbs-v0.1/independent-final-audit.json)
+also checked actual tar members against their manifests, both evaluation
+passes, the final installed package, and unchanged historical archives.

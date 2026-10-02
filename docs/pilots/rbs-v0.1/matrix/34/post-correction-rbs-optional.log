@@ -1,0 +1,15 @@
+Started: 2026-10-02T18:07:35Z
+Ruby: 3.4.7 (/Users/luciang/.rubies/ruby-3.4.7/bin/ruby)
+CWD: /Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/rbs-scalar-integration
+Environment: env -i BUNDLE_GEMFILE=/private/tmp/specproof-rbs-compat-34/Gemfile BUNDLE_PATH=/private/tmp/specproof-rbs-compat-34/vendor/bundle HOME=/private/tmp/specproof-rbs-compat-34/home PATH=/Users/luciang/.rubies/ruby-3.4.7/bin:/usr/bin:/bin TMPDIR=/private/tmp/specproof-rbs-compat-34/tmp
+Command: "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby" "bin/test" "test/rbs/source_test.rb" "test/rbs/workflow_test.rb"
+Exit: 0
+Run options: --seed 5981
+
+# Running:
+
+....................................
+
+Finished in 10.178306s, 3.5369 runs/s, 34.6816 assertions/s.
+
+36 runs, 353 assertions, 0 failures, 0 errors, 0 skips

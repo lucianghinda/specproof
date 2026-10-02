@@ -1,0 +1,38 @@
+[
+  {
+    "name": "rbs",
+    "version": "4.2.0",
+    "cached_sha256": "51f7b886dcc05bc09e10b901daa6a81829f6adc03101d6ca9ea4aac6103e0674",
+    "sha256": "51f7b886dcc05bc09e10b901daa6a81829f6adc03101d6ca9ea4aac6103e0674",
+    "ruby": ">= 3.3",
+    "dependencies": [
+      "logger (>= 0)",
+      "prism (>= 1.6.0)",
+      "tsort (>= 0)"
+    ]
+  },
+  {
+    "name": "prism",
+    "version": "1.9.0",
+    "cached_sha256": "7b530c6a9f92c24300014919c9dcbc055bf4cdf51ec30aed099b06cd6674ef85",
+    "sha256": "7b530c6a9f92c24300014919c9dcbc055bf4cdf51ec30aed099b06cd6674ef85",
+    "ruby": ">= 2.7.0",
+    "dependencies": []
+  },
+  {
+    "name": "logger",
+    "version": "1.7.0",
+    "cached_sha256": "196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203",
+    "sha256": "196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203",
+    "ruby": ">= 2.5.0",
+    "dependencies": []
+  },
+  {
+    "name": "tsort",
+    "version": "0.2.0",
+    "cached_sha256": "9650a793f6859a43b6641671278f79cfead60ac714148aabe4e3f0060480089f",
+    "sha256": "9650a793f6859a43b6641671278f79cfead60ac714148aabe4e3f0060480089f",
+    "ruby": ">= 2.3.0",
+    "dependencies": []
+  }
+]

@@ -1,0 +1,16 @@
+Started: 2026-10-02T18:31:27Z
+CWD: /Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/rbs-scalar-integration
+Environment: env -i BUNDLE_GEMFILE=/private/tmp/specproof-rbs-compat-40/Gemfile BUNDLE_PATH=/private/tmp/specproof-rbs-compat-40/vendor/bundle HOME=/private/tmp/specproof-rbs-compat-40/home PATH=/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin TMPDIR=/private/tmp/specproof-rbs-compat-40/tmp
+Command: "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby" "/Users/luciang/.rubies/ruby-4.0.1/bin/bundle" "exec" "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby" "-Ilib" "-e" "require \"json\"; require \"digest\"; require \"minitest\"; require \"rbs\"; require \"specproof/sources/rbs\"; files = ARGV.to_h { |path| [path, Digest::SHA256.hexdigest(File.binread(path))] }; puts JSON.pretty_generate(ruby: RUBY_VERSION, minitest: Minitest::VERSION, rbs: RBS::VERSION, rbs_platform: Gem.loaded_specs.fetch(\"rbs\").platform.to_s, source_path: $LOADED_FEATURES.find { |path| path.end_with?(\"/lib/specproof/sources/rbs.rb\") }, file_sha256: files)" "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/rbs-scalar-integration/lib/specproof.rb" "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/rbs-scalar-integration/test/rbs/workflow_test.rb"
+Exit: 0
+{
+  "ruby": "4.0.1",
+  "minitest": "5.26.2",
+  "rbs": "4.2.0",
+  "rbs_platform": "ruby",
+  "source_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/rbs-scalar-integration/lib/specproof/sources/rbs.rb",
+  "file_sha256": {
+    "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/rbs-scalar-integration/lib/specproof.rb": "d64778b00af5c03ffbfc70b76184ba73477ddec3bd7a1bbe1c544dd9b292550c",
+    "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/rbs-scalar-integration/test/rbs/workflow_test.rb": "860a572c213fecf73856480397e22e3e4eeb0a5f0002bfcb5fa6719ebe821e9a"
+  }
+}
