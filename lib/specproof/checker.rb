@@ -24,7 +24,7 @@ module SpecProof
     def check_input(specification, input, results)
       domain = input.domain
       if Domains.empty?(domain)
-        results << finding(:empty_domain, specification, input, Domains.to_a(domain), [input.source])
+        results << finding(:empty_domain, specification, input, Domains.to_a(domain), input.sources)
       end
       input.partitions.each do |partition|
         if Domains.empty?(partition.domain)
@@ -38,6 +38,7 @@ module SpecProof
       else
         check_finite_family(specification, input, results)
       end
+      check_type_domain(specification, input, results) if input.type_constraint
     end
 
     def check_containment(specification, input, partition, results)
@@ -54,7 +55,7 @@ module SpecProof
       return if outside.empty?
 
       witness = outside.first
-      results << finding(:partition_outside_domain, specification, input, witness, [input.source, partition.source])
+      results << finding(:partition_outside_domain, specification, input, witness, input.sources + [partition.source])
     end
 
     def check_integer_family(specification, input, results)
@@ -78,12 +79,12 @@ module SpecProof
         upper = [part.upper, input.domain.upper].min
         next if lower > upper
 
-        results << finding(:partition_gap, specification, input, [cursor, lower - 1], [input.source]) if cursor < lower
+        results << finding(:partition_gap, specification, input, [cursor, lower - 1], input.sources) if cursor < lower
         cursor = [cursor, upper + 1].max
       end
       return unless cursor <= input.domain.upper
 
-      results << finding(:partition_gap, specification, input, [cursor, input.domain.upper], [input.source])
+      results << finding(:partition_gap, specification, input, [cursor, input.domain.upper], input.sources)
     end
 
     def check_finite_family(specification, input, results)
@@ -102,8 +103,15 @@ module SpecProof
 
       covered = partitions.flat_map { |part| part.domain.values }.uniq
       (input.domain.values - covered).each do |value|
-        results << finding(:partition_gap, specification, input, value, [input.source])
+        results << finding(:partition_gap, specification, input, value, input.sources)
       end
+    end
+
+    def check_type_domain(specification, input, results)
+      witness = TypeConstraints.first_excluded(input.type_constraint, input.domain)
+      return if witness.equal?(TypeConstraints::NO_EXCLUSION)
+
+      results << finding(:type_domain_conflict, specification, input, witness, input.sources)
     end
 
     def finding(code, specification, input, witness, sources)

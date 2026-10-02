@@ -28,7 +28,11 @@ module SpecProof
             key = [specification.target, input.name, value]
             candidate = (candidates[key] ||= { reasons: [], sources: [] })
             candidate[:reasons] << reason
-            candidate[:sources] << source
+            if source.is_a?(Array)
+              candidate[:sources].concat(source)
+            else
+              candidate[:sources] << source
+            end
           end
         end
       end
@@ -48,10 +52,10 @@ module SpecProof
       domain = input.domain
       if domain.is_a?(IntegerDomain)
         base_integer_candidates(domain).map do |value, reason|
-          [value, reason, input.source]
+          [value, reason, input.sources]
         end + input.partitions.flat_map { |partition| partition_candidates(partition) }
       else
-        domain.values.map { |value| [value, "finite input value", input.source] }
+        domain.values.map { |value| [value, "finite input value", input.sources] }
       end
     end
 
