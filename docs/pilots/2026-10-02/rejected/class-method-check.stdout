@@ -1,0 +1,1 @@
+{"schema_version":1,"specproof_version":"0.1.0","kind":"check","errors":[{"code":"invalid_target","message":"target must use ClassName#instance_method syntax","source":{"path":"/private/tmp/specproof-real-project-pilot/rejected/agent_session_context/specification.rb","line":2}}]}

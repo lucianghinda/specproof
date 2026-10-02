@@ -1,7 +1,10 @@
 # Minitest coverage report reference
 
 This reference targets SpecProof `0.1.x`, JSON schema `1`, and
-`input-basics-v1`, using Minitest `5.27.x` on CRuby `3.3`, `3.4`, or `4.0`.
+`input-basics-v1`, using Minitest `>= 5.26.2` and `< 5.28.0` on CRuby `3.3`,
+`3.4`, or `4.0`. The package/runtime major and minor versions must match.
+Prefer `~> 5.26.2` when using published packages; a mislabeled package is
+rejected even when its metadata alone falls within the supported range.
 Confirm `specproof --version` and `specproof_version`; report unsupported
 versions instead of guessing field meanings.
 

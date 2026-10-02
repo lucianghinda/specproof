@@ -13,7 +13,7 @@ require_relative "collector"
 module SpecProof
   # Integrates contract coverage with a Minitest run lifecycle.
   module Minitest
-    MINITEST_VERSION = Gem::Version.new("5.27.0")
+    MIN_SUPPORTED_MINITEST_VERSION = Gem::Version.new("5.26.2")
 
     class << self
       def install!(specifications:, output: "tmp/specproof.json", fail_on_missing: false)
@@ -45,12 +45,13 @@ module SpecProof
         package_version = Gem.loaded_specs.fetch("minitest", nil)&.version
         runtime_version = Gem::Version.new(::Minitest::VERSION)
         max_version = Gem::Version.new("5.28.0")
-        supported_package = !package_version || (package_version >= MINITEST_VERSION && package_version < max_version)
-        supported_runtime = runtime_version >= MINITEST_VERSION && runtime_version < max_version
+        supported_package = !package_version ||
+                            (package_version >= MIN_SUPPORTED_MINITEST_VERSION && package_version < max_version)
+        supported_runtime = runtime_version >= MIN_SUPPORTED_MINITEST_VERSION && runtime_version < max_version
         versions_match = !package_version || package_version.segments.take(2) == runtime_version.segments.take(2)
         return if supported_package && supported_runtime && versions_match
 
-        message = "Minitest adapter supports Minitest 5.27.x " \
+        message = "Minitest adapter supports Minitest >= 5.26.2 and < 5.28.0 " \
                   "(loaded package #{package_version || "unknown"}, runtime #{runtime_version})"
         raise ConfigurationError.new(
           message,

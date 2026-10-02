@@ -1,0 +1,360 @@
+{
+  "schema_version": 1,
+  "specproof_version": "0.1.0",
+  "kind": "coverage",
+  "errors": [],
+  "contract_digest": "245fef525bdc891fbb21e9329ba337c86b5f8e87abaa2d341a6ae6e47eb31ebb",
+  "criterion": "input-basics-v1",
+  "run_id": "5589df7d-206d-4c47-92f9-9505555662de",
+  "scope": {
+    "ruby_engine": "ruby",
+    "pid": 16187,
+    "thread": 448,
+    "window": "minitest_run",
+    "method_identity": "direct_owner_definition",
+    "targets": [
+      "QualityGate::Config#fetch"
+    ],
+    "arguments": [],
+    "filter": null,
+    "exclude": null
+  },
+  "evidence_mode": "obligation_hits",
+  "replay": false,
+  "obligations": [
+    {
+      "id": "6c51acfaf3ca93069569eeac2b312528afa6f9fe4b48030f866077f9e1831c06",
+      "target": "QualityGate::Config#fetch",
+      "input": "key",
+      "value": {
+        "kind": "symbol",
+        "value": "adapters"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-real-project-pilot/quality_gate/config_fetch_spec.rb",
+          "line": 6
+        }
+      ],
+      "status": "exercised",
+      "hits": 6
+    },
+    {
+      "id": "bd8c3a6a72d16acf15e05fb38f1062329ac39288b109ba2a5ac6de53b887e9eb",
+      "target": "QualityGate::Config#fetch",
+      "input": "key",
+      "value": {
+        "kind": "symbol",
+        "value": "commands"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-real-project-pilot/quality_gate/config_fetch_spec.rb",
+          "line": 6
+        }
+      ],
+      "status": "exercised",
+      "hits": 5
+    },
+    {
+      "id": "a144c31c5998d837a2872c927af4ba4094a8c0a50edb3390d61ade92a828c8fe",
+      "target": "QualityGate::Config#fetch",
+      "input": "key",
+      "value": {
+        "kind": "symbol",
+        "value": "compare_point"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-real-project-pilot/quality_gate/config_fetch_spec.rb",
+          "line": 6
+        }
+      ],
+      "status": "exercised",
+      "hits": 4
+    },
+    {
+      "id": "ba01d4cdd7b2e022b04ed4b9efcfd5b122d0effe246f29f7bc03e6b4078b270a",
+      "target": "QualityGate::Config#fetch",
+      "input": "key",
+      "value": {
+        "kind": "symbol",
+        "value": "coverage"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-real-project-pilot/quality_gate/config_fetch_spec.rb",
+          "line": 6
+        }
+      ],
+      "status": "exercised",
+      "hits": 5
+    },
+    {
+      "id": "8a6f0c87ec68c1903e6fef24bd5e7ef017dedbc57e64865b83aa0c8bb02c0d83",
+      "target": "QualityGate::Config#fetch",
+      "input": "key",
+      "value": {
+        "kind": "symbol",
+        "value": "files"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-real-project-pilot/quality_gate/config_fetch_spec.rb",
+          "line": 6
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "0c4f97c395bc63e780baa09b986aabd2adcbe41d39caac63bbda907d15098054",
+      "target": "QualityGate::Config#fetch",
+      "input": "key",
+      "value": {
+        "kind": "symbol",
+        "value": "format"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-real-project-pilot/quality_gate/config_fetch_spec.rb",
+          "line": 6
+        }
+      ],
+      "status": "exercised",
+      "hits": 4
+    },
+    {
+      "id": "0636ff11a001c0b50b611149711b4959dcd5a728c490f06b9638412e467ddd16",
+      "target": "QualityGate::Config#fetch",
+      "input": "key",
+      "value": {
+        "kind": "symbol",
+        "value": "rubocop_config"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-real-project-pilot/quality_gate/config_fetch_spec.rb",
+          "line": 6
+        }
+      ],
+      "status": "exercised",
+      "hits": 6
+    },
+    {
+      "id": "4886e8f1a023a7286e748c0faf745a2dc8edf95f370c39cd510992c83d7da974",
+      "target": "QualityGate::Config#fetch",
+      "input": "key",
+      "value": {
+        "kind": "symbol",
+        "value": "timeouts"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-real-project-pilot/quality_gate/config_fetch_spec.rb",
+          "line": 6
+        }
+      ],
+      "status": "exercised",
+      "hits": 4
+    }
+  ],
+  "missing": [],
+  "exercised": [
+    {
+      "id": "6c51acfaf3ca93069569eeac2b312528afa6f9fe4b48030f866077f9e1831c06",
+      "target": "QualityGate::Config#fetch",
+      "input": "key",
+      "value": {
+        "kind": "symbol",
+        "value": "adapters"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-real-project-pilot/quality_gate/config_fetch_spec.rb",
+          "line": 6
+        }
+      ],
+      "status": "exercised",
+      "hits": 6
+    },
+    {
+      "id": "bd8c3a6a72d16acf15e05fb38f1062329ac39288b109ba2a5ac6de53b887e9eb",
+      "target": "QualityGate::Config#fetch",
+      "input": "key",
+      "value": {
+        "kind": "symbol",
+        "value": "commands"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-real-project-pilot/quality_gate/config_fetch_spec.rb",
+          "line": 6
+        }
+      ],
+      "status": "exercised",
+      "hits": 5
+    },
+    {
+      "id": "a144c31c5998d837a2872c927af4ba4094a8c0a50edb3390d61ade92a828c8fe",
+      "target": "QualityGate::Config#fetch",
+      "input": "key",
+      "value": {
+        "kind": "symbol",
+        "value": "compare_point"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-real-project-pilot/quality_gate/config_fetch_spec.rb",
+          "line": 6
+        }
+      ],
+      "status": "exercised",
+      "hits": 4
+    },
+    {
+      "id": "ba01d4cdd7b2e022b04ed4b9efcfd5b122d0effe246f29f7bc03e6b4078b270a",
+      "target": "QualityGate::Config#fetch",
+      "input": "key",
+      "value": {
+        "kind": "symbol",
+        "value": "coverage"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-real-project-pilot/quality_gate/config_fetch_spec.rb",
+          "line": 6
+        }
+      ],
+      "status": "exercised",
+      "hits": 5
+    },
+    {
+      "id": "8a6f0c87ec68c1903e6fef24bd5e7ef017dedbc57e64865b83aa0c8bb02c0d83",
+      "target": "QualityGate::Config#fetch",
+      "input": "key",
+      "value": {
+        "kind": "symbol",
+        "value": "files"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-real-project-pilot/quality_gate/config_fetch_spec.rb",
+          "line": 6
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "0c4f97c395bc63e780baa09b986aabd2adcbe41d39caac63bbda907d15098054",
+      "target": "QualityGate::Config#fetch",
+      "input": "key",
+      "value": {
+        "kind": "symbol",
+        "value": "format"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-real-project-pilot/quality_gate/config_fetch_spec.rb",
+          "line": 6
+        }
+      ],
+      "status": "exercised",
+      "hits": 4
+    },
+    {
+      "id": "0636ff11a001c0b50b611149711b4959dcd5a728c490f06b9638412e467ddd16",
+      "target": "QualityGate::Config#fetch",
+      "input": "key",
+      "value": {
+        "kind": "symbol",
+        "value": "rubocop_config"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-real-project-pilot/quality_gate/config_fetch_spec.rb",
+          "line": 6
+        }
+      ],
+      "status": "exercised",
+      "hits": 6
+    },
+    {
+      "id": "4886e8f1a023a7286e748c0faf745a2dc8edf95f370c39cd510992c83d7da974",
+      "target": "QualityGate::Config#fetch",
+      "input": "key",
+      "value": {
+        "kind": "symbol",
+        "value": "timeouts"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-real-project-pilot/quality_gate/config_fetch_spec.rb",
+          "line": 6
+        }
+      ],
+      "status": "exercised",
+      "hits": 4
+    }
+  ],
+  "exercised_count": 8,
+  "obligation_count": 8,
+  "missing_count": 0,
+  "unknown_count": 0,
+  "not_observed_count": 0,
+  "completion_percent": 100.0,
+  "outside_domain": {},
+  "incomplete_reasons": [],
+  "completion": "completed",
+  "integrity": true,
+  "tests_passed": true
+}

@@ -5,7 +5,7 @@ The [approved plan](../../../docs/superpowers/plans/2026-10-02-first-usable-rele
 ## Scope and coordination
 
 - Core: explicit scalar input declarations, exact partition checks, `input-basics-v1`, deterministic human/JSON reports.
-- Runtime: bounded streaming input evidence for selected serial Ruby method calls; optional Minitest 5.27 integration.
+- Runtime: bounded streaming input evidence for selected serial Ruby method calls; optional Minitest integration for >= 5.26.2 and < 5.28.0 with matching package/runtime minor versions.
 - Agent interface: two packaged skills, explicit offline export, isolated behavioral evaluations.
 - Existing development RuboCop/Rake tooling is retained; no new runtime dependencies.
 - Public namespace: `SpecProof`; preserve scaffold compatibility through `Specproof`.
@@ -32,7 +32,7 @@ Luna subagents implemented independent slices and reviewed specification conform
 | A15 | Packaged skill/reference validation, installed-gem export, idempotence, conflict preservation, symlink rejection, and paths containing spaces are tested. |
 | A17–A19 | All six scenarios passed two fresh attempts with the final skills (12 accepted outcomes), independently audited. Baselines, discarded attempts, final files, hashes, and real Codex client positive/negative discovery runs are retained. Small fixtures do not establish general agent reliability or a causal improvement rate. |
 
-## Final local verification
+## First implementation verification (commit fc876dd)
 
 - `bin/test`: **111 runs, 562 assertions, zero failures, errors, or skips**, separately on Ruby 3.3.6, 3.4.7, and 4.0.1.
 - Default `bundle exec rake` on Ruby 4.0.1: full suite and RuboCop pass; **81 files**, zero offenses.
@@ -44,7 +44,15 @@ Luna subagents implemented independent slices and reviewed specification conform
 
 The locally available gem labeled Minitest `5.27.0` contained runtime version `5.26.2`. The adapter correctly rejects that mismatch. Validation used unmodified library files from the official `v5.27.0` source tag, packaged into an isolated temporary GEM_HOME. Neither global gems nor the runtime version constant were patched. Source archive SHA-256: `766c98a1d07df624320f69a013bd11994506eec930ce70964f87c7d2ee8a97c7`.
 
-Both activated package and runtime versions must identify Minitest 5.27.x. Installations encountering the mismatched artifact must resolve their Minitest installation before runtime collection works. Offline checking/planning and skill export do not need Minitest.
+That initial verification required both activated package and runtime versions to identify Minitest 5.27.x. The subsequent [compatibility change](minitest-compatibility.md) supports correctly labeled published 5.26.2 and removes the need for a source rebuild in the development bundle. Mismatched package/runtime minor versions remain rejected. Offline checking/planning and skill export do not need Minitest.
+
+## Installation and real-project pilot follow-up
+
+The normal development bundle now resolves published Minitest 5.26.2. Full suites pass with **115 tests and 573 assertions** on Ruby 3.3.6, 3.4.7, and 4.0.1. Ruby 3.3/3.4 checks used standard local Bundler installation from the checksum-verified published package, with unrelated ambient Ruby 4 gem paths cleared. No custom dependency source rebuild or version-constant patch was needed.
+
+The [real-project pilot](real-project-pilot.md) applied the updated exported skills to QualityGate's existing configuration tests. One default-key input gap was closed, moving scoped exercise from 7/8 to 8/8 with unchanged IDs/digest and a fresh report. All 143 copied source files remain unchanged. Two other real candidate methods were rejected because of optional keyword parameters and class-method syntax; three successful integrations were not demonstrated.
+
+Five baseline/instrumented timing pairs preserve the original 45-test, 342-assertion focused suite. The measured median subprocess difference was about 38 ms (12.5%); this is not a general application overhead claim. Source snapshots, package checksum, exact skills, test additions, reports, raw timings, and rejected probes are retained.
 
 ## Limits and release follow-up
 
@@ -52,4 +60,4 @@ This release checks explicit scalar input specifications and measures exercised 
 
 Sorbet/RBS importers, output contracts, inferred partitions, state machines, combinatorial criteria, SMT, parallel collection, and MCP remain deferred. API signatures do not constitute an RBS specification importer.
 
-Model evaluations preceded the final additive constant-binding guards and example-runner convenience changes; deterministic tests and review cover those changes. Skill bytes remained unchanged. Remote CI, a real-application pilot, and publishing remain release follow-up work. No gem was published and no branch was pushed.
+The initial model evaluations preceded the final additive constant-binding guards and example-runner convenience changes; deterministic tests and review cover those changes. Their original skill bytes remain archived. Later live skill setup instructions reflect Minitest 5.26.2 compatibility and were freshly used in the focused real-project pilot. Remote CI, broader project adoption, and publishing remain release follow-up work. No gem was published and no branch was pushed.

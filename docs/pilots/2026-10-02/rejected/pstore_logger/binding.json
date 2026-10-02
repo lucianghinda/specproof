@@ -1,0 +1,16 @@
+{
+  "target": "PStoreLogger#save",
+  "parameters": [
+    [
+      "req",
+      "data"
+    ],
+    [
+      "key",
+      "file_id"
+    ]
+  ],
+  "code": "unsupported_parameters",
+  "message": "PStoreLogger#save may only use required named positional or keyword parameters",
+  "collected": false
+}

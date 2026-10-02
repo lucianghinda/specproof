@@ -48,7 +48,9 @@ For adapter setup, report fields, and evidence checks, read
 ## Minitest adapter setup
 
 Keep Minitest in the application's test environment and use the supported
-5.27.x version. Require application code and Minitest before installing the
+version range `>= 5.26.2` and `< 5.28.0`, with matching package/runtime major
+and minor versions. Prefer `~> 5.26.2` for ordinary published packages.
+Require application code and Minitest before installing the
 adapter. Install it once in the suite entrypoint:
 
 ```ruby

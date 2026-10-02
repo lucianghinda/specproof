@@ -1,0 +1,19 @@
+# frozen_string_literal: true
+
+require "specproof"
+
+SpecProof.define "QualityGate::Config#fetch" do
+  input :key,
+    values: %i[format files adapters commands timeouts coverage compare_point rubocop_config],
+    exhaustive: true,
+    disjoint: true do
+    partition :format, values: [:format]
+    partition :files, values: [:files]
+    partition :adapters, values: [:adapters]
+    partition :commands, values: [:commands]
+    partition :timeouts, values: [:timeouts]
+    partition :coverage, values: [:coverage]
+    partition :compare_point, values: [:compare_point]
+    partition :rubocop_config, values: [:rubocop_config]
+  end
+end

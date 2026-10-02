@@ -1,0 +1,88 @@
+{
+  "ruby": "ruby 4.0.1 (2026-01-13 revision e04267a14b) +PRISM [arm64-darwin25]",
+  "suite": "original focused config tests",
+  "added_tests": false,
+  "iterations": 5,
+  "measurements": [
+    {
+      "mode": "baseline",
+      "iteration": 1,
+      "wall_seconds": 0.307118,
+      "tests": 45,
+      "assertions": 342
+    },
+    {
+      "mode": "instrumented",
+      "iteration": 1,
+      "wall_seconds": 0.326725,
+      "tests": 45,
+      "assertions": 342,
+      "observed_calls": 27,
+      "run_id": "f1208e2c-6f8c-4371-ac7a-4f118a322d69"
+    },
+    {
+      "mode": "baseline",
+      "iteration": 2,
+      "wall_seconds": 0.300959,
+      "tests": 45,
+      "assertions": 342
+    },
+    {
+      "mode": "instrumented",
+      "iteration": 2,
+      "wall_seconds": 0.338711,
+      "tests": 45,
+      "assertions": 342,
+      "observed_calls": 27,
+      "run_id": "be53def5-2e6e-43a1-8acb-e5641f897feb"
+    },
+    {
+      "mode": "baseline",
+      "iteration": 3,
+      "wall_seconds": 0.298459,
+      "tests": 45,
+      "assertions": 342
+    },
+    {
+      "mode": "instrumented",
+      "iteration": 3,
+      "wall_seconds": 0.328865,
+      "tests": 45,
+      "assertions": 342,
+      "observed_calls": 27,
+      "run_id": "1f30c701-0843-4124-80ee-e6933d15d690"
+    },
+    {
+      "mode": "baseline",
+      "iteration": 4,
+      "wall_seconds": 0.300013,
+      "tests": 45,
+      "assertions": 342
+    },
+    {
+      "mode": "instrumented",
+      "iteration": 4,
+      "wall_seconds": 0.353294,
+      "tests": 45,
+      "assertions": 342,
+      "observed_calls": 27,
+      "run_id": "22fa4571-1e80-4017-9345-4b3ce0956a73"
+    },
+    {
+      "mode": "baseline",
+      "iteration": 5,
+      "wall_seconds": 0.318318,
+      "tests": 45,
+      "assertions": 342
+    },
+    {
+      "mode": "instrumented",
+      "iteration": 5,
+      "wall_seconds": 0.341357,
+      "tests": 45,
+      "assertions": 342,
+      "observed_calls": 27,
+      "run_id": "2f50c843-898b-4dbd-9f7a-0f65e6488593"
+    }
+  ]
+}

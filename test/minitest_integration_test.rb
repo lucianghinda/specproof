@@ -40,7 +40,7 @@ class MinitestIntegrationTest < Minitest::Test
       ready_path = File.join(directory, "ready")
       File.write(report_path, '{"completion":"completed","run_id":"stale"}')
       script = <<~RUBY
-        gem "minitest", "~> 5.27.0"
+        gem "minitest", "~> 5.26.2"
         $LOAD_PATH.unshift ENV.fetch("SPECPROOF_LIB")
         require "specproof"
         require "minitest/autorun"
@@ -292,18 +292,62 @@ class MinitestIntegrationTest < Minitest::Test
                                                        runtime_version: "6.0.0")
 
       refute status.success?
-      assert_includes stderr, "supports Minitest 5.27.x"
+      assert_includes stderr, "supports Minitest >= 5.26.2 and < 5.28.0"
       assert_includes stderr, "runtime 6.0.0"
     end
   end
 
-  def test_package_and_runtime_version_mismatch_is_rejected
+  def test_mislabeled_minitest_package_and_runtime_mismatch_is_rejected
     Dir.mktmpdir("specproof-minitest") do |directory|
       _stdout, stderr, status = run_fixture(directory, output: File.join(directory, "coverage.json"), scenario: "all",
-                                                       package_version: "5.26.2")
+                                                       package_version: "5.27.0")
+
+      refute status.success?
+      assert_includes stderr, "loaded package 5.27.0, runtime 5.26.2"
+    end
+  end
+
+  def test_minitest_5_26_2_is_supported
+    Dir.mktmpdir("specproof-minitest") do |directory|
+      _stdout, stderr, status = run_fixture(directory, output: File.join(directory, "coverage.json"), scenario: "all")
+
+      assert status.success?, stderr
+      assert_equal "completed", JSON.parse(File.read(File.join(directory, "coverage.json"))).fetch("completion")
+    end
+  end
+
+  def test_package_and_runtime_minor_versions_must_match
+    Dir.mktmpdir("specproof-minitest") do |directory|
+      _stdout, stderr, status = run_fixture(
+        directory,
+        output: File.join(directory, "coverage.json"),
+        scenario: "all",
+        runtime_version: "5.27.0",
+        package_version: "5.26.2"
+      )
 
       refute status.success?
       assert_includes stderr, "loaded package 5.26.2, runtime 5.27.0"
+    end
+  end
+
+  def test_minitest_5_26_1_is_unsupported
+    Dir.mktmpdir("specproof-minitest") do |directory|
+      _stdout, stderr, status = run_fixture(directory, output: File.join(directory, "coverage.json"), scenario: "all",
+                                                       runtime_version: "5.26.1", package_version: "5.26.1")
+
+      refute status.success?
+      assert_includes stderr, "runtime 5.26.1"
+    end
+  end
+
+  def test_minitest_5_28_is_unsupported
+    Dir.mktmpdir("specproof-minitest") do |directory|
+      _stdout, stderr, status = run_fixture(directory, output: File.join(directory, "coverage.json"), scenario: "all",
+                                                       runtime_version: "5.28.0", package_version: "5.28.0")
+
+      refute status.success?
+      assert_includes stderr, "runtime 5.28.0"
     end
   end
 
@@ -315,7 +359,7 @@ class MinitestIntegrationTest < Minitest::Test
     rebind_target: false
   )
     script = <<~'RUBY'
-      gem "minitest", "~> 5.27.0"
+      gem "minitest", "~> 5.26.2"
       $LOAD_PATH.unshift ENV.fetch("SPECPROOF_LIB")
       require "specproof"
       require "minitest/autorun"

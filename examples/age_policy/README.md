@@ -6,7 +6,7 @@ rule supplies the assertion oracle. The input specification partitions ages
 into minor (`0...18`) and adult (`18..120`); it does not declare return values.
 
 Run these commands from the gem root with its development bundle and a
-supported Minitest 5.27.x installation:
+supported Minitest installation (the development bundle selects 5.26.2):
 
 ```sh
 bundle exec specproof check examples/age_policy/specification.rb --format json

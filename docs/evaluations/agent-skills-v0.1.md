@@ -1,5 +1,7 @@
 # Agent-skill evaluation, SpecProof 0.1.0
 
+This is the retained first-implementation evaluation cut. The later Minitest 5.26.2 compatibility change updates the live skill's setup instructions and two live fixture Gemfiles; the archived workspaces and hashes below retain the exact earlier bytes. They are historical evidence, not a rerun of the updated setup instructions. The subsequent real-project pilot evaluates those updated instructions separately.
+
 ## Finding
 
 In this small, rubric-scored benchmark, all 12 selected final-reference skill-guided attempts met their scenario rubrics. Five of the six selected no-skill baselines met theirs; the revised age-boundary baseline did not demonstrate the required failing regression assertion before changing the implementation. That baseline miss is retained as an experiment observation, not a blocker. The guided runs show that these particular tasks were completed with the skill instructions loaded. They do not establish a quantitative causal effect or a general success rate for agent skills.

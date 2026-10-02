@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require "bundler/setup"
-gem "minitest", "~> 5.27.0"
+gem "minitest", "~> 5.26.2"
 require "minitest"
 require "json"
 require "open3"
@@ -32,7 +32,7 @@ def runner_source(ages, calls_path, report_path, specification, instrumented)
 
   <<~RUBY
     require "bundler/setup"
-    gem "minitest", "~> 5.27.0"
+    gem "minitest", "~> 5.26.2"
     require "minitest"
 
     $age_policy_call_count = 0

@@ -1,0 +1,55 @@
+[
+  {
+    "name": "binding-probe",
+    "command": [
+      "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+      "-I/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib",
+      "/private/tmp/specproof-real-project-pilot/rejected/probe.rb"
+    ],
+    "environment": {
+      "GEM_HOME": null,
+      "GEM_PATH": null,
+      "RUBYOPT": null,
+      "RUBYLIB": null
+    },
+    "exit_status": 0
+  },
+  {
+    "name": "pstore-check",
+    "command": [
+      "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+      "-I/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib",
+      "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/exe/specproof",
+      "check",
+      "/private/tmp/specproof-real-project-pilot/rejected/pstore_logger/specification.rb",
+      "--format",
+      "json"
+    ],
+    "environment": {
+      "GEM_HOME": null,
+      "GEM_PATH": null,
+      "RUBYOPT": null,
+      "RUBYLIB": null
+    },
+    "exit_status": 0
+  },
+  {
+    "name": "class-method-check",
+    "command": [
+      "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+      "-I/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib",
+      "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/exe/specproof",
+      "check",
+      "/private/tmp/specproof-real-project-pilot/rejected/agent_session_context/specification.rb",
+      "--format",
+      "json"
+    ],
+    "environment": {
+      "GEM_HOME": null,
+      "GEM_PATH": null,
+      "RUBYOPT": null,
+      "RUBYLIB": null
+    },
+    "exit_status": 2
+  }
+]
