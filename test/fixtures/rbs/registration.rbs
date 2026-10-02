@@ -1,0 +1,6 @@
+class Registration
+  def initialize: (Integer age, ?bool consent) -> void
+  def update: (Integer age, mode: :safe | :fast) -> void
+  def maybe: (value: bool?) -> void
+  def trailing: (Integer first, ?bool maybe, Integer last, required: :one | :two, ?flag: bool) -> void
+end
