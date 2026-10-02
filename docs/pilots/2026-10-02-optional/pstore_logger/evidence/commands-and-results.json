@@ -1,0 +1,990 @@
+{
+  "ruby_version": "ruby 3.4.7 (2025-10-08 revision 7a5688e2a2) +PRISM [arm64-darwin24]",
+  "check": {
+    "schema_version": 1,
+    "specproof_version": "0.1.0",
+    "kind": "check",
+    "errors": [],
+    "contract_digest": "23dfd41312af281af643ee0bba8814f75f0bf516c822a9f5327d1b3319e84a18",
+    "findings": []
+  },
+  "plan": {
+    "schema_version": 1,
+    "specproof_version": "0.1.0",
+    "kind": "plan",
+    "errors": [],
+    "contract_digest": "23dfd41312af281af643ee0bba8814f75f0bf516c822a9f5327d1b3319e84a18",
+    "criterion": "input-basics-v1",
+    "obligations": [
+      {
+        "id": "75813df6b054c3d81d47c9057cec632ff9a4e9defed20cb1278f220fe24a4979",
+        "target": "PStoreLogger#save",
+        "input": "data",
+        "value": {
+          "kind": "nil",
+          "value": null
+        },
+        "reasons": [
+          "finite input value"
+        ],
+        "sources": [
+          {
+            "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+            "line": 9
+          }
+        ]
+      },
+      {
+        "id": "3874140921e3437c727980fb01a191342d7da99369b58567152ed5e58fadc028",
+        "target": "PStoreLogger#save",
+        "input": "data",
+        "value": {
+          "kind": "boolean",
+          "value": false
+        },
+        "reasons": [
+          "finite input value"
+        ],
+        "sources": [
+          {
+            "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+            "line": 9
+          }
+        ]
+      },
+      {
+        "id": "f02029d5684e0dfa43f87049b3206b4314a8adf538cd2df66a8be1935ba6207b",
+        "target": "PStoreLogger#save",
+        "input": "data",
+        "value": {
+          "kind": "boolean",
+          "value": true
+        },
+        "reasons": [
+          "finite input value"
+        ],
+        "sources": [
+          {
+            "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+            "line": 9
+          }
+        ]
+      },
+      {
+        "id": "c8db4f2acf0ed75e7c86ef8d3ff08b1071d4c860dad11575cca9dd2d5c1cc985",
+        "target": "PStoreLogger#save",
+        "input": "data",
+        "value": {
+          "kind": "integer",
+          "value": "0"
+        },
+        "reasons": [
+          "finite input value"
+        ],
+        "sources": [
+          {
+            "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+            "line": 9
+          }
+        ]
+      },
+      {
+        "id": "d94839f47e4e734c01ac3f4f0fae8b68bcc53ecae22340379221d8fa7fb0621b",
+        "target": "PStoreLogger#save",
+        "input": "data",
+        "value": {
+          "kind": "symbol",
+          "value": "event"
+        },
+        "reasons": [
+          "finite input value"
+        ],
+        "sources": [
+          {
+            "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+            "line": 9
+          }
+        ]
+      },
+      {
+        "id": "5255739c08d32f0bbf9302e187f1f30091bd2adb33cda365520289cdab02348d",
+        "target": "PStoreLogger#save",
+        "input": "file_id",
+        "value": {
+          "kind": "nil",
+          "value": null
+        },
+        "reasons": [
+          "finite input value"
+        ],
+        "sources": [
+          {
+            "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+            "line": 12
+          }
+        ]
+      },
+      {
+        "id": "0e99f541e20b8eb00fba805504c215f28dd2b45e596e7d0210b75d49f13a7432",
+        "target": "PStoreLogger#save",
+        "input": "file_id",
+        "value": {
+          "kind": "integer",
+          "value": "1"
+        },
+        "reasons": [
+          "finite input value"
+        ],
+        "sources": [
+          {
+            "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+            "line": 12
+          }
+        ]
+      }
+    ]
+  },
+  "runtime_probe": {
+    "cwd": "/private/tmp/specproof-optional-pstore-pilot",
+    "ruby_version": "ruby 3.4.7 (2025-10-08 revision 7a5688e2a2) +PRISM [arm64-darwin24]",
+    "environment": {
+      "SPECPROOF_ROOT": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-optional-pstore-pilot/Gemfile",
+      "BUNDLE_PATH": null,
+      "GEM_HOME": "/private/tmp/specproof-optional-pstore-pilot/vendor/bundle/ruby/3.4.0",
+      "GEM_PATH": ""
+    },
+    "loaded_gem": {
+      "name": "specproof",
+      "version": "0.1.0",
+      "full_gem_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof",
+      "real_gem_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof",
+      "loaded_from": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/specproof.gemspec",
+      "full_require_paths": [
+        "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib"
+      ]
+    },
+    "requested_feature_resolutions": {
+      "specproof.rb": [
+        {
+          "load_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib",
+          "candidate": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof.rb",
+          "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof.rb",
+          "sha256": "18737ef0864f4f9e4f6343dea93bdaf5d70cdd0f5448338ed5319f4450993e09"
+        }
+      ],
+      "specproof/minitest.rb": [
+        {
+          "load_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib",
+          "candidate": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/minitest.rb",
+          "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/minitest.rb",
+          "sha256": "7b62433558934dbec30778734d42696e9298121ce1e17a6e1fc6c18610a40528"
+        }
+      ]
+    },
+    "actual_loaded_features": [
+      {
+        "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/version.rb",
+        "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/version.rb",
+        "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/version.rb",
+        "sha256": "770cd5018d68868abf30e1b808c02ceda3d4c866e3e0e1c8ea282f5b6e61e014"
+      },
+      {
+        "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/model.rb",
+        "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/model.rb",
+        "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/model.rb",
+        "sha256": "f14b4aa4a03c687507392722aecab4cb31bb99d7c1f2ee603826406255e8606c"
+      },
+      {
+        "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/domains.rb",
+        "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/domains.rb",
+        "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/domains.rb",
+        "sha256": "7baf62ec2be2f9c3106615de4a49f87f7901c3060f2122b784422bf58cd8c054"
+      },
+      {
+        "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/loader.rb",
+        "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/loader.rb",
+        "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/loader.rb",
+        "sha256": "e405a860cbfaf573023f8d7f1004a619b6252fb2f20f7251ab62a0e1844eca58"
+      },
+      {
+        "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/checker.rb",
+        "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/checker.rb",
+        "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/checker.rb",
+        "sha256": "b2277fcbec584f877762755faa6a31fe86de7c236fba4b16a0d831f988a4467b"
+      },
+      {
+        "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/planner.rb",
+        "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/planner.rb",
+        "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/planner.rb",
+        "sha256": "0853767c823f54fb2f48fd6ad01f0bea272ce88d9140a632dfae47e3ff5e7c0e"
+      },
+      {
+        "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/report.rb",
+        "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/report.rb",
+        "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/report.rb",
+        "sha256": "b957956c015b428c183db8d462a49afaa54c3e1e3b061e4e6e11dad78b63dc57"
+      },
+      {
+        "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/coverage.rb",
+        "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/coverage.rb",
+        "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/coverage.rb",
+        "sha256": "51e8192c6b56d7d22487d9be992b3a810f7bda7bdfd70906857a55da2eee2d24"
+      },
+      {
+        "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/skills.rb",
+        "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/skills.rb",
+        "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/skills.rb",
+        "sha256": "7eeae2f70b6e1ee6af95883ebd4fd69557c0cfc30c05c159ffe42f7870162e6f"
+      },
+      {
+        "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof.rb",
+        "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof.rb",
+        "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof.rb",
+        "sha256": "18737ef0864f4f9e4f6343dea93bdaf5d70cdd0f5448338ed5319f4450993e09"
+      },
+      {
+        "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/collector.rb",
+        "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/collector.rb",
+        "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/collector.rb",
+        "sha256": "56f4a39e18d7730296996c3ac47ae7fb1a46257daefb03056169d60d43f425b8"
+      },
+      {
+        "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/minitest.rb",
+        "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/minitest.rb",
+        "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/minitest.rb",
+        "sha256": "7b62433558934dbec30778734d42696e9298121ce1e17a6e1fc6c18610a40528"
+      }
+    ]
+  },
+  "commands": [
+    {
+      "label": "check",
+      "command": [
+        "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+        "-S",
+        "bundle",
+        "exec",
+        "specproof",
+        "check",
+        "specifications/pstore_logger_save.rb",
+        "--format",
+        "json"
+      ],
+      "cwd": "/private/tmp/specproof-optional-pstore-pilot",
+      "exit_status": 0,
+      "log": "/private/tmp/specproof-optional-pstore-pilot/evidence/check.log"
+    },
+    {
+      "label": "plan",
+      "command": [
+        "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+        "-S",
+        "bundle",
+        "exec",
+        "specproof",
+        "plan",
+        "specifications/pstore_logger_save.rb",
+        "--format",
+        "json"
+      ],
+      "cwd": "/private/tmp/specproof-optional-pstore-pilot",
+      "exit_status": 0,
+      "log": "/private/tmp/specproof-optional-pstore-pilot/evidence/plan.log"
+    },
+    {
+      "label": "baseline_uninstrumented",
+      "command": [
+        "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+        "-S",
+        "bundle",
+        "exec",
+        "ruby",
+        "pilot_runner.rb",
+        "baseline"
+      ],
+      "cwd": "/private/tmp/specproof-optional-pstore-pilot/project",
+      "exit_status": 0,
+      "log": "/private/tmp/specproof-optional-pstore-pilot/evidence/baseline_uninstrumented.log"
+    },
+    {
+      "label": "original_instrumented",
+      "command": [
+        "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+        "-S",
+        "bundle",
+        "exec",
+        "ruby",
+        "pilot_runner.rb",
+        "instrumented-original"
+      ],
+      "cwd": "/private/tmp/specproof-optional-pstore-pilot/project",
+      "exit_status": 1,
+      "log": "/private/tmp/specproof-optional-pstore-pilot/evidence/original_instrumented.log"
+    },
+    {
+      "label": "full_uninstrumented",
+      "command": [
+        "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+        "-S",
+        "bundle",
+        "exec",
+        "ruby",
+        "pilot_runner.rb",
+        "full"
+      ],
+      "cwd": "/private/tmp/specproof-optional-pstore-pilot/project",
+      "exit_status": 0,
+      "log": "/private/tmp/specproof-optional-pstore-pilot/evidence/full_uninstrumented.log"
+    },
+    {
+      "label": "full_instrumented",
+      "command": [
+        "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+        "-S",
+        "bundle",
+        "exec",
+        "ruby",
+        "pilot_runner.rb",
+        "instrumented-full"
+      ],
+      "cwd": "/private/tmp/specproof-optional-pstore-pilot/project",
+      "exit_status": 1,
+      "log": "/private/tmp/specproof-optional-pstore-pilot/evidence/full_instrumented.log"
+    },
+    {
+      "label": "filtered_scalar_instrumented",
+      "command": [
+        "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+        "-S",
+        "bundle",
+        "exec",
+        "ruby",
+        "pilot_runner.rb",
+        "instrumented-filtered",
+        "--name",
+        "/test_specproof_scalar_/"
+      ],
+      "cwd": "/private/tmp/specproof-optional-pstore-pilot/project",
+      "exit_status": 0,
+      "log": "/private/tmp/specproof-optional-pstore-pilot/evidence/filtered_scalar_instrumented.log"
+    },
+    {
+      "label": "runtime_probe",
+      "command": [
+        "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+        "-S",
+        "bundle",
+        "exec",
+        "ruby",
+        "runtime_probe.rb"
+      ],
+      "cwd": "/private/tmp/specproof-optional-pstore-pilot",
+      "exit_status": 0,
+      "log": "/private/tmp/specproof-optional-pstore-pilot/evidence/runtime_probe.log"
+    }
+  ],
+  "source_hashes": {
+    "README.md": {
+      "expected": "267d910b317b89dfa3532081a69bf5dc93ae6e64e98eaa1b04d0440d6b6afb02",
+      "actual": "267d910b317b89dfa3532081a69bf5dc93ae6e64e98eaa1b04d0440d6b6afb02",
+      "unchanged": true
+    },
+    "lib/pstore/logger.rb": {
+      "expected": "d400a1fdb26c9fdeace7cde840c04aa129370014ecbed7a7f720e769b7f2ef58",
+      "actual": "d400a1fdb26c9fdeace7cde840c04aa129370014ecbed7a7f720e769b7f2ef58",
+      "unchanged": true
+    },
+    "lib/pstore/version.rb": {
+      "expected": "fdcef2ce288d2a1d43d2a7c2a7ad028ea37f22a1ddf230883c16bbc6ad7e0fe5",
+      "actual": "fdcef2ce288d2a1d43d2a7c2a7ad028ea37f22a1ddf230883c16bbc6ad7e0fe5",
+      "unchanged": true
+    },
+    "test/test_helper.rb": {
+      "expected": "d7de48904976dc737f7e47ea18dcfc11edaf51407b9143f392a7d87d1eede494",
+      "actual": "d7de48904976dc737f7e47ea18dcfc11edaf51407b9143f392a7d87d1eede494",
+      "unchanged": true
+    },
+    "test/test_pstore_logger.rb": {
+      "expected": "009ab3f5ca15ee30d1669556ff377b0128008223229931cd62800902a2292a89",
+      "actual": "009ab3f5ca15ee30d1669556ff377b0128008223229931cd62800902a2292a89",
+      "unchanged": true
+    }
+  },
+  "specproof_root": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof",
+  "specproof_library_hashes": {
+    "lib/specproof.rb": "18737ef0864f4f9e4f6343dea93bdaf5d70cdd0f5448338ed5319f4450993e09",
+    "lib/specproof/checker.rb": "b2277fcbec584f877762755faa6a31fe86de7c236fba4b16a0d831f988a4467b",
+    "lib/specproof/cli.rb": "5b604cef549f8f0e08ecc0c321c6838650def81bf0d7b59ee1df004463ca6b7a",
+    "lib/specproof/collector.rb": "56f4a39e18d7730296996c3ac47ae7fb1a46257daefb03056169d60d43f425b8",
+    "lib/specproof/coverage.rb": "51e8192c6b56d7d22487d9be992b3a810f7bda7bdfd70906857a55da2eee2d24",
+    "lib/specproof/domains.rb": "7baf62ec2be2f9c3106615de4a49f87f7901c3060f2122b784422bf58cd8c054",
+    "lib/specproof/loader.rb": "e405a860cbfaf573023f8d7f1004a619b6252fb2f20f7251ab62a0e1844eca58",
+    "lib/specproof/minitest.rb": "7b62433558934dbec30778734d42696e9298121ce1e17a6e1fc6c18610a40528",
+    "lib/specproof/model.rb": "f14b4aa4a03c687507392722aecab4cb31bb99d7c1f2ee603826406255e8606c",
+    "lib/specproof/planner.rb": "0853767c823f54fb2f48fd6ad01f0bea272ce88d9140a632dfae47e3ff5e7c0e",
+    "lib/specproof/report.rb": "b957956c015b428c183db8d462a49afaa54c3e1e3b061e4e6e11dad78b63dc57",
+    "lib/specproof/skills.rb": "7eeae2f70b6e1ee6af95883ebd4fd69557c0cfc30c05c159ffe42f7870162e6f",
+    "lib/specproof/version.rb": "770cd5018d68868abf30e1b808c02ceda3d4c866e3e0e1c8ea282f5b6e61e014"
+  },
+  "exported_skill_hashes": {
+    ".agents/skills/specproof-specify/SKILL.md": "b06ce33c0d259e42d537235851e7908778a281319666e810336c892c681945d4",
+    ".agents/skills/specproof-specify/references/usage.md": "97c3c89ade4bf6a211e596b903018fba78f0cf5aa383823743bdafbdbadcc943",
+    ".agents/skills/specproof-test-gaps/SKILL.md": "b9f3063fa93c12c976023f9b423546983c984cbe256fe3cdbb9614655a054178",
+    ".agents/skills/specproof-test-gaps/references/usage.md": "09bd23a955381d3ffd50d6389d5a8e442fc9d5a062fe73631b1f9d0cc862b74e"
+  },
+  "expected_run_results": {
+    "check": true,
+    "plan": true,
+    "baseline_uninstrumented": true,
+    "original_instrumented": true,
+    "full_uninstrumented": true,
+    "full_instrumented": true,
+    "filtered_scalar_instrumented": true,
+    "runtime_probe": true,
+    "source_hashes": true
+  },
+  "reports": {
+    "instrumented_filtered.json": {
+      "schema_version": 1,
+      "kind": "coverage",
+      "specproof_version": "0.1.0",
+      "criterion": "input-basics-v1",
+      "contract_digest": "23dfd41312af281af643ee0bba8814f75f0bf516c822a9f5327d1b3319e84a18",
+      "run_id": "b8e67831-0515-4d49-82bd-5946879492ec",
+      "scope": {
+        "ruby_engine": "ruby",
+        "pid": 16530,
+        "thread": 424,
+        "window": "minitest_run",
+        "method_identity": "direct_owner_definition",
+        "input_semantics": "effective_bound_values",
+        "argument_presence": "not_observed",
+        "targets": [
+          "PStoreLogger#save"
+        ],
+        "arguments": [
+          "--name",
+          "/test_specproof_scalar_/"
+        ],
+        "filter": "/test_specproof_scalar_/",
+        "exclude": null
+      },
+      "completion": "completed",
+      "integrity": true,
+      "tests_passed": true,
+      "errors": [],
+      "incomplete_reasons": [],
+      "unknown_count": 0,
+      "missing_count": 0,
+      "obligations": [
+        {
+          "id": "75813df6b054c3d81d47c9057cec632ff9a4e9defed20cb1278f220fe24a4979",
+          "target": "PStoreLogger#save",
+          "input": "data",
+          "value": {
+            "kind": "nil",
+            "value": null
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 9
+            }
+          ],
+          "status": "exercised",
+          "hits": 1
+        },
+        {
+          "id": "3874140921e3437c727980fb01a191342d7da99369b58567152ed5e58fadc028",
+          "target": "PStoreLogger#save",
+          "input": "data",
+          "value": {
+            "kind": "boolean",
+            "value": false
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 9
+            }
+          ],
+          "status": "exercised",
+          "hits": 2
+        },
+        {
+          "id": "f02029d5684e0dfa43f87049b3206b4314a8adf538cd2df66a8be1935ba6207b",
+          "target": "PStoreLogger#save",
+          "input": "data",
+          "value": {
+            "kind": "boolean",
+            "value": true
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 9
+            }
+          ],
+          "status": "exercised",
+          "hits": 1
+        },
+        {
+          "id": "c8db4f2acf0ed75e7c86ef8d3ff08b1071d4c860dad11575cca9dd2d5c1cc985",
+          "target": "PStoreLogger#save",
+          "input": "data",
+          "value": {
+            "kind": "integer",
+            "value": "0"
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 9
+            }
+          ],
+          "status": "exercised",
+          "hits": 1
+        },
+        {
+          "id": "d94839f47e4e734c01ac3f4f0fae8b68bcc53ecae22340379221d8fa7fb0621b",
+          "target": "PStoreLogger#save",
+          "input": "data",
+          "value": {
+            "kind": "symbol",
+            "value": "event"
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 9
+            }
+          ],
+          "status": "exercised",
+          "hits": 2
+        },
+        {
+          "id": "5255739c08d32f0bbf9302e187f1f30091bd2adb33cda365520289cdab02348d",
+          "target": "PStoreLogger#save",
+          "input": "file_id",
+          "value": {
+            "kind": "nil",
+            "value": null
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 12
+            }
+          ],
+          "status": "exercised",
+          "hits": 5
+        },
+        {
+          "id": "0e99f541e20b8eb00fba805504c215f28dd2b45e596e7d0210b75d49f13a7432",
+          "target": "PStoreLogger#save",
+          "input": "file_id",
+          "value": {
+            "kind": "integer",
+            "value": "1"
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 12
+            }
+          ],
+          "status": "exercised",
+          "hits": 2
+        }
+      ],
+      "missing": [],
+      "outside_domain": {}
+    },
+    "instrumented_full.json": {
+      "schema_version": 1,
+      "kind": "coverage",
+      "specproof_version": "0.1.0",
+      "criterion": "input-basics-v1",
+      "contract_digest": "23dfd41312af281af643ee0bba8814f75f0bf516c822a9f5327d1b3319e84a18",
+      "run_id": "bab1e2a8-f6fb-44c3-8241-1d8c17e1d6f5",
+      "scope": {
+        "ruby_engine": "ruby",
+        "pid": 16422,
+        "thread": 424,
+        "window": "minitest_run",
+        "method_identity": "direct_owner_definition",
+        "input_semantics": "effective_bound_values",
+        "argument_presence": "not_observed",
+        "targets": [
+          "PStoreLogger#save"
+        ],
+        "arguments": [],
+        "filter": null,
+        "exclude": null
+      },
+      "completion": "incomplete",
+      "integrity": false,
+      "tests_passed": true,
+      "errors": [
+        {
+          "code": "non_primitive_argument",
+          "message": "collector disabled this target after an observation failure",
+          "target": "PStoreLogger#save"
+        }
+      ],
+      "incomplete_reasons": [
+        "collector disabled this target after an observation failure"
+      ],
+      "unknown_count": 0,
+      "missing_count": 0,
+      "obligations": [
+        {
+          "id": "75813df6b054c3d81d47c9057cec632ff9a4e9defed20cb1278f220fe24a4979",
+          "target": "PStoreLogger#save",
+          "input": "data",
+          "value": {
+            "kind": "nil",
+            "value": null
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 9
+            }
+          ],
+          "status": "exercised",
+          "hits": 1
+        },
+        {
+          "id": "3874140921e3437c727980fb01a191342d7da99369b58567152ed5e58fadc028",
+          "target": "PStoreLogger#save",
+          "input": "data",
+          "value": {
+            "kind": "boolean",
+            "value": false
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 9
+            }
+          ],
+          "status": "exercised",
+          "hits": 2
+        },
+        {
+          "id": "f02029d5684e0dfa43f87049b3206b4314a8adf538cd2df66a8be1935ba6207b",
+          "target": "PStoreLogger#save",
+          "input": "data",
+          "value": {
+            "kind": "boolean",
+            "value": true
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 9
+            }
+          ],
+          "status": "exercised",
+          "hits": 1
+        },
+        {
+          "id": "c8db4f2acf0ed75e7c86ef8d3ff08b1071d4c860dad11575cca9dd2d5c1cc985",
+          "target": "PStoreLogger#save",
+          "input": "data",
+          "value": {
+            "kind": "integer",
+            "value": "0"
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 9
+            }
+          ],
+          "status": "exercised",
+          "hits": 1
+        },
+        {
+          "id": "d94839f47e4e734c01ac3f4f0fae8b68bcc53ecae22340379221d8fa7fb0621b",
+          "target": "PStoreLogger#save",
+          "input": "data",
+          "value": {
+            "kind": "symbol",
+            "value": "event"
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 9
+            }
+          ],
+          "status": "exercised",
+          "hits": 2
+        },
+        {
+          "id": "5255739c08d32f0bbf9302e187f1f30091bd2adb33cda365520289cdab02348d",
+          "target": "PStoreLogger#save",
+          "input": "file_id",
+          "value": {
+            "kind": "nil",
+            "value": null
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 12
+            }
+          ],
+          "status": "exercised",
+          "hits": 5
+        },
+        {
+          "id": "0e99f541e20b8eb00fba805504c215f28dd2b45e596e7d0210b75d49f13a7432",
+          "target": "PStoreLogger#save",
+          "input": "file_id",
+          "value": {
+            "kind": "integer",
+            "value": "1"
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 12
+            }
+          ],
+          "status": "exercised",
+          "hits": 2
+        }
+      ],
+      "missing": [],
+      "outside_domain": {}
+    },
+    "instrumented_original.json": {
+      "schema_version": 1,
+      "kind": "coverage",
+      "specproof_version": "0.1.0",
+      "criterion": "input-basics-v1",
+      "contract_digest": "23dfd41312af281af643ee0bba8814f75f0bf516c822a9f5327d1b3319e84a18",
+      "run_id": "c063376a-17b7-46b6-b5b6-4a3a7af48dfb",
+      "scope": {
+        "ruby_engine": "ruby",
+        "pid": 16306,
+        "thread": 424,
+        "window": "minitest_run",
+        "method_identity": "direct_owner_definition",
+        "input_semantics": "effective_bound_values",
+        "argument_presence": "not_observed",
+        "targets": [
+          "PStoreLogger#save"
+        ],
+        "arguments": [],
+        "filter": null,
+        "exclude": null
+      },
+      "completion": "incomplete",
+      "integrity": false,
+      "tests_passed": true,
+      "errors": [
+        {
+          "code": "non_primitive_argument",
+          "message": "collector disabled this target after an observation failure",
+          "target": "PStoreLogger#save"
+        }
+      ],
+      "incomplete_reasons": [
+        "collector disabled this target after an observation failure"
+      ],
+      "unknown_count": 7,
+      "missing_count": 0,
+      "obligations": [
+        {
+          "id": "75813df6b054c3d81d47c9057cec632ff9a4e9defed20cb1278f220fe24a4979",
+          "target": "PStoreLogger#save",
+          "input": "data",
+          "value": {
+            "kind": "nil",
+            "value": null
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 9
+            }
+          ],
+          "status": "unknown",
+          "hits": 0
+        },
+        {
+          "id": "3874140921e3437c727980fb01a191342d7da99369b58567152ed5e58fadc028",
+          "target": "PStoreLogger#save",
+          "input": "data",
+          "value": {
+            "kind": "boolean",
+            "value": false
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 9
+            }
+          ],
+          "status": "unknown",
+          "hits": 0
+        },
+        {
+          "id": "f02029d5684e0dfa43f87049b3206b4314a8adf538cd2df66a8be1935ba6207b",
+          "target": "PStoreLogger#save",
+          "input": "data",
+          "value": {
+            "kind": "boolean",
+            "value": true
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 9
+            }
+          ],
+          "status": "unknown",
+          "hits": 0
+        },
+        {
+          "id": "c8db4f2acf0ed75e7c86ef8d3ff08b1071d4c860dad11575cca9dd2d5c1cc985",
+          "target": "PStoreLogger#save",
+          "input": "data",
+          "value": {
+            "kind": "integer",
+            "value": "0"
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 9
+            }
+          ],
+          "status": "unknown",
+          "hits": 0
+        },
+        {
+          "id": "d94839f47e4e734c01ac3f4f0fae8b68bcc53ecae22340379221d8fa7fb0621b",
+          "target": "PStoreLogger#save",
+          "input": "data",
+          "value": {
+            "kind": "symbol",
+            "value": "event"
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 9
+            }
+          ],
+          "status": "unknown",
+          "hits": 0
+        },
+        {
+          "id": "5255739c08d32f0bbf9302e187f1f30091bd2adb33cda365520289cdab02348d",
+          "target": "PStoreLogger#save",
+          "input": "file_id",
+          "value": {
+            "kind": "nil",
+            "value": null
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 12
+            }
+          ],
+          "status": "unknown",
+          "hits": 0
+        },
+        {
+          "id": "0e99f541e20b8eb00fba805504c215f28dd2b45e596e7d0210b75d49f13a7432",
+          "target": "PStoreLogger#save",
+          "input": "file_id",
+          "value": {
+            "kind": "integer",
+            "value": "1"
+          },
+          "reasons": [
+            "finite input value"
+          ],
+          "sources": [
+            {
+              "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+              "line": 12
+            }
+          ],
+          "status": "unknown",
+          "hits": 0
+        }
+      ],
+      "missing": [],
+      "outside_domain": {}
+    }
+  }
+}

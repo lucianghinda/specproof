@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Observe effective scalar values for named optional positional and keyword parameters, with explicit report semantics and preserved Ruby default behavior.
+- Retain a PStoreLogger scalar persistence pilot with complete filtered exercise and honest incomplete full-suite evidence on Hash inputs.
 - Support correctly labeled Minitest 5.26.2 packages while preserving package/runtime mismatch rejection; use that published release in the development bundle.
 - Record a real QualityGate input gap, an agent-added default assertion, paired focused-suite timings, and two rejected integration candidates.
 - Documented input contracts, boundary planning, Minitest observation, and the bundled age and shipping examples.

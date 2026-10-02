@@ -1,0 +1,11 @@
+{
+  "source": "/Users/luciang/Dropbox/workprojects/opensource/pstore_logger",
+  "commit": "959e37410bac42ba47e43ee8da006ce9550d9f50",
+  "files": {
+    "README.md": "267d910b317b89dfa3532081a69bf5dc93ae6e64e98eaa1b04d0440d6b6afb02",
+    "lib/pstore/logger.rb": "d400a1fdb26c9fdeace7cde840c04aa129370014ecbed7a7f720e769b7f2ef58",
+    "lib/pstore/version.rb": "fdcef2ce288d2a1d43d2a7c2a7ad028ea37f22a1ddf230883c16bbc6ad7e0fe5",
+    "test/test_helper.rb": "d7de48904976dc737f7e47ea18dcfc11edaf51407b9143f392a7d87d1eede494",
+    "test/test_pstore_logger.rb": "009ab3f5ca15ee30d1669556ff377b0128008223229931cd62800902a2292a89"
+  }
+}

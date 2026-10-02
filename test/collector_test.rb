@@ -39,6 +39,143 @@ class CollectorTest < Minitest::Test
     assert_empty @collector.issues
   end
 
+  def test_tracepoint_call_binding_contains_applied_optional_defaults
+    captured = []
+    tracepoint = TracePoint.new(:call) do |trace|
+      next unless trace.defined_class == RuntimeFixtures::Target && trace.method_id == :optional
+
+      captured << trace.binding.local_variable_get(:value)
+    end
+    tracepoint.enable
+    target = RuntimeFixtures::Target.new
+    target.optional
+    target.optional(1)
+    tracepoint.disable
+
+    assert_equal [1, 1], captured
+  end
+
+  def test_tracepoint_call_event_does_not_run_when_a_default_raises
+    captured = []
+    tracepoint = TracePoint.new(:call) do |trace|
+      captured << trace.method_id if trace.defined_class == RuntimeFixtures::Target &&
+                                     trace.method_id == :raising_default
+    end
+    tracepoint.enable
+    error = assert_raises(ArgumentError) { RuntimeFixtures::Target.new.raising_default }
+    tracepoint.disable
+
+    assert_equal "default failed", error.message
+    assert_empty captured
+  end
+
+  def test_observes_effective_values_for_omitted_and_explicit_equal_defaults
+    collector = collector_for("RuntimeFixtures::Target#optional", :value)
+    collector.start
+    RuntimeFixtures::Target.new.optional
+    RuntimeFixtures::Target.new.optional(1)
+    collector.stop
+
+    assert_equal [
+      ["RuntimeFixtures::Target#optional", { value: 1 }],
+      ["RuntimeFixtures::Target#optional", { value: 1 }]
+    ], @observer.calls
+    assert_empty collector.issues
+  end
+
+  def test_observes_omitted_mixed_positional_and_keyword_defaults
+    collector = collector_for("RuntimeFixtures::Target#mixed_optional", :value, :label)
+    collector.start
+    RuntimeFixtures::Target.new.mixed_optional
+    collector.stop
+
+    assert_equal [["RuntimeFixtures::Target#mixed_optional", { value: :position, label: :keyword }]],
+                 @observer.calls
+    assert_empty collector.issues
+  end
+
+  def test_observes_required_positional_after_an_optional_positional
+    collector = collector_for("RuntimeFixtures::Target#optional_before_required", :optional, :required)
+    collector.start
+    RuntimeFixtures::Target.new.optional_before_required(:provided_required)
+    collector.stop
+
+    assert_equal [["RuntimeFixtures::Target#optional_before_required",
+                   { optional: :optional, required: :provided_required }]], @observer.calls
+    assert_empty collector.issues
+  end
+
+  def test_observes_dependent_default_after_preceding_parameter
+    collector = collector_for("RuntimeFixtures::Target#dependent_default", :first, :second)
+    collector.start
+    RuntimeFixtures::Target.new.dependent_default(8)
+    collector.stop
+
+    assert_equal [["RuntimeFixtures::Target#dependent_default", { first: 8, second: 9 }]], @observer.calls
+    assert_empty collector.issues
+  end
+
+  def test_side_effect_default_runs_once_when_omitted_and_not_when_explicit
+    RuntimeFixtures::Target.optional_default_calls = 0
+    collector = collector_for("RuntimeFixtures::Target#side_effect_default", :value)
+    collector.start
+    RuntimeFixtures::Target.new.side_effect_default
+    RuntimeFixtures::Target.new.side_effect_default(:default_value)
+    collector.stop
+
+    assert_equal 1, RuntimeFixtures::Target.optional_default_calls
+    assert_equal [
+      ["RuntimeFixtures::Target#side_effect_default", { value: :default_value }],
+      ["RuntimeFixtures::Target#side_effect_default", { value: :default_value }]
+    ], @observer.calls
+    assert_empty collector.issues
+  ensure
+    RuntimeFixtures::Target.optional_default_calls = nil
+  end
+
+  def test_default_exception_is_preserved_without_an_entry_observation
+    collector = collector_for("RuntimeFixtures::Target#raising_default", :value)
+    collector.start
+
+    error = assert_raises(ArgumentError) { RuntimeFixtures::Target.new.raising_default }
+    collector.stop
+
+    assert_equal "default failed", error.message
+    assert_empty @observer.calls
+    assert_empty collector.issues
+  end
+
+  def test_nonprimitive_default_disables_the_whole_tuple_before_observation
+    collector = collector_for("RuntimeFixtures::Target#opaque_default", :value, :label)
+    collector.start
+    RuntimeFixtures::Target.new.opaque_default
+    RuntimeFixtures::Target.new.opaque_default(3, label: :later)
+    collector.stop
+
+    assert_empty @observer.calls
+    issue_codes = collector.issues.map { |issue| issue[:code] }
+    assert_equal ["non_primitive_argument"], issue_codes
+  end
+
+  def test_default_can_legitimately_invoke_another_selected_target
+    collector = SpecProof::Collector.new(
+      specifications: [
+        spec("RuntimeFixtures::Target#calls_helper_by_default", :value),
+        spec("RuntimeFixtures::Target#helper", :value)
+      ],
+      observer: @observer
+    )
+    collector.start
+    RuntimeFixtures::Target.new.calls_helper_by_default
+    collector.stop
+
+    assert_equal [
+      ["RuntimeFixtures::Target#helper", { value: :from_default }],
+      ["RuntimeFixtures::Target#calls_helper_by_default", { value: :from_default }]
+    ], @observer.calls
+    assert_empty collector.issues
+  end
+
   def test_observes_recursive_calls_as_distinct_invocations
     @collector = SpecProof::Collector.new(
       specifications: [spec("RuntimeFixtures::Target#recursive", :value, :depth)],
@@ -136,7 +273,7 @@ class CollectorTest < Minitest::Test
     refute collector.enabled?
   end
 
-  def test_start_rejects_mismatched_or_optional_parameters
+  def test_start_rejects_mismatched_input_names
     collector = collector_for("RuntimeFixtures::Target#calculate", :wrong, :label)
 
     assert_raises(SpecProof::ConfigurationError) { collector.start }
@@ -180,6 +317,22 @@ class CollectorTest < Minitest::Test
 
     assert_equal [["RuntimeFixtures::Dynamic#run", { value: 14 }]], @observer.calls
     assert_empty collector.issues
+  end
+
+  def test_start_rejects_rest_keyrest_block_and_forwarding_parameters
+    [
+      ["with_rest", %i[value others]],
+      ["with_keyrest", %i[value options]],
+      ["with_block", %i[value callback]],
+      ["with_forwarding", []]
+    ].each do |method_name, input_names|
+      collector = collector_for("RuntimeFixtures::Target##{method_name}", *input_names)
+
+      error = assert_raises(SpecProof::ConfigurationError) { collector.start }
+
+      assert_equal "unsupported_parameters", error.code
+      refute collector.enabled?
+    end
   end
 
   def test_nonprimitive_arguments_disable_only_the_affected_target_and_are_not_inspected
@@ -343,13 +496,6 @@ class CollectorTest < Minitest::Test
     @collector.stop
     assert_nil @collector.stop
     refute @collector.enabled?
-  end
-
-  def test_rejects_optional_parameters
-    collector = collector_for("RuntimeFixtures::Target#optional", :value)
-
-    assert_raises(SpecProof::ConfigurationError) { collector.start }
-    refute collector.enabled?
   end
 
   def test_reports_unsupported_values_without_growing_issues_per_call

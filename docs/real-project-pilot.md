@@ -2,13 +2,15 @@
 
 The first pilot demonstrated a useful test gap on an existing method, and exposed two concrete adoption limits. It did **not** produce three successful coverage integrations: one target was supported, and two representative targets were rejected. Luna agents performed discovery, used the exported skills, and independently reviewed the evidence. Original repositories were left unchanged.
 
+This records the implementation cut at commit `405883e`. The later [optional-argument continuation](optional-arguments-results.md) repeats the PStoreLogger candidate with a new collector and exported skills; the original rejected probe remains historical evidence.
+
 ## Installation
 
 The development bundle now selects the correctly labeled published Minitest 5.26.2 release. The adapter supports `>= 5.26.2` and `< 5.28.0`, while continuing to reject package/runtime minor-version mismatches. See [package checksums and compatibility evidence](minitest-compatibility.md).
 
 The pilot used standard Bundler `vendor/bundle` installation, with the verified official package in `vendor/cache`. Sandbox restrictions prevented writing a global executable wrapper, and Bundler could not reach its index host; a normal `bundle install --local` from that package cache succeeded. No dependency source, runtime version constant, or global gem installation was changed. Core development checks use the existing published 5.26.2 installation; Ruby 3.3/3.4 verification used local bundles with ambient Ruby 4 gem paths cleared.
 
-Bundler loaded SpecProof from its cached path dependency. Every cached library file matches the current gem library by SHA-256; those hashes are in the pilot manifest. The retained archive excludes that generated cache and recreates it from `SPECPROOF_ROOT` during installation.
+Bundler loaded SpecProof from its cached path dependency. Every cached library file matched the pilot implementation by SHA-256; those hashes are in the pilot manifest. The retained archive excludes that generated cache and recreates it from `SPECPROOF_ROOT` during installation.
 
 ## Three candidate methods
 

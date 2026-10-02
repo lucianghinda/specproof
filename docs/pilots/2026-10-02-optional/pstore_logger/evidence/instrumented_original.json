@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "specproof_version": "0.1.0",
+  "kind": "coverage",
+  "errors": [
+    {
+      "code": "non_primitive_argument",
+      "message": "collector disabled this target after an observation failure",
+      "target": "PStoreLogger#save"
+    }
+  ],
+  "contract_digest": "23dfd41312af281af643ee0bba8814f75f0bf516c822a9f5327d1b3319e84a18",
+  "criterion": "input-basics-v1",
+  "run_id": "c063376a-17b7-46b6-b5b6-4a3a7af48dfb",
+  "scope": {
+    "ruby_engine": "ruby",
+    "pid": 16306,
+    "thread": 424,
+    "window": "minitest_run",
+    "method_identity": "direct_owner_definition",
+    "input_semantics": "effective_bound_values",
+    "argument_presence": "not_observed",
+    "targets": [
+      "PStoreLogger#save"
+    ],
+    "arguments": [],
+    "filter": null,
+    "exclude": null
+  },
+  "evidence_mode": "obligation_hits",
+  "replay": false,
+  "obligations": [
+    {
+      "id": "75813df6b054c3d81d47c9057cec632ff9a4e9defed20cb1278f220fe24a4979",
+      "target": "PStoreLogger#save",
+      "input": "data",
+      "value": {
+        "kind": "nil",
+        "value": null
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+          "line": 9
+        }
+      ],
+      "status": "unknown",
+      "hits": 0
+    },
+    {
+      "id": "3874140921e3437c727980fb01a191342d7da99369b58567152ed5e58fadc028",
+      "target": "PStoreLogger#save",
+      "input": "data",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+          "line": 9
+        }
+      ],
+      "status": "unknown",
+      "hits": 0
+    },
+    {
+      "id": "f02029d5684e0dfa43f87049b3206b4314a8adf538cd2df66a8be1935ba6207b",
+      "target": "PStoreLogger#save",
+      "input": "data",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+          "line": 9
+        }
+      ],
+      "status": "unknown",
+      "hits": 0
+    },
+    {
+      "id": "c8db4f2acf0ed75e7c86ef8d3ff08b1071d4c860dad11575cca9dd2d5c1cc985",
+      "target": "PStoreLogger#save",
+      "input": "data",
+      "value": {
+        "kind": "integer",
+        "value": "0"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+          "line": 9
+        }
+      ],
+      "status": "unknown",
+      "hits": 0
+    },
+    {
+      "id": "d94839f47e4e734c01ac3f4f0fae8b68bcc53ecae22340379221d8fa7fb0621b",
+      "target": "PStoreLogger#save",
+      "input": "data",
+      "value": {
+        "kind": "symbol",
+        "value": "event"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+          "line": 9
+        }
+      ],
+      "status": "unknown",
+      "hits": 0
+    },
+    {
+      "id": "5255739c08d32f0bbf9302e187f1f30091bd2adb33cda365520289cdab02348d",
+      "target": "PStoreLogger#save",
+      "input": "file_id",
+      "value": {
+        "kind": "nil",
+        "value": null
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+          "line": 12
+        }
+      ],
+      "status": "unknown",
+      "hits": 0
+    },
+    {
+      "id": "0e99f541e20b8eb00fba805504c215f28dd2b45e596e7d0210b75d49f13a7432",
+      "target": "PStoreLogger#save",
+      "input": "file_id",
+      "value": {
+        "kind": "integer",
+        "value": "1"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-optional-pstore-pilot/specifications/pstore_logger_save.rb",
+          "line": 12
+        }
+      ],
+      "status": "unknown",
+      "hits": 0
+    }
+  ],
+  "missing": [],
+  "exercised": [],
+  "exercised_count": 0,
+  "obligation_count": 7,
+  "missing_count": 0,
+  "unknown_count": 7,
+  "not_observed_count": 0,
+  "completion_percent": null,
+  "outside_domain": {},
+  "incomplete_reasons": [
+    "collector disabled this target after an observation failure"
+  ],
+  "completion": "incomplete",
+  "integrity": false,
+  "tests_passed": true
+}

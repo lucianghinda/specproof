@@ -20,6 +20,16 @@ direct calls to supported methods during the original Minitest run. It does not
 inspect assertions or replay tests. Unsupported signatures, collector errors,
 and out-of-domain inputs cannot be counted as successful obligation evidence.
 
+The report's `scope.input_semantics` is `effective_bound_values`, and
+`scope.argument_presence` is `not_observed`. Required and optional named
+positional/keyword parameters must all be declared. Ruby applies defaults before
+the observed entry; omitted and explicitly equal values exercise the same
+obligation. A raising default before entry supplies no target entry evidence.
+Never claim omission coverage from a nil/default-value hit. Non-primitive values,
+including defaults, make collection incomplete; do not hide those failures by
+narrowing or relabeling the run. An intentionally filtered scenario report may
+establish only that explicitly named scope, never total project coverage.
+
 Parse the generated JSON and require all of the following before claiming the
 current suite covered its plan:
 

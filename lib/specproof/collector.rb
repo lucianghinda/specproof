@@ -125,8 +125,8 @@ module SpecProof
       end
 
       parameters = method.parameters
-      unless parameters.all? { |kind, _name| %i[req keyreq].include?(kind) }
-        raise_configuration_error("#{target_name} may only use required named positional or keyword parameters",
+      unless parameters.all? { |kind, _name| %i[req opt keyreq key].include?(kind) }
+        raise_configuration_error("#{target_name} may only use named positional or keyword parameters",
                                   target: target_name, code: "unsupported_parameters")
       end
 

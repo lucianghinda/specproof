@@ -13,7 +13,7 @@ The [approved plan](../../../docs/superpowers/plans/2026-10-02-first-usable-rele
 ## Delivered work
 
 - Tasks 1–4: immutable scalar domains, trusted Ruby declaration loading, exact partition checks, shared `input-basics-v1` planning, human and JSON CLI reports.
-- Task 5: bounded TracePoint collection for directly owned public instance methods with required positional/keyword inputs. Unsupported or duplicate resolved bindings, redefinition, and changed constant paths cannot produce complete evidence.
+- Task 5: bounded TracePoint collection for directly owned public instance methods with named positional/keyword inputs, including optional parameters. Unsupported or duplicate resolved bindings, redefinition, and changed constant paths cannot produce complete evidence.
 - Tasks 6–7: streaming counters, whole-tuple input validation, positive versus unknown evidence, optional serial Minitest adapter with fresh run IDs and atomic reports, optional strict missing-obligation failure.
 - Task 8: [executable boundary workflow](../examples/age_policy/README.md), shipping and gap examples, [report contract](report-format.md), packaging, API signatures, compatibility checks, and [timing measurements](benchmark.md).
 - Task 9: two packaged skills, conflict-preserving explicit export, and [retained agent evaluations](evaluations/agent-skills-v0.1.md).
@@ -55,6 +55,8 @@ The [real-project pilot](real-project-pilot.md) applied the updated exported ski
 Five baseline/instrumented timing pairs preserve the original 45-test, 342-assertion focused suite. The measured median subprocess difference was about 38 ms (12.5%); this is not a general application overhead claim. Source snapshots, package checksum, exact skills, test additions, reports, raw timings, and rejected probes are retained.
 
 ## Limits and release follow-up
+
+The [optional-argument follow-up](optional-arguments-results.md) records support for effective scalar values after Ruby applies defaults and a scoped PStoreLogger adoption pilot. Reports explicitly state that argument presence is not observed. Earlier pilot rejections and archived skill bytes describe their original implementation cuts.
 
 This release checks explicit scalar input specifications and measures exercised input candidates; it does not prove implementation behavior or assertion quality. Declarations are trusted executable Ruby. Collection requires stable constant bindings and selected definitions in a serial same-process/thread window. Transient constant changes restored before final inspection are not detected.
 

@@ -1,0 +1,14 @@
+$ /Users/luciang/.rubies/ruby-3.4.7/bin/ruby -S bundle exec ruby runtime_probe.rb
+
+/private/tmp/specproof-optional-pstore-pilot/evidence/runtime_probe.json
+Run options: --seed 61129
+
+# Running:
+
+
+
+Finished in 0.000185s, 0.0000 runs/s, 0.0000 assertions/s.
+
+0 runs, 0 assertions, 0 failures, 0 errors, 0 skips
+/private/tmp/specproof-optional-pstore-pilot/project/lib/pstore/logger.rb:3: warning: pstore was loaded from the standard library, but will no longer be part of the default gems starting from Ruby 3.5.0.
+You can add pstore to your Gemfile or gemspec to silence this warning.

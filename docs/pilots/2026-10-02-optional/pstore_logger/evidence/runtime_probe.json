@@ -1,0 +1,113 @@
+{
+  "cwd": "/private/tmp/specproof-optional-pstore-pilot",
+  "ruby_version": "ruby 3.4.7 (2025-10-08 revision 7a5688e2a2) +PRISM [arm64-darwin24]",
+  "environment": {
+    "SPECPROOF_ROOT": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof",
+    "BUNDLE_GEMFILE": "/private/tmp/specproof-optional-pstore-pilot/Gemfile",
+    "BUNDLE_PATH": null,
+    "GEM_HOME": "/private/tmp/specproof-optional-pstore-pilot/vendor/bundle/ruby/3.4.0",
+    "GEM_PATH": ""
+  },
+  "loaded_gem": {
+    "name": "specproof",
+    "version": "0.1.0",
+    "full_gem_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof",
+    "real_gem_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof",
+    "loaded_from": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/specproof.gemspec",
+    "full_require_paths": [
+      "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib"
+    ]
+  },
+  "requested_feature_resolutions": {
+    "specproof.rb": [
+      {
+        "load_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib",
+        "candidate": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof.rb",
+        "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof.rb",
+        "sha256": "18737ef0864f4f9e4f6343dea93bdaf5d70cdd0f5448338ed5319f4450993e09"
+      }
+    ],
+    "specproof/minitest.rb": [
+      {
+        "load_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib",
+        "candidate": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/minitest.rb",
+        "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/minitest.rb",
+        "sha256": "7b62433558934dbec30778734d42696e9298121ce1e17a6e1fc6c18610a40528"
+      }
+    ]
+  },
+  "actual_loaded_features": [
+    {
+      "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/version.rb",
+      "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/version.rb",
+      "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/version.rb",
+      "sha256": "770cd5018d68868abf30e1b808c02ceda3d4c866e3e0e1c8ea282f5b6e61e014"
+    },
+    {
+      "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/model.rb",
+      "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/model.rb",
+      "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/model.rb",
+      "sha256": "f14b4aa4a03c687507392722aecab4cb31bb99d7c1f2ee603826406255e8606c"
+    },
+    {
+      "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/domains.rb",
+      "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/domains.rb",
+      "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/domains.rb",
+      "sha256": "7baf62ec2be2f9c3106615de4a49f87f7901c3060f2122b784422bf58cd8c054"
+    },
+    {
+      "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/loader.rb",
+      "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/loader.rb",
+      "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/loader.rb",
+      "sha256": "e405a860cbfaf573023f8d7f1004a619b6252fb2f20f7251ab62a0e1844eca58"
+    },
+    {
+      "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/checker.rb",
+      "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/checker.rb",
+      "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/checker.rb",
+      "sha256": "b2277fcbec584f877762755faa6a31fe86de7c236fba4b16a0d831f988a4467b"
+    },
+    {
+      "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/planner.rb",
+      "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/planner.rb",
+      "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/planner.rb",
+      "sha256": "0853767c823f54fb2f48fd6ad01f0bea272ce88d9140a632dfae47e3ff5e7c0e"
+    },
+    {
+      "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/report.rb",
+      "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/report.rb",
+      "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/report.rb",
+      "sha256": "b957956c015b428c183db8d462a49afaa54c3e1e3b061e4e6e11dad78b63dc57"
+    },
+    {
+      "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/coverage.rb",
+      "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/coverage.rb",
+      "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/coverage.rb",
+      "sha256": "51e8192c6b56d7d22487d9be992b3a810f7bda7bdfd70906857a55da2eee2d24"
+    },
+    {
+      "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/skills.rb",
+      "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/skills.rb",
+      "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/skills.rb",
+      "sha256": "7eeae2f70b6e1ee6af95883ebd4fd69557c0cfc30c05c159ffe42f7870162e6f"
+    },
+    {
+      "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof.rb",
+      "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof.rb",
+      "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof.rb",
+      "sha256": "18737ef0864f4f9e4f6343dea93bdaf5d70cdd0f5448338ed5319f4450993e09"
+    },
+    {
+      "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/collector.rb",
+      "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/collector.rb",
+      "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/collector.rb",
+      "sha256": "56f4a39e18d7730296996c3ac47ae7fb1a46257daefb03056169d60d43f425b8"
+    },
+    {
+      "loaded_feature": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/minitest.rb",
+      "absolute_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/minitest.rb",
+      "real_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/lib/specproof/minitest.rb",
+      "sha256": "7b62433558934dbec30778734d42696e9298121ce1e17a6e1fc6c18610a40528"
+    }
+  ]
+}

@@ -58,7 +58,11 @@ SpecProof.define "Registration#adult?" do
 end
 ```
 
-Keep the declared method signature aligned with the real required positional
-or keyword inputs. Load specification files only from trusted project sources;
+Keep the declared method signature aligned with the real named positional
+or keyword inputs, including optional parameters. Declare every parameter.
+Domains describe effective values at method entry, after Ruby applies defaults;
+they do not assert whether the caller omitted an argument. Do not evaluate or
+guess default expressions while authoring the domain.
+Load specification files only from trusted project sources;
 they are executable Ruby. SpecProof does not load the application class while
 checking or planning.

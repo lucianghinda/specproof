@@ -1,0 +1,199 @@
+# frozen_string_literal: true
+
+require "digest"
+require "fileutils"
+require "json"
+require "open3"
+require "pathname"
+
+ROOT = File.expand_path(__dir__)
+PROJECT = File.join(ROOT, "project")
+EVIDENCE = File.join(ROOT, "evidence")
+MANIFEST = JSON.parse(File.read(File.join(ROOT, "source-manifest.json")))
+RUBY_BIN = "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby"
+
+FileUtils.mkdir_p(EVIDENCE)
+environment = {
+  "PATH" => "/Users/luciang/.rubies/ruby-3.4.7/bin:/usr/bin:/bin",
+  "SPECPROOF_ROOT" => ENV.fetch("SPECPROOF_ROOT", "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof"),
+  "MT_NO_PLUGINS" => "1",
+  "GEM_HOME" => nil,
+  "GEM_PATH" => nil,
+  "RUBYOPT" => nil,
+  "RUBYLIB" => nil,
+  "BUNDLE_GEMFILE" => nil,
+  "BUNDLE_LOCKFILE" => nil,
+  "BUNDLE_BIN_PATH" => nil,
+  "BUNDLER_SETUP" => nil,
+  "BUNDLER_VERSION" => nil,
+  "BUNDLE_PATH" => nil,
+  "BUNDLE_APP_CONFIG" => nil,
+  "BUNDLE_USER_HOME" => nil,
+  "BUNDLE_WITH" => nil,
+  "BUNDLE_WITHOUT" => nil
+}
+
+commands = []
+
+def run_step(label, command, cwd:, environment:, log_name:)
+  stdout, stderr, status = Open3.capture3(environment, *command, chdir: cwd)
+  log_path = File.join(EVIDENCE, log_name)
+  File.write(log_path, "$ #{command.join(" ")}\n\n#{stdout}#{stderr}")
+  result = {
+    label: label,
+    command: command,
+    cwd: cwd,
+    exit_status: status.exitstatus,
+    log: log_path,
+    stdout: stdout,
+    stderr: stderr
+  }
+  puts "#{label}: exit=#{status.exitstatus} log=#{log_path}"
+  result
+end
+
+bundle_exec = [RUBY_BIN, "-S", "bundle", "exec"]
+spec_command = bundle_exec + ["specproof"]
+commands << run_step("check", spec_command + ["check", "specifications/pstore_logger_save.rb", "--format", "json"], cwd: ROOT, environment: environment, log_name: "check.log")
+commands << run_step("plan", spec_command + ["plan", "specifications/pstore_logger_save.rb", "--format", "json"], cwd: ROOT, environment: environment, log_name: "plan.log")
+commands << run_step("baseline_uninstrumented", bundle_exec + ["ruby", "pilot_runner.rb", "baseline"], cwd: PROJECT, environment: environment, log_name: "baseline_uninstrumented.log")
+commands << run_step("original_instrumented", bundle_exec + ["ruby", "pilot_runner.rb", "instrumented-original"], cwd: PROJECT, environment: environment, log_name: "original_instrumented.log")
+commands << run_step("full_uninstrumented", bundle_exec + ["ruby", "pilot_runner.rb", "full"], cwd: PROJECT, environment: environment, log_name: "full_uninstrumented.log")
+commands << run_step("full_instrumented", bundle_exec + ["ruby", "pilot_runner.rb", "instrumented-full"], cwd: PROJECT, environment: environment, log_name: "full_instrumented.log")
+commands << run_step("filtered_scalar_instrumented", bundle_exec + ["ruby", "pilot_runner.rb", "instrumented-filtered", "--name", "/test_specproof_scalar_/"], cwd: PROJECT, environment: environment, log_name: "filtered_scalar_instrumented.log")
+commands << run_step("runtime_probe", bundle_exec + ["ruby", "runtime_probe.rb"], cwd: ROOT, environment: environment, log_name: "runtime_probe.log")
+
+hashes = MANIFEST.fetch("files").to_h do |relative_path, expected|
+  copied_path = File.join(PROJECT, relative_path)
+  actual = Digest::SHA256.file(copied_path).hexdigest
+  [relative_path, { expected: expected, actual: actual, unchanged: actual == expected }]
+end
+
+specproof_root = File.expand_path(environment.fetch("SPECPROOF_ROOT"))
+specproof_library_paths = Dir.glob(File.join(specproof_root, "lib/**/*.rb")).sort
+specproof_library_hashes = specproof_library_paths.to_h do |path|
+  [Pathname.new(path).relative_path_from(Pathname.new(specproof_root)).to_s, Digest::SHA256.file(path).hexdigest]
+end
+exported_skill_hashes = Dir.glob(File.join(ROOT, ".agents/skills/**/*")).select { |path| File.file?(path) }.sort.to_h do |path|
+  [Pathname.new(path).relative_path_from(Pathname.new(ROOT)).to_s, Digest::SHA256.file(path).hexdigest]
+end
+
+reports = Dir.glob(File.join(EVIDENCE, "instrumented_*.json")).to_h do |path|
+  [File.basename(path), JSON.parse(File.read(path))]
+end
+plan_result = JSON.parse(commands.fetch(1).fetch(:stdout))
+check_result = JSON.parse(commands.fetch(0).fetch(:stdout))
+
+expected_incomplete = %w[instrumented_original.json instrumented_full.json].all? do |name|
+  report = reports.fetch(name)
+  report.fetch("completion") == "incomplete" &&
+    report.fetch("tests_passed") == true &&
+    report.fetch("integrity") == false &&
+    report.fetch("scope").fetch("filter").nil? &&
+    report.fetch("scope").fetch("exclude").nil? &&
+    report.fetch("errors").any? { |error| error.fetch("code") == "non_primitive_argument" }
+end
+
+filtered = reports.fetch("instrumented_filtered.json")
+runtime_probe = JSON.parse(File.read(File.join(EVIDENCE, "runtime_probe.json")))
+actual_loaded_root = File.realpath(runtime_probe.fetch("loaded_gem").fetch("full_gem_path"))
+runtime_path_verified = actual_loaded_root == File.realpath(specproof_root) &&
+  runtime_probe.fetch("actual_loaded_features").all? do |feature|
+    feature.fetch("real_path").start_with?(actual_loaded_root + File::SEPARATOR) && feature.fetch("sha256").match?(/\A[0-9a-f]{64}\z/)
+  end &&
+  runtime_probe.fetch("actual_loaded_features").any? { |feature| feature.fetch("real_path").end_with?("/lib/specproof/minitest.rb") } &&
+  runtime_probe.fetch("requested_feature_resolutions").fetch("specproof/minitest.rb").any? do |feature|
+    feature.fetch("real_path").end_with?("/lib/specproof/minitest.rb")
+  end
+filtered_complete = filtered.fetch("completion") == "completed" &&
+  filtered.fetch("integrity") == true &&
+  filtered.fetch("tests_passed") == true &&
+  filtered.fetch("scope").fetch("filter") == "/test_specproof_scalar_/" &&
+  filtered.fetch("scope").fetch("arguments") == ["--name", "/test_specproof_scalar_/"] &&
+  filtered.fetch("scope").fetch("exclude").nil? &&
+  filtered.fetch("contract_digest") == plan_result.fetch("contract_digest") &&
+  filtered.fetch("obligation_count") == 7 &&
+  filtered.fetch("exercised_count") == 7 &&
+  filtered.fetch("obligations").all? { |obligation| obligation.fetch("status") == "exercised" && obligation.fetch("hits").positive? }
+
+expected_run_results = {
+  "check" => commands.fetch(0).fetch(:exit_status).zero? && check_result.fetch("findings").empty? && check_result.fetch("errors").empty?,
+  "plan" => commands.fetch(1).fetch(:exit_status).zero? && plan_result.fetch("obligations").length == 7,
+  "baseline_uninstrumented" => commands.fetch(2).fetch(:exit_status).zero?,
+  "original_instrumented" => expected_incomplete && commands.fetch(3).fetch(:exit_status) == 1,
+  "full_uninstrumented" => commands.fetch(4).fetch(:exit_status).zero?,
+  "full_instrumented" => expected_incomplete && commands.fetch(5).fetch(:exit_status) == 1,
+  "filtered_scalar_instrumented" => filtered_complete && commands.fetch(6).fetch(:exit_status).zero?,
+  "runtime_probe" => commands.fetch(7).fetch(:exit_status).zero? && runtime_path_verified,
+  "source_hashes" => hashes.values.all? { |item| item.fetch(:unchanged) }
+}
+
+summary = {
+  ruby_version: run_step("ruby_version", [RUBY_BIN, "--version"], cwd: ROOT, environment: environment, log_name: "ruby_version.log").fetch(:stdout).strip,
+  check: check_result,
+  plan: plan_result,
+  runtime_probe: runtime_probe,
+  commands: commands.map { |item| item.reject { |key, _| %i[stdout stderr].include?(key) } },
+  source_hashes: hashes,
+  specproof_root: specproof_root,
+  specproof_library_hashes: specproof_library_hashes,
+  exported_skill_hashes: exported_skill_hashes,
+  expected_run_results: expected_run_results,
+  reports: reports.transform_values do |report|
+    {
+      schema_version: report["schema_version"],
+      kind: report["kind"],
+      specproof_version: report["specproof_version"],
+      criterion: report["criterion"],
+      contract_digest: report["contract_digest"],
+      run_id: report["run_id"],
+      scope: report["scope"],
+      completion: report["completion"],
+      integrity: report["integrity"],
+      tests_passed: report["tests_passed"],
+      errors: report["errors"],
+      incomplete_reasons: report["incomplete_reasons"],
+      unknown_count: report["unknown_count"],
+      missing_count: report["missing_count"],
+      obligations: report["obligations"],
+      missing: report["missing"],
+      outside_domain: report["outside_domain"]
+    }
+  end
+}
+
+File.write(File.join(EVIDENCE, "commands-and-results.json"), JSON.pretty_generate(summary) + "\n")
+plan_lines = plan_result.fetch("obligations").map do |obligation|
+  value = obligation.fetch("value")
+  rendered = case value.fetch("kind")
+  when "nil" then "nil"
+  when "boolean" then value.fetch("value").to_s
+  when "integer" then value.fetch("value")
+  when "symbol" then ":#{value.fetch("value")}"
+  else value.fetch("value").inspect
+  end
+  "- `#{obligation.fetch("id")}` — `#{obligation.fetch("input")}=#{rendered}`"
+end
+
+results = <<~MARKDOWN
+  # Optional `file_id` PStoreLogger pilot results
+
+  All runs used Ruby `#{summary.fetch(:ruby_version)}`, explicit `ruby -S bundle exec`, an environment with inherited Bundler/Ruby override variables plus `GEM_HOME` and `GEM_PATH` unset, and `MT_NO_PLUGINS=1`. Bundler then selected the pilot's local vendor bundle. The copied project source and original tests match every SHA-256 in `source-manifest.json`.
+
+  `specproof check` passed with no findings. `specproof plan` produced criterion `#{plan_result.fetch("criterion")}` and contract digest `#{plan_result.fetch("contract_digest")}` for seven marginal obligations:
+
+  #{plan_lines.join("\n")}
+
+  - Original uninstrumented tests: **7 runs, 23 assertions, 0 failures, 0 errors**.
+  - Original instrumented tests: **7 runs, 23 assertions, 0 failures, 0 errors**; the Minitest subprocess exits 1 because coverage is incomplete with 7 unknown obligations after original Hash arguments trigger `non_primitive_argument`. Report run ID: `#{reports.fetch("instrumented_original.json").fetch("run_id")}`. `tests_passed` is true; no Hash-domain coverage is claimed.
+  - Full uninstrumented suite after adding scalar tests: **13 runs, 63 assertions, 0 failures, 0 errors**.
+  - Full instrumented suite: tests passed, while its Minitest subprocess exits 1 because evidence remains incomplete after the original Hash calls trigger `non_primitive_argument`. This invocation recorded #{reports.fetch("instrumented_full.json").fetch("exercised_count")}/7 marginal hits before collection became incomplete; it does not establish a complete suite report. Report run ID: `#{reports.fetch("instrumented_full.json").fetch("run_id")}`.
+  - Explicitly filtered `--name /test_specproof_scalar_/` run: **6 runs, 40 assertions, 0 failures, 0 errors**, with all 7/7 marginal obligations exercised and subprocess exit 0. This report applies only to the named scalar tests, not the whole project. Report run ID: `#{filtered.fetch("run_id")}`; digest: `#{filtered.fetch("contract_digest")}`.
+
+  The scalar assertions inspect PStore key presence and exact values, including `nil` and `false`, and check timestamp metadata. The nil-data case omits `file_id`; the other scalar cases pass explicit `file_id: nil`. The explicit `file_id: 1` case verifies `1.pstore` and collision suffix `1_1.pstore`. As specified, omitted/default nil and explicit nil are one effective-value obligation; argument presence and combinations are not established. Ruby warns that PStore will no longer be part of the default gems starting with Ruby 3.5.
+
+  The runtime probe confirms the actual loaded SpecProof root is `#{runtime_probe.fetch("loaded_gem").fetch("full_gem_path")}`; actual `$LOADED_FEATURES` paths and SHA-256 values are retained in `runtime_probe.json`. The exact exported skill files remain under `.agents/skills` with hashes in `commands-and-results.json`. Command lines, child exit statuses, raw logs, coverage reports, UUIDs, digest, and copied-source hashes are retained in `commands-and-results.json` and neighboring evidence files.
+MARKDOWN
+File.write(File.join(ROOT, "results.md"), results)
+
+abort "pilot validation failed: #{expected_run_results.reject { |_key, value| value }.keys.join(", ")}" unless expected_run_results.values.all?

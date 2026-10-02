@@ -1,0 +1,68 @@
+# frozen_string_literal: true
+
+require_relative "test_helper"
+require "pstore"
+
+class TestSpecProofScalarPStoreLogger < Minitest::Test
+  SCALAR_CASES = [nil, false, true, 0, :event].freeze
+
+  SCALAR_CASES.each do |value|
+    define_method("test_specproof_scalar_data_#{value.inspect}") do
+      filepath = if value.nil?
+        @logger.save(value)
+      else
+        @logger.save(value, file_id: nil)
+      end
+
+      assert_path_exists filepath, "README.md:145-153 stores the original object and timestamp"
+      assert_equal "customer", File.basename(File.dirname(filepath))
+
+      store = PStore.new(filepath)
+      store.transaction(true) do
+        assert store.root?(:data), "README.md:145-153 requires a persisted data key for #{value.inspect}"
+        persisted = store[:data]
+        if value.nil?
+          assert_nil persisted, "README.md:14,145-153 requires exact persistence of nil"
+        else
+          assert_equal value, persisted, "README.md:14,145-153 requires exact persistence of #{value.inspect}"
+        end
+        assert store.root?(:timestamp), "README.md:145-153 requires timestamp metadata"
+        assert_kind_of Time, store[:timestamp], "README.md:152 requires Time.now timestamp metadata"
+      end
+    end
+  end
+
+  def test_specproof_scalar_file_id_and_collision_suffix
+    first = @logger.save(:event, file_id: 1)
+    second = @logger.save(false, file_id: 1)
+
+    assert_equal "1.pstore", File.basename(first), "README.md:60-68 specifies the custom file ID basename"
+    assert_equal "1_1.pstore", File.basename(second), "README.md:66-68 specifies numbered collision suffixes"
+
+    [[first, :event], [second, false]].each do |filepath, expected|
+      store = PStore.new(filepath)
+      store.transaction(true) do
+        assert store.root?(:data), "README.md:145-153 requires a persisted data key"
+        persisted = store[:data]
+        if expected.nil?
+          assert_nil persisted, "README.md:14,145-153 requires exact persistence of nil"
+        else
+          assert_equal expected, persisted, "README.md:14,145-153 requires exact persistence of #{expected.inspect}"
+        end
+        assert store.root?(:timestamp), "README.md:145-153 requires timestamp metadata"
+        assert_kind_of Time, store[:timestamp], "README.md:152 requires Time.now timestamp metadata"
+      end
+    end
+  end
+
+  private
+
+  def setup
+    @temp_dir = Dir.mktmpdir
+    @logger = PStoreLogger.new(storage_path: @temp_dir, tag: "Customer")
+  end
+
+  def teardown
+    FileUtils.rm_rf(@temp_dir)
+  end
+end

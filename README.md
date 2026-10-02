@@ -47,7 +47,9 @@ The age example plans `0`, `1`, `17`, `18`, `119`, and `120`. The shipping examp
 
 ## Observe an existing Minitest suite
 
-The optional adapter records only calls to directly owned public instance methods that have required positional or required keyword parameters. It observes the selected owner's method definition during the original test run in the same process and thread. Calling an alias of that definition counts; a subclass override counts only when it calls the selected definition through `super`. Aliased target declarations and inherited target declarations are unsupported. It does not replay tests, capture return values, inspect assertions, or infer expected outcomes.
+The optional adapter records calls to directly owned public instance methods with named required or optional positional/keyword parameters. Declare every parameter, including optional ones. It observes effective bound scalar values at method entry after Ruby applies defaults; an omitted argument and an explicitly supplied equal value exercise the same obligation. A default that raises before entry contributes no entry observation. Rest, keyword-rest, forwarding, and explicit block parameters remain unsupported.
+
+It observes the selected owner's method definition during the original test run in the same process and thread. Calling an alias of that definition counts; a subclass override counts only when it calls the selected definition through `super`. Aliased target declarations and inherited target declarations are unsupported. It does not replay tests, capture return values, inspect assertions, infer defaults, or infer expected outcomes. A non-primitive effective value makes collection incomplete, even if it comes from an optional default.
 
 Add a separate test entrypoint after Minitest and your application code have loaded:
 
@@ -82,6 +84,8 @@ bundle exec specproof skills export --to .agents/skills
 The exporter reports the files it writes and refuses conflicting destination content. See [docs/agent-skills.md](docs/agent-skills.md) for their purpose and use.
 
 Try “Use specproof-specify to check whether these age partitions cover their declared range” or “Use specproof-test-gaps to find missing boundary inputs and add tests justified by the supplied eligibility rules.” See the [behavioral evaluation record](docs/evaluations/agent-skills-v0.1.md) for observed outcomes and limits.
+
+The [optional-argument pilot](docs/optional-arguments-results.md) shows adoption on PStoreLogger and the distinction between a complete scalar scenario report and incomplete full-suite collection on object payloads.
 
 ## Development
 

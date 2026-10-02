@@ -1,0 +1,3 @@
+$ /Users/luciang/.rubies/ruby-3.4.7/bin/ruby -S bundle exec specproof check specifications/pstore_logger_save.rb --format json
+
+{"schema_version":1,"specproof_version":"0.1.0","kind":"check","errors":[],"contract_digest":"23dfd41312af281af643ee0bba8814f75f0bf516c822a9f5327d1b3319e84a18","findings":[]}

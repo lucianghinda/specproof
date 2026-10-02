@@ -1,0 +1,13 @@
+# frozen_string_literal: true
+
+require "specproof"
+
+# README.md:14 documents any PStore-serializable Ruby object. This pilot uses
+# seven explicitly selected marginal values; it makes no exhaustivity or
+# partition-disjointness claim about the production input space.
+SpecProof.define "PStoreLogger#save" do
+  input :data, values: [nil, false, true, 0, :event]
+  # README.md:60-68 documents custom file IDs and numbered collision names.
+  # The optional argument's effective default nil and explicit nil are equal.
+  input :file_id, values: [nil, 1]
+end

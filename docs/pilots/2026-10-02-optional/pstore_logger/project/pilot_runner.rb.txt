@@ -1,0 +1,29 @@
+# frozen_string_literal: true
+
+require_relative "test/test_helper"
+
+mode = ARGV.shift
+
+case mode
+when "baseline"
+  require_relative "test/test_pstore_logger"
+when "full"
+  require_relative "test/test_pstore_logger"
+  require_relative "test/test_specproof_scalar_pstore_logger"
+when "instrumented-original", "instrumented-full", "instrumented-filtered"
+  require "specproof/minitest"
+  report_name = {
+    "instrumented-original" => "instrumented_original.json",
+    "instrumented-full" => "instrumented_full.json",
+    "instrumented-filtered" => "instrumented_filtered.json"
+  }.fetch(mode)
+  SpecProof::Minitest.install!(
+    specifications: [File.expand_path("../specifications/pstore_logger_save.rb", __dir__)],
+    output: File.expand_path("../evidence/#{report_name}", __dir__),
+    fail_on_missing: false
+  )
+  require_relative "test/test_pstore_logger"
+  require_relative "test/test_specproof_scalar_pstore_logger" unless mode == "instrumented-original"
+else
+  abort "usage: pilot_runner.rb baseline|full|instrumented-original|instrumented-full|instrumented-filtered"
+end

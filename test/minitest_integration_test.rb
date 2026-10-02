@@ -351,12 +351,77 @@ class MinitestIntegrationTest < Minitest::Test
     end
   end
 
+  def test_optional_arguments_report_effective_values_without_argument_presence_claims
+    Dir.mktmpdir("specproof-minitest") do |directory|
+      report_path = File.join(directory, "coverage.json")
+      stdout, stderr, status = run_fixture(directory, output: report_path, scenario: "defaults", optional_target: true)
+
+      assert status.success?, stderr
+      report = JSON.parse(File.read(report_path))
+      assert_equal "effective_bound_values", report.dig("scope", "input_semantics")
+      assert_equal "not_observed", report.dig("scope", "argument_presence")
+      assert_equal 6, report.fetch("obligation_count")
+      assert_equal 2, report.fetch("exercised_count")
+      assert_equal 4, report.fetch("missing_count")
+      assert_equal 2, report.fetch("obligations").find { |row| row.dig("value", "value") == "0" }.fetch("hits")
+      assert_equal true, report.fetch("integrity")
+      assert_includes stdout, "3 assertions"
+    end
+  end
+
+  def test_raising_default_preserves_the_exception_and_does_not_supply_an_entry_hit
+    Dir.mktmpdir("specproof-minitest") do |directory|
+      report_path = File.join(directory, "coverage.json")
+      _stdout, stderr, status = run_fixture(directory, output: report_path, scenario: "raising_default",
+                                                       optional_target: true, default_kind: "raise")
+
+      assert status.success?, stderr
+      report = JSON.parse(File.read(report_path))
+      assert_equal 1, report.fetch("exercised_count")
+      assert_equal 1, report.fetch("obligations").find { |row| row.dig("value", "value") == "0" }.fetch("hits")
+      assert_equal true, report.fetch("tests_passed")
+      assert_equal true, report.fetch("integrity")
+      assert_empty report.fetch("errors")
+    end
+  end
+
+  def test_primitive_default_outside_the_domain_remains_an_invalid_tuple
+    Dir.mktmpdir("specproof-minitest") do |directory|
+      report_path = File.join(directory, "coverage.json")
+      _stdout, stderr, status = run_fixture(directory, output: report_path, scenario: "default_only",
+                                                       optional_target: true, default_kind: "outside")
+
+      assert status.success?, stderr
+      report = JSON.parse(File.read(report_path))
+      assert_equal 0, report.fetch("exercised_count")
+      assert_equal 1, report.dig("outside_domain", "AgePolicy#adult?", "count")
+      assert_equal true, report.fetch("integrity")
+      assert_equal true, report.fetch("tests_passed")
+    end
+  end
+
+  def test_non_primitive_default_keeps_analysis_incomplete_without_changing_test_result
+    Dir.mktmpdir("specproof-minitest") do |directory|
+      report_path = File.join(directory, "coverage.json")
+      _stdout, _stderr, status = run_fixture(directory, output: report_path, scenario: "default_only",
+                                                        optional_target: true, default_kind: "opaque")
+
+      refute status.success?
+      report = JSON.parse(File.read(report_path))
+      assert_equal true, report.fetch("tests_passed")
+      assert_equal "incomplete", report.fetch("completion")
+      assert_equal false, report.fetch("integrity")
+      assert_equal 6, report.fetch("unknown_count")
+      assert_equal "non_primitive_argument", report.fetch("errors").last.fetch("code")
+    end
+  end
+
   private
 
   def run_fixture(
     directory, output:, scenario:, args: [], strict: false, bad_target: false, install_twice: false,
     parallel: false, stop_failure: false, runner_exception: false, runtime_version: nil, package_version: nil,
-    rebind_target: false
+    rebind_target: false, optional_target: false, default_kind: "scalar"
   )
     script = <<~'RUBY'
       gem "minitest", "~> 5.26.2"
@@ -365,12 +430,45 @@ class MinitestIntegrationTest < Minitest::Test
       require "minitest/autorun"
 
       class AgePolicy
-        def adult?(age:)
-          age >= 18
+        if ENV.fetch("OPTIONAL_TARGET") == "1"
+          def adult?(age: default_age)
+            age.is_a?(Integer) && age >= 18
+          end
+
+          private
+
+          def default_age
+            case ENV.fetch("DEFAULT_KIND")
+            when "raise" then raise "default failed"
+            when "opaque" then Object.new
+            when "outside" then -1
+            else 0
+            end
+          end
+        else
+          def adult?(age:)
+            age >= 18
+          end
         end
       end
 
       class CoverageFixtureTest < Minitest::Test
+        def test_defaults
+          refute AgePolicy.new.adult?
+          refute AgePolicy.new.adult?(age: 0)
+          assert AgePolicy.new.adult?(age: 18)
+        end
+
+        def test_raising_default
+          error = assert_raises(RuntimeError) { AgePolicy.new.adult? }
+          assert_equal "default failed", error.message
+          refute AgePolicy.new.adult?(age: 0)
+        end
+
+        def test_default_only
+          refute AgePolicy.new.adult?
+        end
+
         def self.test_order
           ENV["PARALLEL"] == "1" ? :parallel : :random
         end
@@ -441,6 +539,9 @@ class MinitestIntegrationTest < Minitest::Test
         when "outside" then ARGV.replace(["--name", "/test_outside/"])
         when "skip" then ARGV.replace(["--name", "/test_skipped/"])
         when "outside_scope" then ARGV.replace(["--name", "/test_outside_scope/"])
+        when "defaults" then ARGV.replace(["--name", "/test_defaults/"])
+        when "raising_default" then ARGV.replace(["--name", "/test_raising_default/"])
+        when "default_only" then ARGV.replace(["--name", "/test_default_only/"])
         end
       end
     RUBY
@@ -460,6 +561,8 @@ class MinitestIntegrationTest < Minitest::Test
       "STRICT" => strict ? "1" : "0",
       "BAD_TARGET" => bad_target ? "1" : "0",
       "REBIND_TARGET" => rebind_target ? "1" : "0",
+      "OPTIONAL_TARGET" => optional_target ? "1" : "0",
+      "DEFAULT_KIND" => default_kind,
       "STOP_FAILURE" => stop_failure ? "1" : "0",
       "PARALLEL" => parallel ? "1" : "0",
       "INSTALL_TWICE" => install_twice ? "1" : "0",

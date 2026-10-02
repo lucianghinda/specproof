@@ -233,6 +233,8 @@ module SpecProof
             thread: Thread.current.object_id,
             window: "minitest_run",
             method_identity: "direct_owner_definition",
+            input_semantics: "effective_bound_values",
+            argument_presence: "not_observed",
             targets: @specifications.map(&:target).sort,
             arguments: @args,
             filter: pattern_value("-n", "--name"),
