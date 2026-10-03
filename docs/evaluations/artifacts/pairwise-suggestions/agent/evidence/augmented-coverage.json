@@ -1,0 +1,1064 @@
+{
+  "schema_version": 1,
+  "specproof_version": "0.1.0",
+  "kind": "coverage",
+  "errors": [],
+  "contract_digest": "7d9bfccad474447b4c061917e49ca23a9d23887cefff99c46a93bbcc12fb130e",
+  "criterion": "pairwise-finite-v1",
+  "run_id": "d324bf83-0e3e-43f3-9225-121eb010d2bc",
+  "scope": {
+    "ruby_engine": "ruby",
+    "pid": 94884,
+    "thread": 96,
+    "window": "minitest_run",
+    "method_identity": "direct_owner_definition",
+    "input_semantics": "effective_bound_values",
+    "argument_presence": "not_observed",
+    "targets": [
+      "ToggleSummary#count"
+    ],
+    "declaration_sources": {
+      "specifications": [
+        "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb"
+      ],
+      "rbs": [],
+      "targets": []
+    },
+    "arguments": [],
+    "filter": null,
+    "exclude": null,
+    "completeness_scope": "analyzed_inputs",
+    "input_scope": [
+      {
+        "target": "ToggleSummary#count",
+        "analyzed_inputs": [
+          "a",
+          "b",
+          "c"
+        ],
+        "excluded_inputs": [
+          {
+            "name": "context",
+            "reason": "Caller-provided request metadata is setup, outside flag coverage",
+            "source": {
+              "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+              "line": 9,
+              "kind": "dsl"
+            }
+          }
+        ],
+        "combination_group": {
+          "inputs": [
+            "a",
+            "b",
+            "c"
+          ]
+        }
+      }
+    ]
+  },
+  "evidence_mode": "obligation_hits",
+  "replay": false,
+  "obligations": [
+    {
+      "id": "0625d595d467a450c0182328e10ffce7b5bff1d130e032aab990dc1b53d5da54",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "a": {
+          "kind": "boolean",
+          "value": false
+        },
+        "b": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 2
+    },
+    {
+      "id": "9cf00967d91cd0fda2784897c7593a8735e003a98acaa3bb32ac2c1fc9e57d74",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "a": {
+          "kind": "boolean",
+          "value": false
+        },
+        "b": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "4bff36d640358988d049bec07dd787b253d82a9c18a742e018a037a446e6354e",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "a": {
+          "kind": "boolean",
+          "value": true
+        },
+        "b": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "23f7545ddd71d7f5d7d2ff61db485a6daf3b06afd3d8043c6adfc2b03f7fdd47",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "a": {
+          "kind": "boolean",
+          "value": true
+        },
+        "b": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "6b6f8deabaf71e9aae21c434d3aecb4870ac10c472ed6757eb97f1d54c0ce04f",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "a": {
+          "kind": "boolean",
+          "value": false
+        },
+        "c": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 2
+    },
+    {
+      "id": "25870ea9dae1679d1d8f14ccfbb4fca7f0f9e7b98735aaea81f25af84fb4de1b",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "a": {
+          "kind": "boolean",
+          "value": false
+        },
+        "c": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "439c3da3a32e2abf2d15a0537a69d2b0376390a352ffe1d3ab40f4269a8c3d08",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "a": {
+          "kind": "boolean",
+          "value": true
+        },
+        "c": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "b117bd923cdd0cf54df2b3481560b53d0e576ba73d4f7066338358a892cdadf0",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "a": {
+          "kind": "boolean",
+          "value": true
+        },
+        "c": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "0c7a2ad001cfa5d87f79dc1c29f1a9fa957f67ece624f74dd29a31e88d332c86",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "b": {
+          "kind": "boolean",
+          "value": false
+        },
+        "c": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 2
+    },
+    {
+      "id": "09af71ec6fab636001839771a8817b1267e8ae04018f2755f98a219a694b8c82",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "b": {
+          "kind": "boolean",
+          "value": false
+        },
+        "c": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "ad9888d2d14ee60bbfdb355fd794d1ffe5eeb14e8a7b94d08faa75ae26e20088",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "b": {
+          "kind": "boolean",
+          "value": true
+        },
+        "c": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "0164e2fa78073814c0c1cf001c94fd3807a623c3440781ee4715c3f914c6a1b0",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "b": {
+          "kind": "boolean",
+          "value": true
+        },
+        "c": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    }
+  ],
+  "missing": [],
+  "exercised": [
+    {
+      "id": "0625d595d467a450c0182328e10ffce7b5bff1d130e032aab990dc1b53d5da54",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "a": {
+          "kind": "boolean",
+          "value": false
+        },
+        "b": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 2
+    },
+    {
+      "id": "9cf00967d91cd0fda2784897c7593a8735e003a98acaa3bb32ac2c1fc9e57d74",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "a": {
+          "kind": "boolean",
+          "value": false
+        },
+        "b": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "4bff36d640358988d049bec07dd787b253d82a9c18a742e018a037a446e6354e",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "a": {
+          "kind": "boolean",
+          "value": true
+        },
+        "b": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "23f7545ddd71d7f5d7d2ff61db485a6daf3b06afd3d8043c6adfc2b03f7fdd47",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "a": {
+          "kind": "boolean",
+          "value": true
+        },
+        "b": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "6b6f8deabaf71e9aae21c434d3aecb4870ac10c472ed6757eb97f1d54c0ce04f",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "a": {
+          "kind": "boolean",
+          "value": false
+        },
+        "c": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 2
+    },
+    {
+      "id": "25870ea9dae1679d1d8f14ccfbb4fca7f0f9e7b98735aaea81f25af84fb4de1b",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "a": {
+          "kind": "boolean",
+          "value": false
+        },
+        "c": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "439c3da3a32e2abf2d15a0537a69d2b0376390a352ffe1d3ab40f4269a8c3d08",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "a": {
+          "kind": "boolean",
+          "value": true
+        },
+        "c": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "b117bd923cdd0cf54df2b3481560b53d0e576ba73d4f7066338358a892cdadf0",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "a": {
+          "kind": "boolean",
+          "value": true
+        },
+        "c": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "0c7a2ad001cfa5d87f79dc1c29f1a9fa957f67ece624f74dd29a31e88d332c86",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "b": {
+          "kind": "boolean",
+          "value": false
+        },
+        "c": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 2
+    },
+    {
+      "id": "09af71ec6fab636001839771a8817b1267e8ae04018f2755f98a219a694b8c82",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "b": {
+          "kind": "boolean",
+          "value": false
+        },
+        "c": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "ad9888d2d14ee60bbfdb355fd794d1ffe5eeb14e8a7b94d08faa75ae26e20088",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "b": {
+          "kind": "boolean",
+          "value": true
+        },
+        "c": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "0164e2fa78073814c0c1cf001c94fd3807a623c3440781ee4715c3f914c6a1b0",
+      "target": "ToggleSummary#count",
+      "inputs": {
+        "b": {
+          "kind": "boolean",
+          "value": true
+        },
+        "c": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+          "line": 10,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    }
+  ],
+  "exercised_count": 12,
+  "obligation_count": 12,
+  "missing_count": 0,
+  "unknown_count": 0,
+  "not_observed_count": 0,
+  "completion_percent": 100.0,
+  "outside_domain": {},
+  "incomplete_reasons": [],
+  "outside_combinations": {},
+  "excluded_pairs": [],
+  "completion": "completed",
+  "integrity": true,
+  "tests_passed": false
+}

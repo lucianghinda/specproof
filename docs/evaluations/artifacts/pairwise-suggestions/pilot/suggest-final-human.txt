@@ -1,0 +1,9 @@
+Source run: ceaeb678-b1cb-4134-b833-cf283871b9e9
+Source tests: passed
+Criterion: pairwise-finite-v1; strategy: greedy-pairwise-v1
+Source arguments: []
+Source scope: AllInRuby::Installer#install combinations backup, dry_run, scope
+Missing pair obligations: 0
+Suggestions: 0 (minimum not guaranteed)
+These suggestions have not been executed.
+No expected results are provided. Supply unassigned inputs before calling the target.

@@ -1,0 +1,66 @@
+# frozen_string_literal: true
+
+module AllInRuby
+  # Builds unified diffs for dry-run previews. The installer only ever makes
+  # one contiguous edit per file (appending or removing a single block), so a
+  # common prefix/suffix comparison finds the exact changed region.
+  module Diff
+    CONTEXT_LINES = 3
+    NO_NEWLINE_MARKER = "\\ No newline at end of file"
+
+    def self.unified(old_content, new_content, path)
+      old_lines = (old_content || "").lines
+      new_lines = new_content.lines
+
+      prefix = common_prefix_length(old_lines, new_lines)
+      suffix = common_suffix_length(old_lines, new_lines, prefix)
+
+      removed = old_lines[prefix...(old_lines.length - suffix)]
+      added = new_lines[prefix...(new_lines.length - suffix)]
+      lead = [prefix, CONTEXT_LINES].min
+      trail = [suffix, CONTEXT_LINES].min
+
+      output = []
+      output << "--- #{old_content ? path : File::NULL}"
+      output << "+++ #{path}"
+      output << hunk_header(prefix, lead, trail, removed.length, added.length)
+      old_lines[prefix - lead, lead].each { |line| append(output, " ", line) }
+      removed.each { |line| append(output, "-", line) }
+      added.each { |line| append(output, "+", line) }
+      old_lines[old_lines.length - suffix, trail].each { |line| append(output, " ", line) }
+      "#{output.join("\n")}\n"
+    end
+
+    def self.common_prefix_length(old_lines, new_lines)
+      limit = [old_lines.length, new_lines.length].min
+      count = 0
+      count += 1 while count < limit && old_lines[count] == new_lines[count]
+      count
+    end
+
+    def self.common_suffix_length(old_lines, new_lines, prefix)
+      limit = [old_lines.length, new_lines.length].min - prefix
+      count = 0
+      count += 1 while count < limit && old_lines[-1 - count] == new_lines[-1 - count]
+      count
+    end
+
+    def self.hunk_header(prefix, lead, trail, removed_count, added_count)
+      old_range = range(prefix - lead, lead + removed_count + trail)
+      new_range = range(prefix - lead, lead + added_count + trail)
+      "@@ -#{old_range} +#{new_range} @@"
+    end
+
+    def self.range(start_index, count)
+      count.zero? ? "#{start_index},0" : "#{start_index + 1},#{count}"
+    end
+
+    def self.append(output, sign, line)
+      output << "#{sign}#{line.chomp}"
+      output << NO_NEWLINE_MARKER unless line.end_with?("\n")
+    end
+
+    private_class_method :common_prefix_length, :common_suffix_length,
+                         :hunk_header, :range, :append
+  end
+end

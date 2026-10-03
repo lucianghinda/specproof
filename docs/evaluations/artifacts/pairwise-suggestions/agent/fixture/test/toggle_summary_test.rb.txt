@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+class ToggleSummaryTest < Minitest::Test
+  def test_no_flags
+    assert_equal 0, ToggleSummary.new.count(a: false, b: false, c: false, context: {request_id: "exercise"})
+  end
+  def test_a_flag
+    assert_equal 1, ToggleSummary.new.count(a: true, b: false, c: false, context: {request_id: "exercise"})
+  end
+  def test_b_flag
+    assert_equal 1, ToggleSummary.new.count(a: false, b: true, c: false, context: {request_id: "exercise"})
+  end
+  def test_c_flag
+    assert_equal 1, ToggleSummary.new.count(a: false, b: false, c: true, context: {request_id: "exercise"})
+  end
+end

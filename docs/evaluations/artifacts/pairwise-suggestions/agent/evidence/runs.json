@@ -1,0 +1,223 @@
+[
+  {
+    "step": "augmented",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+      "/private/tmp/specproof-suggestions-agent/exercise/suite.rb"
+    ],
+    "cwd": "/private/tmp/specproof-suggestions-agent/fixture",
+    "env": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+      "HOME": "/Users/luciang",
+      "GEM_PATH": "/Users/luciang/.gem/ruby/4.0.1:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0:/private/tmp/specproof-suggestions-agent/gems",
+      "SPEC_PROOF_REPORT": "/private/tmp/specproof-suggestions-agent/exercise/evidence/augmented-coverage.json",
+      "EXERCISE_TEST_SET": "augmented",
+      "MT_NO_PLUGINS": "1"
+    },
+    "exit_status": 1,
+    "signaled": false,
+    "signal": null,
+    "stdout_path": "evidence/augmented.stdout",
+    "stderr_path": "evidence/augmented.stderr",
+    "coordinator_replayed_final_package": true
+  },
+  {
+    "step": "augmented-suggest",
+    "argv": [
+      "/private/tmp/specproof-suggestions-agent/gems/bin/specproof",
+      "suggest",
+      "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+      "--report",
+      "/private/tmp/specproof-suggestions-agent/exercise/evidence/augmented-coverage.json",
+      "--format",
+      "json"
+    ],
+    "cwd": "/private/tmp/specproof-suggestions-agent/fixture",
+    "env": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+      "HOME": "/Users/luciang",
+      "GEM_PATH": "/Users/luciang/.gem/ruby/4.0.1:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0:/private/tmp/specproof-suggestions-agent/gems"
+    },
+    "exit_status": 0,
+    "signaled": false,
+    "signal": null,
+    "stdout_path": "evidence/augmented-suggest.stdout",
+    "stderr_path": "evidence/augmented-suggest.stderr",
+    "coordinator_replayed_final_package": true
+  },
+  {
+    "step": "baseline",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+      "/private/tmp/specproof-suggestions-agent/exercise/suite.rb"
+    ],
+    "cwd": "/private/tmp/specproof-suggestions-agent/fixture",
+    "env": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+      "HOME": "/Users/luciang",
+      "GEM_PATH": "/Users/luciang/.gem/ruby/4.0.1:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0:/private/tmp/specproof-suggestions-agent/gems",
+      "SPEC_PROOF_REPORT": "/private/tmp/specproof-suggestions-agent/exercise/evidence/baseline-coverage.json",
+      "EXERCISE_TEST_SET": "baseline",
+      "MT_NO_PLUGINS": "1"
+    },
+    "exit_status": 0,
+    "signaled": false,
+    "signal": null,
+    "stdout_path": "evidence/baseline.stdout",
+    "stderr_path": "evidence/baseline.stderr",
+    "coordinator_replayed_final_package": true
+  },
+  {
+    "step": "check",
+    "argv": [
+      "/private/tmp/specproof-suggestions-agent/gems/bin/specproof",
+      "check",
+      "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+      "--format",
+      "json"
+    ],
+    "cwd": "/private/tmp/specproof-suggestions-agent/fixture",
+    "env": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+      "HOME": "/Users/luciang",
+      "GEM_PATH": "/Users/luciang/.gem/ruby/4.0.1:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0:/private/tmp/specproof-suggestions-agent/gems"
+    },
+    "exit_status": 0,
+    "signaled": false,
+    "signal": null,
+    "stdout_path": "evidence/check.stdout",
+    "stderr_path": "evidence/check.stderr",
+    "coordinator_replayed_final_package": true
+  },
+  {
+    "step": "gem-path",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+      "/private/tmp/specproof-suggestions-agent/exercise/gem_path.rb"
+    ],
+    "cwd": "/private/tmp/specproof-suggestions-agent/fixture",
+    "env": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+      "HOME": "/Users/luciang",
+      "GEM_PATH": "/Users/luciang/.gem/ruby/4.0.1:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0:/private/tmp/specproof-suggestions-agent/gems"
+    },
+    "exit_status": 0,
+    "signaled": false,
+    "signal": null,
+    "stdout_path": "evidence/gem-path.stdout",
+    "stderr_path": "evidence/gem-path.stderr",
+    "coordinator_replayed_final_package": true
+  },
+  {
+    "step": "hashes",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+      "/private/tmp/specproof-suggestions-agent/exercise/hash_evidence.rb"
+    ],
+    "cwd": "/private/tmp/specproof-suggestions-agent/fixture",
+    "env": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+      "HOME": "/Users/luciang",
+      "GEM_PATH": "/Users/luciang/.gem/ruby/4.0.1:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0:/private/tmp/specproof-suggestions-agent/gems"
+    },
+    "exit_status": 0,
+    "signaled": false,
+    "signal": null,
+    "stdout_path": "evidence/hashes.stdout",
+    "stderr_path": "evidence/hashes.stderr",
+    "coordinator_replayed_final_package": true
+  },
+  {
+    "step": "plan",
+    "argv": [
+      "/private/tmp/specproof-suggestions-agent/gems/bin/specproof",
+      "plan",
+      "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+      "--criterion",
+      "pairwise-finite-v1",
+      "--format",
+      "json"
+    ],
+    "cwd": "/private/tmp/specproof-suggestions-agent/fixture",
+    "env": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+      "HOME": "/Users/luciang",
+      "GEM_PATH": "/Users/luciang/.gem/ruby/4.0.1:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0:/private/tmp/specproof-suggestions-agent/gems"
+    },
+    "exit_status": 0,
+    "signaled": false,
+    "signal": null,
+    "stdout_path": "evidence/plan.stdout",
+    "stderr_path": "evidence/plan.stderr",
+    "coordinator_replayed_final_package": true
+  },
+  {
+    "step": "reject-incomplete",
+    "argv": [
+      "/private/tmp/specproof-suggestions-agent/gems/bin/specproof",
+      "suggest",
+      "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+      "--report",
+      "/private/tmp/specproof-suggestions-agent/exercise/evidence/incomplete-coverage.json",
+      "--format",
+      "json"
+    ],
+    "cwd": "/private/tmp/specproof-suggestions-agent/fixture",
+    "env": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+      "HOME": "/Users/luciang",
+      "GEM_PATH": "/Users/luciang/.gem/ruby/4.0.1:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0:/private/tmp/specproof-suggestions-agent/gems"
+    },
+    "exit_status": 2,
+    "signaled": false,
+    "signal": null,
+    "stdout_path": "evidence/reject-incomplete.stdout",
+    "stderr_path": "evidence/reject-incomplete.stderr",
+    "coordinator_replayed_final_package": true
+  },
+  {
+    "step": "suggest",
+    "argv": [
+      "/private/tmp/specproof-suggestions-agent/gems/bin/specproof",
+      "suggest",
+      "/private/tmp/specproof-suggestions-agent/exercise/spec/toggle_summary.rb",
+      "--report",
+      "/private/tmp/specproof-suggestions-agent/exercise/evidence/baseline-coverage.json",
+      "--format",
+      "json"
+    ],
+    "cwd": "/private/tmp/specproof-suggestions-agent/fixture",
+    "env": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+      "HOME": "/Users/luciang",
+      "GEM_PATH": "/Users/luciang/.gem/ruby/4.0.1:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0:/private/tmp/specproof-suggestions-agent/gems"
+    },
+    "exit_status": 0,
+    "signaled": false,
+    "signal": null,
+    "stdout_path": "evidence/suggest.stdout",
+    "stderr_path": "evidence/suggest.stderr",
+    "coordinator_replayed_final_package": true
+  },
+  {
+    "step": "tamper",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+      "/private/tmp/specproof-suggestions-agent/exercise/tamper_report.rb",
+      "/private/tmp/specproof-suggestions-agent/exercise/evidence/augmented-coverage.json",
+      "/private/tmp/specproof-suggestions-agent/exercise/evidence/incomplete-coverage.json"
+    ],
+    "cwd": "/private/tmp/specproof-suggestions-agent/fixture",
+    "env": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+      "HOME": "/Users/luciang",
+      "GEM_PATH": "/Users/luciang/.gem/ruby/4.0.1:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0:/private/tmp/specproof-suggestions-agent/gems"
+    },
+    "exit_status": 0,
+    "signaled": false,
+    "signal": null,
+    "stdout_path": "evidence/tamper.stdout",
+    "stderr_path": "evidence/tamper.stderr",
+    "coordinator_replayed_final_package": true
+  }
+]

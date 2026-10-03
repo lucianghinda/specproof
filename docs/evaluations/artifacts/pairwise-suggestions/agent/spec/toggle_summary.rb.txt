@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+require "specproof"
+
+SpecProof.define "ToggleSummary#count" do
+  input :a, values: [false, true]
+  input :b, values: [false, true]
+  input :c, values: [false, true]
+  exclude_input :context, reason: "Caller-provided request metadata is setup, outside flag coverage"
+  combinations :a, :b, :c, all_allowed: true
+end

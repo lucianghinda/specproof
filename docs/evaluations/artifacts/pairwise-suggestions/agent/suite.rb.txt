@@ -1,0 +1,17 @@
+# frozen_string_literal: true
+
+gem "minitest", "~> 5.26.2"
+require "minitest/autorun"
+require File.expand_path("../fixture/toggle_summary", __dir__)
+require "specproof/minitest"
+
+exercise_root = __dir__
+SpecProof::Minitest.install!(
+  specifications: [File.join(exercise_root, "spec/toggle_summary.rb")],
+  criterion: "pairwise-finite-v1",
+  output: ENV.fetch("SPEC_PROOF_REPORT"),
+  fail_on_missing: false
+)
+
+require File.expand_path("../fixture/test/toggle_summary_test", __dir__)
+require File.join(exercise_root, "test/toggle_summary_suggestions_test") if ENV["EXERCISE_TEST_SET"] == "augmented"

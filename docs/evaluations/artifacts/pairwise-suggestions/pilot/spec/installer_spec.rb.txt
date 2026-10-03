@@ -1,0 +1,9 @@
+require "specproof"
+
+SpecProof.define "AllInRuby::Installer#install" do
+  input :scope, values: ["local", "global"]
+  input :dry_run, values: [false, true]
+  input :backup, values: [false, true]
+  exclude_input :agents, reason: "Agent selection is a collection parameter; suggestions supply the requested agents separately."
+  combinations :scope, :dry_run, :backup, all_allowed: true
+end

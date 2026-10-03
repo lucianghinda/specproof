@@ -1,0 +1,16 @@
+{
+  "implementation_commit": "bb3d5b8",
+  "default_locked_rake": {
+    "exit": 0,
+    "tests": 250,
+    "assertions": 1297,
+    "lint_files": 126
+  },
+  "bin_check": {
+    "exit": 0,
+    "tests": 2,
+    "assertions": 76,
+    "syntax_and_build": "passed"
+  },
+  "note": "Coordinator-observed execution summary; matrix commands and full outputs are retained separately. Existing method-redefinition and missing-homepage warnings remain."
+}

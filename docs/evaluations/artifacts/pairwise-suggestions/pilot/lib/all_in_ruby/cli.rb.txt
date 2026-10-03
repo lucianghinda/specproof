@@ -1,0 +1,172 @@
+# frozen_string_literal: true
+
+require "optparse"
+
+module AllInRuby
+  class CLI
+    COMMANDS = %w[install uninstall status].freeze
+
+    STATUS_LABELS = {
+      created: "created",
+      updated: "instructions added",
+      already_installed: "already installed, left untouched",
+      removed: "instructions removed",
+      not_installed: "not installed",
+      installed: "installed",
+      manual: "no global rules file; use Cursor Settings > Rules"
+    }.freeze
+
+    DRY_RUN_LABELS = STATUS_LABELS.merge(
+      created: "would be created",
+      updated: "instructions would be added",
+      already_installed: "would already be covered, no change",
+      removed: "instructions would be removed",
+      not_installed: "not installed, nothing to remove"
+    ).freeze
+
+    def initialize(stdout: $stdout, stderr: $stderr, installer: Installer.new)
+      @stdout = stdout
+      @stderr = stderr
+      @installer = installer
+    end
+
+    def run(argv)
+      options = { agents: [], scopes: [], dry_run: false, backup: true }
+      parser = build_parser(options)
+      parser.parse!(argv)
+
+      command = argv.shift
+      unless COMMANDS.include?(command)
+        @stderr.puts parser
+        return 1
+      end
+
+      agents = options[:agents].empty? ? Installer::AGENTS : options[:agents]
+      scopes = scopes_for(command, options[:scopes])
+      dry_run = options[:dry_run] && command != "status"
+
+      scope_results = results_by_scope(command, agents:, scopes:, dry_run:, backup: options[:backup])
+      print_statuses(scope_results, dry_run ? DRY_RUN_LABELS : STATUS_LABELS)
+
+      results = scope_results.flat_map { |_scope, scope_result| scope_result }
+      print_diffs(results)
+      print_backups(results, dry_run)
+      print_manual_instruction(command, results)
+      0
+    rescue OptionParser::ParseError => e
+      @stderr.puts e.message
+      1
+    end
+
+    private
+
+    # status is read-only, so with no scope flag it reports both scopes;
+    # install/uninstall write files, so they stay local unless asked.
+    def scopes_for(command, requested)
+      return requested.uniq unless requested.empty?
+
+      command == "status" ? Installer::SCOPES : ["local"]
+    end
+
+    def results_by_scope(command, agents:, scopes:, dry_run:, backup:)
+      scopes.map do |scope|
+        results =
+          if command == "status"
+            @installer.status(agents: agents, scope: scope)
+          else
+            @installer.public_send(command, agents: agents, scope: scope, dry_run: dry_run, backup: backup)
+          end
+        [scope, results]
+      end
+    end
+
+    def print_statuses(scope_results, labels)
+      show_headers = scope_results.length > 1
+      indent = show_headers ? "  " : ""
+      scope_results.each do |scope, results|
+        @stdout.puts "#{scope}:" if show_headers
+        results.each do |result|
+          location = result.path || "(none)"
+          @stdout.puts "#{indent}#{result.agent.ljust(8)} #{location}: #{labels.fetch(result.status)}"
+        end
+      end
+    end
+
+    def print_diffs(results)
+      results.each do |result|
+        next unless result.diff
+
+        @stdout.puts
+        @stdout.puts result.diff
+      end
+    end
+
+    def print_backups(results, dry_run)
+      backups = results.filter_map(&:backup)
+      return if backups.empty?
+
+      @stdout.puts
+      @stdout.puts(dry_run ? "Backups that would be created:" : "Backups created:")
+      backups.each { |backup| @stdout.puts "  #{backup}" }
+    end
+
+    def print_manual_instruction(command, results)
+      return unless command == "install" && results.any? { |result| result.status == :manual }
+
+      @stdout.puts
+      @stdout.puts "Cursor has no global rules file. To apply the instruction globally,"
+      @stdout.puts "paste this into Cursor Settings > Rules:"
+      @stdout.puts
+      @stdout.puts Instruction.body
+    end
+
+    def build_parser(options)
+      OptionParser.new do |opts|
+        opts.banner = <<~BANNER
+          Usage: all-in-ruby COMMAND [options]
+
+          Adds a "write scripts in Ruby" instruction to AI agent instruction
+          files: CLAUDE.md for Claude Code, AGENTS.md for Codex, OpenCode, and
+          Cursor. Additive and idempotent: existing content is never modified.
+
+          Commands:
+              install      add the instruction block
+              uninstall    remove the instruction block
+              status       show where the block is installed (both scopes unless one is given)
+
+          Options:
+        BANNER
+
+        opts.on("--local", "Target the current repo (default for install/uninstall)") do
+          options[:scopes] << "local"
+        end
+        opts.on("--global",
+                "Target global files (~/.claude/CLAUDE.md, ~/.codex/AGENTS.md, ~/.config/opencode/AGENTS.md)") do
+          options[:scopes] << "global"
+        end
+        opts.on("--claude", "Claude Code (CLAUDE.md)") do
+          options[:agents] << "claude"
+        end
+        opts.on("--codex", "Codex (AGENTS.md)") do
+          options[:agents] << "codex"
+        end
+        opts.on("--opencode", "OpenCode (AGENTS.md)") do
+          options[:agents] << "opencode"
+        end
+        opts.on("--cursor", "Cursor (AGENTS.md; no global file)") do
+          options[:agents] << "cursor"
+        end
+        opts.on("-n", "--dry-run", "Preview changes as diffs without writing any file") do
+          options[:dry_run] = true
+        end
+        opts.on("--no-backup", "Skip backing up existing files before modifying them") do
+          options[:backup] = false
+        end
+        opts.on("-v", "--version", "Print version") do
+          @stdout.puts VERSION
+          exit 0
+        end
+      end
+    end
+  end
+end

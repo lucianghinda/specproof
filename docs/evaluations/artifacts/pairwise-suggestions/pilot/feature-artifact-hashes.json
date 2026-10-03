@@ -1,0 +1,6 @@
+{
+  "spec/installer_spec.rb": "2a176c54f16ba7510fa92592cc7c189d87b0ba89715e06cbf2d074e65e386626",
+  "run_baseline_coverage.rb": "296fe22f7ed1dcdab775f076141f6199d9112f704a63bf8590fd97e4a8c363fe",
+  "run_coverage.rb": "89efe1c789faf4696e41fb4230304956945851b9cbc27cc24ff8f9d9dc54a5bc",
+  "test/pairwise_suggestions_test.rb": "1bdc8c189baf7ab5ff0ceb0bda1d738779b98e7fdb2287e437d18d4fd6ba0f1a"
+}

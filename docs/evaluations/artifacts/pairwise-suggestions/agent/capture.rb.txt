@@ -1,0 +1,40 @@
+# frozen_string_literal: true
+
+require "fileutils"
+require "json"
+require "open3"
+
+root = File.expand_path(__dir__)
+evidence = File.join(root, "evidence")
+FileUtils.mkdir_p(evidence)
+step = ARGV.fetch(0)
+argv = JSON.parse(ARGV.fetch(1))
+extra_env = ARGV[2] ? JSON.parse(ARGV[2]) : {}
+env = {
+  "PATH" => "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+  "HOME" => "/Users/luciang",
+  "GEM_PATH" => "/Users/luciang/.gem/ruby/4.0.1:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0:/private/tmp/specproof-suggestions-agent/gems"
+}.merge(extra_env)
+
+command_cwd = File.expand_path("../fixture", root)
+stdout, stderr, status = Open3.capture3(env, *argv, chdir: command_cwd, unsetenv_others: true)
+File.write(File.join(evidence, "#{step}.stdout"), stdout)
+File.write(File.join(evidence, "#{step}.stderr"), stderr)
+record = JSON.parse(JSON.generate({
+  step: step,
+  argv: argv,
+  cwd: command_cwd,
+  env: env,
+  exit_status: status.exitstatus,
+  signaled: status.signaled?,
+  signal: status.termsig,
+  stdout_path: "evidence/#{step}.stdout",
+  stderr_path: "evidence/#{step}.stderr"
+}))
+manifest_path = File.join(evidence, "runs.json")
+records = File.exist?(manifest_path) ? JSON.parse(File.read(manifest_path)) : []
+records.reject! { |item| item.fetch("step") == step }
+records << record
+File.write(manifest_path, JSON.pretty_generate(records.sort_by { |item| item.fetch("step") }) + "\n")
+puts JSON.generate(record)
+exit(status.exitstatus || 1)

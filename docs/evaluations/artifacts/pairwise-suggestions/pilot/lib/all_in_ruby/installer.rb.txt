@@ -1,0 +1,123 @@
+# frozen_string_literal: true
+
+require "fileutils"
+
+module AllInRuby
+  class Installer
+    AGENTS = %w[claude codex opencode cursor].freeze
+    SCOPES = %w[local global].freeze
+
+    Result = Struct.new(:agent, :path, :status, :diff, :backup, keyword_init: true)
+
+    def initialize(root: Dir.pwd, home: Dir.home, env: ENV, clock: -> { Time.now })
+      @root = root
+      @home = home
+      @env = env
+      @clock = clock
+    end
+
+    def path_for(agent, scope)
+      case [agent, scope]
+      when %w[claude local] then File.join(@root, "CLAUDE.md")
+      when %w[claude global] then File.join(@home, ".claude", "CLAUDE.md")
+      when %w[codex local] then File.join(@root, "AGENTS.md")
+      when %w[codex global] then File.join(codex_home, "AGENTS.md")
+      when %w[opencode local] then File.join(@root, "AGENTS.md")
+      when %w[opencode global] then File.join(@home, ".config", "opencode", "AGENTS.md")
+      when %w[cursor local] then File.join(@root, "AGENTS.md")
+      # Cursor has no documented global rules file; User Rules live in the app settings
+      when %w[cursor global] then nil
+      else
+        raise ArgumentError, "unknown agent or scope: #{agent}, #{scope}"
+      end
+    end
+
+    def install(agents:, scope:, dry_run: false, backup: true)
+      planned = {}
+      each_target(agents, scope) do |path|
+        content = current_content(path, planned)
+
+        if content && Instruction.installed?(content)
+          :already_installed
+        elsif content
+          new_content = content + separator_for(content) + Instruction.block
+          apply(path, content, new_content, :updated, dry_run:, backup:, planned:)
+        else
+          apply(path, nil, Instruction.block, :created, dry_run:, backup:, planned:)
+        end
+      end
+    end
+
+    def uninstall(agents:, scope:, dry_run: false, backup: true)
+      planned = {}
+      each_target(agents, scope) do |path|
+        content = current_content(path, planned)
+
+        if content && Instruction.installed?(content)
+          apply(path, content, Instruction.remove(content), :removed, dry_run:, backup:, planned:)
+        else
+          :not_installed
+        end
+      end
+    end
+
+    def status(agents:, scope:)
+      each_target(agents, scope) do |path|
+        content = File.exist?(path) ? File.read(path) : nil
+        content && Instruction.installed?(content) ? :installed : :not_installed
+      end
+    end
+
+    private
+
+    # Codex resolves its home from $CODEX_HOME, defaulting to ~/.codex
+    def codex_home
+      codex_home = @env["CODEX_HOME"]
+      codex_home && !codex_home.empty? ? codex_home : File.join(@home, ".codex")
+    end
+
+    def separator_for(content)
+      return "" if content.empty? || content.end_with?("\n\n")
+
+      content.end_with?("\n") ? "\n" : "\n\n"
+    end
+
+    # Planned holds the content a dry run would have written, so later agents
+    # sharing the same file (codex/opencode/cursor all use AGENTS.md locally)
+    # report the same statuses a real run would produce.
+    def current_content(path, planned)
+      planned.fetch(path) { File.exist?(path) ? File.read(path) : nil }
+    end
+
+    # Returns [status, diff, backup]. A backup is made only when an existing
+    # file is modified (never on create); a dry run computes the name it would
+    # use so the preview can report it, but writes nothing.
+    def apply(path, old_content, new_content, status, dry_run:, backup:, planned:)
+      backup_path = backup && old_content ? backup_path_for(path) : nil
+
+      if dry_run
+        planned[path] = new_content
+        return [status, Diff.unified(old_content, new_content, path), backup_path]
+      end
+
+      FileUtils.cp(path, backup_path) if backup_path
+      FileUtils.mkdir_p(File.dirname(path)) unless old_content
+      File.write(path, new_content)
+      [status, nil, backup_path]
+    end
+
+    def backup_path_for(path)
+      "#{path}.#{@clock.call.strftime("%Y%m%d-%H%M%S")}.bak"
+    end
+
+    def each_target(agents, scope)
+      agents.map do |agent|
+        path = path_for(agent, scope)
+        next Result.new(agent:, path:, status: :manual) unless path
+
+        status, diff, backup = yield(path)
+        Result.new(agent:, path:, status:, diff:, backup:)
+      end
+    end
+  end
+end

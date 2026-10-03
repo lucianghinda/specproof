@@ -1,0 +1,6 @@
+# frozen_string_literal: true
+class ToggleSummary
+  def count(a:, b:, c:, context:)
+    [a, b, c].count(true) - (a && b && c ? 1 : 0)
+  end
+end

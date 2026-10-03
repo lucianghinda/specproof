@@ -1,0 +1,10 @@
+# frozen_string_literal: true
+
+require "json"
+
+source = ARGV.fetch(0)
+destination = ARGV.fetch(1)
+report = JSON.parse(File.read(source))
+report["completion"] = "incomplete"
+report["incomplete_reasons"] = ["Deliberately altered for rejection exercise"]
+File.write(destination, JSON.pretty_generate(report) + "\n")

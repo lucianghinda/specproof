@@ -1,0 +1,12 @@
+Source run: 5ba2c09e-a511-4cc9-a093-5df94093d450
+Source tests: passed
+Criterion: pairwise-finite-v1; strategy: greedy-pairwise-v1
+Source arguments: []
+Source scope: AllInRuby::Installer#install combinations backup, dry_run, scope
+Missing pair obligations: 3
+Suggestions: 1 (minimum not guaranteed)
+1. AllInRuby::Installer#install: backup=false, dry_run=true, scope="global"
+   Covers: 3f049a136a7cb4dd3f8d0f856c58dfc2385e8915e501268e7bc01b8140787ca5, ea865fa163a19b38095054bf00f5795df7e86acf331977a79c6adc5848f68b8e, ff4bccf04d0044d583d0c3a30c3f0b1d81468122518aca8ee087d9fea8ac04f8
+   Unassigned inputs: agents
+These suggestions have not been executed.
+No expected results are provided. Supply unassigned inputs before calling the target.

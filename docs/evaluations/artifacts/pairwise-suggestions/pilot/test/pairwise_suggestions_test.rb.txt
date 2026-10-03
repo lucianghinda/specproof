@@ -1,0 +1,32 @@
+# frozen_string_literal: true
+
+require_relative "test_helper"
+
+class InstallerPairwiseSuggestionsTest < Minitest::Test
+  def setup
+    @root = Dir.mktmpdir
+    @home = Dir.mktmpdir
+    @installer = AllInRuby::Installer.new(root: @root, home: @home, env: {})
+    @path = File.join(@home, ".claude", "CLAUDE.md")
+    @original = "# Existing global rules\n"
+    FileUtils.mkdir_p(File.dirname(@path))
+    File.write(@path, @original)
+  end
+
+  def teardown
+    FileUtils.remove_entry(@root)
+    FileUtils.remove_entry(@home)
+  end
+
+  def test_global_dry_run_without_backup_preserves_file_and_previews_append
+    result = @installer.install(agents: ["claude"], scope: "global", dry_run: true, backup: false).first
+
+    assert_equal :updated, result.status
+    assert_equal @path, result.path
+    assert_nil result.backup
+    assert_includes result.diff, "--- #{@path}\n+++ #{@path}\n"
+    assert_includes result.diff, "+#{AllInRuby::Instruction::BEGIN_MARKER}"
+    assert_equal @original, File.read(@path)
+    assert_empty Dir.glob("#{@path}.*.bak")
+  end
+end

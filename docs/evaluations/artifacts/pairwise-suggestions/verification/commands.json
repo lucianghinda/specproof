@@ -1,0 +1,149 @@
+[
+  {
+    "ruby": "3.3.6",
+    "check": "core",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-3.3.6/bin/ruby",
+      "bin/test"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-3.3.6/bin:/usr/bin:/bin",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-suggestions-33/Gemfile",
+      "BUNDLE_PATH": "/private/tmp/specproof-selection-33/vendor/bundle"
+    },
+    "exit": 0
+  },
+  {
+    "ruby": "3.3.6",
+    "check": "rbs",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-3.3.6/bin/ruby",
+      "bin/test",
+      "test/rbs/pairwise_test.rb",
+      "test/rbs/source_test.rb",
+      "test/rbs/workflow_test.rb"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-3.3.6/bin:/usr/bin:/bin",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-suggestions-33/Gemfile",
+      "BUNDLE_PATH": "/private/tmp/specproof-selection-33/vendor/bundle"
+    },
+    "exit": 0
+  },
+  {
+    "ruby": "3.3.6",
+    "check": "signatures",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-3.3.6/bin/bundle",
+      "exec",
+      "rbs",
+      "-I",
+      "sig",
+      "validate"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-3.3.6/bin:/usr/bin:/bin",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-suggestions-33/Gemfile",
+      "BUNDLE_PATH": "/private/tmp/specproof-selection-33/vendor/bundle"
+    },
+    "exit": 0
+  },
+  {
+    "ruby": "3.4.7",
+    "check": "core",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+      "bin/test"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-3.4.7/bin:/usr/bin:/bin",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-suggestions-34/Gemfile",
+      "BUNDLE_PATH": "/private/tmp/specproof-selection-34/vendor/bundle"
+    },
+    "exit": 0
+  },
+  {
+    "ruby": "3.4.7",
+    "check": "rbs",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+      "bin/test",
+      "test/rbs/pairwise_test.rb",
+      "test/rbs/source_test.rb",
+      "test/rbs/workflow_test.rb"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-3.4.7/bin:/usr/bin:/bin",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-suggestions-34/Gemfile",
+      "BUNDLE_PATH": "/private/tmp/specproof-selection-34/vendor/bundle"
+    },
+    "exit": 0
+  },
+  {
+    "ruby": "3.4.7",
+    "check": "signatures",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-3.4.7/bin/bundle",
+      "exec",
+      "rbs",
+      "-I",
+      "sig",
+      "validate"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-3.4.7/bin:/usr/bin:/bin",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-suggestions-34/Gemfile",
+      "BUNDLE_PATH": "/private/tmp/specproof-selection-34/vendor/bundle"
+    },
+    "exit": 0
+  },
+  {
+    "ruby": "4.0.1",
+    "check": "core",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+      "bin/test"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-suggestions-40/Gemfile",
+      "BUNDLE_PATH": "/private/tmp/specproof-selection-40/vendor/bundle"
+    },
+    "exit": 0
+  },
+  {
+    "ruby": "4.0.1",
+    "check": "rbs",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+      "bin/test",
+      "test/rbs/pairwise_test.rb",
+      "test/rbs/source_test.rb",
+      "test/rbs/workflow_test.rb"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-suggestions-40/Gemfile",
+      "BUNDLE_PATH": "/private/tmp/specproof-selection-40/vendor/bundle"
+    },
+    "exit": 0
+  },
+  {
+    "ruby": "4.0.1",
+    "check": "signatures",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-4.0.1/bin/bundle",
+      "exec",
+      "rbs",
+      "-I",
+      "sig",
+      "validate"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-suggestions-40/Gemfile",
+      "BUNDLE_PATH": "/private/tmp/specproof-selection-40/vendor/bundle"
+    },
+    "exit": 0
+  }
+]

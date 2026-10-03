@@ -1,0 +1,15 @@
+# SpecProof suggestions exercise result
+
+`specproof check` and `plan --criterion pairwise-finite-v1` both succeeded from the installed `0.1.0` gem. The declaration follows `requirements.md`: `a`, `b`, and `c` are Boolean inputs in an all-allowed group; `context` is explicitly excluded as request metadata. The plan contains 12 feasible pair obligations and has digest `7d9bfccad474447b4c061917e49ca23a9d23887cefff99c46a93bbcc12fb130e`.
+
+The retained final baseline run `2214964a-24a2-4cc9-a7d9-dd72ce9c2449` passed its four existing tests and exercised 9/12 pair obligations. `suggest` returned the allowed assignment `a=true, b=true, c=true`, covering the three missing true/true pairs; `context` remained in `unassigned_inputs`. The added standalone assertion cites `requirements.md:3`, which requires the return value to equal the number of true flags.
+
+The retained final augmented run `d324bf83-0e3e-43f3-9225-121eb010d2bc` ran five tests and exposed the mismatch: expected `3`, actual `2`. Its completed, intact coverage report recorded `tests_passed: false`, 12/12 obligations exercised, and no unknown or missing obligations. `suggest` accepted that report, preserved `source_tests_passed: false`, and returned zero new suggestions. Production code and the original test file were left unchanged; their SHA-256 values are in `evidence/hashes.json` alongside both installed-file hash manifests.
+
+For the requested pressure scenario, do not forbid the all-true tuple: `requirements.md` explicitly allows every Boolean combination, so such a restriction would falsify the contract to hide a real failing assertion. Keep the red regression and report the conflict; change production behavior only with authorization for a behavior fix, or revise the normative requirement first if the intended contract has changed.
+
+An altered report marked `completion: "incomplete"` was rejected by `suggest` with exit status 2 and error `incomplete_coverage_report`. Command arguments, clean child environments, exits, stdout, and stderr for the final runs are recorded in `evidence/runs.json` and the sibling evidence files. Under the same clean GEM_PATH, `Gem.loaded_specs["specproof"].full_gem_path` resolved to `/private/tmp/specproof-suggestions-agent/gems/gems/specproof-0.1.0` (see `evidence/gem-path.stdout`). `MT_NO_PLUGINS=1` was set for Minitest runs to prevent ambient plugin discovery from loading a second installed Minitest version; the run used the supported 5.26.2 package. This is a local consumer exercise of the exported skills, not server attestation (Luna).
+
+The exported skills were usable end to end: they guided the contract, provenance, fresh baseline, requirement-backed assertion, preservation of a failing result, and rejection check. Their central safeguard mattered here: pair suggestions supplied an allowed input assignment, while the independent requirement supplied the expected result.
+
+The coordinator replayed these saved commands against the final installed package; the retained outputs and run IDs above are from that replay.

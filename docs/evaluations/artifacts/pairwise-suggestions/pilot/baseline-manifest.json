@@ -1,0 +1,67 @@
+{
+  "source_root": "/Users/luciang/Dropbox/workprojects/opensource/all-in-ruby",
+  "head": "bbe9921470cbf80ae01ae4fbb2de50a62187ba9e",
+  "captured_at": "2026-10-03T15:21:55Z",
+  "files": [
+    {
+      "path": "README.md",
+      "head_sha256": "c9163d57d7f631024d0b3ea1b79e3f7174ea46632b863f9cbd1e19c585b99a65",
+      "working_sha256": "c9163d57d7f631024d0b3ea1b79e3f7174ea46632b863f9cbd1e19c585b99a65",
+      "copied_from": "HEAD"
+    },
+    {
+      "path": "all_in_ruby.gemspec",
+      "head_sha256": "0eba82da3ce9398681606920b3ac0a52b1c6b9164a045b4841ac98c4bc2e39fb",
+      "working_sha256": "0eba82da3ce9398681606920b3ac0a52b1c6b9164a045b4841ac98c4bc2e39fb",
+      "copied_from": "HEAD"
+    },
+    {
+      "path": "lib/all_in_ruby.rb",
+      "head_sha256": "4f38d93cfc846424d1b9293a2eae0b212fabc1829770d87eebfc587e7eeadbbf",
+      "working_sha256": "4f38d93cfc846424d1b9293a2eae0b212fabc1829770d87eebfc587e7eeadbbf",
+      "copied_from": "HEAD"
+    },
+    {
+      "path": "lib/all_in_ruby/cli.rb",
+      "head_sha256": "fedbce2d3c79f35b216096a8430e30b24ebc172f26795b927fca317dc23db32b",
+      "working_sha256": "fedbce2d3c79f35b216096a8430e30b24ebc172f26795b927fca317dc23db32b",
+      "copied_from": "HEAD"
+    },
+    {
+      "path": "lib/all_in_ruby/diff.rb",
+      "head_sha256": "63fa7956ac5bc53eeb0573bca16ac508bc8d496734113abea356be46b68cbd06",
+      "working_sha256": "63fa7956ac5bc53eeb0573bca16ac508bc8d496734113abea356be46b68cbd06",
+      "copied_from": "HEAD"
+    },
+    {
+      "path": "lib/all_in_ruby/installer.rb",
+      "head_sha256": "aac338f9e50dfe74401f5872107ad987d340d1cb92c4cd7e26e497fef68c4d47",
+      "working_sha256": "aac338f9e50dfe74401f5872107ad987d340d1cb92c4cd7e26e497fef68c4d47",
+      "copied_from": "HEAD"
+    },
+    {
+      "path": "lib/all_in_ruby/instruction.rb",
+      "head_sha256": "0ac223751f35bf2d5d17aec6a66720667823be960bad428155287966cc4f3d6f",
+      "working_sha256": "0ac223751f35bf2d5d17aec6a66720667823be960bad428155287966cc4f3d6f",
+      "copied_from": "HEAD"
+    },
+    {
+      "path": "lib/all_in_ruby/version.rb",
+      "head_sha256": "796eac2c9195c11f2facefbdaa73e37107c3274494e20917c62601438794a17c",
+      "working_sha256": "796eac2c9195c11f2facefbdaa73e37107c3274494e20917c62601438794a17c",
+      "copied_from": "HEAD"
+    },
+    {
+      "path": "test/test_helper.rb",
+      "head_sha256": "67a8501f82e00c354ea3c5a68f2e8c8c17b292f7af9784d7ae7f5fb11e7b97f1",
+      "working_sha256": "67a8501f82e00c354ea3c5a68f2e8c8c17b292f7af9784d7ae7f5fb11e7b97f1",
+      "copied_from": "HEAD"
+    },
+    {
+      "path": "test/installer_test.rb",
+      "head_sha256": "522f41e132a39821bd424a1f538ef60f7ee25879611a49f8cbc2f91c4b4e8ee1",
+      "working_sha256": "66b071cd25f0f9a5613309199f81c2bd4ad0f70a61ae4d67e89dc816e1fc5fc4",
+      "copied_from": "HEAD"
+    }
+  ]
+}

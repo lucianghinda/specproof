@@ -1,0 +1,94 @@
+{
+  "added_test": {
+    "command": [
+      "bundle",
+      "exec",
+      "ruby",
+      "-Ilib:test",
+      "test/pairwise_suggestions_test.rb"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/private/tmp/specproof-suggestions-agent/gems/bin:/usr/bin:/bin",
+      "GEM_HOME": "/private/tmp/specproof-suggestions-agent/gems",
+      "GEM_PATH": "/private/tmp/specproof-suggestions-agent/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+      "MT_NO_PLUGINS": "1",
+      "LANG": "C.UTF-8",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-suggestions-pilot/Gemfile"
+    },
+    "exit_status": 0,
+    "success": true,
+    "stdout": "Run options: --seed 54053\n\n# Running:\n\n.\n\nFinished in 0.002562s, 390.3201 runs/s, 3903.2007 assertions/s.\n\n1 runs, 10 assertions, 0 failures, 0 errors, 0 skips\n",
+    "stderr": "",
+    "captured_at": "2026-10-03T15:45:23Z"
+  },
+  "combined_suite": {
+    "command": [
+      "bundle",
+      "exec",
+      "ruby",
+      "-Ilib:test",
+      "run_coverage.rb"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/private/tmp/specproof-suggestions-agent/gems/bin:/usr/bin:/bin",
+      "GEM_HOME": "/private/tmp/specproof-suggestions-agent/gems",
+      "GEM_PATH": "/private/tmp/specproof-suggestions-agent/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+      "MT_NO_PLUGINS": "1",
+      "LANG": "C.UTF-8",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-suggestions-pilot/Gemfile"
+    },
+    "exit_status": 0,
+    "success": true,
+    "stdout": "Run options: --seed 39868\n\n# Running:\n\n.................................\n\nFinished in 0.037456s, 881.0337 runs/s, 3043.5711 assertions/s.\n\n33 runs, 114 assertions, 0 failures, 0 errors, 0 skips\nSpecProof coverage run ceaeb678-b1cb-4134-b833-cf283871b9e9: 12/12 obligations exercised; completeness scope: analyzed inputs only; 0 excluded pairs; criterion: pairwise-finite-v1; group: AllInRuby::Installer#install(backup, dry_run, scope); excluded: AllInRuby::Installer#install/agents (Agent selection is a collection parameter; suggestions supply the requested agents separately.) (completed)\n",
+    "stderr": "",
+    "captured_at": "2026-10-03T15:45:23Z"
+  },
+  "final_suggest_json": {
+    "command": [
+      "specproof",
+      "suggest",
+      "spec/installer_spec.rb",
+      "--report",
+      "refreshed-final-coverage.json",
+      "--format",
+      "json"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/private/tmp/specproof-suggestions-agent/gems/bin:/usr/bin:/bin",
+      "GEM_HOME": "/private/tmp/specproof-suggestions-agent/gems",
+      "GEM_PATH": "/private/tmp/specproof-suggestions-agent/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+      "MT_NO_PLUGINS": "1",
+      "LANG": "C.UTF-8",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-suggestions-pilot/Gemfile"
+    },
+    "exit_status": 0,
+    "success": true,
+    "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"suggestions\",\"errors\":[],\"criterion\":\"pairwise-finite-v1\",\"strategy\":\"greedy-pairwise-v1\",\"assignment_scope\":\"combination_group\",\"minimality\":\"not_guaranteed\",\"contract_digest\":\"c7b73eeff6be65743f00e6f32a45a31557d15c81893cf3908ebb578ec73dab63\",\"source_run_id\":\"ceaeb678-b1cb-4134-b833-cf283871b9e9\",\"source_tests_passed\":true,\"source_scope\":{\"ruby_engine\":\"ruby\",\"pid\":30545,\"thread\":464,\"window\":\"minitest_run\",\"method_identity\":\"direct_owner_definition\",\"input_semantics\":\"effective_bound_values\",\"argument_presence\":\"not_observed\",\"targets\":[\"AllInRuby::Installer#install\"],\"declaration_sources\":{\"specifications\":[\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\"],\"rbs\":[],\"targets\":[]},\"arguments\":[],\"filter\":null,\"exclude\":null,\"completeness_scope\":\"analyzed_inputs\",\"input_scope\":[{\"target\":\"AllInRuby::Installer#install\",\"analyzed_inputs\":[\"backup\",\"dry_run\",\"scope\"],\"excluded_inputs\":[{\"name\":\"agents\",\"reason\":\"Agent selection is a collection parameter; suggestions supply the requested agents separately.\",\"source\":{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":7,\"kind\":\"dsl\"}}],\"combination_group\":{\"inputs\":[\"backup\",\"dry_run\",\"scope\"]}}]},\"missing_obligation_count\":0,\"covered_obligation_count\":0,\"suggestion_count\":0,\"suggestions\":[]}\n",
+    "stderr": "",
+    "captured_at": "2026-10-03T15:45:23Z"
+  },
+  "final_suggest_human": {
+    "command": [
+      "specproof",
+      "suggest",
+      "spec/installer_spec.rb",
+      "--report",
+      "refreshed-final-coverage.json",
+      "--format",
+      "human"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/private/tmp/specproof-suggestions-agent/gems/bin:/usr/bin:/bin",
+      "GEM_HOME": "/private/tmp/specproof-suggestions-agent/gems",
+      "GEM_PATH": "/private/tmp/specproof-suggestions-agent/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+      "MT_NO_PLUGINS": "1",
+      "LANG": "C.UTF-8",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-suggestions-pilot/Gemfile"
+    },
+    "exit_status": 0,
+    "success": true,
+    "stdout": "Source run: ceaeb678-b1cb-4134-b833-cf283871b9e9\nSource tests: passed\nCriterion: pairwise-finite-v1; strategy: greedy-pairwise-v1\nSource arguments: []\nSource scope: AllInRuby::Installer#install combinations backup, dry_run, scope\nMissing pair obligations: 0\nSuggestions: 0 (minimum not guaranteed)\nThese suggestions have not been executed.\nNo expected results are provided. Supply unassigned inputs before calling the target.\n",
+    "stderr": "",
+    "captured_at": "2026-10-03T15:45:23Z"
+  }
+}

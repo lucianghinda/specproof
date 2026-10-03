@@ -1,0 +1,96 @@
+{
+  "plan": {
+    "command": [
+      "specproof",
+      "plan",
+      "spec/installer_spec.rb",
+      "--criterion",
+      "pairwise-finite-v1",
+      "--format",
+      "json"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/private/tmp/specproof-suggestions-agent/gems/bin:/usr/bin:/bin",
+      "GEM_HOME": "/private/tmp/specproof-suggestions-agent/gems",
+      "GEM_PATH": "/private/tmp/specproof-suggestions-agent/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+      "MT_NO_PLUGINS": "1",
+      "LANG": "C.UTF-8",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-suggestions-pilot/Gemfile"
+    },
+    "exit_status": 0,
+    "success": true,
+    "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"plan\",\"errors\":[],\"contract_digest\":\"c7b73eeff6be65743f00e6f32a45a31557d15c81893cf3908ebb578ec73dab63\",\"criterion\":\"pairwise-finite-v1\",\"scope\":{\"completeness_scope\":\"analyzed_inputs\",\"input_scope\":[{\"target\":\"AllInRuby::Installer#install\",\"analyzed_inputs\":[\"backup\",\"dry_run\",\"scope\"],\"excluded_inputs\":[{\"name\":\"agents\",\"reason\":\"Agent selection is a collection parameter; suggestions supply the requested agents separately.\",\"source\":{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":7,\"kind\":\"dsl\"}}],\"combination_group\":{\"inputs\":[\"backup\",\"dry_run\",\"scope\"]}}]},\"obligations\":[{\"id\":\"0ee40d68c92db211e9419af91a4f3752d4b09914322f46dffed6bbc56cd9d363\",\"target\":\"AllInRuby::Installer#install\",\"inputs\":{\"backup\":{\"kind\":\"boolean\",\"value\":false},\"dry_run\":{\"kind\":\"boolean\",\"value\":false}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":4,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":5,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":8,\"kind\":\"dsl\"}]},{\"id\":\"ea865fa163a19b38095054bf00f5795df7e86acf331977a79c6adc5848f68b8e\",\"target\":\"AllInRuby::Installer#install\",\"inputs\":{\"backup\":{\"kind\":\"boolean\",\"value\":false},\"dry_run\":{\"kind\":\"boolean\",\"value\":true}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":4,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":5,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":8,\"kind\":\"dsl\"}]},{\"id\":\"d3b5b1c20e888a9c7fc3282db367d07f0645b6f7277d9306ed9e7fbd1dbdcbbb\",\"target\":\"AllInRuby::Installer#install\",\"inputs\":{\"backup\":{\"kind\":\"boolean\",\"value\":true},\"dry_run\":{\"kind\":\"boolean\",\"value\":false}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":4,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":5,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":8,\"kind\":\"dsl\"}]},{\"id\":\"3cad01b4e2543c121870c98c30d3e42325c8316a618e8f560f5aec68af168807\",\"target\":\"AllInRuby::Installer#install\",\"inputs\":{\"backup\":{\"kind\":\"boolean\",\"value\":true},\"dry_run\":{\"kind\":\"boolean\",\"value\":true}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":4,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":5,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":8,\"kind\":\"dsl\"}]},{\"id\":\"3f049a136a7cb4dd3f8d0f856c58dfc2385e8915e501268e7bc01b8140787ca5\",\"target\":\"AllInRuby::Installer#install\",\"inputs\":{\"backup\":{\"kind\":\"boolean\",\"value\":false},\"scope\":{\"kind\":\"string\",\"value\":\"global\"}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":4,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":5,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":8,\"kind\":\"dsl\"}]},{\"id\":\"71259a8fdf49ad8e74b9441a56c194c83214f7bbe6b2392c115c09894abc978f\",\"target\":\"AllInRuby::Installer#install\",\"inputs\":{\"backup\":{\"kind\":\"boolean\",\"value\":false},\"scope\":{\"kind\":\"string\",\"value\":\"local\"}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":4,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":5,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":8,\"kind\":\"dsl\"}]},{\"id\":\"d64165eaf373037cb1c084a9f96e1180be225afcb0671a72192740e6220d0966\",\"target\":\"AllInRuby::Installer#install\",\"inputs\":{\"backup\":{\"kind\":\"boolean\",\"value\":true},\"scope\":{\"kind\":\"string\",\"value\":\"global\"}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":4,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":5,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":8,\"kind\":\"dsl\"}]},{\"id\":\"d825b5fad824b5b9233707d9e3c772c896f4157c3df9a939c9edb6639eb06e94\",\"target\":\"AllInRuby::Installer#install\",\"inputs\":{\"backup\":{\"kind\":\"boolean\",\"value\":true},\"scope\":{\"kind\":\"string\",\"value\":\"local\"}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":4,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":5,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":8,\"kind\":\"dsl\"}]},{\"id\":\"6640f9a238740e06d1ac61b4d7d181d67ea39140c9e3712a92e67110c085bf8c\",\"target\":\"AllInRuby::Installer#install\",\"inputs\":{\"dry_run\":{\"kind\":\"boolean\",\"value\":false},\"scope\":{\"kind\":\"string\",\"value\":\"global\"}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":4,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":5,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":8,\"kind\":\"dsl\"}]},{\"id\":\"ca83280aba4d8616f9517fc64997531833b01079b2c1050a49ea69ee11f499ab\",\"target\":\"AllInRuby::Installer#install\",\"inputs\":{\"dry_run\":{\"kind\":\"boolean\",\"value\":false},\"scope\":{\"kind\":\"string\",\"value\":\"local\"}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":4,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":5,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":8,\"kind\":\"dsl\"}]},{\"id\":\"ff4bccf04d0044d583d0c3a30c3f0b1d81468122518aca8ee087d9fea8ac04f8\",\"target\":\"AllInRuby::Installer#install\",\"inputs\":{\"dry_run\":{\"kind\":\"boolean\",\"value\":true},\"scope\":{\"kind\":\"string\",\"value\":\"global\"}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":4,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":5,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":8,\"kind\":\"dsl\"}]},{\"id\":\"dd258273c6ad368dd3f074ab0ba0202527f54d409bad76a55409b9b376c943c3\",\"target\":\"AllInRuby::Installer#install\",\"inputs\":{\"dry_run\":{\"kind\":\"boolean\",\"value\":true},\"scope\":{\"kind\":\"string\",\"value\":\"local\"}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":4,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":5,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":8,\"kind\":\"dsl\"}]}],\"excluded_pairs\":[]}\n",
+    "stderr": "",
+    "captured_at": "2026-10-03T15:45:08Z"
+  },
+  "baseline": {
+    "command": [
+      "bundle",
+      "exec",
+      "ruby",
+      "-Ilib:test",
+      "run_baseline_coverage.rb"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/private/tmp/specproof-suggestions-agent/gems/bin:/usr/bin:/bin",
+      "GEM_HOME": "/private/tmp/specproof-suggestions-agent/gems",
+      "GEM_PATH": "/private/tmp/specproof-suggestions-agent/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+      "MT_NO_PLUGINS": "1",
+      "LANG": "C.UTF-8",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-suggestions-pilot/Gemfile"
+    },
+    "exit_status": 0,
+    "success": true,
+    "stdout": "Run options: --seed 5394\n\n# Running:\n\n................................\n\nFinished in 0.034037s, 940.1534 runs/s, 3055.4984 assertions/s.\n\n32 runs, 104 assertions, 0 failures, 0 errors, 0 skips\nSpecProof coverage run 5ba2c09e-a511-4cc9-a093-5df94093d450: 9/12 obligations exercised, 3 missing; missing values: AllInRuby::Installer#install/backup=false,dry_run=true, AllInRuby::Installer#install/backup=false,scope=\"global\", AllInRuby::Installer#install/dry_run=true,scope=\"global\"; completeness scope: analyzed inputs only; 0 excluded pairs; criterion: pairwise-finite-v1; group: AllInRuby::Installer#install(backup, dry_run, scope); excluded: AllInRuby::Installer#install/agents (Agent selection is a collection parameter; suggestions supply the requested agents separately.) (completed)\n",
+    "stderr": "",
+    "captured_at": "2026-10-03T15:45:08Z"
+  },
+  "suggest_json": {
+    "command": [
+      "specproof",
+      "suggest",
+      "spec/installer_spec.rb",
+      "--report",
+      "refreshed-baseline-coverage.json",
+      "--format",
+      "json"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/private/tmp/specproof-suggestions-agent/gems/bin:/usr/bin:/bin",
+      "GEM_HOME": "/private/tmp/specproof-suggestions-agent/gems",
+      "GEM_PATH": "/private/tmp/specproof-suggestions-agent/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+      "MT_NO_PLUGINS": "1",
+      "LANG": "C.UTF-8",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-suggestions-pilot/Gemfile"
+    },
+    "exit_status": 0,
+    "success": true,
+    "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"suggestions\",\"errors\":[],\"criterion\":\"pairwise-finite-v1\",\"strategy\":\"greedy-pairwise-v1\",\"assignment_scope\":\"combination_group\",\"minimality\":\"not_guaranteed\",\"contract_digest\":\"c7b73eeff6be65743f00e6f32a45a31557d15c81893cf3908ebb578ec73dab63\",\"source_run_id\":\"5ba2c09e-a511-4cc9-a093-5df94093d450\",\"source_tests_passed\":true,\"source_scope\":{\"ruby_engine\":\"ruby\",\"pid\":27874,\"thread\":464,\"window\":\"minitest_run\",\"method_identity\":\"direct_owner_definition\",\"input_semantics\":\"effective_bound_values\",\"argument_presence\":\"not_observed\",\"targets\":[\"AllInRuby::Installer#install\"],\"declaration_sources\":{\"specifications\":[\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\"],\"rbs\":[],\"targets\":[]},\"arguments\":[],\"filter\":null,\"exclude\":null,\"completeness_scope\":\"analyzed_inputs\",\"input_scope\":[{\"target\":\"AllInRuby::Installer#install\",\"analyzed_inputs\":[\"backup\",\"dry_run\",\"scope\"],\"excluded_inputs\":[{\"name\":\"agents\",\"reason\":\"Agent selection is a collection parameter; suggestions supply the requested agents separately.\",\"source\":{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":7,\"kind\":\"dsl\"}}],\"combination_group\":{\"inputs\":[\"backup\",\"dry_run\",\"scope\"]}}]},\"missing_obligation_count\":3,\"covered_obligation_count\":3,\"suggestion_count\":1,\"suggestions\":[{\"id\":\"489e4995ecf02efe5e22ec90cd3c1daf245abc4ad1ae75d59d02d2b8a9ceeba9\",\"target\":\"AllInRuby::Installer#install\",\"inputs\":{\"backup\":{\"kind\":\"boolean\",\"value\":false},\"dry_run\":{\"kind\":\"boolean\",\"value\":true},\"scope\":{\"kind\":\"string\",\"value\":\"global\"}},\"covers\":[\"3f049a136a7cb4dd3f8d0f856c58dfc2385e8915e501268e7bc01b8140787ca5\",\"ea865fa163a19b38095054bf00f5795df7e86acf331977a79c6adc5848f68b8e\",\"ff4bccf04d0044d583d0c3a30c3f0b1d81468122518aca8ee087d9fea8ac04f8\"],\"unassigned_inputs\":[\"agents\"],\"sources\":[{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":4,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":5,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-suggestions-pilot/spec/installer_spec.rb\",\"line\":8,\"kind\":\"dsl\"}]}]}\n",
+    "stderr": "",
+    "captured_at": "2026-10-03T15:45:08Z"
+  },
+  "suggest_human": {
+    "command": [
+      "specproof",
+      "suggest",
+      "spec/installer_spec.rb",
+      "--report",
+      "refreshed-baseline-coverage.json",
+      "--format",
+      "human"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/private/tmp/specproof-suggestions-agent/gems/bin:/usr/bin:/bin",
+      "GEM_HOME": "/private/tmp/specproof-suggestions-agent/gems",
+      "GEM_PATH": "/private/tmp/specproof-suggestions-agent/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+      "MT_NO_PLUGINS": "1",
+      "LANG": "C.UTF-8",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-suggestions-pilot/Gemfile"
+    },
+    "exit_status": 0,
+    "success": true,
+    "stdout": "Source run: 5ba2c09e-a511-4cc9-a093-5df94093d450\nSource tests: passed\nCriterion: pairwise-finite-v1; strategy: greedy-pairwise-v1\nSource arguments: []\nSource scope: AllInRuby::Installer#install combinations backup, dry_run, scope\nMissing pair obligations: 3\nSuggestions: 1 (minimum not guaranteed)\n1. AllInRuby::Installer#install: backup=false, dry_run=true, scope=\"global\"\n   Covers: 3f049a136a7cb4dd3f8d0f856c58dfc2385e8915e501268e7bc01b8140787ca5, ea865fa163a19b38095054bf00f5795df7e86acf331977a79c6adc5848f68b8e, ff4bccf04d0044d583d0c3a30c3f0b1d81468122518aca8ee087d9fea8ac04f8\n   Unassigned inputs: agents\nThese suggestions have not been executed.\nNo expected results are provided. Supply unassigned inputs before calling the target.\n",
+    "stderr": "",
+    "captured_at": "2026-10-03T15:45:08Z"
+  }
+}

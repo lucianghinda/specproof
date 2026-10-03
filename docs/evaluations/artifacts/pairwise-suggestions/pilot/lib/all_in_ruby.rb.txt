@@ -1,0 +1,7 @@
+# frozen_string_literal: true
+
+require_relative "all_in_ruby/version"
+require_relative "all_in_ruby/instruction"
+require_relative "all_in_ruby/diff"
+require_relative "all_in_ruby/installer"
+require_relative "all_in_ruby/cli"

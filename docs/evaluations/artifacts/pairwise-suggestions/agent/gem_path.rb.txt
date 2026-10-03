@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+gem "specproof", "0.1.0"
+require "specproof"
+puts Gem.loaded_specs.fetch("specproof").full_gem_path

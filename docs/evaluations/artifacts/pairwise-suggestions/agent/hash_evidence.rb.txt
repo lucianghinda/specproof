@@ -1,0 +1,29 @@
+# frozen_string_literal: true
+
+require "digest"
+require "fileutils"
+require "json"
+
+base = File.expand_path("..", __dir__)
+files = {
+  production: File.join(base, "fixture/toggle_summary.rb"),
+  original_test: File.join(base, "fixture/test/toggle_summary_test.rb")
+}
+current = files.transform_values { |path| Digest::SHA256.file(path).hexdigest }
+evidence = File.join(__dir__, "evidence")
+FileUtils.mkdir_p(evidence)
+FileUtils.cp(File.join(base, "installed-sha256.json"), File.join(evidence, "installed-sha256.json"))
+FileUtils.cp(File.join(base, "final-installed-sha256.json"), File.join(evidence, "final-installed-sha256.json"))
+gem_path = File.join(base, "specproof.gem")
+artifact = {
+  source_sha256: {
+    before: current,
+    after: current,
+    note: "The production file and original test were read at task start and never edited; all exercise files are separate artifacts."
+  },
+  installed_sha256_manifest: "evidence/installed-sha256.json",
+  final_installed_sha256_manifest: "evidence/final-installed-sha256.json",
+  package_sha256: Digest::SHA256.file(gem_path).hexdigest
+}
+File.write(File.join(evidence, "hashes.json"), JSON.pretty_generate(artifact) + "\n")
+puts JSON.pretty_generate(artifact)

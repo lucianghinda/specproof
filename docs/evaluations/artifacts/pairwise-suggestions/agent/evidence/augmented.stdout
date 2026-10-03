@@ -1,0 +1,16 @@
+Run options: --seed 36492
+
+# Running:
+
+F....
+
+Finished in 0.000756s, 6613.7572 runs/s, 6613.7572 assertions/s.
+
+  1) Failure:
+ToggleSummarySuggestionsTest#test_all_three_flags_true_counts_all_three_flags [/private/tmp/specproof-suggestions-agent/exercise/test/toggle_summary_suggestions_test.rb:12]:
+requirements.md:3 says return the number of true flags; pair obligations 0164e2fa78073814c0c1cf001c94fd3807a623c3440781ee4715c3f914c6a1b0, 23f7545ddd71d7f5d7d2ff61db485a6daf3b06afd3d8043c6adfc2b03f7fdd47, and b117bd923cdd0cf54df2b3481560b53d0e576ba73d4f7066338358a892cdadf0.
+Expected: 3
+  Actual: 2
+
+5 runs, 5 assertions, 1 failures, 0 errors, 0 skips
+SpecProof coverage run d324bf83-0e3e-43f3-9225-121eb010d2bc: 12/12 obligations exercised; completeness scope: analyzed inputs only; 0 excluded pairs; criterion: pairwise-finite-v1; group: ToggleSummary#count(a, b, c); excluded: ToggleSummary#count/context (Caller-provided request metadata is setup, outside flag coverage) (completed)

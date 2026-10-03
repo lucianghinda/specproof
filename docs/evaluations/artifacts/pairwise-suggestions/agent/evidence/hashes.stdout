@@ -1,0 +1,16 @@
+{
+  "source_sha256": {
+    "before": {
+      "production": "b1bd0bbc5c9f07d24261fa4b58845347b54001b293485c6b2cc6af8bdd2177b2",
+      "original_test": "1d5a3268ff5052b6dcb5ec9648c02af1a26f82739dab0e7d245561ea39614b3c"
+    },
+    "after": {
+      "production": "b1bd0bbc5c9f07d24261fa4b58845347b54001b293485c6b2cc6af8bdd2177b2",
+      "original_test": "1d5a3268ff5052b6dcb5ec9648c02af1a26f82739dab0e7d245561ea39614b3c"
+    },
+    "note": "The production file and original test were read at task start and never edited; all exercise files are separate artifacts."
+  },
+  "installed_sha256_manifest": "evidence/installed-sha256.json",
+  "final_installed_sha256_manifest": "evidence/final-installed-sha256.json",
+  "package_sha256": "0d643c312988e783f9170d17b0796a044cd52d53c5850721e1710368d21821c8"
+}

@@ -1,0 +1,10 @@
+Run options: --seed 53886
+
+# Running:
+
+....
+
+Finished in 0.000505s, 7920.7920 runs/s, 7920.7920 assertions/s.
+
+4 runs, 4 assertions, 0 failures, 0 errors, 0 skips
+SpecProof coverage run 2214964a-24a2-4cc9-a7d9-dd72ce9c2449: 9/12 obligations exercised, 3 missing; missing values: ToggleSummary#count/a=true,b=true, ToggleSummary#count/a=true,c=true, ToggleSummary#count/b=true,c=true; completeness scope: analyzed inputs only; 0 excluded pairs; criterion: pairwise-finite-v1; group: ToggleSummary#count(a, b, c); excluded: ToggleSummary#count/context (Caller-provided request metadata is setup, outside flag coverage) (completed)

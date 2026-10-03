@@ -1,0 +1,13 @@
+gem "minitest", "= 5.26.2"
+$LOAD_PATH.unshift(File.expand_path("lib", __dir__))
+require "all_in_ruby"
+require "minitest/autorun"
+require "specproof/minitest"
+require File.expand_path("test/installer_test.rb", __dir__)
+  require File.expand_path("test/pairwise_suggestions_test.rb", __dir__)
+
+SpecProof::Minitest.install!(
+  specifications: [File.expand_path("spec/installer_spec.rb", __dir__)],
+  output: File.expand_path("coverage.json", __dir__),
+  criterion: "pairwise-finite-v1"
+)

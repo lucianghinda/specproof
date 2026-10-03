@@ -1,0 +1,6 @@
+# frozen_string_literal: true
+
+require "bundler/setup"
+require "all_in_ruby"
+require "minitest/autorun"
+require "tmpdir"

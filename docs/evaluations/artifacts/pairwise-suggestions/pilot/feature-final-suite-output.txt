@@ -1,0 +1,10 @@
+Run options: --seed 39868
+
+# Running:
+
+.................................
+
+Finished in 0.037456s, 881.0337 runs/s, 3043.5711 assertions/s.
+
+33 runs, 114 assertions, 0 failures, 0 errors, 0 skips
+SpecProof coverage run ceaeb678-b1cb-4134-b833-cf283871b9e9: 12/12 obligations exercised; completeness scope: analyzed inputs only; 0 excluded pairs; criterion: pairwise-finite-v1; group: AllInRuby::Installer#install(backup, dry_run, scope); excluded: AllInRuby::Installer#install/agents (Agent selection is a collection parameter; suggestions supply the requested agents separately.) (completed)
