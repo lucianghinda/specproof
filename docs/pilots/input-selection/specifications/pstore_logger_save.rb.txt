@@ -1,0 +1,10 @@
+# frozen_string_literal: true
+
+require 'specproof'
+
+# A bounded nil/1 file-ID scenario subset. Payload contents are excluded;
+# this is not a statement about the full accepted file_id domain.
+SpecProof.define 'PStoreLogger#save' do
+  exclude_input :data, reason: 'Payload contents are outside this nil/1 file-ID scenario coverage'
+  input :file_id, values: [nil, 1]
+end

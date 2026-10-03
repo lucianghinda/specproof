@@ -1,0 +1,15 @@
+{
+  "TASK.md": "746d0976efe65e2271c055c7c2286bd7238f667775b3bae290c9775251ced4eb",
+  "capture.rb": "0ceee2258b1c7d44b82178e0d01484b9283ac3835a333e821d1875348c7a13cb",
+  "delivery.rb": "90d2d395d42984598531a56fc5b1ee3e7d8be77e43f2e6b1733c2a056e474c8f",
+  "environment.json": "1a9d97a9c733ed309340b170619b7f032b782fb3135e9f5433b19e8a9abab0c0",
+  "export.json": "cfbdf6584c1676ea5844fd9b630c241a095865cda8f0c2f02d8b7b8dc78815e3",
+  "requirements.md": "3d3af05357c6ab5c6594ed6adb6c4e19c341d5d9ea235e1042dd0f56d8de6f79",
+  "run.rb": "e7688eba73312440fe1cdd1ca11771253b9350db63091a023aeb7325a26f2ee3",
+  "skills/specproof-specify/SKILL.md": "a34208e88733f300ce1749e65d30872ad0d03b89a9cc64cbce981dcfefd573c3",
+  "skills/specproof-specify/references/usage.md": "aed618e1ff712d6c920a1932e2b4b9d40ac384b9bf4b06745e49aebf8263d75c",
+  "skills/specproof-test-gaps/SKILL.md": "d337fc41fb4c18d465cbb384f9f40375cd6465e89d8650180d83a9a57d4577ad",
+  "skills/specproof-test-gaps/references/usage.md": "51c52e7265407ea598baaaa0c543b7b27abe4a9d4686ee2eb8474a6ae7ff73ef",
+  "specification.rb": "d5d47b73eef0463a77f99c7fc12e7c8468cd4a75e138c580e26dbca2b212ed09",
+  "test_delivery.rb": "78e6204c74913d0f6c525fde6cf77a347f7df1169a9bc9e72620bd1057368bb9"
+}

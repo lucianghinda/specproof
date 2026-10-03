@@ -1,0 +1,35 @@
+COMMAND: ["/Users/luciang/.rubies/ruby-4.0.1/bin/bundle","exec","rake"]
+EXIT_CODE: 0
+--- STDOUT ---
+Run options: --seed 21957
+
+# Running:
+
+......................................  Successfully built RubyGem
+  Name: specproof
+  Version: 0.1.0
+  File: specproof.gem
+................................................................................................................................
+
+Finished in 7.554380s, 21.9740 runs/s, 108.8110 assertions/s.
+
+166 runs, 822 assertions, 0 failures, 0 errors, 0 skips
+Running RuboCop...
+Inspecting 98 files
+..................................................................................................
+
+98 files inspected, no offenses detected
+
+Tip: Based on detected gems, the following RuboCop extension libraries might be helpful:
+  * rubocop-minitest (https://rubygems.org/gems/rubocop-minitest)
+  * rubocop-rake (https://rubygems.org/gems/rubocop-rake)
+
+You can opt out of this message by adding the following to your config (see https://docs.rubocop.org/rubocop/plugins.html#plugin-suggestions for more options):
+  AllCops:
+    SuggestExtensions: false
+
+--- STDERR ---
+/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/input-selection/test/collector_test.rb:509: warning: method redefined; discarding old run
+/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/input-selection/test/fixtures/runtime/targets.rb:102: warning: previous definition of run was here
+/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/input-selection/test/collector_test.rb:417: warning: method redefined; discarding old run
+/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/input-selection/test/collector_test.rb:509: warning: previous definition of run was here

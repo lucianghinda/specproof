@@ -1,0 +1,178 @@
+{
+  "pilot": "PStoreLogger file_id input-selection initial/final evidence",
+  "scope": "Bounded nil/1 file_id scenario subset; excludes data. Not the full accepted file_id domain; documented string IDs are outside this milestone.",
+  "original_source": {
+    "path": "/Users/luciang/Dropbox/workprojects/opensource/pstore_logger",
+    "commit": "959e37410bac42ba47e43ee8da006ce9550d9f50",
+    "git_status": "## main...origin/main",
+    "source_snapshot": {
+      "README.md": {
+        "artifact": "project/README.md.txt",
+        "sha256": "267d910b317b89dfa3532081a69bf5dc93ae6e64e98eaa1b04d0440d6b6afb02"
+      },
+      "lib/pstore/logger.rb": {
+        "artifact": "project/lib/pstore/logger.rb.txt",
+        "sha256": "d400a1fdb26c9fdeace7cde840c04aa129370014ecbed7a7f720e769b7f2ef58"
+      },
+      "lib/pstore/version.rb": {
+        "artifact": "project/lib/pstore/version.rb.txt",
+        "sha256": "fdcef2ce288d2a1d43d2a7c2a7ad028ea37f22a1ddf230883c16bbc6ad7e0fe5"
+      },
+      "test/test_helper.rb": {
+        "artifact": "project/test/test_helper.rb.txt",
+        "sha256": "d7de48904976dc737f7e47ea18dcfc11edaf51407b9143f392a7d87d1eede494"
+      },
+      "test/test_pstore_logger.rb": {
+        "artifact": "project/test/test_pstore_logger.rb.txt",
+        "sha256": "009ab3f5ca15ee30d1669556ff377b0128008223229931cd62800902a2292a89"
+      }
+    }
+  },
+  "specproof_source": {
+    "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/input-selection",
+    "commit": "7222d965233b8e270101779016bce4536caa3061",
+    "git_status": "## implement/input-selection\n M README.md\n M docs/agent-skills.md\n M docs/report-format.md\n M lib/specproof.rb\n M lib/specproof/cli.rb\n M lib/specproof/collector.rb\n M lib/specproof/composer.rb\n M lib/specproof/loader.rb\n M lib/specproof/minitest.rb\n M lib/specproof/model.rb\n M lib/specproof/report.rb\n M lib/specproof/sources/rbs.rb\n M lib/specproof/sources/rbs_projector.rb\n M sig/specproof.rbs\n M skills/specproof-specify/SKILL.md\n M skills/specproof-specify/references/usage.md\n M skills/specproof-test-gaps/SKILL.md\n M skills/specproof-test-gaps/references/usage.md\n M test/collector_test.rb\n M test/composer_test.rb\n M test/loader_test.rb\n M test/rbs/workflow_test.rb\n M test/report_test.rb\n?? docs/evaluations/input-selection-baseline.md\n?? docs/pilots/input-selection/\n?? examples/input_selection/",
+    "ruby_library_file_count": 17,
+    "library_sha256": {
+      "lib/specproof.rb": "09292846a2c5bf75ee069915a33ce754003931795425da2be323f284b60672fc",
+      "lib/specproof/checker.rb": "9bae445552efe0c3a2668336f719e9a04cfd3c011739c282522424fdb0044543",
+      "lib/specproof/cli.rb": "af270206f2a5a824a71d04b1f0c19d00e1ff405b02979003641e427f3049e1af",
+      "lib/specproof/collector.rb": "5255fc3680f3bdb1d4294d429baf69de77f10bf82e6e410ce55f320ce852154b",
+      "lib/specproof/composer.rb": "59ea462968be91ff480eea51a8f527657538e7bd7d7152815269ba932e2077d2",
+      "lib/specproof/coverage.rb": "51e8192c6b56d7d22487d9be992b3a810f7bda7bdfd70906857a55da2eee2d24",
+      "lib/specproof/domains.rb": "7baf62ec2be2f9c3106615de4a49f87f7901c3060f2122b784422bf58cd8c054",
+      "lib/specproof/loader.rb": "2d06c2735f294f9e38389bb1f713c58ffbc15ad87b3923a4660bec6de882d0cd",
+      "lib/specproof/minitest.rb": "6ebf6d625d6ee31cd72b1dde464918e54d5d924b5ccd7e38ee258eabd28478fe",
+      "lib/specproof/model.rb": "578cc48844d865d6bed194e8cd0b982974e97960e8402408f37af7a0d820aed0",
+      "lib/specproof/planner.rb": "598afe1dd368847d5d4c93d4b1dc87108bf5a96bfd0eafa12a6d42ce76ed9092",
+      "lib/specproof/report.rb": "7756861caac634e5360e95428ae7985b64d6f6ce0cecffbab3675cb18745564b",
+      "lib/specproof/skills.rb": "7eeae2f70b6e1ee6af95883ebd4fd69557c0cfc30c05c159ffe42f7870162e6f",
+      "lib/specproof/sources/rbs.rb": "77757eeb2c7dab2851ac61e57d7f3a4996a30d6a5baed75a3150ebcde5ee367a",
+      "lib/specproof/sources/rbs_projector.rb": "31615ea06d3045e512f7ea6a2ea9346262b132ceb03448af306c6ca16c0cd498",
+      "lib/specproof/type_constraints.rb": "ed166aee098ca428da27629c4bf96cf8e498528b0f841b6007c1e774490c04d8",
+      "lib/specproof/version.rb": "770cd5018d68868abf30e1b808c02ceda3d4c866e3e0e1c8ea282f5b6e61e014"
+    },
+    "runtime_loaded_features": [
+      "lib/specproof.rb",
+      "lib/specproof/checker.rb",
+      "lib/specproof/collector.rb",
+      "lib/specproof/composer.rb",
+      "lib/specproof/coverage.rb",
+      "lib/specproof/domains.rb",
+      "lib/specproof/loader.rb",
+      "lib/specproof/minitest.rb",
+      "lib/specproof/model.rb",
+      "lib/specproof/planner.rb",
+      "lib/specproof/report.rb",
+      "lib/specproof/skills.rb",
+      "lib/specproof/type_constraints.rb",
+      "lib/specproof/version.rb"
+    ]
+  },
+  "runtime": {
+    "ruby": "ruby 3.4.7 (2025-10-08 revision 7a5688e2a2) +PRISM [arm64-darwin24]",
+    "minitest": "5.26.2",
+    "gem_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/input-selection"
+  },
+  "runs": {
+    "baseline": {
+      "command": [
+        "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+        "-S",
+        "bundle",
+        "exec",
+        "ruby",
+        "pilot_runner.rb",
+        "baseline"
+      ],
+      "exit_status": 0,
+      "outcome": "7 tests, 23 assertions, 0 failures, 0 errors"
+    },
+    "check": {
+      "command": [
+        "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+        "-S",
+        "bundle",
+        "exec",
+        "specproof",
+        "check",
+        "specifications/pstore_logger_save.rb",
+        "--format",
+        "json"
+      ],
+      "exit_status": 0
+    },
+    "plan": {
+      "command": [
+        "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+        "-S",
+        "bundle",
+        "exec",
+        "specproof",
+        "plan",
+        "specifications/pstore_logger_save.rb",
+        "--format",
+        "json"
+      ],
+      "exit_status": 0
+    },
+    "instrumented": {
+      "command": [
+        "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+        "-S",
+        "bundle",
+        "exec",
+        "ruby",
+        "pilot_runner.rb",
+        "instrumented"
+      ],
+      "exit_status": 0,
+      "outcome": "7 tests, 23 assertions, 0 failures, 0 errors"
+    }
+  },
+  "final_report": {
+    "run_id": "e7fbe514-824c-4f77-8cac-6def94719933",
+    "contract_digest": "9f91c6ddf296386ec79ad9229ee65c216b7c3d5cf540ee96fb2e8f0846c7c2d6",
+    "completion": "completed",
+    "integrity": true,
+    "tests_passed": true,
+    "completeness_scope": "analyzed_inputs",
+    "obligation_count": 2,
+    "exercised_count": 2,
+    "missing_count": 0,
+    "unknown_count": 0,
+    "obligations": [
+      {
+        "id": "5255739c08d32f0bbf9302e187f1f30091bd2adb33cda365520289cdab02348d",
+        "input": "file_id",
+        "value": {
+          "kind": "nil",
+          "value": null
+        },
+        "hits": 6,
+        "status": "exercised"
+      },
+      {
+        "id": "0e99f541e20b8eb00fba805504c215f28dd2b45e596e7d0210b75d49f13a7432",
+        "input": "file_id",
+        "value": {
+          "kind": "integer",
+          "value": "1"
+        },
+        "hits": 3,
+        "status": "exercised"
+      }
+    ]
+  },
+  "initial_report_run_id": "cbe70967-2377-4207-b373-0f64889562c6",
+  "reproduction_environment": {
+    "HOME": "/private/tmp/specproof-input-selection-pilot/home",
+    "BUNDLE_USER_HOME": "/private/tmp/specproof-input-selection-pilot/home",
+    "TMPDIR": "/private/tmp/specproof-input-selection-pilot/tmp",
+    "PATH": "/Users/luciang/.rubies/ruby-3.4.7/bin:/usr/bin:/bin",
+    "BUNDLE_GEMFILE": "/private/tmp/specproof-input-selection-pilot/Gemfile",
+    "BUNDLE_PATH": "/private/tmp/specproof-input-selection-pilot/vendor/bundle",
+    "SPECPROOF_ROOT": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/input-selection",
+    "MT_NO_PLUGINS": "1"
+  }
+}

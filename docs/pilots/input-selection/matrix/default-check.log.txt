@@ -1,0 +1,24 @@
+COMMAND: ["/Users/luciang/.rubies/ruby-4.0.1/bin/ruby","bin/check"]
+EXIT_CODE: 0
+--- STDOUT ---
+Run options: --seed 5753
+
+# Running:
+
+  Successfully built RubyGem
+  Name: specproof
+  Version: 0.1.0
+  File: specproof.gem
+..
+
+Finished in 0.750832s, 2.6637 runs/s, 101.2210 assertions/s.
+
+2 runs, 76 assertions, 0 failures, 0 errors, 0 skips
+  Successfully built RubyGem
+  Name: specproof
+  Version: 0.1.0
+  File: specproof.gem
+
+--- STDERR ---
+WARNING:  no homepage specified
+WARNING:  See https://guides.rubygems.org/specification-reference/ for help

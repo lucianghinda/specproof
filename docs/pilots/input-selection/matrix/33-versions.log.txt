@@ -1,0 +1,6 @@
+COMMAND: ["/Users/luciang/.rubies/ruby-3.3.6/bin/ruby","-e","require \"bundler/setup\"; require \"minitest\"; require \"rbs\"; puts \"ruby=#{RUBY_VERSION} minitest=#{Minitest::VERSION} rbs=#{RBS::VERSION}\""]
+EXIT_CODE: 0
+--- STDOUT ---
+ruby=3.3.6 minitest=5.26.2 rbs=4.2.0
+
+--- STDERR ---

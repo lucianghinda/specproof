@@ -1,0 +1,5 @@
+COMMAND: ["/Users/luciang/.rubies/ruby-3.4.7/bin/bundle","exec","rbs","-I","sig","validate"]
+EXIT_CODE: 0
+--- STDOUT ---
+
+--- STDERR ---

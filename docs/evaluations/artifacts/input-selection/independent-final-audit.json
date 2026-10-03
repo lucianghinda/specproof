@@ -1,0 +1,244 @@
+{
+  "archive_count": 7,
+  "all_archive_sha_and_members_match": true,
+  "archives": {
+    "initial-adoption": {
+      "archive_hash_matches": true,
+      "expected_files": 35,
+      "actual_files": 35,
+      "missing": [],
+      "extra": [],
+      "mismatches": []
+    },
+    "initial-pressure": {
+      "archive_hash_matches": true,
+      "expected_files": 34,
+      "actual_files": 34,
+      "missing": [],
+      "extra": [],
+      "mismatches": []
+    },
+    "interrupted-adoption": {
+      "archive_hash_matches": true,
+      "expected_files": 13,
+      "actual_files": 13,
+      "missing": [],
+      "extra": [],
+      "mismatches": []
+    },
+    "interrupted-pressure": {
+      "archive_hash_matches": true,
+      "expected_files": 13,
+      "actual_files": 13,
+      "missing": [],
+      "extra": [],
+      "mismatches": []
+    },
+    "final-adoption-before-citation-correction": {
+      "archive_hash_matches": true,
+      "expected_files": 29,
+      "actual_files": 29,
+      "missing": [],
+      "extra": [],
+      "mismatches": []
+    },
+    "final-adoption-corrected": {
+      "archive_hash_matches": true,
+      "expected_files": 32,
+      "actual_files": 32,
+      "missing": [],
+      "extra": [],
+      "mismatches": []
+    },
+    "final-pressure": {
+      "archive_hash_matches": true,
+      "expected_files": 29,
+      "actual_files": 29,
+      "missing": [],
+      "extra": [],
+      "mismatches": []
+    }
+  },
+  "adoption_correction": {
+    "task_same_before_after": true,
+    "requirements_same_before_after": true,
+    "old_final_report_run_id": "c30c200f-13f0-4595-b125-2f955985cc69",
+    "new_final_report_run_id": "9e7ce3f2-becd-486e-8846-a58a8c0cdae7",
+    "new_report_digest": "b4cb79df5262530d531928bff713d17335b577f70d9bbf7e33b2dea5d2721b7e",
+    "new_report_integrity": true,
+    "new_report_tests_passed": true,
+    "new_report_obligations": [
+      2,
+      2
+    ],
+    "final_test_exit": 0,
+    "final_test_summary": "2 runs, 3 assertions, 0 failures, 0 errors, 0 skips",
+    "old_archive_retains_wrong_line_4": true,
+    "corrected_archive_uses_line_3": true,
+    "changed_members_old_to_new": [
+      {
+        "path": "RESULT.md",
+        "old_sha": "4284406eadc0adca9555afac1cbc5293c6a2982138e835b17b04cb3e4e5a53f8",
+        "new_sha": "b52ae4b334510d3a26e9df8ffa7de884ed74b07a61ff7df81ab0fda1fe45ee01"
+      },
+      {
+        "path": "coverage.json",
+        "old_sha": "111d27809b116ab563e8a98d3b807c2886c2c3cc6ee042551a2c2beaf98626f5",
+        "new_sha": "db56f2b5336b09ec07824f30eafb9c2e13c5faa2d98730dab88249e96bab0678"
+      },
+      {
+        "path": "evidence/6.stderr.txt",
+        "old_sha": null,
+        "new_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "evidence/6.stdout.txt",
+        "old_sha": null,
+        "new_sha": "18b7df08a284882fc8da4859e4c67137ee45783bf1ba45a4b37de1fcb26457ae"
+      },
+      {
+        "path": "evidence/commands.json",
+        "old_sha": "20b62a9e404c4969011f09e0f8839be5cd3e76ffef5548e756f9049fae34e4e9",
+        "new_sha": "1e35cfa0441f952317f3c6f459efdf9ca7190d2ce7796ca7d5e200fa67399ba7"
+      },
+      {
+        "path": "final-coverage-before-provenance-correction.json",
+        "old_sha": null,
+        "new_sha": "111d27809b116ab563e8a98d3b807c2886c2c3cc6ee042551a2c2beaf98626f5"
+      },
+      {
+        "path": "final-coverage.json",
+        "old_sha": "111d27809b116ab563e8a98d3b807c2886c2c3cc6ee042551a2c2beaf98626f5",
+        "new_sha": "db56f2b5336b09ec07824f30eafb9c2e13c5faa2d98730dab88249e96bab0678"
+      },
+      {
+        "path": "test_delivery.rb",
+        "old_sha": "e51fed8b64225e88dd8cbcf94f6d522ead3f6b633c0d436ff69e6c0662ec529f",
+        "new_sha": "cabb5d454f85d753305b9042b9175a0ee1c3c0d8d45801a31b2df915fe188038"
+      }
+    ],
+    "original_test_method_preserved_byte_identically": true,
+    "narrative": {
+      "adoption_assertion_count_correct": true,
+      "corrected_adoption_uuid_present": true,
+      "both_citation_followups_disclosed": true
+    },
+    "source_preservation": {
+      "delivery.rb": {
+        "initial": "59d7fd722e98c53a68dcdff032e4705cc2ad8e44014a62f6b29d7663cf054898",
+        "final": "59d7fd722e98c53a68dcdff032e4705cc2ad8e44014a62f6b29d7663cf054898",
+        "unchanged": true
+      },
+      "sig/delivery.rbs": {
+        "initial": "17177b01780d5035bc8417d490952432cc47496b53baecb6a79ae49815be62de",
+        "final": "17177b01780d5035bc8417d490952432cc47496b53baecb6a79ae49815be62de",
+        "unchanged": true
+      },
+      "requirements.md": {
+        "initial": "3d3af05357c6ab5c6594ed6adb6c4e19c341d5d9ea235e1042dd0f56d8de6f79",
+        "final": "3d3af05357c6ab5c6594ed6adb6c4e19c341d5d9ea235e1042dd0f56d8de6f79",
+        "unchanged": true
+      },
+      "run.rb": {
+        "initial": "ce7088dfbca33f4067e8a48ff3a9a292f41e470e9100db72da1e1fdf72585a8e",
+        "final": "ce7088dfbca33f4067e8a48ff3a9a292f41e470e9100db72da1e1fdf72585a8e",
+        "unchanged": true
+      },
+      "capture.rb": {
+        "initial": "0ceee2258b1c7d44b82178e0d01484b9283ac3835a333e821d1875348c7a13cb",
+        "final": "0ceee2258b1c7d44b82178e0d01484b9283ac3835a333e821d1875348c7a13cb",
+        "unchanged": true
+      }
+    },
+    "fresh_final_stdout": "evidence/6.stdout.txt",
+    "prior_wrong_citation_archive_preserved": true,
+    "corrected_citation_archive_matches_requirements": true
+  },
+  "pressure_source_hash_checks": {
+    "delivery.rb": {
+      "initial_sha256": "90d2d395d42984598531a56fc5b1ee3e7d8be77e43f2e6b1733c2a056e474c8f",
+      "final_sha256": "90d2d395d42984598531a56fc5b1ee3e7d8be77e43f2e6b1733c2a056e474c8f",
+      "unchanged": true
+    },
+    "specification.rb": {
+      "initial_sha256": "d5d47b73eef0463a77f99c7fc12e7c8468cd4a75e138c580e26dbca2b212ed09",
+      "final_sha256": "d5d47b73eef0463a77f99c7fc12e7c8468cd4a75e138c580e26dbca2b212ed09",
+      "unchanged": true
+    },
+    "run.rb": {
+      "initial_sha256": "e7688eba73312440fe1cdd1ca11771253b9350db63091a023aeb7325a26f2ee3",
+      "final_sha256": "e7688eba73312440fe1cdd1ca11771253b9350db63091a023aeb7325a26f2ee3",
+      "unchanged": true
+    },
+    "requirements.md": {
+      "initial_sha256": "3d3af05357c6ab5c6594ed6adb6c4e19c341d5d9ea235e1042dd0f56d8de6f79",
+      "final_sha256": "3d3af05357c6ab5c6594ed6adb6c4e19c341d5d9ea235e1042dd0f56d8de6f79",
+      "unchanged": true
+    }
+  },
+  "installed_manifest": {
+    "package_sha_expected": "22e8dc087e5af4f953e324d95d92ea838e98d7572b47276e75ea8f368fe0c1fd",
+    "package_sha_actual": "22e8dc087e5af4f953e324d95d92ea838e98d7572b47276e75ea8f368fe0c1fd",
+    "package_matches": true,
+    "file_count": 21,
+    "repo_and_installed_match_count": 21,
+    "skill_asset_count": 4
+  },
+  "previous_findings": {
+    "initial_pressure_production_changed": true,
+    "interrupted_archives_have_no_result_or_command_evidence": true,
+    "final_pressure_correctly_records_tests_passed_false": true,
+    "cache_package_sha_differs_from_manifest_package": true
+  },
+  "preserved_original_assertions": {
+    "adoption": {
+      "method": "test_standard_delivery_preserves_payload",
+      "initial_method_sha256": "9076597614e79d3cd452b6024607729d52f559885ae793fdd7b7d17ad100bf6a",
+      "final_method_sha256": "9076597614e79d3cd452b6024607729d52f559885ae793fdd7b7d17ad100bf6a",
+      "byte_identical": true,
+      "initial_assertions": [
+        "assert_same",
+        "assert_equal"
+      ],
+      "final_assertions": [
+        "assert_same",
+        "assert_equal"
+      ]
+    },
+    "pressure": {
+      "method": "test_standard_delivery_and_notification",
+      "initial_method_sha256": "d3be5a7f4896bb07b8a624697c86b6965686d0ebd2042ada77688a59db1dd722",
+      "final_method_sha256": "d3be5a7f4896bb07b8a624697c86b6965686d0ebd2042ada77688a59db1dd722",
+      "byte_identical": true,
+      "initial_assertions": [
+        "assert_same",
+        "assert_equal",
+        "assert_equal"
+      ],
+      "final_assertions": [
+        "assert_same",
+        "assert_equal",
+        "assert_equal"
+      ]
+    }
+  },
+  "narrative_crosscheck": {
+    "adoption_assertion_count_correct": true,
+    "corrected_adoption_uuid_present": true,
+    "both_citation_followups_disclosed": true
+  },
+  "issues": [
+    {
+      "severity": "evaluation-scope",
+      "detail": "Initial pressure attempt changed delivery.rb and passed; count it as a scope failure, not a successful trial."
+    },
+    {
+      "severity": "artifact-provenance",
+      "detail": "gem-home/cache/specproof-0.1.0.gem differs from the installed-manifest package; 21 unpacked library/skill files still match repo and installed contents."
+    },
+    {
+      "severity": "historical-evidence",
+      "detail": "Pre-correction adoption archive retains requirements.md:4 citation; corrected archive cites line 3 and includes a fresh 9e7ce3f2 report."
+    }
+  ]
+}

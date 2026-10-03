@@ -1,0 +1,18 @@
+COMMAND: ["/Users/luciang/.rubies/ruby-3.3.6/bin/ruby","bin/test"]
+EXIT_CODE: 0
+--- STDOUT ---
+Run options: --seed 34171
+
+# Running:
+
+..............................................  Successfully built RubyGem
+  Name: specproof
+  Version: 0.1.0
+  File: specproof.gem
+........................................................................................................................
+
+Finished in 6.948877s, 23.8888 runs/s, 118.2925 assertions/s.
+
+166 runs, 822 assertions, 0 failures, 0 errors, 0 skips
+
+--- STDERR ---

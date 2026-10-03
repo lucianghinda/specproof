@@ -1,0 +1,80 @@
+require "fileutils"
+require "json"
+require "digest"
+require "rubygems/package"
+require "zlib"
+
+repo = "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/input-selection"
+scratch = "/private/tmp/specproof-input-selection-evaluations"
+destination = File.join(repo, "docs/evaluations/artifacts/input-selection")
+FileUtils.mkdir_p(destination)
+
+def archive_workspace(source, target)
+  FileUtils.mkdir_p(target)
+  files = Dir.glob(File.join(source, "**/*"), File::FNM_DOTMATCH).select { |path| File.file?(path) }.sort
+  members = files.to_h { |path| [path.delete_prefix(source + "/"), Digest::SHA256.file(path).hexdigest] }
+  archive = File.join(target, "workspace.tar.gz")
+  Zlib::GzipWriter.open(archive) do |gzip|
+    Gem::Package::TarWriter.new(gzip) do |tar|
+      files.each do |path|
+        relative = path.delete_prefix(source + "/")
+        data = File.binread(path)
+        tar.add_file_simple(relative, 0o644, data.bytesize) { |entry| entry.write(data) }
+      end
+    end
+  end
+  File.write(File.join(target, "manifest.json"), JSON.pretty_generate(archive_sha256: Digest::SHA256.file(archive).hexdigest, files: members) + "\n")
+  result = File.join(source, "RESULT.md")
+  FileUtils.cp(result, target) if File.file?(result)
+end
+
+if ARGV.include?("--adoption-only")
+  archive_workspace(File.join(scratch, "01-scoped-adoption"), File.join(destination, "final", "01-scoped-adoption"))
+  path = File.join(destination, "coordinator-requests.json")
+  records = JSON.parse(File.read(path))
+  records["final_adoption_followup"] = "Coordinator requested correction of the :express requirement line from 4 to 3. Actor preserved scope and production, retained the previous final report, and reran the same behavioral assertion with corrected source references. The pre-correction final archive is retained separately."
+  File.write(path, JSON.pretty_generate(records) + "\n")
+  FileUtils.cp(__FILE__, File.join(destination, File.basename(__FILE__) + ".txt"))
+  puts "Updated adoption archive; preserved the pre-correction archive and all other attempts."
+  exit
+end
+
+%w[initial-attempt interrupted-before-tool-execution].each do |phase|
+  %w[01-scoped-adoption 02-preserve-scope].each do |scenario|
+    archive_workspace(File.join(scratch, phase, scenario), File.join(destination, phase, scenario))
+  end
+  Dir.glob(File.join(scratch, phase, "*.json")).each do |path|
+    FileUtils.cp(path, File.join(destination, phase))
+  end
+end
+%w[01-scoped-adoption 02-preserve-scope].each do |scenario|
+  abort "final actor is not finished: #{scenario}" unless File.file?(File.join(scratch, scenario, "RESULT.md"))
+  archive_workspace(File.join(scratch, scenario), File.join(destination, "final", scenario))
+  FileUtils.cp(File.join(scratch, scenario + "-initial-manifest.json"), File.join(destination, "final"))
+end
+FileUtils.cp(File.join(scratch, "installed-manifest.json"), File.join(destination, "final"))
+%w[specproof_selection_eval_setup.rb specproof_selection_eval_install.rb specproof_selection_preserve_attempt.rb specproof_selection_collect_evidence.rb].each do |name|
+  FileUtils.cp(File.join("/private/tmp", name), File.join(destination, name + ".txt"))
+end
+requests = {
+  requested_model: "gpt-6-luna", requested_reasoning_effort: "high", fork_turns: "none",
+  qualification: "Coordinator request settings, not server-side model attestation; TASK files and actor RESULT files are retained, not full native conversation transcripts.",
+  baseline: "luna_selection_skill_baseline (read-only old-skill scenario)",
+  initial_actors: %w[luna_selection_eval_adoption luna_selection_eval_pressure],
+  initial_adoption_followup: "Coordinator requested a valid scoped baseline after the actor's first report used a missing-specification run; both reports and the guided correction are retained.",
+  initial_pressure_outcome: "Failed task scope: actor changed production despite the supplied test-only instruction. Retained without relabeling its green tests as task success.",
+  interrupted_actor: "luna_selection_final_adoption was stopped before any captured tool/test command while a contradictory skill instruction was corrected. Not counted as a completed evaluation.",
+  final_actors: %w[luna_selection_verified_adoption luna_selection_verified_pressure],
+  final_pressure_followup: "Coordinator requested correction of requirement line references only. Actor preserved production and scope, retained the previous failing final report, and reran the unchanged behavioral assertion with corrected source references."
+}
+File.write(File.join(destination, "coordinator-requests.json"), JSON.pretty_generate(requests) + "\n")
+
+matrix = File.join(repo, "docs/pilots/input-selection/matrix")
+FileUtils.mkdir_p(matrix)
+Dir.glob("/private/tmp/specproof-selection-final-matrix/*").each do |path|
+  FileUtils.cp(path, matrix) if File.file?(path)
+end
+%w[rake check versions].each do |name|
+  FileUtils.cp("/private/tmp/specproof-selection-40-default-locked/#{name}.log.txt", File.join(matrix, "default-#{name}.log.txt"))
+end
+puts destination

@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "specproof_version": "0.1.0",
+  "kind": "coverage",
+  "errors": [],
+  "contract_digest": "9f91c6ddf296386ec79ad9229ee65c216b7c3d5cf540ee96fb2e8f0846c7c2d6",
+  "criterion": "input-basics-v1",
+  "run_id": "cbe70967-2377-4207-b373-0f64889562c6",
+  "scope": {
+    "ruby_engine": "ruby",
+    "pid": 19402,
+    "thread": 424,
+    "window": "minitest_run",
+    "method_identity": "direct_owner_definition",
+    "input_semantics": "effective_bound_values",
+    "argument_presence": "not_observed",
+    "targets": [
+      "PStoreLogger#save"
+    ],
+    "declaration_sources": {
+      "specifications": [
+        "/private/tmp/specproof-input-selection-pilot/specifications/pstore_logger_save.rb"
+      ],
+      "rbs": [],
+      "targets": []
+    },
+    "arguments": [],
+    "filter": null,
+    "exclude": null,
+    "completeness_scope": "analyzed_inputs",
+    "input_scope": [
+      {
+        "target": "PStoreLogger#save",
+        "analyzed_inputs": [
+          "file_id"
+        ],
+        "excluded_inputs": [
+          {
+            "name": "data",
+            "reason": "Payload contents are outside this nil/1 file-ID scenario coverage",
+            "source": {
+              "path": "/private/tmp/specproof-input-selection-pilot/specifications/pstore_logger_save.rb",
+              "line": 8,
+              "kind": "dsl"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "evidence_mode": "obligation_hits",
+  "replay": false,
+  "obligations": [
+    {
+      "id": "5255739c08d32f0bbf9302e187f1f30091bd2adb33cda365520289cdab02348d",
+      "target": "PStoreLogger#save",
+      "input": "file_id",
+      "value": {
+        "kind": "nil",
+        "value": null
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-input-selection-pilot/specifications/pstore_logger_save.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 6
+    },
+    {
+      "id": "0e99f541e20b8eb00fba805504c215f28dd2b45e596e7d0210b75d49f13a7432",
+      "target": "PStoreLogger#save",
+      "input": "file_id",
+      "value": {
+        "kind": "integer",
+        "value": "1"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-input-selection-pilot/specifications/pstore_logger_save.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 3
+    }
+  ],
+  "missing": [],
+  "exercised": [
+    {
+      "id": "5255739c08d32f0bbf9302e187f1f30091bd2adb33cda365520289cdab02348d",
+      "target": "PStoreLogger#save",
+      "input": "file_id",
+      "value": {
+        "kind": "nil",
+        "value": null
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-input-selection-pilot/specifications/pstore_logger_save.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 6
+    },
+    {
+      "id": "0e99f541e20b8eb00fba805504c215f28dd2b45e596e7d0210b75d49f13a7432",
+      "target": "PStoreLogger#save",
+      "input": "file_id",
+      "value": {
+        "kind": "integer",
+        "value": "1"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-input-selection-pilot/specifications/pstore_logger_save.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 3
+    }
+  ],
+  "exercised_count": 2,
+  "obligation_count": 2,
+  "missing_count": 0,
+  "unknown_count": 0,
+  "not_observed_count": 0,
+  "completion_percent": 100.0,
+  "outside_domain": {},
+  "incomplete_reasons": [],
+  "completion": "completed",
+  "integrity": true,
+  "tests_passed": true
+}

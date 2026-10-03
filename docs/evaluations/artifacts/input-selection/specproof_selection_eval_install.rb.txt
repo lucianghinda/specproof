@@ -1,0 +1,46 @@
+require "fileutils"
+require "rubygems/package"
+require "rubygems/installer"
+require "json"
+require "digest"
+require "open3"
+require "rbconfig"
+
+source_root = "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/input-selection"
+root = "/private/tmp/specproof-input-selection-evaluations"
+gem_home = File.join(root, "gem-home")
+gem_file = File.join(root, "specproof.gem")
+Dir.chdir(source_root) do
+  specification = Gem::Specification.load("specproof.gemspec")
+  Gem::Package.build(specification, true, false, gem_file)
+end
+Gem::Installer.at(gem_file, install_dir: gem_home, wrappers: true, force: true).install
+env = {
+  "PATH" => "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+  "GEM_HOME" => gem_home,
+  "GEM_PATH" => [gem_home, "/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0"].join(":"),
+  "MT_NO_PLUGINS" => "1"
+}
+installed = Dir.glob(File.join(gem_home, "gems", "specproof-*" )).fetch(0)
+manifest = { package_sha256: Digest::SHA256.file(gem_file).hexdigest, files: {} }
+Dir.glob(File.join(source_root, "{lib,skills}/**/*")).select { |path| File.file?(path) }.sort.each do |path|
+  relative = path.delete_prefix(source_root + "/")
+  hash = Digest::SHA256.file(path).hexdigest
+  abort "installed file differs: #{relative}" unless Digest::SHA256.file(File.join(installed, relative)).hexdigest == hash
+  manifest[:files][relative] = hash
+end
+%w[01-scoped-adoption 02-preserve-scope].each do |scenario|
+  directory = File.join(root, scenario)
+  File.write(File.join(directory, "environment.json"), JSON.pretty_generate(gem_home: gem_home, environment: env) + "\n")
+  FileUtils.rm_rf(File.join(directory, "skills")) if ARGV.include?("--refresh-exports")
+  command = [RbConfig.ruby, File.join(gem_home, "bin", "specproof"), "skills", "export", "--to", File.join(directory, "skills"), "--format", "json"]
+  stdout, stderr, status = Open3.capture3(env, *command, unsetenv_others: true)
+  abort stderr unless status.success?
+  File.write(File.join(directory, "export.json"), stdout)
+  hashes = Dir.glob(File.join(directory, "**/*"), File::FNM_DOTMATCH).select { |path| File.file?(path) }.sort.to_h do |path|
+    [path.delete_prefix(directory + "/"), Digest::SHA256.file(path).hexdigest]
+  end
+  File.write(File.join(root, scenario + "-initial-manifest.json"), JSON.pretty_generate(hashes) + "\n")
+end
+File.write(File.join(root, "installed-manifest.json"), JSON.pretty_generate(manifest) + "\n")
+puts JSON.pretty_generate(gem_home: gem_home, package_sha256: manifest[:package_sha256], matched_files: manifest[:files].length)

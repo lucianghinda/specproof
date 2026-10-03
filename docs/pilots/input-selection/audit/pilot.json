@@ -1,0 +1,103 @@
+{
+  "feature_head": "23d696694fcdf1a2f8575fc4b081c070ee5771fe",
+  "manifest_specproof_commit": "7222d965233b8e270101779016bce4536caa3061",
+  "scope": {
+    "completeness_scope": "analyzed_inputs",
+    "input_scope": [
+      {
+        "target": "PStoreLogger#save",
+        "analyzed_inputs": [
+          "file_id"
+        ],
+        "excluded_inputs": [
+          {
+            "name": "data",
+            "reason": "Payload contents are outside this nil/1 file-ID scenario coverage",
+            "source": {
+              "path": "/private/tmp/specproof-input-selection-pilot/specifications/pstore_logger_save.rb",
+              "line": 8,
+              "kind": "dsl"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "final": {
+    "run_id": "e7fbe514-824c-4f77-8cac-6def94719933",
+    "initial_run_id": "cbe70967-2377-4207-b373-0f64889562c6",
+    "same_run_id": false,
+    "contract_digest": "9f91c6ddf296386ec79ad9229ee65c216b7c3d5cf540ee96fb2e8f0846c7c2d6",
+    "plan_digest": "9f91c6ddf296386ec79ad9229ee65c216b7c3d5cf540ee96fb2e8f0846c7c2d6",
+    "check_digest": "9f91c6ddf296386ec79ad9229ee65c216b7c3d5cf540ee96fb2e8f0846c7c2d6",
+    "errors": [],
+    "tests_passed": true,
+    "obligations": [
+      [
+        "5255739c08d32f0bbf9302e187f1f30091bd2adb33cda365520289cdab02348d",
+        "nil",
+        null,
+        6,
+        "exercised"
+      ],
+      [
+        "0e99f541e20b8eb00fba805504c215f28dd2b45e596e7d0210b75d49f13a7432",
+        "integer",
+        "1",
+        3,
+        "exercised"
+      ]
+    ]
+  },
+  "original_source_checks": [
+    {
+      "path": "README.md",
+      "artifact_hash": "267d910b317b89dfa3532081a69bf5dc93ae6e64e98eaa1b04d0440d6b6afb02",
+      "source_hash": "267d910b317b89dfa3532081a69bf5dc93ae6e64e98eaa1b04d0440d6b6afb02",
+      "manifest_hash": "267d910b317b89dfa3532081a69bf5dc93ae6e64e98eaa1b04d0440d6b6afb02",
+      "artifact_matches_manifest": true,
+      "source_matches_manifest": true
+    },
+    {
+      "path": "lib/pstore/logger.rb",
+      "artifact_hash": "d400a1fdb26c9fdeace7cde840c04aa129370014ecbed7a7f720e769b7f2ef58",
+      "source_hash": "d400a1fdb26c9fdeace7cde840c04aa129370014ecbed7a7f720e769b7f2ef58",
+      "manifest_hash": "d400a1fdb26c9fdeace7cde840c04aa129370014ecbed7a7f720e769b7f2ef58",
+      "artifact_matches_manifest": true,
+      "source_matches_manifest": true
+    },
+    {
+      "path": "lib/pstore/version.rb",
+      "artifact_hash": "fdcef2ce288d2a1d43d2a7c2a7ad028ea37f22a1ddf230883c16bbc6ad7e0fe5",
+      "source_hash": "fdcef2ce288d2a1d43d2a7c2a7ad028ea37f22a1ddf230883c16bbc6ad7e0fe5",
+      "manifest_hash": "fdcef2ce288d2a1d43d2a7c2a7ad028ea37f22a1ddf230883c16bbc6ad7e0fe5",
+      "artifact_matches_manifest": true,
+      "source_matches_manifest": true
+    },
+    {
+      "path": "test/test_helper.rb",
+      "artifact_hash": "d7de48904976dc737f7e47ea18dcfc11edaf51407b9143f392a7d87d1eede494",
+      "source_hash": "d7de48904976dc737f7e47ea18dcfc11edaf51407b9143f392a7d87d1eede494",
+      "manifest_hash": "d7de48904976dc737f7e47ea18dcfc11edaf51407b9143f392a7d87d1eede494",
+      "artifact_matches_manifest": true,
+      "source_matches_manifest": true
+    },
+    {
+      "path": "test/test_pstore_logger.rb",
+      "artifact_hash": "009ab3f5ca15ee30d1669556ff377b0128008223229931cd62800902a2292a89",
+      "source_hash": "009ab3f5ca15ee30d1669556ff377b0128008223229931cd62800902a2292a89",
+      "manifest_hash": "009ab3f5ca15ee30d1669556ff377b0128008223229931cd62800902a2292a89",
+      "artifact_matches_manifest": true,
+      "source_matches_manifest": true
+    }
+  ],
+  "library_hashes": {
+    "declared_count": 17,
+    "actual_count": 17,
+    "count_matches": true,
+    "match_count": 17,
+    "mismatches": []
+  },
+  "runtime_loaded_count": 14,
+  "runtime_loaded_hashes_match": true
+}

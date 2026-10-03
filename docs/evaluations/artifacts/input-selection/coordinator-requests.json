@@ -1,0 +1,20 @@
+{
+  "requested_model": "gpt-6-luna",
+  "requested_reasoning_effort": "high",
+  "fork_turns": "none",
+  "qualification": "Coordinator request settings, not server-side model attestation; TASK files and actor RESULT files are retained, not full native conversation transcripts.",
+  "baseline": "luna_selection_skill_baseline (read-only old-skill scenario)",
+  "initial_actors": [
+    "luna_selection_eval_adoption",
+    "luna_selection_eval_pressure"
+  ],
+  "initial_adoption_followup": "Coordinator requested a valid scoped baseline after the actor's first report used a missing-specification run; both reports and the guided correction are retained.",
+  "initial_pressure_outcome": "Failed task scope: actor changed production despite the supplied test-only instruction. Retained without relabeling its green tests as task success.",
+  "interrupted_actor": "luna_selection_final_adoption was stopped before any captured tool/test command while a contradictory skill instruction was corrected. Not counted as a completed evaluation.",
+  "final_actors": [
+    "luna_selection_verified_adoption",
+    "luna_selection_verified_pressure"
+  ],
+  "final_pressure_followup": "Coordinator requested correction of requirement line references only. Actor preserved production and scope, retained the previous failing final report, and reran the unchanged behavioral assertion with corrected source references.",
+  "final_adoption_followup": "Coordinator requested correction of the :express requirement line from 4 to 3. Actor preserved scope and production, retained the previous final report, and reran the same behavioral assertion with corrected source references. The pre-correction final archive is retained separately."
+}

@@ -1,0 +1,148 @@
+{
+  "current_head": "23d696694fcdf1a2f8575fc4b081c070ee5771fe",
+  "matrix_hash_header": "HEAD 7222d965233b8e270101779016bce4536caa3061",
+  "matrix_hash_count": 17,
+  "current_ruby_library_count": 17,
+  "matrix_hash_mismatches_vs_current": [],
+  "matrix_missing_current_paths": [],
+  "matrix_results": [
+    {
+      "runtime": "3.3.6",
+      "check": "core",
+      "exit_code_recorded": 0,
+      "log_exit_zero": true,
+      "zero_errors": true,
+      "counts": "166 runs, 822 assertions, 0 failures, 0 errors, 0 skips"
+    },
+    {
+      "runtime": "3.3.6",
+      "check": "rbs_optional",
+      "exit_code_recorded": 0,
+      "log_exit_zero": true,
+      "zero_errors": true,
+      "counts": "46 runs, 425 assertions, 0 failures, 0 errors, 0 skips"
+    },
+    {
+      "runtime": "3.3.6",
+      "check": "rbs_validate",
+      "exit_code_recorded": 0,
+      "log_exit_zero": true,
+      "zero_errors": true,
+      "counts": null
+    },
+    {
+      "runtime": "3.3.6",
+      "check": "versions",
+      "exit_code_recorded": 0,
+      "log_exit_zero": true,
+      "zero_errors": true,
+      "counts": null
+    },
+    {
+      "runtime": "3.4.7",
+      "check": "core",
+      "exit_code_recorded": 0,
+      "log_exit_zero": true,
+      "zero_errors": true,
+      "counts": "166 runs, 822 assertions, 0 failures, 0 errors, 0 skips"
+    },
+    {
+      "runtime": "3.4.7",
+      "check": "rbs_optional",
+      "exit_code_recorded": 0,
+      "log_exit_zero": true,
+      "zero_errors": true,
+      "counts": "46 runs, 425 assertions, 0 failures, 0 errors, 0 skips"
+    },
+    {
+      "runtime": "3.4.7",
+      "check": "rbs_validate",
+      "exit_code_recorded": 0,
+      "log_exit_zero": true,
+      "zero_errors": true,
+      "counts": null
+    },
+    {
+      "runtime": "3.4.7",
+      "check": "versions",
+      "exit_code_recorded": 0,
+      "log_exit_zero": true,
+      "zero_errors": true,
+      "counts": null
+    },
+    {
+      "runtime": "4.0.1",
+      "check": "core",
+      "exit_code_recorded": 0,
+      "log_exit_zero": true,
+      "zero_errors": true,
+      "counts": "166 runs, 822 assertions, 0 failures, 0 errors, 0 skips"
+    },
+    {
+      "runtime": "4.0.1",
+      "check": "rbs_optional",
+      "exit_code_recorded": 0,
+      "log_exit_zero": true,
+      "zero_errors": true,
+      "counts": "46 runs, 425 assertions, 0 failures, 0 errors, 0 skips"
+    },
+    {
+      "runtime": "4.0.1",
+      "check": "rbs_validate",
+      "exit_code_recorded": 0,
+      "log_exit_zero": true,
+      "zero_errors": true,
+      "counts": null
+    },
+    {
+      "runtime": "4.0.1",
+      "check": "versions",
+      "exit_code_recorded": 0,
+      "log_exit_zero": true,
+      "zero_errors": true,
+      "counts": null
+    }
+  ],
+  "versions": {
+    "33": {
+      "exit_zero": true,
+      "runtime": "3.3.6",
+      "minitest": "5.26.2",
+      "rbs": "4.2.0"
+    },
+    "34": {
+      "exit_zero": true,
+      "runtime": "3.4.7",
+      "minitest": "5.26.2",
+      "rbs": "4.2.0"
+    },
+    "40": {
+      "exit_zero": true,
+      "runtime": "4.0.1",
+      "minitest": "5.26.2",
+      "rbs": "4.2.0"
+    }
+  },
+  "rbs_validation": {
+    "33": {
+      "exit_zero": true,
+      "stderr_empty": true
+    },
+    "34": {
+      "exit_zero": true,
+      "stderr_empty": true
+    },
+    "40": {
+      "exit_zero": true,
+      "stderr_empty": true
+    }
+  },
+  "locked_default": {
+    "rake_exit_zero": true,
+    "rake_core_counts": "166 runs, 822 assertions, 0 failures, 0 errors, 0 skips",
+    "rubocop_inspected": "Inspecting 98 files",
+    "rubocop_result": "98 files inspected, no offenses detected",
+    "bin_check_exit_zero": true,
+    "bin_check_counts": "2 runs, 76 assertions, 0 failures, 0 errors, 0 skips"
+  }
+}

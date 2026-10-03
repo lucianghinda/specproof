@@ -1,0 +1,14 @@
+COMMAND: ["/Users/luciang/.rubies/ruby-4.0.1/bin/ruby","bin/test","test/rbs/source_test.rb","test/rbs/workflow_test.rb"]
+EXIT_CODE: 0
+--- STDOUT ---
+Run options: --seed 29059
+
+# Running:
+
+..............................................
+
+Finished in 10.988775s, 4.1861 runs/s, 38.6758 assertions/s.
+
+46 runs, 425 assertions, 0 failures, 0 errors, 0 skips
+
+--- STDERR ---

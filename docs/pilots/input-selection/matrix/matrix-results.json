@@ -1,0 +1,86 @@
+[
+  {
+    "runtime": "3.3.6",
+    "check": "core",
+    "exit_code": 0,
+    "counts": "166 runs, 822 assertions, 0 failures, 0 errors, 0 skips",
+    "log": "/private/tmp/specproof-selection-final-matrix/33-core.log.txt"
+  },
+  {
+    "runtime": "3.3.6",
+    "check": "rbs_optional",
+    "exit_code": 0,
+    "counts": "46 runs, 425 assertions, 0 failures, 0 errors, 0 skips",
+    "log": "/private/tmp/specproof-selection-final-matrix/33-rbs_optional.log.txt"
+  },
+  {
+    "runtime": "3.3.6",
+    "check": "rbs_validate",
+    "exit_code": 0,
+    "counts": null,
+    "log": "/private/tmp/specproof-selection-final-matrix/33-rbs_validate.log.txt"
+  },
+  {
+    "runtime": "3.3.6",
+    "check": "versions",
+    "exit_code": 0,
+    "counts": null,
+    "log": "/private/tmp/specproof-selection-final-matrix/33-versions.log.txt"
+  },
+  {
+    "runtime": "3.4.7",
+    "check": "core",
+    "exit_code": 0,
+    "counts": "166 runs, 822 assertions, 0 failures, 0 errors, 0 skips",
+    "log": "/private/tmp/specproof-selection-final-matrix/34-core.log.txt"
+  },
+  {
+    "runtime": "3.4.7",
+    "check": "rbs_optional",
+    "exit_code": 0,
+    "counts": "46 runs, 425 assertions, 0 failures, 0 errors, 0 skips",
+    "log": "/private/tmp/specproof-selection-final-matrix/34-rbs_optional.log.txt"
+  },
+  {
+    "runtime": "3.4.7",
+    "check": "rbs_validate",
+    "exit_code": 0,
+    "counts": null,
+    "log": "/private/tmp/specproof-selection-final-matrix/34-rbs_validate.log.txt"
+  },
+  {
+    "runtime": "3.4.7",
+    "check": "versions",
+    "exit_code": 0,
+    "counts": null,
+    "log": "/private/tmp/specproof-selection-final-matrix/34-versions.log.txt"
+  },
+  {
+    "runtime": "4.0.1",
+    "check": "core",
+    "exit_code": 0,
+    "counts": "166 runs, 822 assertions, 0 failures, 0 errors, 0 skips",
+    "log": "/private/tmp/specproof-selection-final-matrix/40-core.log.txt"
+  },
+  {
+    "runtime": "4.0.1",
+    "check": "rbs_optional",
+    "exit_code": 0,
+    "counts": "46 runs, 425 assertions, 0 failures, 0 errors, 0 skips",
+    "log": "/private/tmp/specproof-selection-final-matrix/40-rbs_optional.log.txt"
+  },
+  {
+    "runtime": "4.0.1",
+    "check": "rbs_validate",
+    "exit_code": 0,
+    "counts": null,
+    "log": "/private/tmp/specproof-selection-final-matrix/40-rbs_validate.log.txt"
+  },
+  {
+    "runtime": "4.0.1",
+    "check": "versions",
+    "exit_code": 0,
+    "counts": null,
+    "log": "/private/tmp/specproof-selection-final-matrix/40-versions.log.txt"
+  }
+]

@@ -1,0 +1,10 @@
+require "fileutils"
+
+root = "/private/tmp/specproof-input-selection-evaluations"
+destination = File.join(root, ARGV.fetch(0, "initial-attempt"))
+abort "initial attempt already preserved" if File.exist?(destination)
+FileUtils.mkdir_p(destination)
+%w[01-scoped-adoption 02-preserve-scope 01-scoped-adoption-initial-manifest.json 02-preserve-scope-initial-manifest.json installed-manifest.json].each do |entry|
+  FileUtils.mv(File.join(root, entry), File.join(destination, entry))
+end
+puts destination

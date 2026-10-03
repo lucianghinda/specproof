@@ -1,0 +1,14 @@
+$ /Users/luciang/.rubies/ruby-3.4.7/bin/ruby -S bundle exec ruby pilot_runner.rb instrumented
+
+Run options: --seed 45351
+
+# Running:
+
+.......
+
+Finished in 0.020554s, 340.5663 runs/s, 1119.0036 assertions/s.
+
+7 runs, 23 assertions, 0 failures, 0 errors, 0 skips
+SpecProof coverage run e7fbe514-824c-4f77-8cac-6def94719933: 2/2 obligations exercised; completeness scope: analyzed inputs only; excluded: PStoreLogger#save/data (Payload contents are outside this nil/1 file-ID scenario coverage) (completed)
+/private/tmp/specproof-input-selection-pilot/project/lib/pstore/logger.rb:3: warning: pstore was loaded from the standard library, but will no longer be part of the default gems starting from Ruby 3.5.0.
+You can add pstore to your Gemfile or gemspec to silence this warning.
