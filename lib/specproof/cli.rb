@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
 require "json"
+require_relative "suggestion_report"
 
 module SpecProof
-  # Parses command arguments and renders check or plan results.
+  # Parses command arguments and dispatches SpecProof commands.
   class CLI
     USAGE = <<~TEXT
       Usage:
         specproof --version
         specproof check [SPECIFICATION.rb ...] [--rbs FILE] [--target TARGET] [--format human|json]
         specproof plan [SPECIFICATION.rb ...] [--rbs FILE] [--target TARGET] [--criterion NAME] [--format human|json]
+        specproof suggest SPECIFICATION.rb ... --report COVERAGE.json [--rbs FILE --target TARGET] [--format human|json]
         specproof skills export --to DIRECTORY [--format human|json]
     TEXT
 
@@ -31,7 +33,7 @@ module SpecProof
 
       command = args.shift
       return run_skills(args) if command == "skills"
-      return run_specifications(command, args) if %w[check plan].include?(command)
+      return run_specifications(command, args) if %w[check plan suggest].include?(command)
 
       unknown_command(args, "unknown_command", "unsupported command #{command.inspect}", kind: "error")
     end
@@ -60,14 +62,18 @@ module SpecProof
     end
 
     def run_specifications(kind, args)
-      paths, rbs_paths, targets, criterion, format, option_error = parse_options(args, kind: kind)
-      return emit_error(option_error, format, kind: kind, criterion: kind == "plan" ? criterion : nil) if option_error
+      paths, rbs_paths, targets, criterion, format, option_error, report_path = parse_options(args, kind: kind)
+      report_kind = kind == "suggest" ? "suggestions" : kind
+      if option_error
+        return emit_error(option_error, format, kind: report_kind,
+                                                criterion: kind == "plan" ? criterion : nil)
+      end
       if paths.empty? && rbs_paths.empty? && targets.empty?
         return emit_error(error("paths_required", "provide specification paths or an RBS selection"), format,
-                          kind: kind, criterion: kind == "plan" ? criterion : nil)
+                          kind: report_kind, criterion: kind == "plan" ? criterion : nil)
       end
 
-      with_errors(kind, format, criterion: kind == "plan" ? criterion : nil) do
+      with_errors(report_kind, format, criterion: kind == "plan" ? criterion : nil) do
         specifications = with_loader_output(format) do
           if rbs_paths.empty? && targets.empty?
             SpecProof.load(paths)
@@ -75,7 +81,12 @@ module SpecProof
             SpecProof.load(paths, rbs: rbs_paths, targets: targets)
           end
         end
-        kind == "check" ? run_check(specifications, format) : run_plan(specifications, format, criterion)
+        case kind
+        when "check" then run_check(specifications, format)
+        when "plan" then run_plan(specifications, format, criterion)
+        else SuggestionReport.execute(specifications: specifications, path: report_path, format: format,
+                                      stdout: @stdout)
+        end
       end
     end
 
@@ -137,19 +148,23 @@ module SpecProof
 
     def parse_options(args, kind:)
       options = { format: "human", criterion: "input-basics-v1", criterion_seen: false,
-                  paths: [], rbs_paths: [], targets: [], parse_error: nil }
+                  paths: [], rbs_paths: [], targets: [], report_paths: [], parse_error: nil }
       while (argument = args.shift)
         parse_error = parse_option(argument, args, options, kind)
         options[:parse_error] ||= parse_error
       end
+      if kind == "suggest" && options[:report_paths].empty?
+        options[:parse_error] ||= error("missing_coverage_report", "suggest requires one --report COVERAGE.json")
+      end
       [options[:paths], options[:rbs_paths], options[:targets], options[:criterion], options[:format],
-       options[:parse_error]]
+       options[:parse_error], options[:report_paths].first]
     end
 
     def parse_option(argument, args, options, kind)
       case argument
       when "--format" then parse_format_option(args, options)
       when "--criterion" then parse_criterion_option(args, options, kind)
+      when "--report" then SuggestionReport.parse_report_option(args: args, options: options, kind: kind)
       when "--rbs", "--target" then parse_selection_option(argument, args, options)
       else parse_path_option(argument, options)
       end
@@ -169,7 +184,7 @@ module SpecProof
     def parse_criterion_option(args, options, kind)
       value, parse_error = option_value("--criterion", args)
       return parse_error unless value
-      return error("unsupported_option", "--criterion is available only for plan") if kind == "check"
+      return error("unsupported_option", "--criterion is available only for plan") unless kind == "plan"
       return error("duplicate_criterion", "specify --criterion only once") if options[:criterion_seen]
 
       options[:criterion] = value

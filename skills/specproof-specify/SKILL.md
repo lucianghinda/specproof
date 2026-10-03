@@ -1,6 +1,6 @@
 ---
 name: specproof-specify
-description: Creates and reviews explicit SpecProof input specifications for Ruby methods. Use when a task asks to define input domains or partitions, check gaps and overlaps, or plan boundary candidates with SpecProof.
+description: Creates and reviews explicit SpecProof input specifications for Ruby methods. Use when a task asks to define input domains or partitions, check gaps and overlaps, plan boundary candidates, or suggest allowed assignments for missing pairwise coverage.
 ---
 
 # Specify Ruby method inputs with SpecProof
@@ -113,6 +113,21 @@ specproof plan spec/delivery.rb --criterion pairwise-finite-v1 --format json
 supplied target; it will not silently omit targets without joint declarations.
 Read the usage reference before interpreting the pair-row `inputs` object and
 `excluded_pairs` list.
+
+After an intended Minitest run, `specproof suggest PATH --report FILE` can
+propose allowed full group assignments for missing pairs. Use it only with a
+freshly inspected, completed and intact coverage report whose current digest,
+typed obligation denominator, input scope, counters, and missing/exercised
+projections agree with a new pairwise plan. A false `tests_passed` value is
+valid evidence and is preserved; it means the assertions failed in that run.
+Filtered reports describe only their recorded scope. The digest does not
+fingerprint implementation or tests, so collect a fresh report after either
+changes. Suggestions are not executed and include no expected result. Validate
+each candidate against independent behavior requirements before adding an
+assertion. Keep every out-of-group or explicitly excluded parameter in the
+reported `unassigned_inputs` list and supply a valid value for each when
+writing a call. Never add a `forbid` or exclusion to make a missing-pair report
+look complete.
 
 ## Supported declarations
 

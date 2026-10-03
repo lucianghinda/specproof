@@ -114,3 +114,50 @@ Method identity is the selected owner's directly defined public Ruby instance me
 Before collection, the adapter atomically replaces any previous report with a marker for the new run, `completion: "running"`, `integrity: false`, and `tests_passed: null`. Finalization replaces it with the new run's final report. An interrupted run cannot leave an old successful report presented as current evidence. A report-write failure fails the adapter run and prints a diagnostic; a leftover running marker remains insufficient evidence.
 
 Missing input obligations are informational by default. Strict missing mode can make the process fail even when `tests_passed` is true, because that field preserves the original assertion result. Assertion failures remain failures in either mode; collector/configuration integrity failures also fail the invocation. Input hits and assertion results are separate evidence: 100% input coverage does not establish behavioral correctness.
+
+## Pairwise suggestions
+
+`specproof suggest PATH --report FILE --format json` reads exactly one
+completed coverage report and always uses `pairwise-finite-v1` with the
+`greedy-pairwise-v1` strategy. It accepts the same optional `--rbs FILE` and
+`--target TARGET` selectors as the other declaration commands. `--criterion`
+is rejected because suggestions are defined only for pairwise reports.
+Suggestions replan the supplied current declarations and validate the report
+against the current contract digest, exact typed obligation denominator,
+declared input scope, and consistent counters and projections. The source
+report must have schema 1, kind `coverage`, completed and intact collection,
+empty errors and incomplete reasons, zero unknown observations, and a Boolean
+`tests_passed`. A false `tests_passed` value is accepted and preserved; it
+records the original Minitest assertion result independently of coverage.
+Filtered reports are accepted for their recorded scope. The output preserves
+`source_run_id`, `source_tests_passed`, and `source_scope`; this does not make a
+filtered run a full-suite claim.
+
+The JSON suggestion document has schema 1, kind `suggestions`, no errors,
+`criterion: "pairwise-finite-v1"`, `strategy: "greedy-pairwise-v1"`,
+`assignment_scope: "combination_group"`, and
+`minimality: "not_guaranteed"`. It includes the current `contract_digest`,
+source provenance and scope, and `missing_obligation_count`,
+`covered_obligation_count`, and `suggestion_count`. Each suggestion row has a
+stable `id`, `target`, a full typed `inputs` assignment for its combination
+group, `covers` containing only newly covered missing obligation IDs,
+`unassigned_inputs`, and source locations. The union of `covers` is exactly
+the source report's missing set. Inputs outside a combination group and
+explicitly excluded inputs appear in `unassigned_inputs`; the caller must
+supply them. Every analyzed runtime input, including those names, must still
+be valid for a call to count.
+
+Suggestions are unexecuted test inputs and contain no expected outputs. Use an
+independent requirement as the assertion oracle, and never derive expected
+values from the implementation or the suggestions. Do not copy a candidate
+into a test without adding a meaningful assertion. A passing pairwise report
+or a union of suggested pairs is evidence only for those finite input
+combinations and assertions. The contract digest does not fingerprint
+implementation or test bytes, so rerun the intended test suite in a fresh
+process after either changes and inspect its new run ID and test result.
+
+Suggestion generation is deterministic but greedy; it does not promise a
+minimum number of assignments. It rejects work exceeding 10,000 cumulative
+full assignments, 10,000 cumulative possible pair rows, 1,000,000 candidate
+to missing-pair memberships, or a 32 MiB coverage report. It does not sample,
+truncate, or emit partial results. CLI report reads are bounded to that size.

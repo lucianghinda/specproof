@@ -157,3 +157,36 @@ again. For test-only or review work, preserve production code, keep the failing
 regression, and report the unresolved finding with `tests_passed: false`. In
 either case, retain the failing-run evidence in the task summary and report the
 actual result from the final fresh run.
+
+## Suggest allowed assignments for missing pairs
+
+Use the pairwise-only command after a fresh runtime run:
+
+```sh
+specproof suggest spec/delivery.rb --report tmp/specproof-coverage.json --format json
+```
+
+It replans the current declaration and validates the report's schema and kind,
+pairwise criterion, digest, exact typed obligation denominator and declared
+scope, row statuses and hit counts, counters and projections. The report must
+be completed and intact with no errors, incomplete reasons, or unknown
+observations. It accepts either Boolean `tests_passed` value and copies that
+value with the source run ID and scope. Filtered reports remain limited to
+their recorded scope. `suggest` always uses `pairwise-finite-v1` and
+`greedy-pairwise-v1`, requires exactly one report, and rejects `--criterion`.
+
+Each result row contains a full allowed combination-group assignment and the
+missing obligation IDs it newly covers. `unassigned_inputs` lists analyzed
+parameters outside that group and all explicitly excluded names. Supply those
+inputs yourself; all analyzed runtime inputs must be valid for evidence to
+count. Greedy output is deterministic, but its row count is not guaranteed to
+be minimum.
+
+Suggestions are never run and provide no expected output. Derive every new
+assertion from an independent rule, and do not create expected values from the
+method's implementation. The contract digest does not identify implementation
+or test bytes. After editing either, run the intended suite in a fresh process
+and check its new report and run ID. Generation has cumulative limits of
+10,000 full assignments, 10,000 possible pair rows, and 1,000,000 candidate to
+missing-pair memberships; report input is limited to 32 MiB. Oversized work is
+rejected without sampling, truncation, or partial output.

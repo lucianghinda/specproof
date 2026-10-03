@@ -66,6 +66,10 @@ module SpecProof
       end
     end
 
+    def allowed_assignments
+      @allowed_assignments ||= canonical_allowed_assignments
+    end
+
     private
 
     def validate_group
@@ -142,8 +146,7 @@ module SpecProof
     end
 
     def enumerate
-      assignments = complete_assignments
-      allowed = assignments.select { |assignment| allowed?(assignment) }
+      allowed = canonical_allowed_assignments
       @allowed_count = allowed.length
       pair_rows = {}
       allowed.each do |assignment|
@@ -168,11 +171,15 @@ module SpecProof
                                 .sort_by { |row| row_key(row) }.freeze
     end
 
+    def canonical_allowed_assignments
+      complete_assignments.select { |assignment| allowed?(assignment) }.map(&:freeze).freeze
+    end
+
     def complete_assignments
       return [] if @group.inputs.any? { |name| @inputs.fetch(name).domain.values.empty? }
 
       rows = [{}]
-      @group.inputs.each do |name|
+      @group.inputs.sort_by(&:to_s).each do |name|
         rows = rows.flat_map do |row|
           @inputs.fetch(name).domain.values.map { |value| row.merge(name => value) }
         end

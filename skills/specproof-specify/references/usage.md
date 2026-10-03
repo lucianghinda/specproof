@@ -143,3 +143,41 @@ not attest runtime binding or that tests loaded.
 RBS string types and string literals remain unsupported, including inside
 unions; these selected inputs fail atomically even when DSL finite strings are
 supported.
+
+## Pairwise suggestions
+
+After an intact runtime coverage report records missing pair obligations, ask
+SpecProof for allowed group assignments with:
+
+```sh
+specproof suggest spec/delivery.rb --report tmp/coverage.json --format json
+specproof suggest --rbs sig/delivery.rbs --target 'Delivery#build' spec/delivery.rb --report tmp/coverage.json --format json
+```
+
+There must be exactly one nonempty `--report`. The command always uses
+`pairwise-finite-v1` and `greedy-pairwise-v1`; it rejects `--criterion` and
+does not add a new default to check or plan. It replans the supplied current
+declarations, then checks schema 1, `kind: "coverage"`, the pairwise
+criterion, digest, exact target and analyzed/excluded/group scope, exact typed
+obligation denominator, row statuses/hits, counters, and missing/exercised
+projections. The report must be completed, intact, free of errors and
+incomplete reasons, and have no unknown observations. `tests_passed` must be a
+Boolean; `false` is retained as the actual test outcome rather than rejected.
+Filtered reports are usable only for their recorded scope.
+
+The output retains `source_run_id`, `source_tests_passed`, and `source_scope`.
+It marks `assignment_scope: "combination_group"` and
+`minimality: "not_guaranteed"`. Each suggestion has a typed full group
+assignment and `covers` lists only newly covered missing IDs. The rows' union
+must equal the source missing set. `unassigned_inputs` lists every analyzed
+parameter outside the group and every explicitly excluded parameter; the
+caller remains responsible for supplying those values. Runtime evidence still
+requires all analyzed inputs to be valid.
+
+No candidate is executed and no expected output is inferred. Use a separate
+requirement as the assertion oracle before writing an assertion. The digest
+does not fingerprint implementation or test files; rerun the intended suite in
+a fresh process after either changes and inspect its new run ID and result.
+Generation rejects reports over 32 MiB and work over 10,000 cumulative full
+assignments, 10,000 cumulative possible pair rows, or 1,000,000 candidate-to-pair
+memberships. It never truncates or returns partial suggestions.

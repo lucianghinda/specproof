@@ -10,6 +10,8 @@ require_relative "specproof/composer"
 require_relative "specproof/checker"
 require_relative "specproof/planner"
 require_relative "specproof/report"
+require_relative "specproof/coverage_report"
+require_relative "specproof/suggestions"
 
 # Checks Ruby input-domain specifications and plans deterministic candidates.
 module SpecProof
@@ -83,6 +85,10 @@ module SpecProof
 
   def self.plan(specifications, criterion: "input-basics-v1")
     Planner.new(specifications, criterion: criterion).obligations
+  end
+
+  def self.suggest(specifications, report:)
+    Suggestions.new(specifications, report: report).result
   end
 end
 

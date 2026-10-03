@@ -1,6 +1,6 @@
 ---
 name: specproof-test-gaps
-description: Finds untested SpecProof input obligations and adds evidence-backed Minitest coverage for Ruby methods. Use when reviewing boundary test gaps, integrating SpecProof with Minitest, or verifying a fresh coverage report.
+description: Finds untested SpecProof input obligations and adds evidence-backed Minitest coverage for Ruby methods. Use when reviewing boundary or pairwise gaps, integrating SpecProof with Minitest, suggesting allowed assignments, or verifying a fresh coverage report.
 ---
 
 # Find and close SpecProof test gaps
@@ -90,6 +90,25 @@ tests, infer expected results, or prove application correctness.
    `tests_passed` value and any unresolved finding. Never narrow or exclude
    inputs, weaken strict missing policy, or alter production behavior just to
    turn a failing result green.
+
+For a pairwise baseline, you may use `specproof suggest PATH --report FILE`
+after checking the report against a fresh pairwise plan. Suggestions require a
+completed, intact report with exact typed obligations, current digest and
+declared scope, consistent rows and projections, no errors or unknowns, and a
+Boolean original `tests_passed` value. A failing test result is accepted and
+preserved. A filtered report supports only its recorded scope. Do not infer
+freshness from the digest: it does not include implementation or test bytes,
+so run the intended suite again after changes.
+
+Treat each row as an unexecuted, allowed full assignment for the combination
+group. Its `covers` field lists missing pair IDs newly covered by that row;
+the output has no expected result. Inspect `unassigned_inputs`, which lists
+analyzed inputs outside the group and every explicitly excluded parameter,
+then supply valid values for those names. Every analyzed input must be valid
+before runtime pair evidence counts. Use the independent normative
+requirement to write assertions; never generate expected values from the
+implementation or the suggestions. Never add exclusions or `forbid` clauses
+to erase a gap or make a report green.
 
 When testing a pairwise interaction, derive the expected output from an
 independent rule for each combination. A pair coverage hit says only that the

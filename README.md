@@ -175,6 +175,18 @@ example also shows a constrained plan with three required and one excluded
 pair, and a three-boolean plan with 12 pair obligations versus eight exhaustive
 tuples.
 
+Use `specproof suggest` when an intact pairwise coverage report has missing
+pairs. It replans the current declarations, checks that the report matches
+their exact typed obligations and recorded scope, then prints allowed full
+group assignments that cover the missing pairs. Suggestions are candidates
+for new tests: they are not executed, carry no expected results, and do not
+fingerprint implementation or test files. Rerun the intended suite after
+source or test changes. The [suggestion example](examples/pairwise_suggestions/README.md)
+shows a three-of-four DeliveryOptions baseline, the `11` candidate, a separate
+requirement-backed failing assertion, and a fresh corrected run. It also shows
+one suggested three-boolean assignment covering several missing pairs, with
+the other method inputs left for the caller to supply when outside the group.
+
 ## Development
 
 Run the test and lint tasks with `bundle exec rake`. The default task runs Minitest and RuboCop. The CI matrix covers Ruby 3.3, 3.4, and 4.0.

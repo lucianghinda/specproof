@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Suggest deterministic allowed group assignments for missing pairwise obligations from validated coverage reports, with explicit source run, scope, and unassigned parameters.
+- Reject incompatible or incomplete suggestion evidence, preserve assertion failures, and update the packaged agent workflows.
 - Add opt-in finite pairwise coverage with explicit allowed combinations, declarative forbidden assignments, feasible-pair planning, and joint-domain observation.
 - Explain excluded pairs and missing interactions in CLI and Minitest reports; include runnable examples and packaged agent guidance.
 - Import explicitly selected RBS scalar input types without a duplicate DSL declaration; require a behavioral refinement for unbounded integers and preserve honest limits for unsupported types.

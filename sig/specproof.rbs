@@ -4,6 +4,7 @@ module SpecProof
   def self.load: (Array[String] paths, ?rbs: Array[String], ?targets: Array[String]) -> Array[Specification]
   def self.check: (Array[Specification] specifications) -> Array[Finding | CombinationFinding]
   def self.plan: (Array[Specification] specifications, ?criterion: String) -> Array[Obligation | PairObligation]
+  def self.suggest: (Array[Specification] specifications, report: Hash[String, untyped]) -> SuggestionResult
 
   class Error < StandardError
   end
@@ -132,9 +133,28 @@ module SpecProof
     attr_reader pairs: Array[Hash[Symbol, nil | bool | Integer | Symbol | String]]
     attr_reader excluded_pairs: Array[Hash[Symbol, nil | bool | Integer | Symbol | String]]
     attr_reader allowed_count: Integer
+    attr_reader allowed_assignments: Array[Hash[Symbol, nil | bool | Integer | Symbol | String]]
     attr_reader sources: Array[Source]
     def initialize: (Specification specification) -> void
     def allowed?: (Hash[Symbol, nil | bool | Integer | Symbol | String] arguments) -> bool
+  end
+
+  class Suggestion
+    attr_reader id: String
+    attr_reader target: String
+    attr_reader inputs: Hash[Symbol, nil | bool | Integer | Symbol | String]
+    attr_reader covers: Array[String]
+    attr_reader unassigned_inputs: Array[Symbol]
+    attr_reader sources: Array[Source]
+  end
+
+  class SuggestionResult
+    attr_reader suggestions: Array[Suggestion]
+    attr_reader contract_digest: String
+    attr_reader source_run_id: String
+    attr_reader source_tests_passed: bool
+    attr_reader source_scope: Hash[String, untyped]
+    attr_reader missing_count: Integer
   end
 
   def self.define: (String target) { () -> void } -> Specification
@@ -145,6 +165,7 @@ module Specproof
   def self.load: (Array[String] paths, ?rbs: Array[String], ?targets: Array[String]) -> Array[SpecProof::Specification]
   def self.check: (Array[SpecProof::Specification] specifications) -> Array[SpecProof::Finding | SpecProof::CombinationFinding]
   def self.plan: (Array[SpecProof::Specification] specifications, ?criterion: String) -> Array[SpecProof::Obligation | SpecProof::PairObligation]
+  def self.suggest: (Array[SpecProof::Specification] specifications, report: Hash[String, untyped]) -> SpecProof::SuggestionResult
   def self.define: (String target) { () -> void } -> SpecProof::Specification
 end
 
