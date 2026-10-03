@@ -24,10 +24,17 @@ intended policy from a method's current behavior.
    question before declaring it. If requirements and implementation disagree,
    report the mismatch with source locations; do not rewrite the requirement or
    implementation to make the check green without direction.
-3. Add a small trusted Ruby specification file. Declare only supported input
-   domains and partitions justified by the requirements. For a selected RBS
-   target, declare only the missing refinement. A finite RBS-only signature
-   needs no duplicate DSL values. Do not infer a finite range for unrestricted
+3. Add a small trusted Ruby specification file. By default, every named
+   runtime parameter must have an analyzed `input` declaration. If requirements
+   intentionally limit this task to only some inputs, declare each remaining
+   named parameter with `exclude_input :name, reason: "..."`; exclusions must
+   be explicit, named, and justified by scope. There is no wildcard or
+   implicit exclusion, and at least one input must remain analyzed. An exclusion
+   does not add obligations or excuse an unsupported selected input. For a
+   selected RBS target, finite supported inputs can be imported without
+   duplicate DSL values; DSL exclusions can account for deliberately
+   out-of-scope or unsupported type-only parameters. Unsupported selected union
+   types remain atomic failures. Do not infer a finite range for unrestricted
    `Integer`, guess from a name or implementation, or write partial obligations
    for unsupported input types or union members. Stop and report the selected
    target/input and source location when the type is unsupported or needs a
@@ -49,8 +56,9 @@ intended policy from a method's current behavior.
    are distinct: optionality permits omission, while `T?` permits an effective
    `nil` value after Ruby applies defaults.
 6. Report the contract digest, candidate values, and declaration source
-   locations. Explain any unresolved question. Describe the plan as boundary
-   candidates, not as a complete or proven test suite.
+   locations. If inputs are excluded, report each name and reason. Explain any
+   unresolved question. Describe the plan as boundary candidates, not as a
+   complete or proven test suite.
 
 Use the project's established command environment. For a Bundler-managed
 project, prefix commands with `bundle exec`. For JSON output and schema details,
@@ -75,10 +83,23 @@ end
 ```
 
 Keep the declared method signature aligned with the real named positional
-or keyword inputs, including optional parameters. Declare every parameter.
-Domains describe effective values at method entry, after Ruby applies defaults;
-they do not assert whether the caller omitted an argument. Do not evaluate or
-guess default expressions while authoring the domain.
+or keyword inputs, including optional parameters. By default, declare every
+parameter with `input`. To scope a contract to only some parameters, account
+for every other name with an explicit `exclude_input` and a reason:
+
+```ruby
+SpecProof.define "DeliveryPolicy#accept?" do
+  input :expedited, values: [false, true]
+  exclude_input :payload, reason: "Payload content is outside this option coverage"
+end
+```
+
+No input may disappear through a wildcard or omission, and a contract must
+analyze at least one input. Domains describe effective values at method entry,
+after Ruby applies defaults; they do not assert whether the caller omitted an
+argument. Excluded values are not read by runtime collection; selected
+non-primitive values still make collection incomplete. Do not evaluate or guess
+default expressions while authoring the domain.
 
 ## Explicit RBS inputs
 
@@ -89,11 +110,15 @@ an explicit finite range or values before SpecProof can produce candidates.
 Existing DSL range and partition declarations are behavioral refinements, not
 claims inferred from RBS. Check that every declared value is admitted by the
 imported type; a contradiction is a conflict to resolve, not an intersection
-to silently accept. Return types do not supply expected results, behavior
+to silently accept. An explicit DSL exclusion can scope out an otherwise
+unsupported type-only input while finite selected inputs remain imported; do
+not exclude a member of an unsupported selected union to make that union appear
+supported. Return types do not supply expected results, behavior
 rules, or an output oracle. The report digest fingerprints normalized input
-domains and partition policies, not all declaration text, a full RBS
-signature, or implementation correctness. Run fresh checks and reports after
-any input source changes.
+domains, partition policies, and sorted excluded input names, not exclusion
+reasons/source locations, all declaration text, a full RBS signature, or
+implementation correctness. Existing no-exclusion digests and obligation IDs
+remain stable. Run fresh checks and reports after any input source changes.
 Load specification files only from trusted project sources;
 they are executable Ruby. SpecProof does not load the application class while
 checking or planning.

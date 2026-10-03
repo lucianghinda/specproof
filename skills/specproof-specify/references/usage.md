@@ -58,10 +58,26 @@ end
 Do not add inferred partitions to close a gap or remove an overlap. Explain
 the witnesses and ask for the intended policy.
 
-The report digest represents normalized behavioral domains and partition
-policies. It does not fingerprint all DSL source text, the full RBS signature,
-or implementation correctness. Provenance source objects require `path` and
+Successful check and plan reports both include
+`scope.completeness_scope: "analyzed_inputs"` and `scope.input_scope`. Each
+scope entry contains a target, its `analyzed_inputs` names, and any
+`excluded_inputs` with a name, reason, and declaration source. By default every
+named runtime parameter is analyzed. An intentionally partial contract must
+explicitly exclude every remaining named parameter with a reason and retain at
+least one analyzed input; there are no wildcards or implicit exclusions. For
+an RBS-selected target, DSL `input` and `exclude_input` names must match its
+signature. An exclusions-only DSL declaration is valid when supported finite
+inputs can be imported from RBS. A type-only unsupported input may be excluded
+only by an explicit declaration; an unsupported selected union remains an
+atomic error.
+
+The report digest represents normalized behavioral domains, partition
+policies, and sorted excluded names. Exclusion reason/source and declaration
+order do not affect it. No-exclusion digests and obligation IDs remain stable.
+It does not fingerprint all DSL source text, the full RBS signature, or
+implementation correctness. Provenance source objects require `path` and
 `line`; schema 1 permits additional fields, so consumers must tolerate unknown
 fields. A source's `kind` identifies its family but does not change obligation
 identity. Read the coverage reference for runtime `declaration_sources` and
-collection scope; offline check/plan output does not attest that tests loaded.
+collection scope; offline check/plan scope describes the declaration and does
+not attest runtime binding or that tests loaded.

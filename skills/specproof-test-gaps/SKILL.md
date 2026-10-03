@@ -13,15 +13,27 @@ tests, infer expected results, or prove application correctness.
 ## Workflow
 
 1. Read the request, independent behavior requirements, target method, current
-   tests, and the input specification. Confirm that the target and each
-   argument name match the real method signature.
-2. Run `specproof check PATH --format json` and inspect `findings`, `errors`,
-   and `contract_digest`. Resolve or report every finding. Do not change the
-   input domain or partition promises just to make the check green. Ask before
-   changing the declared contract when its intent is uncertain.
-3. Run `specproof plan PATH --format json`. Record each candidate's stable
-   obligation ID, value, and source locations. Map candidates to existing
-   assertions and identify which obligations lack executable evidence.
+   tests, and the input specification. Confirm that the target and parameter
+   names match the real method signature. Default scope is strict: every named
+   parameter is analyzed. If the task deliberately covers only some inputs,
+   every other name must have an explicit `exclude_input :name, reason: "..."`
+   declaration, and at least one input must remain analyzed. Do not introduce
+   exclusions to make findings, missing obligations, or a strict run disappear.
+2. Create or validate the intended input declaration before measuring coverage.
+   Run `specproof check PATH --format json`, then
+   `specproof plan PATH --format json`; inspect findings, errors, digest, and
+   input scope. Resolve or report every finding. Do not change domains,
+   partitions, or exclusions merely to make a check or report green. Ask before
+   changing the declared contract when its intent is uncertain. Record each
+   candidate's stable obligation ID, value,
+   and source locations, plus every excluded input and its reason. A plan's
+   candidate set covers only its analyzed inputs.
+3. Before editing tests or production code, run the intended current suite in a
+   fresh process and capture its coverage report as the baseline. Check its run
+   ID, digest, input scope, completion, integrity, and original test result.
+   Use an intact report to identify existing input evidence; an incomplete
+   report cannot establish a baseline gap. Preserve the baseline result as
+   recorded, including `tests_passed: false` when the current suite fails.
 4. For each uncovered value, derive its expected result from an independent
    normative requirement or source document. A trusted existing test can
    preserve the exact case it states, but cannot establish a general boundary
@@ -33,22 +45,33 @@ tests, infer expected results, or prove application correctness.
    its failure message. Identify the implementation method as the code under
    test, not as the source of expected behavior. Preserve every existing domain
    obligation unless an independently justified requirement change is explicit.
-6. For a behavior fix, first add the failing regression assertion and run it
-   against the current implementation. Capture the failure. Then make the
-   smallest implementation change supported by the requirement and rerun that
-   test to confirm it passes.
+6. Change production behavior only when the task explicitly authorizes a
+   behavior fix. For an authorized fix, add the failing regression assertion
+   and capture its failure against the current implementation before making
+   the smallest requirement-backed change. For a test-only or review task,
+   preserve production code and existing assertions; keep and report a failing
+   regression with `tests_passed: false` when the requirement exposes an
+   unresolved defect.
 7. Rerun the intended test command in a fresh process after the final source or
    test edit. Collection observes calls made during that run only; a previous
    report cannot establish fresh coverage. Verify the newly written report has
-   a new `run_id`, the current `contract_digest` and obligation IDs, completed
-   `completion`, intact `integrity`, and `tests_passed: true`. Confirm its
+   a new `run_id`, the current `contract_digest`, input scope, and obligation
+   IDs. Confirm its completion, integrity, actual test result, and
    `scope.targets`, `scope.declaration_sources`, run arguments, and filters
    match the actual test command and loaded test files. `scope.targets` and
    `scope.declaration_sources` are runtime coverage fields; offline check and
    plan results do not have them. If a source changes, run the suite again and
-   inspect a fresh report. A matching digest does not
-   fingerprint all source text, the full RBS signature, or implementation
-   correctness.
+   inspect a fresh report. Compare `scope.completeness_scope` and
+   `scope.input_scope` with both the current plan and the actual named runtime
+   signature; matching obligation IDs alone do not establish that the analyzed
+   scope is the same. Human summaries must disclose excluded names and reasons.
+   `100%` means all obligations for analyzed inputs were exercised; it says
+   nothing about excluded values or behavior, outputs, interactions, or complete
+   method correctness. A matching digest does not fingerprint all source text,
+   the full RBS signature, or implementation correctness. Report the actual
+   `tests_passed` value and any unresolved finding. Never narrow or exclude
+   inputs, weaken strict missing policy, or alter production behavior just to
+   turn a failing result green.
 
 For adapter setup, report fields, and evidence checks, read
 [the bundled coverage report reference](references/usage.md).
@@ -79,7 +102,9 @@ the suite's existing pass/fail behavior. Preserve an existing
 `fail_on_missing: true` policy; the adapter still writes its report when
 unobserved obligations make the run fail. Never disable that strict policy just
 to obtain a green result. Use the report to decide whether gaps remain; a
-passing suite alone does not close them.
+passing suite alone does not close them. Keep independent input scope intact;
+do not exclude an input simply because it has missing obligations or a
+non-primitive value.
 
 RBS supplies input types only. It does not supply expected return values or
 behavioral output assertions. Derive each assertion from an independent rule

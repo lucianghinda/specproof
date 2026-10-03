@@ -17,9 +17,15 @@ filesystem issue.
 
 The skills also document the opt-in RBS workflow: inspect explicitly selected
 signatures, reuse supported finite input types, and add only requirement-backed
-behavioral refinements. The gap-review skill requires fresh runtime evidence
-and checks imported declaration scope, report integrity, test results, and the
-actual test command. RBS supplies no output oracle. Earlier evaluation results
+behavioral refinements. They support deliberate partial input scope through
+one named, reasoned exclusion for each out-of-scope parameter; default scope
+remains every named parameter, with at least one analyzed input required. The
+gap-review skill requires fresh runtime evidence and compares the report's
+analyzed/excluded input scope as well as its digest, integrity, test results,
+and actual test command. A complete percentage covers analyzed input
+obligations only, and human reports disclose exclusions. RBS supplies no output
+oracle. The runnable [input selection example](../examples/input_selection/README.md)
+shows a Hash payload excluded while a boolean option remains analyzed. Earlier evaluation results
 in this document's linked record describe the workflows and artifacts named
 there; they do not establish agent performance for this newer RBS workflow.
 

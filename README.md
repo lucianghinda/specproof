@@ -50,9 +50,15 @@ The age example plans `0`, `1`, `17`, `18`, `119`, and `120`. The shipping examp
 RBS can supply supported finite scalar input types for explicitly selected
 instance-method targets. Add only behavioral bounds and partitions that the
 signature cannot express; an unrestricted `Integer` needs such a refinement.
-For a target selected from RBS, every DSL input must use a name declared in
-that signature. A mismatch reports `rbs_input_mismatch`; other DSL-only targets
-can still be supplied alongside the selected RBS targets.
+For a target selected from RBS, each DSL `input` or `exclude_input` must use a
+name declared in that signature. By default all named signature parameters
+must be analyzed; a deliberately narrower contract accounts for each omitted
+name with an explicit reasoned exclusion, and still analyzes at least one
+input. A mismatch reports `rbs_input_mismatch`; other DSL-only targets can
+still be supplied alongside selected RBS targets. Supported finite RBS types
+remain imported without duplicate DSL inputs. An explicit exclusion can scope
+out a type-only parameter, while an unsupported selected union remains an
+atomic failure.
 The reader supports the verified RBS `4.2.0` parser only. RBS remains an
 optional dependency, so consumers who use this workflow must add it to their
 own bundle:
@@ -86,9 +92,18 @@ checkpoint runs in its own process. See the example README for exact commands.
 
 ## Observe an existing Minitest suite
 
-The optional adapter records calls to directly owned public instance methods with named required or optional positional/keyword parameters. Declare every parameter, including optional ones. It observes effective bound scalar values at method entry after Ruby applies defaults; an omitted argument and an explicitly supplied equal value exercise the same obligation. A default that raises before entry contributes no entry observation. Rest, keyword-rest, forwarding, and explicit block parameters remain unsupported.
+The optional adapter records calls to directly owned public instance methods with named required or optional positional/keyword parameters. By default, analyze every parameter, including optional ones. A deliberately partial input scope must explicitly exclude every other named parameter with `exclude_input :name, reason: "..."`, and at least one input must remain analyzed. It observes effective bound scalar values at method entry after Ruby applies defaults; an omitted argument and an explicitly supplied equal value exercise the same obligation. A default that raises before entry contributes no entry observation. Rest, keyword-rest, forwarding, and explicit block parameters remain unsupported.
 
-It observes the selected owner's method definition during the original test run in the same process and thread. Calling an alias of that definition counts; a subclass override counts only when it calls the selected definition through `super`. Aliased target declarations and inherited target declarations are unsupported. It does not replay tests, capture return values, inspect assertions, infer defaults, or infer expected outcomes. A non-primitive effective value makes collection incomplete, even if it comes from an optional default.
+When only some parameters have finite input domains, you may explicitly exclude
+the remaining named parameters with a reason. The declaration must still account
+for every name in the runtime signature: each parameter is either analyzed or
+excluded. Excluded values are not read by the collector. In particular, an
+excluded object such as a `Hash` can coexist with selected scalar coverage,
+while an object-valued selected input still makes collection incomplete. This
+scope says nothing about excluded values or behavior involving their content.
+See the runnable [input selection example](examples/input_selection/README.md).
+
+It observes the selected owner's method definition during the original test run in the same process and thread. Calling an alias of that definition counts; a subclass override counts only when it calls the selected definition through `super`. Aliased target declarations and inherited target declarations are unsupported. It does not replay tests, capture return values, inspect assertions, infer defaults, or infer expected outcomes. A non-primitive effective value for an analyzed input makes collection incomplete, even if it comes from an optional default.
 
 Add a separate test entrypoint after Minitest and your application code have loaded:
 
@@ -106,7 +121,7 @@ SpecProof::Minitest.install!(
 
 The runnable [age policy example](examples/age_policy) includes a passing implementation and assertions at all six planned values. Its `faulty` variant isolates the common `age > 18` boundary defect: the five non-boundary examples pass, while the planned value `18` remains unobserved. The separate explicit boundary assertion fails against that faulty implementation. Collection remains independent of the test result; a collector integrity failure fails the run, and original Minitest failures are preserved.
 
-Reports distinguish exercised, not-observed, and unknown obligations; the `missing` summary lists the unobserved obligations. Missing values are informational unless `fail_on_missing: true` is selected. Reports identify their run, state whether collection completed, and use `obligation_hits` evidence with `replay: false`. JSON values include a type; integer values are decimal strings so large integers remain exact. Unsupported signatures and inputs outside a declared domain do not count as evidence.
+Reports distinguish exercised, not-observed, and unknown obligations; the `missing` summary lists the unobserved obligations. Missing values are informational unless `fail_on_missing: true` is selected. Reports identify their run, state whether collection completed, and use `obligation_hits` evidence with `replay: false`. JSON values include a type; integer values are decimal strings so large integers remain exact. Offline check/plan and runtime reports identify `scope.completeness_scope: "analyzed_inputs"` and list analyzed and excluded names in `scope.input_scope`. Human reports disclose excluded names and reasons. A matching set of obligation IDs does not establish matching scope: compare a fresh report's digest and input scope. `100%` means all candidates for analyzed inputs were exercised; excluded inputs, behavior, output, and interactions are not covered.
 
 ## Scope and limits
 
@@ -129,6 +144,10 @@ The [optional-argument pilot](docs/optional-arguments-results.md) shows adoption
 The [RBS implementation results](docs/rbs-implementation-status.md) include
 the three-Ruby matrix, [six guided agent scenarios](docs/evaluations/rbs-agent-skills-v0.1.md),
 and [unchanged-signature BranchProof adoption](docs/pilots/rbs-v0.1/README.md).
+
+The [input-selection results](docs/input-selection-results.md) show the unchanged
+PStoreLogger suite collecting scoped file-ID coverage with Hash payloads,
+plus agent exercises that preserve excluded-input scope and failing assertions.
 
 ## Development
 
