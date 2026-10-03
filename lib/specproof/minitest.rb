@@ -16,12 +16,47 @@ module SpecProof
     MIN_SUPPORTED_MINITEST_VERSION = Gem::Version.new("5.26.2")
 
     class << self
-      def install!(specifications:, rbs: [], targets: [], output: "tmp/specproof.json", fail_on_missing: false)
+      def install!(specifications:, rbs: [], targets: [], output: "tmp/specproof.json", fail_on_missing: false,
+                   criterion: "input-basics-v1") # rubocop:disable Metrics/ParameterLists
         ensure_supported_version!
-        if @installed
-          raise ConfigurationError.new("Minitest adapter is already installed",
-                                       code: "duplicate_installation")
-        end
+        ensure_not_installed!
+        @options = normalized_options(specifications: specifications, rbs: rbs, targets: targets,
+                                      output: output, fail_on_missing: fail_on_missing, criterion: criterion)
+        @installed = true
+        ::Minitest.singleton_class.prepend(RunWrapper)
+        self
+      end
+
+      private
+
+      def ensure_not_installed!
+        return unless @installed
+
+        raise ConfigurationError.new("Minitest adapter is already installed", code: "duplicate_installation")
+      end
+
+      def normalized_options(options)
+        specifications = options.fetch(:specifications)
+        rbs = options.fetch(:rbs)
+        targets = options.fetch(:targets)
+        output = options.fetch(:output)
+        fail_on_missing = options.fetch(:fail_on_missing)
+        criterion = options.fetch(:criterion)
+        validate_path_options(specifications, rbs, targets)
+        validate_output(output)
+        validate_criterion(criterion)
+        {
+          specifications: specifications.map { |path| File.expand_path(path).freeze }.freeze,
+          rbs: rbs.map { |path| File.expand_path(path).freeze }.freeze,
+          targets: targets.map { |target| target.dup.freeze }.freeze,
+          output: File.expand_path(output).freeze,
+          criterion: criterion.dup.freeze,
+          # Normalize caller truthiness into the boolean report option.
+          fail_on_missing: !!fail_on_missing
+        }.freeze
+      end
+
+      def validate_path_options(specifications, rbs, targets)
         unless specifications.is_a?(Array) && specifications.all?(String)
           raise ConfigurationError.new("specifications must be an array of paths", code: "invalid_specifications")
         end
@@ -42,22 +77,21 @@ module SpecProof
         elsif targets.empty?
           raise ConfigurationError.new("RBS files require at least one selected target", code: "targets_required")
         end
-        unless output.is_a?(String) && !output.empty?
-          raise ConfigurationError.new("output must be a non-empty path", code: "invalid_output")
-        end
-
-        @installed = true
-        @options = {
-          specifications: specifications.map { |path| File.expand_path(path).freeze }.freeze,
-          rbs: rbs.map { |path| File.expand_path(path).freeze }.freeze,
-          targets: targets.map { |target| target.dup.freeze }.freeze,
-          output: File.expand_path(output).freeze,
-          # Normalize caller truthiness into the boolean report option.
-          fail_on_missing: !!fail_on_missing # rubocop:disable Style/DoubleNegation
-        }.freeze
-        ::Minitest.singleton_class.prepend(RunWrapper)
-        self
       end
+
+      def validate_output(output)
+        return if output.is_a?(String) && !output.empty?
+
+        raise ConfigurationError.new("output must be a non-empty path", code: "invalid_output")
+      end
+
+      def validate_criterion(criterion)
+        return if criterion.is_a?(String) && !criterion.empty?
+
+        raise ConfigurationError.new("criterion must be a non-empty string", code: "invalid_criterion")
+      end
+
+      public
 
       def ensure_supported_version!
         package_version = Gem.loaded_specs.fetch("minitest", nil)&.version
@@ -108,6 +142,20 @@ module SpecProof
           targets: options.fetch(:targets).uniq.sort.freeze
         }.freeze
       end
+
+      def self.pattern_value(arguments, short, long)
+        pattern = nil
+        arguments.each_with_index do |argument, index|
+          if [short, long].include?(argument)
+            pattern = arguments[index + 1]
+          elsif argument.start_with?("#{long}=")
+            pattern = argument.delete_prefix("#{long}=")
+          elsif argument.start_with?(short) && argument.length > short.length
+            pattern = argument.delete_prefix(short)
+          end
+        end
+        pattern
+      end
     end
 
     # Owns the preparation, collection, and finalization phases for one run.
@@ -121,6 +169,7 @@ module SpecProof
         @errors = []
         @specifications = []
         @declaration_sources = ReportScope.declaration_sources(@options)
+        @criterion = @options.fetch(:criterion)
         @obligations = []
         @coverage = nil
         @collector = nil
@@ -163,11 +212,10 @@ module SpecProof
       def prepare
         @specifications = SpecProof.load(@options.fetch(:specifications), rbs: @options.fetch(:rbs),
                                                                           targets: @options.fetch(:targets))
-        @obligations = SpecProof.plan(@specifications)
+        @obligations = SpecProof.plan(@specifications, criterion: @criterion)
         @coverage = Coverage.new(obligations: @obligations, specifications: @specifications)
         projection = @coverage.to_report
         @contract_digest = Report.digest(@specifications)
-        @criterion = "input-basics-v1"
 
         if parallel_suites?
           @integrity_ok = false
@@ -200,7 +248,6 @@ module SpecProof
                                                 source: source)
         mark_all_incomplete("coverage analysis could not start")
         @contract_digest ||= ""
-        @criterion ||= "input-basics-v1"
         @marker_written ||= atomic_write(running_report(@coverage&.to_report || empty_projection))
       end
 
@@ -280,8 +327,8 @@ module SpecProof
             targets: @specifications.map(&:target).sort,
             declaration_sources: @declaration_sources,
             arguments: @args,
-            filter: pattern_value("-n", "--name"),
-            exclude: pattern_value("-e", "--exclude")
+            filter: ReportScope.pattern_value(@args, "-n", "--name"),
+            exclude: ReportScope.pattern_value(@args, "-e", "--exclude")
           }.merge(Report.input_scope(@specifications)),
           evidence_mode: "obligation_hits",
           replay: false
@@ -317,7 +364,12 @@ module SpecProof
         text += ", #{projection.fetch(:missing_count)} missing" if projection.fetch(:missing_count).positive?
         text += ", #{projection.fetch(:unknown_count)} unknown" if projection.fetch(:unknown_count).positive?
         missing_values = projection.fetch(:missing).first(10).map do |item|
-          "#{item.fetch(:target)}/#{item.fetch(:input)}=#{human_value(item.fetch(:value))}"
+          if item.key?(:inputs)
+            values = item.fetch(:inputs).map { |name, value| "#{name}=#{human_value(value)}" }.join(",")
+            "#{item.fetch(:target)}/#{values}"
+          else
+            "#{item.fetch(:target)}/#{item.fetch(:input)}=#{human_value(item.fetch(:value))}"
+          end
         end
         if missing_values.any?
           remaining = projection.fetch(:missing_count) - missing_values.length
@@ -325,6 +377,8 @@ module SpecProof
           text += "; missing values: #{missing_values.join(", ")}"
         end
         text += "; completeness scope: analyzed inputs only"
+        text += "; #{projection.fetch(:excluded_pairs).length} excluded pairs" if projection.key?(:excluded_pairs)
+        text += pairwise_summary
         exclusions = @specifications.flat_map do |specification|
           specification.exclusions.values.map do |item|
             "#{specification.target}/#{item.name} (#{item.reason})"
@@ -335,12 +389,23 @@ module SpecProof
         $stdout.puts(text)
       end
 
+      def pairwise_summary
+        return "" unless @criterion == "pairwise-finite-v1"
+
+        groups = @specifications.filter_map do |specification|
+          group = specification.respond_to?(:combination_group) && specification.combination_group
+          "#{specification.target}(#{group.inputs.join(", ")})" if group
+        end
+        "; criterion: #{@criterion}; group: #{groups.join("; ")}"
+      end
+
       def human_value(value)
         case value[:kind]
         when "nil" then "nil"
         when "boolean" then value[:value] ? "true" : "false"
         when "integer" then value[:value]
         when "symbol" then ":#{value[:value]}"
+        when "string" then value[:value].inspect
         else "?"
         end
       end
@@ -353,20 +418,6 @@ module SpecProof
         error[:path] = safe_string(path) if path
         error[:source] = source.to_h if source.respond_to?(:to_h)
         @errors << error unless @errors.include?(error)
-      end
-
-      def pattern_value(short, long)
-        pattern = nil
-        @args.each_with_index do |argument, index|
-          if [short, long].include?(argument)
-            pattern = @args[index + 1]
-          elsif argument.start_with?("#{long}=")
-            pattern = argument.delete_prefix("#{long}=")
-          elsif argument.start_with?(short) && argument.length > short.length
-            pattern = argument.delete_prefix(short)
-          end
-        end
-        pattern
       end
 
       def error_code(error)

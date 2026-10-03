@@ -17,7 +17,51 @@ named runtime parameter must be analyzed or explicitly excluded, and at least
 one must be analyzed. Check/plan scope describes the requested declaration;
 it does not attest runtime binding or test execution.
 
-Plan results include `criterion` (`input-basics-v1`) and `obligations`. Each obligation has a stable `id`, target, input, typed value, merged reasons, and source locations. Values have a `kind`: integer values are decimal strings, symbols are names, booleans are JSON booleans, nil has a JSON null value, and finite strings use `{ "kind": "string", "value": "..." }`. String values are exact text snapshots. This is an additive value kind under schema version 1; consumers must handle it explicitly and tolerate it wherever typed primitive values occur, including witnesses and coverage rows. Strings and same-spelling symbols have distinct identities. Finite string values are deduplicated and ordered deterministically after existing scalar types. Existing nonstring IDs and digests remain unchanged. Existing partition, exhaustive, and disjoint checks apply to the explicitly enumerated string scenario. Candidates are marginal inputs and do not specify expected method results or form a complete test suite.
+Plan results default to `criterion: "input-basics-v1"` and include `obligations`. Each scalar obligation has a stable `id`, target, input, typed value, merged reasons, and source locations. Values have a `kind`: integer values are decimal strings, symbols are names, booleans are JSON booleans, nil has a JSON null value, and finite strings use `{ "kind": "string", "value": "..." }`. String values are exact text snapshots. This is an additive value kind under schema version 1; consumers must handle it explicitly and tolerate it wherever typed primitive values occur, including witnesses and coverage rows. Strings and same-spelling symbols have distinct identities. Finite string values are deduplicated and ordered deterministically after existing scalar types. Existing nonstring IDs and digests remain unchanged. Existing partition, exhaustive, and disjoint checks apply to the explicitly enumerated string scenario. Scalar candidates are marginal inputs and do not specify expected method results or form a complete test suite.
+
+## Pairwise finite criterion
+
+Pairwise planning is opt-in. The Ruby API accepts
+`SpecProof.plan(..., criterion: "pairwise-finite-v1")`; the CLI accepts
+`specproof plan PATH --criterion pairwise-finite-v1`; the Minitest adapter
+accepts `criterion: "pairwise-finite-v1"`. The default remains
+`input-basics-v1`. `check` is criterion-independent and rejects `--criterion`.
+A pairwise plan requires a valid `combinations` group for every supplied target;
+it never skips a target that lacks a group.
+
+Each target has at most one group over at least two distinct analyzed finite
+inputs. Select either `all_allowed: true` with no block, or a nonempty block of
+explicit `forbid` assignments. `all_allowed: true` declares that every tuple
+is allowed; it is not evidence that inputs have independent effects. A
+`forbid` clause must be justified by a stated requirement. Clauses are
+conjunctive within a tuple and a tuple is forbidden if any clause matches.
+Partial clauses restrict every completion. They are declarative data and do
+not execute predicates. A forbidden tuple can still contain individually
+feasible pairs when a third input differs; pair feasibility is determined by
+whether the pair has an allowed full group completion.
+
+Pairwise plan and runtime rows share `id`, `target`, `reasons`, `sources`,
+`status`, and `hits`, and serialize their two assignments in `inputs` as a
+name-to-typed-value object. Pair names are sorted canonically, while value
+types remain significant; strings and same-spelling symbols are distinct.
+Pairs excluded because no allowed full assignment completes them appear in
+`excluded_pairs`, with `target`, typed `inputs`,
+`reason: "no_allowed_completion"`, and relevant constraint sources. Excluded
+pairs are not denominator rows. Do not remove a missing required pair by
+adding a forbidden rule: the rule must come from an independent requirement.
+
+Pairwise planning bounds each target to 10,000 full group assignments and
+10,000 possible pair rows, and bounds all planned pair obligations to 10,000.
+Oversized spaces fail with `combination_limit_exceeded`; SpecProof does not
+sample or truncate. A valid declaration whose restrictions leave no allowed
+full assignment produces the semantic finding `unsatisfiable_combinations`
+and no plan. Malformed declarations are configuration errors. Pairwise
+coverage counts only fully valid analyzed tuples; a forbidden runtime tuple
+fulfills no pair obligations and is reported in the existing outside-domain
+evidence with the added `outside_combinations` evidence. Selected inputs must
+all be valid even when the combination group covers only a subset. Excluded
+runtime inputs remain outside the claim, including any behavior involving
+their values.
 
 Finite string support is feature-specific, not guaranteed by a `0.1.x` version number. Check a fresh plan from the installed build for typed string obligations before relying on the kind. A finite string declaration enumerates scenario values and does not represent the full String domain. Only exact String instances with valid UTF-8 or US-ASCII encoding are supported; US-ASCII is canonicalized to UTF-8. Empty strings, whitespace, Unicode, and embedded NUL are valid text. Invalid byte sequences, other encodings, and String subclasses are rejected. No trimming, case folding, or Unicode normalization is applied. Declaration values and observed values are copied into frozen SpecProof-owned snapshots. The entry snapshot is used for matching even if the method mutates its argument, and direct Coverage observation also owns retained strings. A bounded outside-domain witness count does not bound witness bytes: a retained string witness is the full immutable string.
 
@@ -42,7 +86,7 @@ The optional adapter writes a JSON file with `kind: "coverage"` and prints a sum
 
 | Field | Meaning |
 | --- | --- |
-| `contract_digest`, `criterion` | Current normalized specification and input criterion; compare with a current plan |
+| `contract_digest`, `criterion` | Current normalized specification and selected input criterion (`input-basics-v1` or `pairwise-finite-v1`); compare with a current plan |
 | `scope.completeness_scope`, `scope.input_scope` | Declared input scope: analyzed parameter names plus explicitly excluded names and their reasons/sources |
 | `run_id` | Fresh UUID for the invocation, also printed in its summary |
 | `completion` | `running`, `completed`, or `incomplete` |
@@ -53,6 +97,7 @@ The optional adapter writes a JSON file with `kind: "coverage"` and prints a sum
 | `exercised_count`, `missing_count`, `unknown_count`, `not_observed_count`, `obligation_count` | Counts over the fixed planned denominator |
 | `completion_percent` | Percentage of exercised obligations for an intact observed run, including partial coverage; `null` when collection is incomplete or no target call was observed |
 | `outside_domain` | Per-target count and at most one typed primitive tuple witness (including string values), or an `invalid_tuple` marker; these calls fulfill no valid-input obligations |
+| `outside_combinations`, `excluded_pairs` | Jointly forbidden runtime tuple evidence and plan pairs with no allowed full completion; excluded pairs are outside the denominator |
 | `incomplete_reasons`, `errors` | Bounded diagnostics explaining missing integrity or unsupported collection |
 | `evidence_mode`, `replay` | `obligation_hits` and `false`; no full event trace is retained |
 

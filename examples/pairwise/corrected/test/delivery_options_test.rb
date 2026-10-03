@@ -1,0 +1,28 @@
+# frozen_string_literal: true
+
+# Checks the corrected implementation against each stated delivery rule.
+class CorrectedDeliveryOptionsTest < Minitest::Test
+  def setup
+    @delivery_options = DeliveryOptions.new
+  end
+
+  def test_standard_delivery_without_notification
+    assert_equal({ speed: :standard, notification: false },
+                 @delivery_options.build(expedited: false, notify: false))
+  end
+
+  def test_standard_delivery_with_notification
+    assert_equal({ speed: :standard, notification: true },
+                 @delivery_options.build(expedited: false, notify: true))
+  end
+
+  def test_express_delivery_without_notification
+    assert_equal({ speed: :express, notification: false },
+                 @delivery_options.build(expedited: true, notify: false))
+  end
+
+  def test_express_delivery_with_notification
+    assert_equal({ speed: :express, notification: true },
+                 @delivery_options.build(expedited: true, notify: true))
+  end
+end

@@ -9,7 +9,7 @@ module SpecProof
       Usage:
         specproof --version
         specproof check [SPECIFICATION.rb ...] [--rbs FILE] [--target TARGET] [--format human|json]
-        specproof plan [SPECIFICATION.rb ...] [--rbs FILE] [--target TARGET] [--format human|json]
+        specproof plan [SPECIFICATION.rb ...] [--rbs FILE] [--target TARGET] [--criterion NAME] [--format human|json]
         specproof skills export --to DIRECTORY [--format human|json]
     TEXT
 
@@ -60,14 +60,14 @@ module SpecProof
     end
 
     def run_specifications(kind, args)
-      paths, rbs_paths, targets, format, option_error = parse_options(args)
-      return emit_error(option_error, format, kind: kind) if option_error
+      paths, rbs_paths, targets, criterion, format, option_error = parse_options(args, kind: kind)
+      return emit_error(option_error, format, kind: kind, criterion: kind == "plan" ? criterion : nil) if option_error
       if paths.empty? && rbs_paths.empty? && targets.empty?
         return emit_error(error("paths_required", "provide specification paths or an RBS selection"), format,
-                          kind: kind)
+                          kind: kind, criterion: kind == "plan" ? criterion : nil)
       end
 
-      with_errors(kind, format) do
+      with_errors(kind, format, criterion: kind == "plan" ? criterion : nil) do
         specifications = with_loader_output(format) do
           if rbs_paths.empty? && targets.empty?
             SpecProof.load(paths)
@@ -75,7 +75,7 @@ module SpecProof
             SpecProof.load(paths, rbs: rbs_paths, targets: targets)
           end
         end
-        kind == "check" ? run_check(specifications, format) : run_plan(specifications, format)
+        kind == "check" ? run_check(specifications, format) : run_plan(specifications, format, criterion)
       end
     end
 
@@ -94,17 +94,18 @@ module SpecProof
       findings.empty? ? 0 : 1
     end
 
-    def run_plan(specifications, format)
-      obligations = SpecProof.plan(specifications)
+    def run_plan(specifications, format, criterion)
+      obligations = SpecProof.plan(specifications, criterion: criterion)
       if format == "json"
-        @stdout.puts(JSON.generate(Report.plan(specifications: specifications, obligations: obligations)))
+        @stdout.puts(JSON.generate(Report.plan(specifications: specifications, obligations: obligations,
+                                               criterion: criterion)))
       else
-        @stdout.puts(Report.human_plan(obligations, specifications: specifications))
+        @stdout.puts(Report.human_plan(obligations, criterion: criterion, specifications: specifications))
       end
       0
     rescue InvalidSpecificationError => e
       if format == "json"
-        payload = Report.plan(specifications: specifications, obligations: [])
+        payload = Report.plan(specifications: specifications, obligations: [], criterion: criterion)
         payload[:findings] = e.findings.map { |finding| Report.finding_hash(finding) }
         @stdout.puts(JSON.generate(payload))
       else
@@ -121,54 +122,86 @@ module SpecProof
       2
     end
 
-    def with_errors(kind, format)
+    def with_errors(kind, format, criterion: nil)
       yield
     rescue ConfigurationError => e
       emit_error(error(e.code, e.message, path: e.path, source: e.source), format,
-                 kind: kind)
+                 kind: kind, criterion: criterion)
     rescue SyntaxError => e
-      emit_error(error("syntax_error", e.message, path: e.path), format, kind: kind)
+      emit_error(error("syntax_error", e.message, path: e.path), format, kind: kind, criterion: criterion)
     rescue SystemCallError, IOError => e
-      emit_error(error("io_error", e.message), format, kind: kind)
+      emit_error(error("io_error", e.message), format, kind: kind, criterion: criterion)
     rescue StandardError => e
-      emit_error(error("specification_error", e.message), format, kind: kind)
+      emit_error(error("specification_error", e.message), format, kind: kind, criterion: criterion)
     end
 
-    def parse_options(args)
-      format = "human"
-      paths = []
-      rbs_paths = []
-      targets = []
-      parse_error = nil
-      while (arg = args.shift)
-        case arg
-        when "--format"
-          value = args.shift
-          if %w[human json].include?(value)
-            format = value
-          else
-            args.unshift(value) if value
-            parse_error ||= error("invalid_format", "--format requires human or json")
-          end
-        when "--rbs", "--target"
-          value = args.shift
-          if value.nil? || value.empty? || value.start_with?("-")
-            args.unshift(value) if value
-            parse_error ||= error("missing_option_value", "#{arg} requires a value")
-          elsif arg == "--rbs"
-            rbs_paths << value
-          else
-            targets << value
-          end
-        else
-          if arg.start_with?("-")
-            parse_error ||= error("unsupported_option", "unsupported option #{arg.inspect}")
-          else
-            paths << arg
-          end
-        end
+    def parse_options(args, kind:)
+      options = { format: "human", criterion: "input-basics-v1", criterion_seen: false,
+                  paths: [], rbs_paths: [], targets: [], parse_error: nil }
+      while (argument = args.shift)
+        parse_error = parse_option(argument, args, options, kind)
+        options[:parse_error] ||= parse_error
       end
-      [paths, rbs_paths, targets, format, parse_error]
+      [options[:paths], options[:rbs_paths], options[:targets], options[:criterion], options[:format],
+       options[:parse_error]]
+    end
+
+    def parse_option(argument, args, options, kind)
+      case argument
+      when "--format" then parse_format_option(args, options)
+      when "--criterion" then parse_criterion_option(args, options, kind)
+      when "--rbs", "--target" then parse_selection_option(argument, args, options)
+      else parse_path_option(argument, options)
+      end
+    end
+
+    def parse_format_option(args, options)
+      value = args.shift
+      if %w[human json].include?(value)
+        options[:format] = value
+        nil
+      else
+        args.unshift(value) if value
+        error("invalid_format", "--format requires human or json")
+      end
+    end
+
+    def parse_criterion_option(args, options, kind)
+      value, parse_error = option_value("--criterion", args)
+      return parse_error unless value
+      return error("unsupported_option", "--criterion is available only for plan") if kind == "check"
+      return error("duplicate_criterion", "specify --criterion only once") if options[:criterion_seen]
+
+      options[:criterion] = value
+      options[:criterion_seen] = true
+      nil
+    end
+
+    def parse_selection_option(argument, args, options)
+      value, parse_error = option_value(argument, args)
+      return parse_error unless value
+
+      options.fetch(argument == "--rbs" ? :rbs_paths : :targets) << value
+      nil
+    end
+
+    def option_value(argument, args)
+      value = args.shift
+      if value.nil? || value.empty? || value.start_with?("-")
+        args.unshift(value) if value
+        [nil, error("missing_option_value", "#{argument} requires a value")]
+      else
+        [value, nil]
+      end
+    end
+
+    def parse_path_option(argument, options)
+      if argument.start_with?("-")
+        error("unsupported_option", "unsupported option #{argument.inspect}")
+      else
+        options[:paths] << argument
+        nil
+      end
     end
 
     def json_format_requested?(args)
@@ -230,9 +263,11 @@ module SpecProof
       result
     end
 
-    def emit_error(details, format, kind: "error")
+    def emit_error(details, format, kind: "error", criterion: nil)
       if format == "json"
-        @stdout.puts(JSON.generate(Report.envelope(kind: kind, errors: [details])))
+        payload = Report.envelope(kind: kind, errors: [details])
+        payload[:criterion] = criterion if criterion
+        @stdout.puts(JSON.generate(payload))
       else
         @stderr.puts("#{details[:code]}: #{details[:message]}")
       end

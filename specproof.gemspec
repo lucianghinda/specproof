@@ -7,9 +7,10 @@ Gem::Specification.new do |spec|
   spec.version = SpecProof::VERSION
   spec.authors = ["Lucian Ghinda"]
   spec.email = ["lucianghinda@users.noreply.github.com"]
-  spec.summary = "Check scalar input specifications and plan boundary candidates."
+  spec.summary = "Check input specifications and measure boundary and finite pairwise coverage."
   spec.description = [
-    "SpecProof checks explicit Ruby input domains and partitions, then plans deterministic boundary candidates",
+    "SpecProof checks explicit Ruby input domains and partitions,",
+    "then plans deterministic boundary and pairwise candidates",
     "without loading application constants."
   ].join(" ")
   spec.license = "MIT"

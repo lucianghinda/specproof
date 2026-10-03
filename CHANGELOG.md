@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Add opt-in finite pairwise coverage with explicit allowed combinations, declarative forbidden assignments, feasible-pair planning, and joint-domain observation.
+- Explain excluded pairs and missing interactions in CLI and Minitest reports; include runnable examples and packaged agent guidance.
 - Import explicitly selected RBS scalar input types without a duplicate DSL declaration; require a behavioral refinement for unbounded integers and preserve honest limits for unsupported types.
 - Add an RBS-backed Registration example with a documented age-18 behavior rule, an eight-of-nine baseline gap, a failing boundary assertion, and a fresh corrected report.
 - Update the bundled skills and report references for selected RBS targets, refinements, source scope, fresh report integrity, and the limits of coverage evidence.

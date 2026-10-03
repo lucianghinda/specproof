@@ -8,6 +8,12 @@ declaration and report a typed string value; otherwise preserve the requested
 value and report that the build does not support it. Report unsupported
 versions or value kinds instead of guessing field meanings.
 
+Pairwise finite planning is opt-in and supported when the installed build
+accepts `--criterion pairwise-finite-v1`. The default remains
+`input-basics-v1`; verify the actual `criterion` in every report rather than
+inferring it from a package version. A pairwise plan requires a `combinations`
+group for every target.
+
 Run commands from the application project and use its normal Ruby/Bundler
 environment:
 
@@ -39,6 +45,31 @@ a specification with no semantic findings and uses the `input-basics-v1`
 criterion. It proposes domain endpoints, neighboring values, and declared
 partition boundaries; its output is a set of candidates for review.
 
+For pairwise finite scenarios, declare one `combinations` group per target and
+select the criterion explicitly:
+
+```ruby
+SpecProof.define "DeliveryOptions#build" do
+  input :expedited, values: [false, true]
+  input :notify, values: [false, true]
+  combinations :expedited, :notify, all_allowed: true
+end
+```
+
+`all_allowed: true` explicitly says every tuple is valid; it does not establish
+behavioral independence. Alternatively, use a nonempty block containing only
+requirement-backed `forbid` assignments. A partial assignment forbids every
+matching completion. Rules are data, never executable predicates. Never add a
+restriction just to remove a missing pair. A pair is required only if it has
+an allowed full assignment as a completion, so feasibility must account for
+all group inputs. A forbidden tuple with three inputs can still contain
+individually feasible pairs.
+
+The CLI form is
+`specproof plan PATH --criterion pairwise-finite-v1 --format json`. `check`
+does not accept a criterion. Pairwise plans require a group for every supplied
+target and reject oversized domains rather than sampling them.
+
 JSON reports use `schema_version: 1`. Check reports include `kind: "check"`,
 `contract_digest`, and `findings`. Plan reports include `kind: "plan"`, the
 same digest, `criterion`, and `obligations`. Every planned obligation has a
@@ -48,6 +79,16 @@ digest when comparing reports; compare obligation IDs when linking tests to
 planned values. Re-run the current command before relying on old output.
 Finite strings add `{ "kind": "string", "value": "..." }` under schema 1.
 Consumers must handle this kind wherever typed values and witnesses occur.
+
+For `pairwise-finite-v1`, each obligation instead has an `inputs` object with
+two input names mapped to typed values; the row also has the shared stable ID,
+target, reasons, and source locations. Pair names are sorted canonically.
+`excluded_pairs` lists typed pairs with no allowed full completion, their
+`no_allowed_completion` reason, and relevant constraint sources. These pairs
+are excluded from the denominator. Runtime rows add status and hit counts to
+the planned pair fields. A forbidden runtime tuple satisfies no pair
+obligations. Keep pair coverage separate from test assertions and output
+correctness.
 
 Use only the declaration forms supported by SpecProof:
 

@@ -56,10 +56,13 @@ intended policy from a method's current behavior.
    are atomic failures: do not guess, drop an arm, or turn the remainder into a
    partial contract. Resolve or report every finding before planning. After
    the check is clean, run `specproof plan` with the same source and target
-   options. Compare the criterion, candidate values, reasons, IDs, and source
-   locations with the stated contract. Optional parameters and nullable types
-   are distinct: optionality permits omission, while `T?` permits an effective
-   `nil` value after Ruby applies defaults.
+   options. Use the default `input-basics-v1` criterion for marginal input
+   candidates. Select `--criterion pairwise-finite-v1` only when requirements
+   describe finite joint scenarios and every target has an explicit group.
+   Compare the criterion, candidate values or typed pairs, reasons, IDs, and
+   source locations with the stated contract. Optional parameters and nullable
+   types are distinct: optionality permits omission, while `T?` permits an
+   effective `nil` value after Ruby applies defaults.
 6. Report the contract digest, candidate values, and declaration source
    locations. If inputs are excluded, report each name and reason. Explain any
    unresolved question. Describe the plan as boundary candidates, not as a
@@ -68,6 +71,48 @@ intended policy from a method's current behavior.
 Use the project's established command environment. For a Bundler-managed
 project, prefix commands with `bundle exec`. For JSON output and schema details,
 read [the bundled command and report reference](references/usage.md).
+
+## Finite joint scenarios
+
+Use `combinations` only when the independent requirements describe a bounded
+joint input scenario and all group inputs have finite analyzed domains. A
+group names at least two unique inputs and can select a subset of analyzed
+inputs. Each analyzed input is still checked before a runtime tuple counts.
+Choose exactly one explicit mode:
+
+```ruby
+combinations :expedited, :notify, all_allowed: true
+```
+
+This asserts that every tuple is allowed; it does not say the inputs are
+behaviorally independent. If requirements rule out assignments, encode the
+stated rule as keyword data:
+
+```ruby
+combinations :expedited, :notify do
+  forbid expedited: true, notify: false
+end
+```
+
+Never add a `forbid` merely to erase a missing pair, and never use a Ruby block
+as a predicate. Rules are explicit assignments, validated against the finite
+domains. A pair is planned only when it appears in an allowed full assignment;
+do not decide feasibility by looking at its values in isolation. A forbidden
+three-input tuple may contain pairs that remain feasible through another
+allowed value of the third input. Pairwise planning rejects oversized spaces
+instead of sampling. A valid group with no allowed tuple is a semantic finding
+that must be resolved against requirements.
+
+The CLI criterion is explicit and does not change the default scalar plan:
+
+```sh
+specproof plan spec/delivery.rb --criterion pairwise-finite-v1 --format json
+```
+
+`check` remains criterion-independent. A pairwise plan needs a group for every
+supplied target; it will not silently omit targets without joint declarations.
+Read the usage reference before interpreting the pair-row `inputs` object and
+`excluded_pairs` list.
 
 ## Supported declarations
 

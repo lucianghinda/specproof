@@ -7,9 +7,10 @@ module SpecProof
   # Builds deterministic input candidates from valid specifications.
   class Planner
     CRITERION = "input-basics-v1"
+    PAIRWISE_CRITERION = "pairwise-finite-v1"
 
     def initialize(specifications, criterion: CRITERION)
-      unless criterion == CRITERION
+      unless [CRITERION, PAIRWISE_CRITERION].include?(criterion)
         raise ConfigurationError.new("unsupported criterion #{criterion.inspect}", code: "unknown_criterion")
       end
 
@@ -20,6 +21,8 @@ module SpecProof
     def obligations
       findings = Checker.new(@specifications).findings
       raise InvalidSpecificationError, findings unless findings.empty?
+
+      return pair_obligations if @criterion == PAIRWISE_CRITERION
 
       candidates = {}
       @specifications.each do |specification|
@@ -47,6 +50,36 @@ module SpecProof
     end
 
     private
+
+    def pair_obligations
+      spaces = []
+      count = 0
+      @specifications.each do |specification|
+        space = CombinationSpace.new(specification)
+        next_count = count + space.pairs.length
+        if next_count > CombinationSpace::MAX_PAIR_ROWS
+          raise ConfigurationError.new("pairwise plan has #{next_count} pair obligations; limit is 10000",
+                                       code: "combination_limit_exceeded", source: space.sources.first)
+        end
+
+        count = next_count
+        spaces << [specification, space]
+      end
+
+      obligations = spaces.flat_map do |specification, space|
+        space.pairs.map do |inputs|
+          canonical_inputs = inputs.sort_by { |name, _value| name.to_s }.to_h
+          id_data = canonical_inputs.map { |name, value| [name.to_s, Report.value(value)] }
+          id = Digest::SHA256.hexdigest(JSON.generate([specification.target, id_data, @criterion]))
+          PairObligation.new(id: id, target: specification.target, inputs: canonical_inputs,
+                             reasons: ["feasible input pair"], sources: space.sources)
+        end
+      end
+      obligations.sort_by do |obligation|
+        [obligation.target, obligation.inputs.keys.map(&:to_s),
+         obligation.inputs.values.map { |value| Domains.sort_key(value) }]
+      end.freeze
+    end
 
     def input_candidates(_specification, input)
       domain = input.domain

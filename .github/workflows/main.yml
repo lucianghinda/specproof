@@ -55,6 +55,6 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
       - name: Run RBS adapter tests
-        run: bundle exec ruby bin/test test/rbs/source_test.rb test/rbs/workflow_test.rb
+        run: bundle exec ruby bin/test test/rbs/*_test.rb
       - name: Validate API signatures
         run: bundle exec rbs -I sig validate

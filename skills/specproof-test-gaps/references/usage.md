@@ -1,7 +1,9 @@
 # Minitest coverage report reference
 
 This reference targets SpecProof `0.1.x`, JSON schema `1`, and
-`input-basics-v1`, using Minitest `>= 5.26.2` and `< 5.28.0` on CRuby `3.3`,
+`input-basics-v1` by default. `pairwise-finite-v1` is opt-in and must be
+selected explicitly in both plan and Minitest setup. Use Minitest
+`>= 5.26.2` and `< 5.28.0` on CRuby `3.3`,
 `3.4`, or `4.0`. The package/runtime major and minor versions must match.
 Prefer `~> 5.26.2` when using published packages; a mislabeled package is
 rejected even when its metadata alone falls within the supported range.
@@ -60,6 +62,19 @@ says nothing about excluded values or behavior, output assertions, interactions,
 or complete method correctness. An intentionally filtered scenario report may
 establish only that explicitly named run scope, never total project coverage.
 
+With `pairwise-finite-v1`, the plan and runtime rows represent pairs present
+in allowed full assignments. Every target needs a `combinations` group, and a
+single observed valid tuple can satisfy only the pair rows it contains;
+separate calls are not combined. The group may cover a subset of analyzed
+inputs, but every analyzed input in each call must still be valid before any
+hit is counted. `excluded_pairs` contains pairs with no allowed full completion
+and is outside the denominator. Compare pairwise report criterion and exact
+typed pair rows to a fresh pairwise plan. `all_allowed: true` is a requirement
+claim that every tuple is permitted, not a claim of behavioral independence.
+Each `forbid` clause must be based on requirements. Never change restrictions
+to make missing pairs disappear. Pair hits do not establish expected results;
+assertions need an independent behavior oracle.
+
 Finite strings are explicitly enumerated text scenarios, not open-ended String
 coverage. For a required scenario such as `values: [nil, 1, "user_123"]`, retain
 all three types and values; `"user_123"` is distinct from `:user_123`. Do not
@@ -88,6 +103,10 @@ SpecProof::Minitest.install!(
 )
 ```
 
+For pairwise evidence, also pass `criterion: "pairwise-finite-v1"` here and
+use the same explicit criterion for the offline `plan` command. Leaving it out
+keeps the scalar `input-basics-v1` behavior.
+
 For RBS-only input, use `specifications: []` and supply both non-empty `rbs:`
 and `targets:` arrays. Pass `--rbs FILE` and `--target 'Class#instance_method'`
 to offline `check` and `plan`; repeat either option for additional files or
@@ -98,8 +117,9 @@ Parse the generated JSON and require all of the following before claiming the
 current suite covered its plan:
 
 - `schema_version` is `1` and `kind` is `"coverage"`.
-- `criterion` is `"input-basics-v1"` and `contract_digest` matches a fresh
-  `specproof plan PATH --format json` report for the same specifications.
+- `criterion` matches the selected plan (`"input-basics-v1"` by default or
+  `"pairwise-finite-v1"` when requested), and `contract_digest` matches a
+  fresh plan report for the same specifications and criterion.
 - `run_id` is present and belongs to the latest full-suite execution; confirm
   it matches the run summary emitted by that invocation.
 - For imported declarations, `scope.targets` lists the composed runtime

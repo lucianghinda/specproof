@@ -6,13 +6,14 @@ module SpecProof
   module Loader
     # Collects the inputs declared for one target.
     class Builder
-      attr_reader :target, :source, :inputs, :exclusions
+      attr_reader :target, :source, :inputs, :exclusions, :combination_group
 
       def initialize(target, source)
         @target = target
         @source = source
         @inputs = {}
         @exclusions = {}
+        @combination_group = nil
       end
 
       def input(name, **options, &block)
@@ -51,6 +52,41 @@ module SpecProof
         end
 
         exclusions[name] = Exclusion.new(name: name, reason: reason, source: location)
+      end
+
+      def combinations(*names, **options, &block)
+        location = Loader.call_source
+        if combination_group
+          raise ConfigurationError.new("a target may declare only one combinations group",
+                                       code: "duplicate_combinations", source: location)
+        end
+        unless names.length >= 2 && names.all? { |name| name.is_a?(Symbol) && !name.to_s.empty? } && names.uniq == names
+          raise ConfigurationError.new("combinations requires at least two unique non-empty input symbols",
+                                       code: "invalid_combination_inputs", source: location)
+        end
+        unknown = options.keys - [:all_allowed]
+        unknown_option!(unknown.first, location) unless unknown.empty?
+
+        forbidden = if block
+                      unless options.empty?
+                        raise ConfigurationError.new("forbid block cannot be combined with options",
+                                                     code: "invalid_combinations_mode", source: location)
+                      end
+                      builder = CombinationBuilder.new(names, location)
+                      builder.instance_eval(&block)
+                      if builder.forbidden.empty?
+                        raise ConfigurationError.new("combinations block must declare at least one forbid",
+                                                     code: "empty_combinations_block", source: location)
+                      end
+                      builder.forbidden
+                    else
+                      unless options.keys == [:all_allowed] && options[:all_allowed].equal?(true)
+                        raise ConfigurationError.new("declare all_allowed: true or provide a non-empty forbid block",
+                                                     code: "invalid_combinations_mode", source: location)
+                      end
+                      []
+                    end
+        @combination_group = CombinationGroup.new(inputs: names, forbidden: forbidden, source: location)
       end
 
       private
@@ -175,6 +211,12 @@ module SpecProof
           raise ConfigurationError.new("no specifications were declared", code: "empty_specifications")
         end
 
+        unless allow_exclusion_only
+          declarations.each_value do |specification|
+            CombinationSpace.new(specification) if specification.combination_group
+          end
+        end
+
         declarations.values.freeze
       rescue Errno::ENOENT, Errno::EACCES => e
         raise ConfigurationError.new(e.message, code: "file_error",
@@ -206,17 +248,20 @@ module SpecProof
 
         builder = Builder.new(target, source)
         builder.instance_eval(&block)
-        if builder.inputs.empty? && !(@allow_exclusion_only && !builder.exclusions.empty?)
+        allowed_empty = @allow_exclusion_only && (!builder.exclusions.empty? || builder.combination_group)
+        if builder.inputs.empty? && !allowed_empty
           raise ConfigurationError.new("target must declare at least one input", code: "inputs_required",
                                                                                  source: source)
         end
 
         @active[target] = Specification.new(target: target, inputs: builder.inputs, exclusions: builder.exclusions,
-                                            source: source)
+                                            combination_group: builder.combination_group, source: source)
       end
 
       def call_source
-        location = caller_locations.find { |entry| !entry.path.end_with?("/specproof/loader.rb") }
+        location = caller_locations.find do |entry|
+          !entry.path.end_with?("/specproof/loader.rb") && !entry.path.end_with?("/specproof/combinations.rb")
+        end
         path = location&.absolute_path || location&.path || @current_path || "(unknown)"
         Source.new(path: path, line: location&.lineno || 1)
       end

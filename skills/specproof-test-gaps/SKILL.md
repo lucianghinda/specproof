@@ -35,12 +35,23 @@ tests, infer expected results, or prove application correctness.
    string to obtain a valid report. If the installed build rejects a required
    string, report that unsupported value rather than substituting a symbol or
    omitting it.
+   Use `input-basics-v1` for marginal input candidates unless requirements
+   explicitly describe finite joint scenarios. For pairwise coverage, opt in
+   with `--criterion pairwise-finite-v1` and require a `combinations` group
+   for every target. `all_allowed: true` is an explicit claim that every tuple
+   is valid, not a claim of behavioral independence. A `forbid` clause must
+   come from a requirement; never add one to erase a missing pair. Pair
+   feasibility depends on an allowed full assignment, including all other
+   group inputs.
 3. Before editing tests or production code, run the intended current suite in a
    fresh process and capture its coverage report as the baseline. Check its run
    ID, digest, input scope, completion, integrity, and original test result.
    Use an intact report to identify existing input evidence; an incomplete
    report cannot establish a baseline gap. Preserve the baseline result as
    recorded, including `tests_passed: false` when the current suite fails.
+   For pairwise runs, compare the exact planned pair IDs and typed assignments.
+   A method call can satisfy only pairs present together in that valid tuple;
+   evidence from separate calls is never combined into a synthetic pair.
 4. For each uncovered value, derive its expected result from an independent
    normative requirement or source document. A trusted existing test can
    preserve the exact case it states, but cannot establish a general boundary
@@ -79,6 +90,15 @@ tests, infer expected results, or prove application correctness.
    `tests_passed` value and any unresolved finding. Never narrow or exclude
    inputs, weaken strict missing policy, or alter production behavior just to
    turn a failing result green.
+
+When testing a pairwise interaction, derive the expected output from an
+independent rule for each combination. A pair coverage hit says only that the
+input combination reached the method. Keep the baseline, any newly failing
+requirement-backed assertion, and any corrected implementation run in separate
+fresh processes, with a fresh report and run ID for each. A passing
+`pairwise-finite-v1` report and passing assertions establish evidence only for
+the declared finite inputs and assertions; they do not prove exhaustive tuple
+coverage or behavioral independence.
 
 For adapter setup, report fields, and evidence checks, read
 [the bundled coverage report reference](references/usage.md).

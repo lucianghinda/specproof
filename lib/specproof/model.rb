@@ -66,10 +66,35 @@ module SpecProof
     end
   end
 
-  Specification = Struct.new(:target, :inputs, :source, :exclusions, keyword_init: true) do
-    def initialize(target:, inputs:, source:, exclusions: {})
+  CombinationGroup = Struct.new(:inputs, :forbidden, :source, keyword_init: true) do
+    def initialize(inputs:, forbidden:, source:)
+      super(inputs: inputs.map(&:to_sym).sort_by(&:to_s).freeze, forbidden: forbidden.dup.freeze, source: source)
+      freeze
+    end
+  end
+
+  ForbiddenAssignment = Struct.new(:assignments, :source, keyword_init: true) do
+    def initialize(assignments:, source:)
+      copied = assignments.to_h do |name, value|
+        [name.to_sym, value.is_a?(String) ? Domains.canonical_string(value) : value]
+      end
+      super(assignments: copied.sort_by { |name, _value| name.to_s }.to_h.freeze, source: source)
+      freeze
+    end
+  end
+
+  Specification = Struct.new(:target, :inputs, :source, :exclusions, :combination_group, keyword_init: true) do
+    def initialize(target:, inputs:, source:, exclusions: {}, combination_group: nil)
       super(target: target.to_s.dup.freeze, inputs: inputs.dup.freeze, source: source,
-            exclusions: exclusions.dup.freeze)
+            exclusions: exclusions.dup.freeze, combination_group: combination_group)
+      freeze
+    end
+  end
+
+  CombinationFinding = Struct.new(:code, :target, :inputs, :sources, keyword_init: true) do
+    def initialize(code:, target:, inputs:, sources:)
+      super(code: code.to_sym, target: target.to_s.dup.freeze,
+            inputs: inputs.map(&:to_sym).sort_by(&:to_s).freeze, sources: sources.uniq.freeze)
       freeze
     end
   end
@@ -97,6 +122,19 @@ module SpecProof
       copy = value.is_a?(String) ? value.dup.freeze : value
       super(id: id.to_s.dup.freeze, target: target.to_s.dup.freeze, input: input.to_sym,
             value: copy, reasons: reasons.map { |reason| reason.to_s.dup.freeze }.uniq.freeze,
+            sources: sources.uniq.freeze)
+      freeze
+    end
+  end
+
+  PairObligation = Struct.new(:id, :target, :inputs, :reasons, :sources, keyword_init: true) do
+    def initialize(id:, target:, inputs:, reasons:, sources:)
+      copied = inputs.to_h do |name, value|
+        [name.to_sym, value.is_a?(String) ? Domains.canonical_string(value) : value]
+      end
+      super(id: id.to_s.dup.freeze, target: target.to_s.dup.freeze,
+            inputs: copied.sort_by { |name, _value| name.to_s }.to_h.freeze,
+            reasons: reasons.map { |reason| reason.to_s.dup.freeze }.uniq.freeze,
             sources: sources.uniq.freeze)
       freeze
     end

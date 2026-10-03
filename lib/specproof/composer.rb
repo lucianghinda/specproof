@@ -30,7 +30,10 @@ module SpecProof
             "target must declare at least one analyzed input: #{target}", code: "inputs_required", source: source
           )
         end
-        Specification.new(target: target, inputs: inputs, exclusions: exclusions, source: source)
+        composed = Specification.new(target: target, inputs: inputs, exclusions: exclusions,
+                                     combination_group: specification&.combination_group, source: source)
+        CombinationSpace.new(composed) if composed.combination_group
+        composed
       end.freeze
     end
 

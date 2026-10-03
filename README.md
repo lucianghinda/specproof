@@ -155,6 +155,26 @@ The [finite-string results](docs/finite-strings-results.md) extend that pilot to
 the documented `"user_123"` case, showing its missing obligation and a separate
 requirement-backed assertion that exercises it.
 
+## Pairwise finite input combinations
+
+`input-basics-v1` remains the default scalar criterion. When a requirement
+defines a finite joint scenario, declare its inputs in one `combinations`
+group and explicitly choose `all_allowed: true` or list requirement-backed
+`forbid` clauses. The `pairwise-finite-v1` criterion plans each pair of values
+that occurs together in at least one allowed full assignment. It does not
+assert expected outputs or establish that inputs are behaviorally independent.
+Each analyzed input in a runtime call must still be valid before that call can
+earn pairwise evidence.
+
+The runnable [pairwise example](examples/pairwise/README.md) documents two
+independent DeliveryOptions requirements and shows the faulty interaction
+implementation passing three calls while missing the `expedited: true`,
+`notify: true` pair. A requirement-backed assertion exposes the defect; a
+separate corrected implementation then covers all four pair obligations. The
+example also shows a constrained plan with three required and one excluded
+pair, and a three-boolean plan with 12 pair obligations versus eight exhaustive
+tuples.
+
 ## Development
 
 Run the test and lint tasks with `bundle exec rake`. The default task runs Minitest and RuboCop. The CI matrix covers Ruby 3.3, 3.4, and 4.0.

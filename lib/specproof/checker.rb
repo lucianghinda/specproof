@@ -13,13 +13,26 @@ module SpecProof
         specification.inputs.each_value do |input|
           check_input(specification, input, results)
         end
+        check_combinations(specification, results) if specification.combination_group
       end
       results.sort_by do |finding|
-        [finding.target, finding.input.to_s, finding.code.to_s, sortable_witness(finding.witness)]
+        if finding.is_a?(CombinationFinding)
+          [finding.target, finding.inputs.map(&:to_s), finding.code.to_s]
+        else
+          [finding.target, [finding.input.to_s], finding.code.to_s, sortable_witness(finding.witness)]
+        end
       end.freeze
     end
 
     private
+
+    def check_combinations(specification, results)
+      space = CombinationSpace.new(specification)
+      return unless space.allowed_count.zero?
+
+      results << CombinationFinding.new(code: :unsatisfiable_combinations, target: specification.target,
+                                        inputs: specification.combination_group.inputs, sources: space.sources)
+    end
 
     def check_input(specification, input, results)
       domain = input.domain

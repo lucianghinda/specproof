@@ -2,8 +2,8 @@ module SpecProof
   VERSION: String
 
   def self.load: (Array[String] paths, ?rbs: Array[String], ?targets: Array[String]) -> Array[Specification]
-  def self.check: (Array[Specification] specifications) -> Array[Finding]
-  def self.plan: (Array[Specification] specifications, ?criterion: String) -> Array[Obligation]
+  def self.check: (Array[Specification] specifications) -> Array[Finding | CombinationFinding]
+  def self.plan: (Array[Specification] specifications, ?criterion: String) -> Array[Obligation | PairObligation]
 
   class Error < StandardError
   end
@@ -18,6 +18,7 @@ module SpecProof
     attr_reader target: String
     attr_reader inputs: Hash[Symbol, Input]
     attr_reader exclusions: Hash[Symbol, Exclusion]
+    attr_reader combination_group: CombinationGroup?
     attr_reader source: Source
   end
 
@@ -92,6 +93,13 @@ module SpecProof
     attr_reader sources: Array[Source]
   end
 
+  class CombinationFinding
+    attr_reader code: Symbol
+    attr_reader target: String
+    attr_reader inputs: Array[Symbol]
+    attr_reader sources: Array[Source]
+  end
+
   class Obligation
     attr_reader id: String
     attr_reader target: String
@@ -101,17 +109,45 @@ module SpecProof
     attr_reader sources: Array[Source]
   end
 
+  class PairObligation
+    attr_reader id: String
+    attr_reader target: String
+    attr_reader inputs: Hash[Symbol, nil | bool | Integer | Symbol | String]
+    attr_reader reasons: Array[String]
+    attr_reader sources: Array[Source]
+  end
+
+  class CombinationGroup
+    attr_reader inputs: Array[Symbol]
+    attr_reader forbidden: Array[ForbiddenAssignment]
+    attr_reader source: Source
+  end
+
+  class ForbiddenAssignment
+    attr_reader assignments: Hash[Symbol, nil | bool | Integer | Symbol | String]
+    attr_reader source: Source
+  end
+
+  class CombinationSpace
+    attr_reader pairs: Array[Hash[Symbol, nil | bool | Integer | Symbol | String]]
+    attr_reader excluded_pairs: Array[Hash[Symbol, nil | bool | Integer | Symbol | String]]
+    attr_reader allowed_count: Integer
+    attr_reader sources: Array[Source]
+    def initialize: (Specification specification) -> void
+    def allowed?: (Hash[Symbol, nil | bool | Integer | Symbol | String] arguments) -> bool
+  end
+
   def self.define: (String target) { () -> void } -> Specification
 end
 
 module Specproof
   VERSION: String
   def self.load: (Array[String] paths, ?rbs: Array[String], ?targets: Array[String]) -> Array[SpecProof::Specification]
-  def self.check: (Array[SpecProof::Specification] specifications) -> Array[SpecProof::Finding]
-  def self.plan: (Array[SpecProof::Specification] specifications, ?criterion: String) -> Array[SpecProof::Obligation]
+  def self.check: (Array[SpecProof::Specification] specifications) -> Array[SpecProof::Finding | SpecProof::CombinationFinding]
+  def self.plan: (Array[SpecProof::Specification] specifications, ?criterion: String) -> Array[SpecProof::Obligation | SpecProof::PairObligation]
   def self.define: (String target) { () -> void } -> SpecProof::Specification
 end
 
 module SpecProof::Minitest
-  def self.install!: (specifications: Array[String], ?rbs: Array[String], ?targets: Array[String], ?output: String, ?fail_on_missing: bool) -> self
+  def self.install!: (specifications: Array[String], ?rbs: Array[String], ?targets: Array[String], ?output: String, ?criterion: String, ?fail_on_missing: bool) -> self
 end
