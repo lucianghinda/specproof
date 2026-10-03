@@ -1,0 +1,54 @@
+{
+  "specproof_version": "0.1.0",
+  "criterion": "pairwise-finite-v1",
+  "contract_digest": "b123de2547ea79aeb4e65088bc35737f70b6b45df3a688bfd8ee2f16b6d14720",
+  "target": "DeliveryOptions#build",
+  "analyzed_inputs": [
+    "expedited",
+    "notify"
+  ],
+  "excluded_inputs": [],
+  "pair_rows": [
+    {
+      "id": "a5cae45780f9575d8d45f29cd8ddfbfe87ea22fc2d61fe62874388341ac2aad0",
+      "inputs": {
+        "expedited": false,
+        "notify": false
+      }
+    },
+    {
+      "id": "49169dd0ef74dac66bfb4fe48dcc15ca928f49e2665a1a9c41992ba053d24a33",
+      "inputs": {
+        "expedited": false,
+        "notify": true
+      }
+    },
+    {
+      "id": "7351d4a2874734528d619af930e8f6d9da2fe6bd3764449c884d7c337a9f1a5e",
+      "inputs": {
+        "expedited": true,
+        "notify": false
+      }
+    },
+    {
+      "id": "35bf02699c9bdea91b119f9a88bbfb580bf59b1f76bcbb326562beb79666cf69",
+      "inputs": {
+        "expedited": true,
+        "notify": true
+      }
+    }
+  ],
+  "baseline": {
+    "run_id": "73540950-d662-440e-aa8a-a86e62963b45",
+    "tests_passed": true,
+    "exercised": 3,
+    "missing": 1
+  },
+  "updated": {
+    "run_id": "600c9cb5-7434-4de4-b60a-cc1eb9d7f893",
+    "tests_passed": false,
+    "exercised": 4,
+    "missing": 0,
+    "failure": "test_express_delivery_with_notification expected notification: true, received false"
+  }
+}

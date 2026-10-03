@@ -1,0 +1,1054 @@
+{
+  "schema_version": 1,
+  "specproof_version": "0.1.0",
+  "kind": "coverage",
+  "errors": [],
+  "contract_digest": "d1c8d5cb48225387b273b425d353219a14217291441d1fc1c91b4ea92c49619f",
+  "criterion": "pairwise-finite-v1",
+  "run_id": "bb497ce6-cc5a-492b-8fb5-7a597ff54016",
+  "scope": {
+    "ruby_engine": "ruby",
+    "pid": 26574,
+    "thread": 784,
+    "window": "minitest_run",
+    "method_identity": "direct_owner_definition",
+    "input_semantics": "effective_bound_values",
+    "argument_presence": "not_observed",
+    "targets": [
+      "BooleanBatch#build"
+    ],
+    "declaration_sources": {
+      "specifications": [
+        "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb"
+      ],
+      "rbs": [],
+      "targets": []
+    },
+    "arguments": [],
+    "filter": null,
+    "exclude": null,
+    "completeness_scope": "analyzed_inputs",
+    "input_scope": [
+      {
+        "target": "BooleanBatch#build",
+        "analyzed_inputs": [
+          "first",
+          "second",
+          "third"
+        ],
+        "excluded_inputs": [],
+        "combination_group": {
+          "inputs": [
+            "first",
+            "second",
+            "third"
+          ]
+        }
+      }
+    ]
+  },
+  "evidence_mode": "obligation_hits",
+  "replay": false,
+  "obligations": [
+    {
+      "id": "44ba809c4abac6d1fde8820b46cf1e836cb8ddf4b4e33906c0480e177c5ca155",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "first": {
+          "kind": "boolean",
+          "value": false
+        },
+        "second": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "70cfbfb190ed111ca511c5174d1a10589b0f9d6d8e550f838ca9c58a5883c431",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "first": {
+          "kind": "boolean",
+          "value": false
+        },
+        "second": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "dd708ecc6d86f25a7669fc9d84146d42a801bce95278d16c2d8ca5d20eb8a8ea",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "first": {
+          "kind": "boolean",
+          "value": true
+        },
+        "second": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "2c96734303ba3cc7bc81e27f1f1bd885e7cf1ac5350dd941cfbb31d4249c0abb",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "first": {
+          "kind": "boolean",
+          "value": true
+        },
+        "second": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "bc59215b991e56df2c2dacf5ff314b09e115c9469c41f9806a040601e09dc27d",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "first": {
+          "kind": "boolean",
+          "value": false
+        },
+        "third": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "19b7e84fa97ff2860676baed5c5e8c186ce9a2ade89ca2703f2282b66f2d8918",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "first": {
+          "kind": "boolean",
+          "value": false
+        },
+        "third": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "6664dbfa8eb6500e7f07a8f77d58718882f560f978860f1b30c8b39947bf7eac",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "first": {
+          "kind": "boolean",
+          "value": true
+        },
+        "third": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "a81c64e038357b2b4234291f09a1ee0de31d5319f06d7e38a1aa0d6bd210f685",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "first": {
+          "kind": "boolean",
+          "value": true
+        },
+        "third": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "155c46408ff9710d5d396511edd023135169d516247cc6e98bea1a72596c6400",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "second": {
+          "kind": "boolean",
+          "value": false
+        },
+        "third": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "232a0412ab5893f1c80581c2146727a5f2296023259947ddeb17021517ef00ff",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "second": {
+          "kind": "boolean",
+          "value": false
+        },
+        "third": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "224f52c73c433fd6324599d695b7b70c48a1242d457de6c6708ba46298ffddc2",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "second": {
+          "kind": "boolean",
+          "value": true
+        },
+        "third": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "4c02deb90a74fefaae024f897137c4f2f5109f7cc547ca380b886854d87262f7",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "second": {
+          "kind": "boolean",
+          "value": true
+        },
+        "third": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    }
+  ],
+  "missing": [],
+  "exercised": [
+    {
+      "id": "44ba809c4abac6d1fde8820b46cf1e836cb8ddf4b4e33906c0480e177c5ca155",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "first": {
+          "kind": "boolean",
+          "value": false
+        },
+        "second": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "70cfbfb190ed111ca511c5174d1a10589b0f9d6d8e550f838ca9c58a5883c431",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "first": {
+          "kind": "boolean",
+          "value": false
+        },
+        "second": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "dd708ecc6d86f25a7669fc9d84146d42a801bce95278d16c2d8ca5d20eb8a8ea",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "first": {
+          "kind": "boolean",
+          "value": true
+        },
+        "second": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "2c96734303ba3cc7bc81e27f1f1bd885e7cf1ac5350dd941cfbb31d4249c0abb",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "first": {
+          "kind": "boolean",
+          "value": true
+        },
+        "second": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "bc59215b991e56df2c2dacf5ff314b09e115c9469c41f9806a040601e09dc27d",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "first": {
+          "kind": "boolean",
+          "value": false
+        },
+        "third": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "19b7e84fa97ff2860676baed5c5e8c186ce9a2ade89ca2703f2282b66f2d8918",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "first": {
+          "kind": "boolean",
+          "value": false
+        },
+        "third": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "6664dbfa8eb6500e7f07a8f77d58718882f560f978860f1b30c8b39947bf7eac",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "first": {
+          "kind": "boolean",
+          "value": true
+        },
+        "third": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "a81c64e038357b2b4234291f09a1ee0de31d5319f06d7e38a1aa0d6bd210f685",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "first": {
+          "kind": "boolean",
+          "value": true
+        },
+        "third": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "155c46408ff9710d5d396511edd023135169d516247cc6e98bea1a72596c6400",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "second": {
+          "kind": "boolean",
+          "value": false
+        },
+        "third": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "232a0412ab5893f1c80581c2146727a5f2296023259947ddeb17021517ef00ff",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "second": {
+          "kind": "boolean",
+          "value": false
+        },
+        "third": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "224f52c73c433fd6324599d695b7b70c48a1242d457de6c6708ba46298ffddc2",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "second": {
+          "kind": "boolean",
+          "value": true
+        },
+        "third": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "4c02deb90a74fefaae024f897137c4f2f5109f7cc547ca380b886854d87262f7",
+      "target": "BooleanBatch#build",
+      "inputs": {
+        "second": {
+          "kind": "boolean",
+          "value": true
+        },
+        "third": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/three_boolean_specification.rb",
+          "line": 9,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    }
+  ],
+  "exercised_count": 12,
+  "obligation_count": 12,
+  "missing_count": 0,
+  "unknown_count": 0,
+  "not_observed_count": 0,
+  "completion_percent": 100.0,
+  "outside_domain": {},
+  "incomplete_reasons": [],
+  "outside_combinations": {},
+  "excluded_pairs": [],
+  "completion": "completed",
+  "integrity": true,
+  "tests_passed": true
+}

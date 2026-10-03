@@ -1,0 +1,322 @@
+[
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/audit-command.json",
+    "retained": "agent/audit-command.json",
+    "sha256": "0c78b3abd2599cc2f9aa9c53ee9b92349dbf72e69b2ec8d0f587601998dd861a"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/audit-output.json",
+    "retained": "agent/audit-output.json",
+    "sha256": "5130adc2d605a84cf1595ba1edc909b5690f8f09ca97a433052428d8ff6a802a"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/audit.rb",
+    "retained": "agent/audit.rb.txt",
+    "sha256": "32b48ae22ec4e042ce0ad4d813f8c86c5fb2d9982fe77bc8d154a307d37a9739"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/baseline-check-command.json",
+    "retained": "agent/baseline-check-command.json",
+    "sha256": "137e1f42c79a4e27bb4565061b63b9042c90c99dfbd1f80a8269213779419e99"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/baseline-check.json",
+    "retained": "agent/baseline-check.json",
+    "sha256": "9ec7a1ad259de0f5077e84e28cd74682e35240d60baef7c518b9dd952cfcd81f"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/baseline-plan-command.json",
+    "retained": "agent/baseline-plan-command.json",
+    "sha256": "3f8c2a31c99bfe49ca8045e648ab950d9a57472c173605c11e696f52c5ea8267"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/baseline-plan.json",
+    "retained": "agent/baseline-plan.json",
+    "sha256": "19c5caab7572bb236d862e5b9912bec7c0cee83994309dc53f5b222b1ac54353"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/baseline-report.json",
+    "retained": "agent/baseline-report.json",
+    "sha256": "7bea30d272991b23c89272eac04594c781218cbb109cef4f1fe655f5cfbe3e8b"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/baseline-suite-command.json",
+    "retained": "agent/baseline-suite-command.json",
+    "sha256": "ec8763ed4182eab00a994eadc59a26afa6802145422e46cb152e099a0b97d816"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/baseline-version-command.json",
+    "retained": "agent/baseline-version-command.json",
+    "sha256": "08b5cf6e35f272b9bc5cfc4629336abf5d043ca7df361a1350e507b2bb70c664"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/baseline-version.txt",
+    "retained": "agent/baseline-version.txt",
+    "sha256": "5448fff0d6d50cc3ac51804e0885f332c2e7bd176e71cc14f1a67c2c91b1c1e2"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/final-delivery_options.rb",
+    "retained": "agent/final-delivery_options.rb.txt",
+    "sha256": "d46e4e2decc688f1e9dcc1b91078ed8bba006294efda9b7b9c7085351fe60277"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/final-delivery_options_test.rb",
+    "retained": "agent/final-delivery_options_test.rb.txt",
+    "sha256": "52df3e7ae9970b8d4b626a603b2673185b8705da37fbd5fc0c0012fa8d672e29"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/final-spec-delivery_options.rb",
+    "retained": "agent/final-spec-delivery_options.rb.txt",
+    "sha256": "981670b42f3262f5cb9b98244aeb50e428c440f6cf5b5f4a868aaf055afbbd48"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/original-delivery_options.rb",
+    "retained": "agent/original-delivery_options.rb.txt",
+    "sha256": "d46e4e2decc688f1e9dcc1b91078ed8bba006294efda9b7b9c7085351fe60277"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/original-delivery_options_test.rb",
+    "retained": "agent/original-delivery_options_test.rb.txt",
+    "sha256": "2a6f1f9828b8d709ef64fe19f8cba2be673f12fdb16584132003c58317ede489"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/refreshed-baseline-driver-command.json",
+    "retained": "agent/refreshed-baseline-driver-command.json",
+    "sha256": "1781298b9942704f29408c2d2c2df2f736259812b17e1dcd1d3c4a7ddd420e8d"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/refreshed-export-command.json",
+    "retained": "agent/refreshed-export-command.json",
+    "sha256": "d37bc73e0349e3ac350fb46cebc8924c11b5903af4855be1c3206b7244de48c4"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/refreshed-updated-driver-command.json",
+    "retained": "agent/refreshed-updated-driver-command.json",
+    "sha256": "37074d473efaa19562447cecddf19168191854dacd74d9310ba57544f36cdd7f"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/updated-check-command.json",
+    "retained": "agent/updated-check-command.json",
+    "sha256": "137e1f42c79a4e27bb4565061b63b9042c90c99dfbd1f80a8269213779419e99"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/updated-check.json",
+    "retained": "agent/updated-check.json",
+    "sha256": "9ec7a1ad259de0f5077e84e28cd74682e35240d60baef7c518b9dd952cfcd81f"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/updated-plan-command.json",
+    "retained": "agent/updated-plan-command.json",
+    "sha256": "3f8c2a31c99bfe49ca8045e648ab950d9a57472c173605c11e696f52c5ea8267"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/updated-plan.json",
+    "retained": "agent/updated-plan.json",
+    "sha256": "19c5caab7572bb236d862e5b9912bec7c0cee83994309dc53f5b222b1ac54353"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/updated-report.json",
+    "retained": "agent/updated-report.json",
+    "sha256": "47b4dfbe39668f34c4c0e82dfa83aa055c82b32ee8ef85f4169e8373296fe1fe"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/updated-suite-command.json",
+    "retained": "agent/updated-suite-command.json",
+    "sha256": "77b6cddcb1214f541d793591a5fde120e2a1cde92ca56792672ede473b1efc8a"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/updated-version-command.json",
+    "retained": "agent/updated-version-command.json",
+    "sha256": "08b5cf6e35f272b9bc5cfc4629336abf5d043ca7df361a1350e507b2bb70c664"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/evidence/updated-version.txt",
+    "retained": "agent/updated-version.txt",
+    "sha256": "5448fff0d6d50cc3ac51804e0885f332c2e7bd176e71cc14f1a67c2c91b1c1e2"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/requirements.md",
+    "retained": "fixture/requirements.md",
+    "sha256": "7ae9a20abe77f9cce0ba415e7fb904447010b172852c12136f22a3aec8db8d19"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/delivery_options.rb",
+    "retained": "fixture/delivery_options.rb.txt",
+    "sha256": "d46e4e2decc688f1e9dcc1b91078ed8bba006294efda9b7b9c7085351fe60277"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/spec/delivery_options.rb",
+    "retained": "fixture/spec/delivery_options.rb.txt",
+    "sha256": "981670b42f3262f5cb9b98244aeb50e428c440f6cf5b5f4a868aaf055afbbd48"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/test/delivery_options_test.rb",
+    "retained": "fixture/test/delivery_options_test.rb.txt",
+    "sha256": "52df3e7ae9970b8d4b626a603b2673185b8705da37fbd5fc0c0012fa8d672e29"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/test/suite.rb",
+    "retained": "fixture/test/suite.rb.txt",
+    "sha256": "c6e5eb6f971870d2a179ddf3e3faf13d703aa0a3c978a29aeb4315661868afbb"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/fixture/run.rb",
+    "retained": "fixture/run.rb.txt",
+    "sha256": "10fd7684cecb89c7d8d0852e0d8e96014c72e07bba2e77e25932f1ef658745ad"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/skills/specproof-specify/SKILL.md",
+    "retained": "skills/specproof-specify/SKILL.md",
+    "sha256": "fe29bb18afb11de2d029d45def6b0aa8aea87dbdc8b86d1834e141add2809c1d"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/skills/specproof-specify/references/usage.md",
+    "retained": "skills/specproof-specify/references/usage.md",
+    "sha256": "d29e8414f7152cb44e7622a056234b73c6241f4553c45865fa422c0ba7da953f"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/skills/specproof-test-gaps/SKILL.md",
+    "retained": "skills/specproof-test-gaps/SKILL.md",
+    "sha256": "c33dd7411c6c576b49d81613060c30d8f9a0e8aeb3d70b1cc9134d630a499ee9"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/skills/specproof-test-gaps/references/usage.md",
+    "retained": "skills/specproof-test-gaps/references/usage.md",
+    "sha256": "c123e67900ae8b94c49c311ac77b7bc4b528cfecc3c22a0ece34912777699ba7"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-agent/installed-sha256.json",
+    "retained": "installed-sha256.json",
+    "sha256": "e87ca04c8d32973d09297fa5ef96a108ed1e1e769f70180f8ff7c279c9abca48"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/33-core.stderr.txt",
+    "retained": "verification/33-core.stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/33-core.stdout.txt",
+    "retained": "verification/33-core.stdout.txt",
+    "sha256": "93031e91e886be81b0f9f225cc939476c6cbe46d61bee5e0112712a4a5b48b27"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/33-rbs.stderr.txt",
+    "retained": "verification/33-rbs.stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/33-rbs.stdout.txt",
+    "retained": "verification/33-rbs.stdout.txt",
+    "sha256": "e83a60572d2a141b89ebe06afa2fede654fbc05a92ac51a2bd3e286c9c118f6e"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/33-signatures.stderr.txt",
+    "retained": "verification/33-signatures.stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/33-signatures.stdout.txt",
+    "retained": "verification/33-signatures.stdout.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/34-core.stderr.txt",
+    "retained": "verification/34-core.stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/34-core.stdout.txt",
+    "retained": "verification/34-core.stdout.txt",
+    "sha256": "53f785a1688c3b3e7c69b6f612f734f0b10d26d0775c10f8ebf4a7c2d81c9662"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/34-rbs.stderr.txt",
+    "retained": "verification/34-rbs.stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/34-rbs.stdout.txt",
+    "retained": "verification/34-rbs.stdout.txt",
+    "sha256": "db7c12f12e1a4850cfb2e59b07e6b6361fe4fea2040b261ab3c2a625beb26db5"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/34-signatures.stderr.txt",
+    "retained": "verification/34-signatures.stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/34-signatures.stdout.txt",
+    "retained": "verification/34-signatures.stdout.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/40-core.stderr.txt",
+    "retained": "verification/40-core.stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/40-core.stdout.txt",
+    "retained": "verification/40-core.stdout.txt",
+    "sha256": "2d1b32419072333734e80257c9ef751b9af40627c864a5a9b48615e826b9ecb2"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/40-rbs.stderr.txt",
+    "retained": "verification/40-rbs.stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/40-rbs.stdout.txt",
+    "retained": "verification/40-rbs.stdout.txt",
+    "sha256": "a1bcf4b470f0e240b62ab7845af2470a53b60e61e97ae877d30e0c8747a4a96a"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/40-signatures.stderr.txt",
+    "retained": "verification/40-signatures.stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/40-signatures.stdout.txt",
+    "retained": "verification/40-signatures.stdout.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/commands.json",
+    "retained": "verification/commands.json",
+    "sha256": "d4ee497f7a7302e7630cb774f6ba0960c24d8a8b04d9a55fdb367d87cd21437a"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/examples/commands.json",
+    "retained": "verification/examples/commands.json",
+    "sha256": "b3a1f3d0266fee62d4e02ee1df065a2ae5f8e8b6771bd3c7d305ae2828666ca4"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/examples/constrained.json",
+    "retained": "verification/examples/constrained.json",
+    "sha256": "9b2d0d0fbd6c7c044a9568a98f1114558e7d27dbfdb711556d2dcccd09f1b5de"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/examples/corrected.json",
+    "retained": "verification/examples/corrected.json",
+    "sha256": "b625c503597509d72ec44e11101ab33599e1e07d11abb8b9b07940b9bbc46b1a"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/examples/gap.json",
+    "retained": "verification/examples/gap.json",
+    "sha256": "bd3a8321f80acccb039c4ba059d383e09b936b3a49e3ac3ecbd87a001e93f00c"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/examples/initial.json",
+    "retained": "verification/examples/initial.json",
+    "sha256": "d79a1d0de562188d965ff3f9db8f8a858cc7b225e314a54eca8835df0fa13952"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/examples/three.json",
+    "retained": "verification/examples/three.json",
+    "sha256": "dfff1f9d1181837cde609fc590973f4dc16f08c9818f7d2ae88a37ab29c48de4"
+  },
+  {
+    "source": "/private/tmp/specproof-pairwise-verification/library-sha256.json",
+    "retained": "verification/library-sha256.json",
+    "sha256": "a7b2d530210ac1265cad2f0aa263f85875332851a1a1686889dccfdca2d68664"
+  }
+]

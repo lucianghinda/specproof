@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+    "/private/tmp/specproof-pairwise-agent/gems/bin/specproof",
+    "--version"
+  ],
+  "cwd": "/private/tmp/specproof-pairwise-agent/fixture",
+  "env": {
+    "GEM_HOME": "/private/tmp/specproof-pairwise-agent/gems",
+    "GEM_PATH": "/private/tmp/specproof-pairwise-agent/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+    "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+    "MT_NO_PLUGINS": "1"
+  },
+  "exit": 0,
+  "stdout": "SpecProof 0.1.0\n",
+  "stderr": ""
+}

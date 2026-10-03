@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+require "minitest/autorun"
+require_relative "../delivery_options"
+require "specproof/minitest"
+
+SpecProof::Minitest.install!(
+  specifications: [File.expand_path("../spec/delivery_options.rb", __dir__)],
+  criterion: "pairwise-finite-v1",
+  output: ENV.fetch("SPECPROOF_REPORT"),
+  fail_on_missing: false
+)
+
+load File.expand_path("delivery_options_test.rb", __dir__)

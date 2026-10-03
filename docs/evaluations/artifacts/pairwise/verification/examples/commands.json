@@ -1,0 +1,100 @@
+[
+  {
+    "mode": "initial",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-4.0.1/bin/bundle",
+      "exec",
+      "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+      "examples/pairwise/run.rb",
+      "initial",
+      "/private/tmp/specproof-pairwise-verification/examples/initial.json"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-pairwise-40-default-locked/Gemfile",
+      "BUNDLE_PATH": "/private/tmp/specproof-selection-40-default-locked/vendor/bundle"
+    },
+    "exit": 0,
+    "stdout": "Run options: --seed 45303\n\n# Running:\n\n...\n\nFinished in 0.000571s, 5253.9401 runs/s, 5253.9401 assertions/s.\n\n3 runs, 3 assertions, 0 failures, 0 errors, 0 skips\nSpecProof coverage run 2e341389-5d29-4ea0-a321-b90b3c2ad60e: 3/4 obligations exercised, 1 missing; missing values: DeliveryOptions#build/expedited=true,notify=true; completeness scope: analyzed inputs only; 0 excluded pairs; criterion: pairwise-finite-v1; group: DeliveryOptions#build(expedited, notify) (completed)\n",
+    "stderr": ""
+  },
+  {
+    "mode": "gap",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-4.0.1/bin/bundle",
+      "exec",
+      "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+      "examples/pairwise/run.rb",
+      "gap",
+      "/private/tmp/specproof-pairwise-verification/examples/gap.json"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-pairwise-40-default-locked/Gemfile",
+      "BUNDLE_PATH": "/private/tmp/specproof-selection-40-default-locked/vendor/bundle"
+    },
+    "exit": 1,
+    "stdout": "Run options: --seed 39887\n\n# Running:\n\n...F\n\nFinished in 0.012802s, 312.4512 runs/s, 312.4512 assertions/s.\n\n  1) Failure:\nGapDeliveryOptionsTest#test_express_delivery_with_notification [examples/pairwise/faulty/test/gap_delivery_options_test.rb:6]:\nRequirement: notification follows notify; see requirements.md.\n--- expected\n+++ actual\n@@ -1 +1 @@\n-{speed: :express, notification: true}\n+{speed: :express, notification: false}\n\n\n4 runs, 4 assertions, 1 failures, 0 errors, 0 skips\nSpecProof coverage run b649718b-3b2c-49b7-b413-b5421e83c13a: 4/4 obligations exercised; completeness scope: analyzed inputs only; 0 excluded pairs; criterion: pairwise-finite-v1; group: DeliveryOptions#build(expedited, notify) (completed)\n",
+    "stderr": ""
+  },
+  {
+    "mode": "corrected",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-4.0.1/bin/bundle",
+      "exec",
+      "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+      "examples/pairwise/run.rb",
+      "corrected",
+      "/private/tmp/specproof-pairwise-verification/examples/corrected.json"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-pairwise-40-default-locked/Gemfile",
+      "BUNDLE_PATH": "/private/tmp/specproof-selection-40-default-locked/vendor/bundle"
+    },
+    "exit": 0,
+    "stdout": "Run options: --seed 51304\n\n# Running:\n\n....\n\nFinished in 0.000490s, 8163.2652 runs/s, 8163.2652 assertions/s.\n\n4 runs, 4 assertions, 0 failures, 0 errors, 0 skips\nSpecProof coverage run a3b32d58-329d-4d4d-99b9-6c1772377605: 4/4 obligations exercised; completeness scope: analyzed inputs only; 0 excluded pairs; criterion: pairwise-finite-v1; group: DeliveryOptions#build(expedited, notify) (completed)\n",
+    "stderr": ""
+  },
+  {
+    "mode": "three",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-4.0.1/bin/bundle",
+      "exec",
+      "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+      "examples/pairwise/run.rb",
+      "three",
+      "/private/tmp/specproof-pairwise-verification/examples/three.json"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-pairwise-40-default-locked/Gemfile",
+      "BUNDLE_PATH": "/private/tmp/specproof-selection-40-default-locked/vendor/bundle"
+    },
+    "exit": 0,
+    "stdout": "Run options: --seed 3260\n\n# Running:\n\n....\n\nFinished in 0.000490s, 8163.2652 runs/s, 8163.2652 assertions/s.\n\n4 runs, 4 assertions, 0 failures, 0 errors, 0 skips\nSpecProof coverage run bb497ce6-cc5a-492b-8fb5-7a597ff54016: 12/12 obligations exercised; completeness scope: analyzed inputs only; 0 excluded pairs; criterion: pairwise-finite-v1; group: BooleanBatch#build(first, second, third) (completed)\n",
+    "stderr": ""
+  },
+  {
+    "mode": "constrained",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+      "-Ilib",
+      "exe/specproof",
+      "plan",
+      "examples/pairwise/constrained_specification.rb",
+      "--criterion",
+      "pairwise-finite-v1",
+      "--format",
+      "json"
+    ],
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+      "BUNDLE_GEMFILE": "/private/tmp/specproof-pairwise-40-default-locked/Gemfile",
+      "BUNDLE_PATH": "/private/tmp/specproof-selection-40-default-locked/vendor/bundle"
+    },
+    "exit": 0,
+    "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"plan\",\"errors\":[],\"contract_digest\":\"61d0fbc8aa927fe99c3207adcbfc4d6402dddb2d51415a6707e7f3d56aa2df60\",\"criterion\":\"pairwise-finite-v1\",\"scope\":{\"completeness_scope\":\"analyzed_inputs\",\"input_scope\":[{\"target\":\"ConstrainedDelivery#build\",\"analyzed_inputs\":[\"expedited\",\"notify\"],\"excluded_inputs\":[],\"combination_group\":{\"inputs\":[\"expedited\",\"notify\"]}}]},\"obligations\":[{\"id\":\"20c5df39b021936ec6ba6f848727fb865df95502d7afbe94333944090b392085\",\"target\":\"ConstrainedDelivery#build\",\"inputs\":{\"expedited\":{\"kind\":\"boolean\",\"value\":false},\"notify\":{\"kind\":\"boolean\",\"value\":false}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/constrained_specification.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/constrained_specification.rb\",\"line\":7,\"kind\":\"dsl\"},{\"path\":\"/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/constrained_specification.rb\",\"line\":8,\"kind\":\"dsl\"},{\"path\":\"/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/constrained_specification.rb\",\"line\":9,\"kind\":\"dsl\"}]},{\"id\":\"2794e7a5b5bf0f2d5bc52b9eccadf66d941cf3d9b978b76027198345515c99c2\",\"target\":\"ConstrainedDelivery#build\",\"inputs\":{\"expedited\":{\"kind\":\"boolean\",\"value\":false},\"notify\":{\"kind\":\"boolean\",\"value\":true}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/constrained_specification.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/constrained_specification.rb\",\"line\":7,\"kind\":\"dsl\"},{\"path\":\"/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/constrained_specification.rb\",\"line\":8,\"kind\":\"dsl\"},{\"path\":\"/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/constrained_specification.rb\",\"line\":9,\"kind\":\"dsl\"}]},{\"id\":\"daa1866cbd32bcd2ebb040ea4327940059b358d154b255dcca7727a10a45dabd\",\"target\":\"ConstrainedDelivery#build\",\"inputs\":{\"expedited\":{\"kind\":\"boolean\",\"value\":true},\"notify\":{\"kind\":\"boolean\",\"value\":true}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/constrained_specification.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/constrained_specification.rb\",\"line\":7,\"kind\":\"dsl\"},{\"path\":\"/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/constrained_specification.rb\",\"line\":8,\"kind\":\"dsl\"},{\"path\":\"/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/constrained_specification.rb\",\"line\":9,\"kind\":\"dsl\"}]}],\"excluded_pairs\":[{\"target\":\"ConstrainedDelivery#build\",\"inputs\":{\"expedited\":{\"kind\":\"boolean\",\"value\":true},\"notify\":{\"kind\":\"boolean\",\"value\":false}},\"reason\":\"no_allowed_completion\",\"sources\":[{\"path\":\"/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/constrained_specification.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/constrained_specification.rb\",\"line\":7,\"kind\":\"dsl\"},{\"path\":\"/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/constrained_specification.rb\",\"line\":8,\"kind\":\"dsl\"},{\"path\":\"/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/pairwise/examples/pairwise/constrained_specification.rb\",\"line\":9,\"kind\":\"dsl\"}]}]}\n",
+    "stderr": ""
+  }
+]

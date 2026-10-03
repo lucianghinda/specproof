@@ -1,0 +1,10 @@
+# frozen_string_literal: true
+
+class DeliveryOptions
+  def build(expedited:, notify:)
+    {
+      speed: expedited ? :express : :standard,
+      notification: notify && !expedited
+    }
+  end
+end

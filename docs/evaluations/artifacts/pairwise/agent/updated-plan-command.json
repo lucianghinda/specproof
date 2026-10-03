@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+    "/private/tmp/specproof-pairwise-agent/gems/bin/specproof",
+    "plan",
+    "spec/delivery_options.rb",
+    "--criterion",
+    "pairwise-finite-v1",
+    "--format",
+    "json"
+  ],
+  "cwd": "/private/tmp/specproof-pairwise-agent/fixture",
+  "env": {
+    "GEM_HOME": "/private/tmp/specproof-pairwise-agent/gems",
+    "GEM_PATH": "/private/tmp/specproof-pairwise-agent/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+    "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+    "MT_NO_PLUGINS": "1"
+  },
+  "exit": 0,
+  "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"plan\",\"errors\":[],\"contract_digest\":\"b123de2547ea79aeb4e65088bc35737f70b6b45df3a688bfd8ee2f16b6d14720\",\"criterion\":\"pairwise-finite-v1\",\"scope\":{\"completeness_scope\":\"analyzed_inputs\",\"input_scope\":[{\"target\":\"DeliveryOptions#build\",\"analyzed_inputs\":[\"expedited\",\"notify\"],\"excluded_inputs\":[],\"combination_group\":{\"inputs\":[\"expedited\",\"notify\"]}}]},\"obligations\":[{\"id\":\"a5cae45780f9575d8d45f29cd8ddfbfe87ea22fc2d61fe62874388341ac2aad0\",\"target\":\"DeliveryOptions#build\",\"inputs\":{\"expedited\":{\"kind\":\"boolean\",\"value\":false},\"notify\":{\"kind\":\"boolean\",\"value\":false}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-pairwise-agent/fixture/spec/delivery_options.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-pairwise-agent/fixture/spec/delivery_options.rb\",\"line\":7,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-pairwise-agent/fixture/spec/delivery_options.rb\",\"line\":8,\"kind\":\"dsl\"}]},{\"id\":\"49169dd0ef74dac66bfb4fe48dcc15ca928f49e2665a1a9c41992ba053d24a33\",\"target\":\"DeliveryOptions#build\",\"inputs\":{\"expedited\":{\"kind\":\"boolean\",\"value\":false},\"notify\":{\"kind\":\"boolean\",\"value\":true}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-pairwise-agent/fixture/spec/delivery_options.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-pairwise-agent/fixture/spec/delivery_options.rb\",\"line\":7,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-pairwise-agent/fixture/spec/delivery_options.rb\",\"line\":8,\"kind\":\"dsl\"}]},{\"id\":\"7351d4a2874734528d619af930e8f6d9da2fe6bd3764449c884d7c337a9f1a5e\",\"target\":\"DeliveryOptions#build\",\"inputs\":{\"expedited\":{\"kind\":\"boolean\",\"value\":true},\"notify\":{\"kind\":\"boolean\",\"value\":false}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-pairwise-agent/fixture/spec/delivery_options.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-pairwise-agent/fixture/spec/delivery_options.rb\",\"line\":7,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-pairwise-agent/fixture/spec/delivery_options.rb\",\"line\":8,\"kind\":\"dsl\"}]},{\"id\":\"35bf02699c9bdea91b119f9a88bbfb580bf59b1f76bcbb326562beb79666cf69\",\"target\":\"DeliveryOptions#build\",\"inputs\":{\"expedited\":{\"kind\":\"boolean\",\"value\":true},\"notify\":{\"kind\":\"boolean\",\"value\":true}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-pairwise-agent/fixture/spec/delivery_options.rb\",\"line\":6,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-pairwise-agent/fixture/spec/delivery_options.rb\",\"line\":7,\"kind\":\"dsl\"},{\"path\":\"/private/tmp/specproof-pairwise-agent/fixture/spec/delivery_options.rb\",\"line\":8,\"kind\":\"dsl\"}]}],\"excluded_pairs\":[]}\n",
+  "stderr": ""
+}

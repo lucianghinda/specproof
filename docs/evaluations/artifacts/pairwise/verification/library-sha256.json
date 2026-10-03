@@ -1,0 +1,20 @@
+{
+  "lib/specproof.rb": "7c692e28a773f8d813955d35a624fb67047f3f2b143a54ecc7fb9b9dfcaecb26",
+  "lib/specproof/checker.rb": "03bbf67b3f614535bbdf58c9a3cbc99d11a3c3a9d6e69aceeaf50b27d443292e",
+  "lib/specproof/cli.rb": "3b282d06b631bf4c6f3f59652b813e487014dbfb0521d485f00ef1512983fdb0",
+  "lib/specproof/collector.rb": "b0d015a699301588d15d5ef1245c395fec4a488e3ea391a22ca35cebdac2a140",
+  "lib/specproof/combinations.rb": "d4f70fb17672bb6879f147e039950ea0967e2257ccedc330720d6622066e6a9a",
+  "lib/specproof/composer.rb": "c578d00343354079cc6a285f4c05e2c56eb9a14b3e7d9c9b9bee261d832fe5d2",
+  "lib/specproof/coverage.rb": "6719e13af2d81b56750cabdfe34700c1a495b9420927ed5927f3b7788e554ded",
+  "lib/specproof/domains.rb": "a8562d8b707f9a661b904bef80e65fc698f685e9ceeea57b4da2ea2ed68822a5",
+  "lib/specproof/loader.rb": "cc303fb249eb22e1007eeabccd13369fa33cf48bd67bf27e4a50575ed0722848",
+  "lib/specproof/minitest.rb": "891b3af020e07a06f5d73fe2e51593a8aa1bf7327f2d4821c2d955728121f2e2",
+  "lib/specproof/model.rb": "85e15049793e75864282b2c5985c413cbfca34b8ff59e4a0c739a9086c96b33e",
+  "lib/specproof/planner.rb": "717d90b667dd6eb01301f3c529b77ed566fa7e0b8f67ff4775b5831f343611d6",
+  "lib/specproof/report.rb": "2fcde499d1e6db5d1da2ba8f1380db5200e0dd5fb0c8bee82c69fed1d72af6b7",
+  "lib/specproof/skills.rb": "7eeae2f70b6e1ee6af95883ebd4fd69557c0cfc30c05c159ffe42f7870162e6f",
+  "lib/specproof/sources/rbs.rb": "77757eeb2c7dab2851ac61e57d7f3a4996a30d6a5baed75a3150ebcde5ee367a",
+  "lib/specproof/sources/rbs_projector.rb": "31615ea06d3045e512f7ea6a2ea9346262b132ceb03448af306c6ca16c0cd498",
+  "lib/specproof/type_constraints.rb": "a6a41e19b89e9b39e18b7c7ebb519ce7360b6da1574900ad9eb360cc9d822300",
+  "lib/specproof/version.rb": "770cd5018d68868abf30e1b808c02ceda3d4c866e3e0e1c8ea282f5b6e61e014"
+}

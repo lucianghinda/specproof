@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+    "/private/tmp/specproof-pairwise-agent/gems/bin/specproof",
+    "check",
+    "spec/delivery_options.rb",
+    "--format",
+    "json"
+  ],
+  "cwd": "/private/tmp/specproof-pairwise-agent/fixture",
+  "env": {
+    "GEM_HOME": "/private/tmp/specproof-pairwise-agent/gems",
+    "GEM_PATH": "/private/tmp/specproof-pairwise-agent/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+    "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+    "MT_NO_PLUGINS": "1"
+  },
+  "exit": 0,
+  "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"check\",\"errors\":[],\"contract_digest\":\"b123de2547ea79aeb4e65088bc35737f70b6b45df3a688bfd8ee2f16b6d14720\",\"scope\":{\"completeness_scope\":\"analyzed_inputs\",\"input_scope\":[{\"target\":\"DeliveryOptions#build\",\"analyzed_inputs\":[\"expedited\",\"notify\"],\"excluded_inputs\":[],\"combination_group\":{\"inputs\":[\"expedited\",\"notify\"]}}]},\"findings\":[]}\n",
+  "stderr": ""
+}

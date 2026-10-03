@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+    "test/suite.rb"
+  ],
+  "cwd": "/private/tmp/specproof-pairwise-agent/fixture",
+  "env": {
+    "GEM_HOME": "/private/tmp/specproof-pairwise-agent/gems",
+    "GEM_PATH": "/private/tmp/specproof-pairwise-agent/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+    "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+    "MT_NO_PLUGINS": "1",
+    "SPECPROOF_REPORT": "/private/tmp/specproof-pairwise-agent/fixture/evidence/baseline-coverage.json"
+  },
+  "exit": 0,
+  "stdout": "Run options: --seed 45271\n\n# Running:\n\n...\n\nFinished in 0.000518s, 5791.5046 runs/s, 5791.5046 assertions/s.\n\n3 runs, 3 assertions, 0 failures, 0 errors, 0 skips\nSpecProof coverage run 73540950-d662-440e-aa8a-a86e62963b45: 3/4 obligations exercised, 1 missing; missing values: DeliveryOptions#build/expedited=true,notify=true; completeness scope: analyzed inputs only; 0 excluded pairs; criterion: pairwise-finite-v1; group: DeliveryOptions#build(expedited, notify) (completed)\n",
+  "stderr": ""
+}

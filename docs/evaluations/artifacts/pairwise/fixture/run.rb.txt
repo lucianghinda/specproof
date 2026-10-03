@@ -1,0 +1,83 @@
+# frozen_string_literal: true
+
+require "fileutils"
+require "json"
+require "open3"
+
+ROOT = File.expand_path(__dir__)
+EVIDENCE = File.join(ROOT, "evidence")
+RUBY = "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby"
+SPEC_PROOF = "/private/tmp/specproof-pairwise-agent/gems/bin/specproof"
+
+ENVIRONMENT = {
+  "GEM_HOME" => "/private/tmp/specproof-pairwise-agent/gems",
+  "GEM_PATH" => "/private/tmp/specproof-pairwise-agent/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+  "PATH" => "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+  "MT_NO_PLUGINS" => "1"
+}.freeze
+
+def execute(label, argv, working_directory, extra_environment = {})
+  environment = ENVIRONMENT.merge(extra_environment)
+  stdout, stderr, status = Open3.capture3(
+    environment,
+    *argv,
+    chdir: working_directory,
+    unsetenv_others: true
+  )
+  record = {
+    "argv" => argv,
+    "cwd" => working_directory,
+    "env" => environment,
+    "exit" => status.exitstatus || 128 + status.termsig,
+    "stdout" => stdout,
+    "stderr" => stderr
+  }
+  File.write(File.join(EVIDENCE, "#{label}-command.json"), JSON.pretty_generate(record) + "\n")
+  record
+end
+
+def save_snapshot(label, source)
+  FileUtils.cp(source, File.join(EVIDENCE, label))
+end
+
+phase = ARGV.fetch(0)
+FileUtils.mkdir_p(EVIDENCE)
+
+if phase == "baseline"
+  save_snapshot("original-delivery_options.rb", File.join(ROOT, "delivery_options.rb"))
+  save_snapshot("original-delivery_options_test.rb", File.join(ROOT, "test/delivery_options_test.rb"))
+elsif phase == "updated"
+  save_snapshot("final-delivery_options.rb", File.join(ROOT, "delivery_options.rb"))
+  save_snapshot("final-delivery_options_test.rb", File.join(ROOT, "test/delivery_options_test.rb"))
+  save_snapshot("final-spec-delivery_options.rb", File.join(ROOT, "spec/delivery_options.rb"))
+end
+
+version = execute("#{phase}-version", [RUBY, SPEC_PROOF, "--version"], ROOT)
+File.write(File.join(EVIDENCE, "#{phase}-version.txt"), version.fetch("stdout"))
+abort "version exited #{version.fetch("exit")}; see evidence/#{phase}-version-command.json" unless version.fetch("exit").zero?
+
+%w[check plan].each do |command|
+  argv = [RUBY, SPEC_PROOF, command, "spec/delivery_options.rb"]
+  argv += ["--criterion", "pairwise-finite-v1"] if command == "plan"
+  argv += ["--format", "json"]
+  result = execute("#{phase}-#{command}", argv, ROOT)
+  File.write(File.join(EVIDENCE, "#{phase}-#{command}.json"), result.fetch("stdout"))
+  abort "#{command} exited #{result.fetch("exit")}; see evidence/#{phase}-#{command}-command.json" unless result.fetch("exit").zero?
+end
+
+report_path = File.join(EVIDENCE, "#{phase}-coverage.json")
+suite = execute(
+  "#{phase}-suite",
+  [RUBY, "test/suite.rb"],
+  ROOT,
+  "SPECPROOF_REPORT" => report_path
+)
+FileUtils.cp(report_path, File.join(EVIDENCE, "#{phase}-report.json")) if File.file?(report_path)
+puts JSON.pretty_generate(
+  "phase" => phase,
+  "suite_exit" => suite.fetch("exit"),
+  "suite_stdout" => suite.fetch("stdout"),
+  "suite_stderr" => suite.fetch("stderr"),
+  "report" => File.exist?(File.join(EVIDENCE, "#{phase}-report.json")) ? "evidence/#{phase}-report.json" : nil
+)
+exit(suite.fetch("exit"))

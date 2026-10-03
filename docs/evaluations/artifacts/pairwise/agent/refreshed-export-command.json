@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+    "/private/tmp/specproof-pairwise-agent/gems/bin/specproof",
+    "skills",
+    "export",
+    "--to",
+    "/private/tmp/specproof-pairwise-agent/fixture/skills"
+  ],
+  "cwd": "/private/tmp/specproof-pairwise-agent/fixture",
+  "env": {
+    "GEM_HOME": "/private/tmp/specproof-pairwise-agent/gems",
+    "GEM_PATH": "/private/tmp/specproof-pairwise-agent/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+    "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+    "MT_NO_PLUGINS": "1"
+  },
+  "exit": 0,
+  "stdout": "Exported 4 skill files to /private/tmp/specproof-pairwise-agent/fixture/skills.\n",
+  "stderr": ""
+}

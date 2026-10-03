@@ -1,0 +1,59 @@
+# frozen_string_literal: true
+
+require "json"
+
+evidence = __dir__
+read_json = ->(name) { JSON.parse(File.read(File.join(evidence, name))) }
+baseline = read_json.call("baseline-report.json")
+final = read_json.call("updated-report.json")
+plan = read_json.call("updated-plan.json")
+check = read_json.call("updated-check.json")
+
+raise "plan/check digest mismatch" unless plan.fetch("contract_digest") == check.fetch("contract_digest")
+raise "runtime digest mismatch" unless final.fetch("contract_digest") == plan.fetch("contract_digest")
+raise "baseline digest mismatch" unless baseline.fetch("contract_digest") == plan.fetch("contract_digest")
+raise "run IDs were reused" if baseline.fetch("run_id") == final.fetch("run_id")
+
+expected_target = "DeliveryOptions#build"
+expected_inputs = ["expedited", "notify"]
+[baseline, final].each do |report|
+  raise "unexpected coverage schema" unless report.fetch("schema_version") == 1 && report.fetch("kind") == "coverage"
+  raise "wrong criterion" unless report.fetch("criterion") == "pairwise-finite-v1"
+  raise "incomplete runtime collection" unless report.fetch("completion") == "completed" && report.fetch("integrity")
+  raise "runtime errors found" unless report.fetch("errors").empty? && report.fetch("incomplete_reasons").empty?
+  raise "unexpected input scope" unless report.dig("scope", "input_scope").first.fetch("analyzed_inputs") == expected_inputs
+  raise "unexpected target scope" unless report.dig("scope", "targets") == [expected_target]
+  raise "unexpected run filters" unless report.dig("scope", "arguments").empty? && report.dig("scope", "filter").nil? && report.dig("scope", "exclude").nil?
+  raise "obligation set differs from plan" unless report.fetch("obligations").map { |row| row.fetch("id") }.sort == plan.fetch("obligations").map { |row| row.fetch("id") }.sort
+end
+
+raise "baseline did not preserve the passing result" unless baseline.fetch("tests_passed") && baseline.fetch("missing_count") == 1
+raise "final test result or coverage changed" unless !final.fetch("tests_passed") && final.fetch("missing_count").zero?
+raise "final report does not show all pairs exercised" unless final.fetch("obligations").all? { |row| row.fetch("status") == "exercised" && row.fetch("hits").positive? }
+raise "final suite log does not show the known assertion failure" unless File.read(File.join(evidence, "updated-suite-command.json")).include?("requires notification to equal notify")
+
+puts JSON.pretty_generate(
+  "specproof_version" => final.fetch("specproof_version"),
+  "criterion" => plan.fetch("criterion"),
+  "contract_digest" => plan.fetch("contract_digest"),
+  "target" => expected_target,
+  "analyzed_inputs" => expected_inputs,
+  "excluded_inputs" => [],
+  "pair_rows" => plan.fetch("obligations").map do |row|
+    values = row.fetch("inputs").transform_values { |value| value.fetch("value") }
+    {"id" => row.fetch("id"), "inputs" => values}
+  end,
+  "baseline" => {
+    "run_id" => baseline.fetch("run_id"),
+    "tests_passed" => baseline.fetch("tests_passed"),
+    "exercised" => baseline.fetch("exercised_count"),
+    "missing" => baseline.fetch("missing_count")
+  },
+  "updated" => {
+    "run_id" => final.fetch("run_id"),
+    "tests_passed" => final.fetch("tests_passed"),
+    "exercised" => final.fetch("exercised_count"),
+    "missing" => final.fetch("missing_count"),
+    "failure" => "test_express_delivery_with_notification expected notification: true, received false"
+  }
+)

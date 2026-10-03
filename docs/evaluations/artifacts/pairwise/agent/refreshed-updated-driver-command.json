@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+    "run.rb",
+    "updated"
+  ],
+  "cwd": "/private/tmp/specproof-pairwise-agent/fixture",
+  "env": {
+    "GEM_HOME": "/private/tmp/specproof-pairwise-agent/gems",
+    "GEM_PATH": "/private/tmp/specproof-pairwise-agent/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+    "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+    "MT_NO_PLUGINS": "1"
+  },
+  "exit": 1,
+  "stdout": "{\n  \"phase\": \"updated\",\n  \"suite_exit\": 1,\n  \"suite_stdout\": \"Run options: --seed 54209\\n\\n# Running:\\n\\n..F.\\n\\nFinished in 0.011433s, 349.8644 runs/s, 349.8644 assertions/s.\\n\\n  1) Failure:\\nInitialDeliveryOptionsTest#test_express_delivery_with_notification [test/delivery_options_test.rb:24]:\\nSpecProof pair 35bf02699c9bdea91b119f9a88bbfb580bf59b1f76bcbb326562beb79666cf69; requirements.md:7 requires notification to equal notify independent of speed.\\n--- expected\\n+++ actual\\n@@ -1 +1 @@\\n-{speed: :express, notification: true}\\n+{speed: :express, notification: false}\\n\\n\\n4 runs, 4 assertions, 1 failures, 0 errors, 0 skips\\nSpecProof coverage run 600c9cb5-7434-4de4-b60a-cc1eb9d7f893: 4/4 obligations exercised; completeness scope: analyzed inputs only; 0 excluded pairs; criterion: pairwise-finite-v1; group: DeliveryOptions#build(expedited, notify) (completed)\\n\",\n  \"suite_stderr\": \"\",\n  \"report\": \"evidence/updated-report.json\"\n}\n",
+  "stderr": ""
+}

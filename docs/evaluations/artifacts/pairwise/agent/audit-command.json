@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+    "evidence/audit.rb"
+  ],
+  "cwd": "/private/tmp/specproof-pairwise-agent/fixture",
+  "env": {
+    "GEM_HOME": "/private/tmp/specproof-pairwise-agent/gems",
+    "GEM_PATH": "/private/tmp/specproof-pairwise-agent/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+    "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin",
+    "MT_NO_PLUGINS": "1"
+  },
+  "exit": 0,
+  "stdout": "{\n  \"specproof_version\": \"0.1.0\",\n  \"criterion\": \"pairwise-finite-v1\",\n  \"contract_digest\": \"b123de2547ea79aeb4e65088bc35737f70b6b45df3a688bfd8ee2f16b6d14720\",\n  \"target\": \"DeliveryOptions#build\",\n  \"analyzed_inputs\": [\n    \"expedited\",\n    \"notify\"\n  ],\n  \"excluded_inputs\": [],\n  \"pair_rows\": [\n    {\n      \"id\": \"a5cae45780f9575d8d45f29cd8ddfbfe87ea22fc2d61fe62874388341ac2aad0\",\n      \"inputs\": {\n        \"expedited\": false,\n        \"notify\": false\n      }\n    },\n    {\n      \"id\": \"49169dd0ef74dac66bfb4fe48dcc15ca928f49e2665a1a9c41992ba053d24a33\",\n      \"inputs\": {\n        \"expedited\": false,\n        \"notify\": true\n      }\n    },\n    {\n      \"id\": \"7351d4a2874734528d619af930e8f6d9da2fe6bd3764449c884d7c337a9f1a5e\",\n      \"inputs\": {\n        \"expedited\": true,\n        \"notify\": false\n      }\n    },\n    {\n      \"id\": \"35bf02699c9bdea91b119f9a88bbfb580bf59b1f76bcbb326562beb79666cf69\",\n      \"inputs\": {\n        \"expedited\": true,\n        \"notify\": true\n      }\n    }\n  ],\n  \"baseline\": {\n    \"run_id\": \"73540950-d662-440e-aa8a-a86e62963b45\",\n    \"tests_passed\": true,\n    \"exercised\": 3,\n    \"missing\": 1\n  },\n  \"updated\": {\n    \"run_id\": \"600c9cb5-7434-4de4-b60a-cc1eb9d7f893\",\n    \"tests_passed\": false,\n    \"exercised\": 4,\n    \"missing\": 0,\n    \"failure\": \"test_express_delivery_with_notification expected notification: true, received false\"\n  }\n}\n",
+  "stderr": ""
+}
