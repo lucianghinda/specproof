@@ -151,6 +151,10 @@ The [input-selection results](docs/input-selection-results.md) show the unchange
 PStoreLogger suite collecting scoped file-ID coverage with Hash payloads,
 plus agent exercises that preserve excluded-input scope and failing assertions.
 
+The [finite-string results](docs/finite-strings-results.md) extend that pilot to
+the documented `"user_123"` case, showing its missing obligation and a separate
+requirement-backed assertion that exercises it.
+
 ## Development
 
 Run the test and lint tasks with `bundle exec rake`. The default task runs Minitest and RuboCop. The CI matrix covers Ruby 3.3, 3.4, and 4.0.

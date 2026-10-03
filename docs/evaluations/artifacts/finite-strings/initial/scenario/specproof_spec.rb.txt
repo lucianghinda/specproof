@@ -1,0 +1,10 @@
+require "specproof"
+
+SpecProof.define "FileLabel#label" do
+  input :file_id, values: [nil, 1, "user_123"] do
+    partition :automatic, values: [nil]
+    partition :integer_one, values: [1]
+    partition :string_user_id, values: ["user_123"]
+  end
+  exclude_input :payload, reason: "Payload behavior is outside the finite label scenario in requirements.md"
+end

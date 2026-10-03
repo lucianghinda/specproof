@@ -1,0 +1,110 @@
+{
+  "environment.json": {
+    "artifact": "environment.json",
+    "sha256": "c97f717e85aa17ed8de1929459ed3a23d96ddc7a45255235926ad8fd33d71482"
+  },
+  "export.json": {
+    "artifact": "export.json",
+    "sha256": "ca6f35fd3fe694d5b0a2291e3fcaaa1ba4cc01cfc5c8bd7504b469a324e9e461"
+  },
+  "installed-manifest.json": {
+    "artifact": "installed-manifest.json",
+    "sha256": "fa7adc03239a1f104a9eac7c5b23d75823fada7c41782642a261bc7066afd2bc"
+  },
+  "scenario/RESULT.md": {
+    "artifact": "scenario/RESULT.md",
+    "sha256": "27c48c9075058cc1065da6df0e267996d60e27618c8f1a264d1c756965f2eb39"
+  },
+  "scenario/baseline-command.json": {
+    "artifact": "scenario/baseline-command.json",
+    "sha256": "ac74122824994e65bdcbb3b5a22845c1ad718b26e0deb473e35a5f07f4ce69ae"
+  },
+  "scenario/baseline-coverage.json": {
+    "artifact": "scenario/baseline-coverage.json",
+    "sha256": "b01c679f2758a3d2e6eebdca55748fb877693fcec5510e7e0be5517ce324be9c"
+  },
+  "scenario/baseline-final-command.json": {
+    "artifact": "scenario/baseline-final-command.json",
+    "sha256": "6495b1c56fef7170e20669e14513b2cfdbc0f02fccbac0bffd3e795a46b49193"
+  },
+  "scenario/check-command.json": {
+    "artifact": "scenario/check-command.json",
+    "sha256": "81257660943c37af92f1d30661c19b1c9b9279b4aa75be311106769e83e5b643"
+  },
+  "scenario/check-final-command.json": {
+    "artifact": "scenario/check-final-command.json",
+    "sha256": "a32cb1e4ebac45d4a83987c19d5c76b31184108b055aba9d913521e586c61476"
+  },
+  "scenario/file_label.rb": {
+    "artifact": "scenario/file_label.rb.txt",
+    "sha256": "ca19c18c4c861ae0784099f5728480d14fc2e3cd63b5de3f8ef9b114c8658eb3"
+  },
+  "scenario/final-command.json": {
+    "artifact": "scenario/final-command.json",
+    "sha256": "21eab200dca254d76124a4353546f540af7efbb1d60a42aaf98f6b69422a9829"
+  },
+  "scenario/final-coverage.json": {
+    "artifact": "scenario/final-coverage.json",
+    "sha256": "ac7ed3b2675cfe50228304c0cac25cc55835fb87ad6ec750e3069cde39100db1"
+  },
+  "scenario/final-final-command.json": {
+    "artifact": "scenario/final-final-command.json",
+    "sha256": "7cf6eb0f26b496932c29acf8c76cad511e40b06f7b453054bcf3cb0c5708c6c6"
+  },
+  "scenario/plan-command.json": {
+    "artifact": "scenario/plan-command.json",
+    "sha256": "ad45bfd58320dcb6c10b59429925c1efed1a4b07165a07773d50d44f14936dd1"
+  },
+  "scenario/plan-final-command.json": {
+    "artifact": "scenario/plan-final-command.json",
+    "sha256": "d493ed5a34df52050abfc3afdaa76d8fbd8721410e86ab12778106d2d3eafbed"
+  },
+  "scenario/record_command.rb": {
+    "artifact": "scenario/record_command.rb.txt",
+    "sha256": "43c9cc11a7068944df5aa79808c02a2f7771374aebdb29d794916d771f37c062"
+  },
+  "scenario/requirements.md": {
+    "artifact": "scenario/requirements.md",
+    "sha256": "bf649b21b19ec51f59cc75c5820dc6e494847b6901eab1bb3093152a16f42c4f"
+  },
+  "scenario/specproof_spec.rb": {
+    "artifact": "scenario/specproof_spec.rb.txt",
+    "sha256": "658d7734622a696342fe63494479aed5b56f3af0416a8856f375f566a5bce8b1"
+  },
+  "scenario/test_file_label.final.rb": {
+    "artifact": "scenario/test_file_label.final.rb.txt",
+    "sha256": "d3ebdb17c3346b48f7eab969bf04cb8f30dca2e87dcff704ca558ab5d588c981"
+  },
+  "scenario/test_file_label.original.rb": {
+    "artifact": "scenario/test_file_label.original.rb.txt",
+    "sha256": "ceeffb90f0acb7f7c817a85f333744332186160418c9a21f835e13a760836e9e"
+  },
+  "scenario/test_file_label.rb": {
+    "artifact": "scenario/test_file_label.rb.txt",
+    "sha256": "d3ebdb17c3346b48f7eab969bf04cb8f30dca2e87dcff704ca558ab5d588c981"
+  },
+  "scenario/version-command.json": {
+    "artifact": "scenario/version-command.json",
+    "sha256": "50811ece5496b480feab3da958f904ab1901fb2c9cb4dd2b280299206c40adb2"
+  },
+  "scenario/version-final-command.json": {
+    "artifact": "scenario/version-final-command.json",
+    "sha256": "9c13ec2d9edf6bf9dc5ec4ff948452973ee0c4a8047458e8e6b73c2a2a6b21e7"
+  },
+  "skills/specproof-specify/SKILL.md": {
+    "artifact": "skills/specproof-specify/SKILL.md",
+    "sha256": "87328cbe6031aadcfda2a1e8eb7c8c0bf4b95bbc4cbbc8dff219c557a9f38fbd"
+  },
+  "skills/specproof-specify/references/usage.md": {
+    "artifact": "skills/specproof-specify/references/usage.md",
+    "sha256": "adde46eb513622983b72734b9985d475504a0924c32c58daacef3257939dfe28"
+  },
+  "skills/specproof-test-gaps/SKILL.md": {
+    "artifact": "skills/specproof-test-gaps/SKILL.md",
+    "sha256": "39f2b49ec5f749fc8d0a3fd8cfa64e7e5128d70b848335a6eee662ffb46335f4"
+  },
+  "skills/specproof-test-gaps/references/usage.md": {
+    "artifact": "skills/specproof-test-gaps/references/usage.md",
+    "sha256": "b8264a44985657d744e5b242d204829b6580a41519b4b51297172de8e92be2fd"
+  }
+}

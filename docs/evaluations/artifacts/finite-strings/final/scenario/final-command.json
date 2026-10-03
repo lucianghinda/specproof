@@ -1,0 +1,18 @@
+{
+  "started_at": "2026-10-03T12:41:30.770532Z",
+  "finished_at": "2026-10-03T12:41:30.869256Z",
+  "cwd": "/private/tmp/specproof-finite-strings-skill/scenario",
+  "argv": [
+    "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+    "test_file_label.rb"
+  ],
+  "env": {
+    "GEM_HOME": "/private/tmp/specproof-finite-strings-skill/gem-home",
+    "GEM_PATH": "/private/tmp/specproof-finite-strings-skill/gem-home:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+    "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin"
+  },
+  "exit_status": 0,
+  "success": true,
+  "stdout": "Run options: --seed 43077\n\n# Running:\n\n...\n\nFinished in 0.000438s, 6849.3157 runs/s, 6849.3157 assertions/s.\n\n3 runs, 3 assertions, 0 failures, 0 errors, 0 skips\nSpecProof coverage run 2e4f4443-b24c-47a7-9110-e56c24521a7c: 3/3 obligations exercised; completeness scope: analyzed inputs only; excluded: FileLabel#label/payload (Payload behavior is outside the finite label scenario in requirements.md) (completed)\n",
+  "stderr": ""
+}

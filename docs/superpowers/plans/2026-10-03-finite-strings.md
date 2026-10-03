@@ -21,22 +21,22 @@ The user approved exact finite string values, stable identities, immutable stora
 
 Files: lib/specproof/{model,domains,coverage,collector,report,type_constraints}.rb, sources/rbs_projector.rb only if required to preserve its boundary, sig/specproof.rbs; focused tests.
 
-- [ ] Add failing tests for mixed strings/symbols, deterministic ordering and identity, mutation isolation, text encodings, partitions, typed reporting, and legacy digest/ID preservation.
-- [ ] Implement a shared supported-string validation/copy path using existing domain helpers rather than introducing a parallel domain class. Use it consistently at declaration and runtime boundaries.
-- [ ] Add failing entry-mutation and direct-observer witness tests, then implement owned snapshots. Assert valid outside-domain strings remain outside-domain evidence; unsupported text makes collector incomplete.
-- [ ] Assert RBS string literals/types still fail atomically and source-neutral constraints compose correctly.
-- [ ] Run core, optional RBS and lint checks. Obtain independent specification review followed by quality review and fix findings.
+- [x] Add failing tests for mixed strings/symbols, deterministic ordering and identity, mutation isolation, text encodings, partitions, typed reporting, and legacy digest/ID preservation.
+- [x] Implement a shared supported-string validation/copy path using existing domain helpers rather than introducing a parallel domain class. Use it consistently at declaration and runtime boundaries.
+- [x] Add failing entry-mutation and direct-observer witness tests, then implement owned snapshots. Assert valid outside-domain strings remain outside-domain evidence; unsupported text makes collector incomplete.
+- [x] Assert RBS string literals/types still fail atomically and source-neutral constraints compose correctly.
+- [x] Run core, optional RBS and lint checks. Obtain independent specification review followed by quality review and fix findings.
 
 ## Task 2 — usage and adoption
 
 Files: README.md, docs/report-format.md, skills/specproof-{specify,test-gaps}/, docs/finite-strings-results.md, docs/pilots/finite-strings/.
 
-- [ ] Explain supported encodings, exact finite scenarios, snapshot ownership, report value kind and remaining RBS limits; update shipped agent guidance.
-- [ ] Copy the retained ordinary PStoreLogger source/tests into scratch without altering the originals. Declare file_id values [nil, 1, "user_123"] with the data payload excluded.
-- [ ] Run unchanged tests and record a valid 2/3 report, not a manufactured green result. Add a separate assertion based on its documented string-ID behavior; record a fresh 3/3 report and actual test outcomes.
-- [ ] Retain concise reproducible pilot evidence and source hashes; no dependency trees. Check installed package and exported skills.
+- [x] Explain supported encodings, exact finite scenarios, snapshot ownership, report value kind and remaining RBS limits; update shipped agent guidance.
+- [x] Copy the retained ordinary PStoreLogger source/tests into scratch without altering the originals. Declare file_id values [nil, 1, "user_123"] with the data payload excluded.
+- [x] Run unchanged tests and record a valid 2/3 report, not a manufactured green result. Add a separate assertion based on its documented string-ID behavior; record a fresh 3/3 report and actual test outcomes.
+- [x] Retain concise reproducible pilot evidence and source hashes; no dependency trees. Check installed package and exported skills.
 
 ## Task 3 — completion
 
-- [ ] Run core and optional suites plus signatures on Ruby 3.3.6, 3.4.7 and 4.0.1; lint, bin/check and diff checks.
-- [ ] Summarize files changed, simplifications, verification and limits; commit using Lore protocol on implement/finite-strings. Leave main unchanged.
+- [x] Run core and optional suites plus signatures on Ruby 3.3.6, 3.4.7 and 4.0.1; lint, bin/check and diff checks.
+- [x] Summarize files changed, simplifications, verification and limits; commit using Lore protocol on implement/finite-strings. Leave main unchanged.

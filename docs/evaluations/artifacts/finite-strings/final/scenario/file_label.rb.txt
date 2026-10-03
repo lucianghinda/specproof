@@ -1,0 +1,5 @@
+class FileLabel
+  def label(payload, file_id: nil)
+    file_id.nil? ? "automatic" : "#{file_id}.pstore"
+  end
+end

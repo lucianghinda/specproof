@@ -1,0 +1,27 @@
+require "minitest/autorun"
+require_relative "file_label"
+require "specproof/minitest"
+
+SpecProof::Minitest.install!(
+  specifications: [File.expand_path("specproof_spec.rb", __dir__)],
+  output: File.expand_path("final-coverage.json", __dir__),
+  fail_on_missing: true
+)
+
+class FileLabelTest < Minitest::Test
+  def setup
+    @label = FileLabel.new
+  end
+
+  def test_nil_file_id_uses_automatic_label
+    assert_equal "automatic", @label.label(:unused, file_id: nil), "requirement: requirements.md nil file_id rule"
+  end
+
+  def test_integer_one_file_id_uses_store_suffix
+    assert_equal "1.pstore", @label.label(:unused, file_id: 1), "requirement: requirements.md integer 1 rule"
+  end
+
+  def test_string_user_id_uses_store_suffix
+    assert_equal "user_123.pstore", @label.label(:unused, file_id: "user_123"), "requirement: requirements.md string user_123 rule"
+  end
+end

@@ -1,0 +1,10 @@
+Run options: --seed 36496
+
+# Running:
+
+.......
+
+Finished in 0.020128s, 347.7742 runs/s, 1142.6868 assertions/s.
+
+7 runs, 23 assertions, 0 failures, 0 errors, 0 skips
+SpecProof coverage run bbaaba59-651f-4023-8e9b-05880b0fc13b: 2/3 obligations exercised, 1 missing; missing values: PStoreLogger#save/file_id=?; completeness scope: analyzed inputs only; excluded: PStoreLogger#save/data (Payload contents are outside these file-ID scenarios) (completed)

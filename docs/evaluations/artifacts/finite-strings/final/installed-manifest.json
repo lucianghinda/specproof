@@ -1,0 +1,26 @@
+{
+  "package_sha256": "45333a239e653878276de2a0091cc79592fe9714bb415f059a679d303f46bdb1",
+  "files": {
+    "lib/specproof.rb": "09292846a2c5bf75ee069915a33ce754003931795425da2be323f284b60672fc",
+    "lib/specproof/checker.rb": "9bae445552efe0c3a2668336f719e9a04cfd3c011739c282522424fdb0044543",
+    "lib/specproof/cli.rb": "af270206f2a5a824a71d04b1f0c19d00e1ff405b02979003641e427f3049e1af",
+    "lib/specproof/collector.rb": "b0d015a699301588d15d5ef1245c395fec4a488e3ea391a22ca35cebdac2a140",
+    "lib/specproof/composer.rb": "59ea462968be91ff480eea51a8f527657538e7bd7d7152815269ba932e2077d2",
+    "lib/specproof/coverage.rb": "f586636f6c6df3c42f80e7bb8582c473cb168c298bc786f92e7986c0a4e1e28f",
+    "lib/specproof/domains.rb": "a8562d8b707f9a661b904bef80e65fc698f685e9ceeea57b4da2ea2ed68822a5",
+    "lib/specproof/loader.rb": "2d06c2735f294f9e38389bb1f713c58ffbc15ad87b3923a4660bec6de882d0cd",
+    "lib/specproof/minitest.rb": "6ebf6d625d6ee31cd72b1dde464918e54d5d924b5ccd7e38ee258eabd28478fe",
+    "lib/specproof/model.rb": "e848374054f38d2f3dd66d8849d2bc420c93ae108a2257723553a816266420ae",
+    "lib/specproof/planner.rb": "598afe1dd368847d5d4c93d4b1dc87108bf5a96bfd0eafa12a6d42ce76ed9092",
+    "lib/specproof/report.rb": "bdd89612e22ee0cbf909fd8460a7aba251696fb140449b1ee9a82609a9322f12",
+    "lib/specproof/skills.rb": "7eeae2f70b6e1ee6af95883ebd4fd69557c0cfc30c05c159ffe42f7870162e6f",
+    "lib/specproof/sources/rbs.rb": "77757eeb2c7dab2851ac61e57d7f3a4996a30d6a5baed75a3150ebcde5ee367a",
+    "lib/specproof/sources/rbs_projector.rb": "31615ea06d3045e512f7ea6a2ea9346262b132ceb03448af306c6ca16c0cd498",
+    "lib/specproof/type_constraints.rb": "a6a41e19b89e9b39e18b7c7ebb519ce7360b6da1574900ad9eb360cc9d822300",
+    "lib/specproof/version.rb": "770cd5018d68868abf30e1b808c02ceda3d4c866e3e0e1c8ea282f5b6e61e014",
+    "skills/specproof-specify/SKILL.md": "87328cbe6031aadcfda2a1e8eb7c8c0bf4b95bbc4cbbc8dff219c557a9f38fbd",
+    "skills/specproof-specify/references/usage.md": "adde46eb513622983b72734b9985d475504a0924c32c58daacef3257939dfe28",
+    "skills/specproof-test-gaps/SKILL.md": "39f2b49ec5f749fc8d0a3fd8cfa64e7e5128d70b848335a6eee662ffb46335f4",
+    "skills/specproof-test-gaps/references/usage.md": "b8264a44985657d744e5b242d204829b6580a41519b4b51297172de8e92be2fd"
+  }
+}

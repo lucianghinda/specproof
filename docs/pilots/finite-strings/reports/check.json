@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "specproof_version": "0.1.0",
+  "kind": "check",
+  "errors": [],
+  "contract_digest": "90621e5b5edc79067296bbdc91df3098bf19aab6ea7c5872de4306b94b7e8b0e",
+  "scope": {
+    "completeness_scope": "analyzed_inputs",
+    "input_scope": [
+      {
+        "target": "PStoreLogger#save",
+        "analyzed_inputs": [
+          "file_id"
+        ],
+        "excluded_inputs": [
+          {
+            "name": "data",
+            "reason": "Payload contents are outside these file-ID scenarios",
+            "source": {
+              "path": "/private/tmp/specproof-finite-strings-pilot/specifications/pstore_logger_save.rb",
+              "line": 6,
+              "kind": "dsl"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "findings": []
+}

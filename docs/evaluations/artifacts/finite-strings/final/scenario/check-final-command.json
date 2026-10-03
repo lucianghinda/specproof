@@ -1,0 +1,21 @@
+{
+  "started_at": "2026-10-03T12:43:35.904564Z",
+  "finished_at": "2026-10-03T12:43:36.376632Z",
+  "cwd": "/private/tmp/specproof-finite-strings-skill-final/scenario",
+  "argv": [
+    "/private/tmp/specproof-finite-strings-skill-final/gem-home/bin/specproof",
+    "check",
+    "specproof_spec.rb",
+    "--format",
+    "json"
+  ],
+  "env": {
+    "GEM_HOME": "/private/tmp/specproof-finite-strings-skill-final/gem-home",
+    "GEM_PATH": "/private/tmp/specproof-finite-strings-skill-final/gem-home:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+    "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin"
+  },
+  "exit_status": 0,
+  "success": true,
+  "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"check\",\"errors\":[],\"contract_digest\":\"4dcd5d38da2aee680ec507149d1f691928cbeb3cd261d41ea7c54e68063b11e9\",\"scope\":{\"completeness_scope\":\"analyzed_inputs\",\"input_scope\":[{\"target\":\"FileLabel#label\",\"analyzed_inputs\":[\"file_id\"],\"excluded_inputs\":[{\"name\":\"payload\",\"reason\":\"Payload behavior is outside the finite label scenario in requirements.md\",\"source\":{\"path\":\"/private/tmp/specproof-finite-strings-skill-final/scenario/specproof_spec.rb\",\"line\":9,\"kind\":\"dsl\"}}]}]},\"findings\":[]}\n",
+  "stderr": ""
+}

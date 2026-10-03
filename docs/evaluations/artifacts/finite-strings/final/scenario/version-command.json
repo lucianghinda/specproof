@@ -1,0 +1,18 @@
+{
+  "started_at": "2026-10-03T12:41:04.530024Z",
+  "finished_at": "2026-10-03T12:41:05.052964Z",
+  "cwd": "/private/tmp/specproof-finite-strings-skill/scenario",
+  "argv": [
+    "/private/tmp/specproof-finite-strings-skill/gem-home/bin/specproof",
+    "--version"
+  ],
+  "env": {
+    "GEM_HOME": "/private/tmp/specproof-finite-strings-skill/gem-home",
+    "GEM_PATH": "/private/tmp/specproof-finite-strings-skill/gem-home:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+    "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin"
+  },
+  "exit_status": 0,
+  "success": true,
+  "stdout": "SpecProof 0.1.0\n",
+  "stderr": ""
+}

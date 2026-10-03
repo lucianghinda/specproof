@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+    "-S",
+    "bundle",
+    "exec",
+    "ruby",
+    "pilot_runner.rb",
+    "baseline"
+  ],
+  "exit_status": 0,
+  "stdout": "Run options: --seed 34332\n\n# Running:\n\n.......\n\nFinished in 0.018162s, 385.4201 runs/s, 1266.3804 assertions/s.\n\n7 runs, 23 assertions, 0 failures, 0 errors, 0 skips\n",
+  "stderr": "/private/tmp/specproof-finite-strings-pilot/project/lib/pstore/logger.rb:3: warning: pstore was loaded from the standard library, but will no longer be part of the default gems starting from Ruby 3.5.0.\nYou can add pstore to your Gemfile or gemspec to silence this warning.\n"
+}

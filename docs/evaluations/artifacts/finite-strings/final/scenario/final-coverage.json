@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "specproof_version": "0.1.0",
+  "kind": "coverage",
+  "errors": [],
+  "contract_digest": "4dcd5d38da2aee680ec507149d1f691928cbeb3cd261d41ea7c54e68063b11e9",
+  "criterion": "input-basics-v1",
+  "run_id": "b3be908b-9089-4f6b-a9fa-ef04767d6588",
+  "scope": {
+    "ruby_engine": "ruby",
+    "pid": 15667,
+    "thread": 88,
+    "window": "minitest_run",
+    "method_identity": "direct_owner_definition",
+    "input_semantics": "effective_bound_values",
+    "argument_presence": "not_observed",
+    "targets": [
+      "FileLabel#label"
+    ],
+    "declaration_sources": {
+      "specifications": [
+        "/private/tmp/specproof-finite-strings-skill-final/scenario/specproof_spec.rb"
+      ],
+      "rbs": [],
+      "targets": []
+    },
+    "arguments": [],
+    "filter": null,
+    "exclude": null,
+    "completeness_scope": "analyzed_inputs",
+    "input_scope": [
+      {
+        "target": "FileLabel#label",
+        "analyzed_inputs": [
+          "file_id"
+        ],
+        "excluded_inputs": [
+          {
+            "name": "payload",
+            "reason": "Payload behavior is outside the finite label scenario in requirements.md",
+            "source": {
+              "path": "/private/tmp/specproof-finite-strings-skill-final/scenario/specproof_spec.rb",
+              "line": 9,
+              "kind": "dsl"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "evidence_mode": "obligation_hits",
+  "replay": false,
+  "obligations": [
+    {
+      "id": "341a8e69165da96b2a889f30283eb723c94795743ca9c35a686b1168436be9cc",
+      "target": "FileLabel#label",
+      "input": "file_id",
+      "value": {
+        "kind": "nil",
+        "value": null
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-finite-strings-skill-final/scenario/specproof_spec.rb",
+          "line": 4,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "faf4c2f9131ae71bc68454871cd2949ad43f9c4b22fe39752a0abc4888294bf9",
+      "target": "FileLabel#label",
+      "input": "file_id",
+      "value": {
+        "kind": "integer",
+        "value": "1"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-finite-strings-skill-final/scenario/specproof_spec.rb",
+          "line": 4,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "d9b206e067cebe24284b290d9baa12b6a486865c841f5ef1dd61b9cdcd1a2b7f",
+      "target": "FileLabel#label",
+      "input": "file_id",
+      "value": {
+        "kind": "string",
+        "value": "user_123"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-finite-strings-skill-final/scenario/specproof_spec.rb",
+          "line": 4,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    }
+  ],
+  "missing": [],
+  "exercised": [
+    {
+      "id": "341a8e69165da96b2a889f30283eb723c94795743ca9c35a686b1168436be9cc",
+      "target": "FileLabel#label",
+      "input": "file_id",
+      "value": {
+        "kind": "nil",
+        "value": null
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-finite-strings-skill-final/scenario/specproof_spec.rb",
+          "line": 4,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "faf4c2f9131ae71bc68454871cd2949ad43f9c4b22fe39752a0abc4888294bf9",
+      "target": "FileLabel#label",
+      "input": "file_id",
+      "value": {
+        "kind": "integer",
+        "value": "1"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-finite-strings-skill-final/scenario/specproof_spec.rb",
+          "line": 4,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "d9b206e067cebe24284b290d9baa12b6a486865c841f5ef1dd61b9cdcd1a2b7f",
+      "target": "FileLabel#label",
+      "input": "file_id",
+      "value": {
+        "kind": "string",
+        "value": "user_123"
+      },
+      "reasons": [
+        "finite input value"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-finite-strings-skill-final/scenario/specproof_spec.rb",
+          "line": 4,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    }
+  ],
+  "exercised_count": 3,
+  "obligation_count": 3,
+  "missing_count": 0,
+  "unknown_count": 0,
+  "not_observed_count": 0,
+  "completion_percent": 100.0,
+  "outside_domain": {},
+  "incomplete_reasons": [],
+  "completion": "completed",
+  "integrity": true,
+  "tests_passed": true
+}

@@ -1,0 +1,21 @@
+{
+  "started_at": "2026-10-03T12:43:35.904562Z",
+  "finished_at": "2026-10-03T12:43:36.376827Z",
+  "cwd": "/private/tmp/specproof-finite-strings-skill-final/scenario",
+  "argv": [
+    "/private/tmp/specproof-finite-strings-skill-final/gem-home/bin/specproof",
+    "plan",
+    "specproof_spec.rb",
+    "--format",
+    "json"
+  ],
+  "env": {
+    "GEM_HOME": "/private/tmp/specproof-finite-strings-skill-final/gem-home",
+    "GEM_PATH": "/private/tmp/specproof-finite-strings-skill-final/gem-home:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+    "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin"
+  },
+  "exit_status": 0,
+  "success": true,
+  "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"plan\",\"errors\":[],\"contract_digest\":\"4dcd5d38da2aee680ec507149d1f691928cbeb3cd261d41ea7c54e68063b11e9\",\"criterion\":\"input-basics-v1\",\"scope\":{\"completeness_scope\":\"analyzed_inputs\",\"input_scope\":[{\"target\":\"FileLabel#label\",\"analyzed_inputs\":[\"file_id\"],\"excluded_inputs\":[{\"name\":\"payload\",\"reason\":\"Payload behavior is outside the finite label scenario in requirements.md\",\"source\":{\"path\":\"/private/tmp/specproof-finite-strings-skill-final/scenario/specproof_spec.rb\",\"line\":9,\"kind\":\"dsl\"}}]}]},\"obligations\":[{\"id\":\"341a8e69165da96b2a889f30283eb723c94795743ca9c35a686b1168436be9cc\",\"target\":\"FileLabel#label\",\"input\":\"file_id\",\"value\":{\"kind\":\"nil\",\"value\":null},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-finite-strings-skill-final/scenario/specproof_spec.rb\",\"line\":4,\"kind\":\"dsl\"}]},{\"id\":\"faf4c2f9131ae71bc68454871cd2949ad43f9c4b22fe39752a0abc4888294bf9\",\"target\":\"FileLabel#label\",\"input\":\"file_id\",\"value\":{\"kind\":\"integer\",\"value\":\"1\"},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-finite-strings-skill-final/scenario/specproof_spec.rb\",\"line\":4,\"kind\":\"dsl\"}]},{\"id\":\"d9b206e067cebe24284b290d9baa12b6a486865c841f5ef1dd61b9cdcd1a2b7f\",\"target\":\"FileLabel#label\",\"input\":\"file_id\",\"value\":{\"kind\":\"string\",\"value\":\"user_123\"},\"reasons\":[\"finite input value\"],\"sources\":[{\"path\":\"/private/tmp/specproof-finite-strings-skill-final/scenario/specproof_spec.rb\",\"line\":4,\"kind\":\"dsl\"}]}]}\n",
+  "stderr": ""
+}

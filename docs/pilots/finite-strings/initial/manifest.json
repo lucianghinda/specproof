@@ -1,0 +1,241 @@
+{
+  "pilot": "PStoreLogger file_id string input-selection",
+  "scope": "Finite file_id scenarios nil, integer 1, and documented custom string user_123. Payload contents are excluded. The original 5-file source/test snapshot remains unchanged; a separate test exercises the documented string ID, collision suffix, and exact PStore payloads.",
+  "original_source": {
+    "path": "/Users/luciang/Dropbox/workprojects/opensource/pstore_logger",
+    "commit": "959e37410bac42ba47e43ee8da006ce9550d9f50",
+    "git_status_before": "## main...origin/main",
+    "source_hashes_before_after": {
+      "README.md": {
+        "before": "267d910b317b89dfa3532081a69bf5dc93ae6e64e98eaa1b04d0440d6b6afb02",
+        "source_after": "267d910b317b89dfa3532081a69bf5dc93ae6e64e98eaa1b04d0440d6b6afb02",
+        "retained_artifact_after": "267d910b317b89dfa3532081a69bf5dc93ae6e64e98eaa1b04d0440d6b6afb02"
+      },
+      "lib/pstore/logger.rb": {
+        "before": "d400a1fdb26c9fdeace7cde840c04aa129370014ecbed7a7f720e769b7f2ef58",
+        "source_after": "d400a1fdb26c9fdeace7cde840c04aa129370014ecbed7a7f720e769b7f2ef58",
+        "retained_artifact_after": "d400a1fdb26c9fdeace7cde840c04aa129370014ecbed7a7f720e769b7f2ef58"
+      },
+      "lib/pstore/version.rb": {
+        "before": "fdcef2ce288d2a1d43d2a7c2a7ad028ea37f22a1ddf230883c16bbc6ad7e0fe5",
+        "source_after": "fdcef2ce288d2a1d43d2a7c2a7ad028ea37f22a1ddf230883c16bbc6ad7e0fe5",
+        "retained_artifact_after": "fdcef2ce288d2a1d43d2a7c2a7ad028ea37f22a1ddf230883c16bbc6ad7e0fe5"
+      },
+      "test/test_helper.rb": {
+        "before": "d7de48904976dc737f7e47ea18dcfc11edaf51407b9143f392a7d87d1eede494",
+        "source_after": "d7de48904976dc737f7e47ea18dcfc11edaf51407b9143f392a7d87d1eede494",
+        "retained_artifact_after": "d7de48904976dc737f7e47ea18dcfc11edaf51407b9143f392a7d87d1eede494"
+      },
+      "test/test_pstore_logger.rb": {
+        "before": "009ab3f5ca15ee30d1669556ff377b0128008223229931cd62800902a2292a89",
+        "source_after": "009ab3f5ca15ee30d1669556ff377b0128008223229931cd62800902a2292a89",
+        "retained_artifact_after": "009ab3f5ca15ee30d1669556ff377b0128008223229931cd62800902a2292a89"
+      }
+    }
+  },
+  "specproof_source": {
+    "path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/finite-strings",
+    "commit": "82e238043a383cabad193497e95b94ce8c541ae2",
+    "runtime_library_file_count": 17,
+    "runtime_library_sha256": {
+      "lib/specproof.rb": "09292846a2c5bf75ee069915a33ce754003931795425da2be323f284b60672fc",
+      "lib/specproof/checker.rb": "9bae445552efe0c3a2668336f719e9a04cfd3c011739c282522424fdb0044543",
+      "lib/specproof/cli.rb": "af270206f2a5a824a71d04b1f0c19d00e1ff405b02979003641e427f3049e1af",
+      "lib/specproof/collector.rb": "b0d015a699301588d15d5ef1245c395fec4a488e3ea391a22ca35cebdac2a140",
+      "lib/specproof/composer.rb": "59ea462968be91ff480eea51a8f527657538e7bd7d7152815269ba932e2077d2",
+      "lib/specproof/coverage.rb": "f586636f6c6df3c42f80e7bb8582c473cb168c298bc786f92e7986c0a4e1e28f",
+      "lib/specproof/domains.rb": "a8562d8b707f9a661b904bef80e65fc698f685e9ceeea57b4da2ea2ed68822a5",
+      "lib/specproof/loader.rb": "2d06c2735f294f9e38389bb1f713c58ffbc15ad87b3923a4660bec6de882d0cd",
+      "lib/specproof/minitest.rb": "6ebf6d625d6ee31cd72b1dde464918e54d5d924b5ccd7e38ee258eabd28478fe",
+      "lib/specproof/model.rb": "e848374054f38d2f3dd66d8849d2bc420c93ae108a2257723553a816266420ae",
+      "lib/specproof/planner.rb": "598afe1dd368847d5d4c93d4b1dc87108bf5a96bfd0eafa12a6d42ce76ed9092",
+      "lib/specproof/report.rb": "bdd89612e22ee0cbf909fd8460a7aba251696fb140449b1ee9a82609a9322f12",
+      "lib/specproof/skills.rb": "7eeae2f70b6e1ee6af95883ebd4fd69557c0cfc30c05c159ffe42f7870162e6f",
+      "lib/specproof/sources/rbs.rb": "77757eeb2c7dab2851ac61e57d7f3a4996a30d6a5baed75a3150ebcde5ee367a",
+      "lib/specproof/sources/rbs_projector.rb": "31615ea06d3045e512f7ea6a2ea9346262b132ceb03448af306c6ca16c0cd498",
+      "lib/specproof/type_constraints.rb": "90363c80c5afca1f74c9648ec9cdebe483d5b54fb5d81029d3a75f9422062149",
+      "lib/specproof/version.rb": "770cd5018d68868abf30e1b808c02ceda3d4c866e3e0e1c8ea282f5b6e61e014"
+    },
+    "runtime_loaded_features": [
+      "lib/specproof.rb",
+      "lib/specproof/checker.rb",
+      "lib/specproof/collector.rb",
+      "lib/specproof/composer.rb",
+      "lib/specproof/coverage.rb",
+      "lib/specproof/domains.rb",
+      "lib/specproof/loader.rb",
+      "lib/specproof/minitest.rb",
+      "lib/specproof/model.rb",
+      "lib/specproof/planner.rb",
+      "lib/specproof/report.rb",
+      "lib/specproof/skills.rb",
+      "lib/specproof/type_constraints.rb",
+      "lib/specproof/version.rb"
+    ]
+  },
+  "runtime": {
+    "ruby": "ruby 3.4.7 (2025-10-08 revision 7a5688e2a2) +PRISM [arm64-darwin24]",
+    "gem": "specproof-0.1.0",
+    "gem_path": "/Users/luciang/Dropbox/workprojects/opensource/specproof/gems/specproof/tmp/worktrees/finite-strings",
+    "minitest": "5.26.2",
+    "bundle_path": "/private/tmp/specproof-selection-34/vendor/bundle"
+  },
+  "runs": {
+    "baseline": {
+      "command": [
+        "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+        "-S",
+        "bundle",
+        "exec",
+        "ruby",
+        "pilot_runner.rb",
+        "baseline"
+      ],
+      "exit_status": 0,
+      "outcome": "7 runs, 23 assertions, 0 failures, 0 errors"
+    },
+    "check": {
+      "command": [
+        "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+        "-S",
+        "bundle",
+        "exec",
+        "specproof",
+        "check",
+        "specifications/pstore_logger_save.rb",
+        "--format",
+        "json"
+      ],
+      "exit_status": 0
+    },
+    "plan": {
+      "command": [
+        "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+        "-S",
+        "bundle",
+        "exec",
+        "specproof",
+        "plan",
+        "specifications/pstore_logger_save.rb",
+        "--format",
+        "json"
+      ],
+      "exit_status": 0
+    },
+    "baseline_instrumented": {
+      "command": [
+        "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+        "-S",
+        "bundle",
+        "exec",
+        "ruby",
+        "baseline_instrumented_runner.rb"
+      ],
+      "exit_status": 1,
+      "outcome": "7 runs, 23 assertions, 0 failures, 0 errors; expected strict missing-input exit",
+      "tests_passed": true
+    },
+    "final_instrumented": {
+      "command": [
+        "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+        "-S",
+        "bundle",
+        "exec",
+        "ruby",
+        "pilot_runner.rb",
+        "instrumented"
+      ],
+      "exit_status": 0,
+      "outcome": "8 runs, 27 assertions, 0 failures, 0 errors"
+    },
+    "runtime_probe": {
+      "command": [
+        "/Users/luciang/.rubies/ruby-3.4.7/bin/ruby",
+        "-S",
+        "bundle",
+        "exec",
+        "ruby",
+        "runtime_probe.rb"
+      ],
+      "exit_status": 0
+    }
+  },
+  "reports": {
+    "check": {
+      "contract_digest": "90621e5b5edc79067296bbdc91df3098bf19aab6ea7c5872de4306b94b7e8b0e",
+      "finding_count": 0
+    },
+    "plan": {
+      "contract_digest": "90621e5b5edc79067296bbdc91df3098bf19aab6ea7c5872de4306b94b7e8b0e",
+      "obligation_ids": [
+        "5255739c08d32f0bbf9302e187f1f30091bd2adb33cda365520289cdab02348d",
+        "0e99f541e20b8eb00fba805504c215f28dd2b45e596e7d0210b75d49f13a7432",
+        "9c06cf1ec04869a22692e753d8fb66140f49be65807ceca321f028a48bc05468"
+      ]
+    },
+    "baseline": {
+      "run_id": "bbaaba59-651f-4023-8e9b-05880b0fc13b",
+      "contract_digest": "90621e5b5edc79067296bbdc91df3098bf19aab6ea7c5872de4306b94b7e8b0e",
+      "integrity": true,
+      "tests_passed": true,
+      "exercised_count": 2,
+      "obligation_count": 3,
+      "missing_count": 1,
+      "obligations": [
+        {
+          "id": "5255739c08d32f0bbf9302e187f1f30091bd2adb33cda365520289cdab02348d",
+          "kind": "nil",
+          "value": null,
+          "status": "exercised",
+          "hits": 6
+        },
+        {
+          "id": "0e99f541e20b8eb00fba805504c215f28dd2b45e596e7d0210b75d49f13a7432",
+          "kind": "integer",
+          "value": "1",
+          "status": "exercised",
+          "hits": 3
+        },
+        {
+          "id": "9c06cf1ec04869a22692e753d8fb66140f49be65807ceca321f028a48bc05468",
+          "kind": "string",
+          "value": "user_123",
+          "status": "not_observed",
+          "hits": 0
+        }
+      ]
+    },
+    "final": {
+      "run_id": "1a27b4b3-5bc9-483e-83a6-3dda638a0565",
+      "contract_digest": "90621e5b5edc79067296bbdc91df3098bf19aab6ea7c5872de4306b94b7e8b0e",
+      "integrity": true,
+      "tests_passed": true,
+      "exercised_count": 3,
+      "obligation_count": 3,
+      "missing_count": 0,
+      "obligations": [
+        {
+          "id": "5255739c08d32f0bbf9302e187f1f30091bd2adb33cda365520289cdab02348d",
+          "kind": "nil",
+          "value": null,
+          "status": "exercised",
+          "hits": 6
+        },
+        {
+          "id": "0e99f541e20b8eb00fba805504c215f28dd2b45e596e7d0210b75d49f13a7432",
+          "kind": "integer",
+          "value": "1",
+          "status": "exercised",
+          "hits": 3
+        },
+        {
+          "id": "9c06cf1ec04869a22692e753d8fb66140f49be65807ceca321f028a48bc05468",
+          "kind": "string",
+          "value": "user_123",
+          "status": "exercised",
+          "hits": 2
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,8 @@
+# frozen_string_literal: true
+
+require "specproof"
+
+SpecProof.define "PStoreLogger#save" do
+  exclude_input :data, reason: "Payload contents are outside these file-ID scenarios"
+  input :file_id, values: [nil, 1, "user_123"]
+end

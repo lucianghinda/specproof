@@ -1,0 +1,13 @@
+Run options: --seed 16179
+
+# Running:
+
+............................................  Successfully built RubyGem
+  Name: specproof
+  Version: 0.1.0
+  File: specproof.gem
+......................................................................................................................................
+
+Finished in 8.606212s, 20.6827 runs/s, 102.8327 assertions/s.
+
+178 runs, 885 assertions, 0 failures, 0 errors, 0 skips

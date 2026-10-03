@@ -1,0 +1,90 @@
+{
+  "environment.json": {
+    "artifact": "environment.json",
+    "sha256": "7ee6311cf959831ea362d69566de25ab77cbc7cd29a49685ddf7aa9e9fd16669"
+  },
+  "export.json": {
+    "artifact": "export.json",
+    "sha256": "282d4d2d6866b15fb04e6bfab2c316f1868d309ae313531b944babdb58a4de05"
+  },
+  "installed-manifest.json": {
+    "artifact": "installed-manifest.json",
+    "sha256": "bcc99a77b37bcc4d89a3716565a3938cb3318df3d56b2536bb05d47983b7591c"
+  },
+  "scenario/RESULT.md": {
+    "artifact": "scenario/RESULT.md",
+    "sha256": "ee9a0fe9d110aa006065764df9fea5357812a02cd7f66275c99bf688b1590fb6"
+  },
+  "scenario/baseline-command.json": {
+    "artifact": "scenario/baseline-command.json",
+    "sha256": "ac74122824994e65bdcbb3b5a22845c1ad718b26e0deb473e35a5f07f4ce69ae"
+  },
+  "scenario/baseline-coverage.json": {
+    "artifact": "scenario/baseline-coverage.json",
+    "sha256": "1c664087a62114086d285c9451a8738372e668b90f70801f7fd531f750a18dfc"
+  },
+  "scenario/check-command.json": {
+    "artifact": "scenario/check-command.json",
+    "sha256": "81257660943c37af92f1d30661c19b1c9b9279b4aa75be311106769e83e5b643"
+  },
+  "scenario/file_label.rb": {
+    "artifact": "scenario/file_label.rb.txt",
+    "sha256": "ca19c18c4c861ae0784099f5728480d14fc2e3cd63b5de3f8ef9b114c8658eb3"
+  },
+  "scenario/final-command.json": {
+    "artifact": "scenario/final-command.json",
+    "sha256": "21eab200dca254d76124a4353546f540af7efbb1d60a42aaf98f6b69422a9829"
+  },
+  "scenario/final-coverage.json": {
+    "artifact": "scenario/final-coverage.json",
+    "sha256": "604b04c24c6a0a6bcc9889236a3a21c3faf19143caabcc37ef00fc219ed2eee6"
+  },
+  "scenario/plan-command.json": {
+    "artifact": "scenario/plan-command.json",
+    "sha256": "ad45bfd58320dcb6c10b59429925c1efed1a4b07165a07773d50d44f14936dd1"
+  },
+  "scenario/record_command.rb": {
+    "artifact": "scenario/record_command.rb.txt",
+    "sha256": "43c9cc11a7068944df5aa79808c02a2f7771374aebdb29d794916d771f37c062"
+  },
+  "scenario/requirements.md": {
+    "artifact": "scenario/requirements.md",
+    "sha256": "bf649b21b19ec51f59cc75c5820dc6e494847b6901eab1bb3093152a16f42c4f"
+  },
+  "scenario/specproof_spec.rb": {
+    "artifact": "scenario/specproof_spec.rb.txt",
+    "sha256": "658d7734622a696342fe63494479aed5b56f3af0416a8856f375f566a5bce8b1"
+  },
+  "scenario/test_file_label.final.rb": {
+    "artifact": "scenario/test_file_label.final.rb.txt",
+    "sha256": "d3ebdb17c3346b48f7eab969bf04cb8f30dca2e87dcff704ca558ab5d588c981"
+  },
+  "scenario/test_file_label.original.rb": {
+    "artifact": "scenario/test_file_label.original.rb.txt",
+    "sha256": "ceeffb90f0acb7f7c817a85f333744332186160418c9a21f835e13a760836e9e"
+  },
+  "scenario/test_file_label.rb": {
+    "artifact": "scenario/test_file_label.rb.txt",
+    "sha256": "d3ebdb17c3346b48f7eab969bf04cb8f30dca2e87dcff704ca558ab5d588c981"
+  },
+  "scenario/version-command.json": {
+    "artifact": "scenario/version-command.json",
+    "sha256": "50811ece5496b480feab3da958f904ab1901fb2c9cb4dd2b280299206c40adb2"
+  },
+  "skills/specproof-specify/SKILL.md": {
+    "artifact": "skills/specproof-specify/SKILL.md",
+    "sha256": "87328cbe6031aadcfda2a1e8eb7c8c0bf4b95bbc4cbbc8dff219c557a9f38fbd"
+  },
+  "skills/specproof-specify/references/usage.md": {
+    "artifact": "skills/specproof-specify/references/usage.md",
+    "sha256": "5e35652e1a6b3982fd1b1368d68113a7ec0f75840008b23822295edd70618c57"
+  },
+  "skills/specproof-test-gaps/SKILL.md": {
+    "artifact": "skills/specproof-test-gaps/SKILL.md",
+    "sha256": "39f2b49ec5f749fc8d0a3fd8cfa64e7e5128d70b848335a6eee662ffb46335f4"
+  },
+  "skills/specproof-test-gaps/references/usage.md": {
+    "artifact": "skills/specproof-test-gaps/references/usage.md",
+    "sha256": "b8264a44985657d744e5b242d204829b6580a41519b4b51297172de8e92be2fd"
+  }
+}

@@ -1,0 +1,20 @@
+require 'digest'
+require 'json'
+require 'pathname'
+require 'specproof/minitest'
+spec = Gem.loaded_specs.fetch('specproof')
+root = File.realpath(spec.full_gem_path)
+files = Dir.glob(File.join(root, 'lib/**/*.rb')).sort.map do |path|
+  real = File.realpath(path)
+  { path: real, relative_path: Pathname.new(real).relative_path_from(Pathname.new(root)).to_s,
+    sha256: Digest::SHA256.file(real).hexdigest }
+end
+loaded_paths = $LOADED_FEATURES.filter_map do |feature|
+  next unless feature.end_with?('.rb')
+  real = File.realpath(feature) rescue next
+  next unless real.start_with?(root + File::SEPARATOR)
+  real
+end.uniq
+puts JSON.pretty_generate({ ruby: RUBY_DESCRIPTION, gem: spec.full_name, gem_path: root,
+                            library_file_count: files.length, library_files: files,
+                            loaded_features: files.select { |file| loaded_paths.include?(file.fetch(:path)) } })

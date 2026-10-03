@@ -1,0 +1,12 @@
+# frozen_string_literal: true
+
+mode = ARGV.shift
+if mode == "instrumented"
+  require "specproof/minitest"
+  SpecProof::Minitest.install!(specifications: [File.expand_path("specifications/pstore_logger_save.rb", __dir__)], output: File.expand_path("evidence/coverage.json", __dir__), fail_on_missing: true)
+elsif mode != "baseline"
+  abort "usage: ruby pilot_runner.rb baseline|instrumented"
+end
+
+require_relative "project/test/test_pstore_logger"
+require_relative "project/test/test_pstore_logger_strings" if mode == "instrumented"
