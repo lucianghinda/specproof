@@ -11,7 +11,7 @@ module SpecProof
       VERSION = "4.2.0"
 
       class << self
-        def load(paths:, targets:)
+        def load(paths:, targets:, declarations: {})
           canonical_paths = normalize_paths(paths)
           targets = normalize_targets(targets)
           rbs = load_dependency
@@ -20,7 +20,8 @@ module SpecProof
           buffers = canonical_paths.map { |path| parse(path, rbs) }
           environment = resolve_environment(buffers, rbs)
           facts = targets.flat_map do |target|
-            RBSProjector.new(target, environment, canonical_paths, rbs).facts
+            RBSProjector.new(target, environment, canonical_paths, rbs,
+                             declaration: declarations[target]).facts
           end
           facts.sort_by { |fact| [fact.target, fact.input.to_s] }.freeze
         end

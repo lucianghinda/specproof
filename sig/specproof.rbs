@@ -17,6 +17,13 @@ module SpecProof
   class Specification
     attr_reader target: String
     attr_reader inputs: Hash[Symbol, Input]
+    attr_reader exclusions: Hash[Symbol, Exclusion]
+    attr_reader source: Source
+  end
+
+  class Exclusion
+    attr_reader name: Symbol
+    attr_reader reason: String
     attr_reader source: Source
   end
 

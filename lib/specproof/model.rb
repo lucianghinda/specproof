@@ -51,6 +51,13 @@ module SpecProof
     end
   end
 
+  Exclusion = Struct.new(:name, :reason, :source, keyword_init: true) do
+    def initialize(name:, reason:, source:)
+      super(name: name.to_sym, reason: reason.dup.freeze, source: source)
+      freeze
+    end
+  end
+
   InputTypeFact = Struct.new(:target, :input, :constraint, :source, keyword_init: true) do
     def initialize(target:, input:, constraint:, source:)
       super(target: target.to_s.dup.freeze, input: input.to_sym, constraint: constraint, source: source)
@@ -58,9 +65,10 @@ module SpecProof
     end
   end
 
-  Specification = Struct.new(:target, :inputs, :source, keyword_init: true) do
-    def initialize(target:, inputs:, source:)
-      super(target: target.to_s.dup.freeze, inputs: inputs.dup.freeze, source: source)
+  Specification = Struct.new(:target, :inputs, :source, :exclusions, keyword_init: true) do
+    def initialize(target:, inputs:, source:, exclusions: {})
+      super(target: target.to_s.dup.freeze, inputs: inputs.dup.freeze, source: source,
+            exclusions: exclusions.dup.freeze)
       freeze
     end
   end

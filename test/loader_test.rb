@@ -89,6 +89,52 @@ class LoaderTest < Minitest::Test
     assert_equal "inputs_required", error.code
   end
 
+  def test_exclusions_are_immutable_and_can_be_declared_before_or_after_inputs
+    first = load_specification(<<~RUBY)
+      SpecProof.define('Example#call') do
+        exclude_input :payload, reason: "Payload contents outside file-ID scope"
+        input :file_id, values: [nil, 1]
+      end
+    RUBY
+    second = load_specification(<<~RUBY)
+      SpecProof.define('Example#call') do
+        input :file_id, values: [nil, 1]
+        exclude_input :payload, reason: "Payload contents outside file-ID scope"
+      end
+    RUBY
+
+    exclusion = first.exclusions.fetch(:payload)
+    assert_equal "Payload contents outside file-ID scope", exclusion.reason
+    assert exclusion.frozen?
+    assert first.exclusions.frozen?
+    assert_equal [exclusion.name, exclusion.reason],
+                 [second.exclusions.fetch(:payload).name, second.exclusions.fetch(:payload).reason]
+  end
+
+  def test_exclusion_only_declaration_requires_mixed_loader_opt_in
+    error = assert_configuration_error(<<~RUBY)
+      SpecProof.define('Example#call') do
+        exclude_input :payload, reason: "Payload outside scope"
+      end
+    RUBY
+    assert_equal "inputs_required", error.code
+  end
+
+  def test_invalid_duplicate_and_overlapping_exclusions_are_rejected
+    cases = [
+      ["exclude_input :payload, reason: ''", "invalid_exclusion_reason"],
+      ["exclude_input 'payload', reason: 'skip'", "invalid_name"],
+      ["exclude_input :payload, reason: 'skip'\n  exclude_input :payload, reason: 'again'", "duplicate_exclusion"],
+      ["input :payload, values: [1]\n  exclude_input :payload, reason: 'skip'", "input_exclusion_overlap"],
+      ["exclude_input :payload, reason: 'skip'\n  input :payload, values: [1]", "input_exclusion_overlap"]
+    ]
+
+    cases.each do |declarations, code|
+      error = assert_configuration_error("SpecProof.define('Example#call') do\n  #{declarations}\nend")
+      assert_equal code, error.code
+    end
+  end
+
   private
 
   def fixture(name)
@@ -101,6 +147,14 @@ class LoaderTest < Minitest::Test
       file.flush
       @last_spec_path = file.path
       return assert_raises(SpecProof::ConfigurationError) { SpecProof.load([file.path]) }
+    end
+  end
+
+  def load_specification(contents)
+    Tempfile.create(["specproof-loader", ".rb"]) do |file|
+      file.write(contents)
+      file.flush
+      return SpecProof.load([file.path]).fetch(0)
     end
   end
 end

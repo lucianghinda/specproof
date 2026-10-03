@@ -83,10 +83,13 @@ module SpecProof
       findings = SpecProof.check(specifications)
       if format == "json"
         @stdout.puts(JSON.generate(Report.check(specifications: specifications, findings: findings)))
-      elsif findings.empty?
-        @stdout.puts("No specification findings.")
       else
-        findings.each { |finding| @stdout.puts(Report.finding(finding)) }
+        if findings.empty?
+          @stdout.puts("No specification findings.")
+        else
+          findings.each { |finding| @stdout.puts(Report.finding(finding)) }
+        end
+        @stdout.puts(Report.human_scope(specifications))
       end
       findings.empty? ? 0 : 1
     end
@@ -96,7 +99,7 @@ module SpecProof
       if format == "json"
         @stdout.puts(JSON.generate(Report.plan(specifications: specifications, obligations: obligations)))
       else
-        @stdout.puts(Report.human_plan(obligations))
+        @stdout.puts(Report.human_plan(obligations, specifications: specifications))
       end
       0
     rescue InvalidSpecificationError => e
@@ -106,6 +109,7 @@ module SpecProof
         @stdout.puts(JSON.generate(payload))
       else
         e.findings.each { |finding| @stdout.puts(Report.finding(finding)) }
+        @stdout.puts(Report.human_scope(specifications))
       end
       1
     end

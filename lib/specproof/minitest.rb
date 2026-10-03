@@ -282,7 +282,7 @@ module SpecProof
             arguments: @args,
             filter: pattern_value("-n", "--name"),
             exclude: pattern_value("-e", "--exclude")
-          },
+          }.merge(Report.input_scope(@specifications)),
           evidence_mode: "obligation_hits",
           replay: false
         ).merge(projection.except(:status, :completeness))
@@ -324,6 +324,13 @@ module SpecProof
           missing_values << "… +#{remaining} more" if remaining.positive?
           text += "; missing values: #{missing_values.join(", ")}"
         end
+        text += "; completeness scope: analyzed inputs only"
+        exclusions = @specifications.flat_map do |specification|
+          specification.exclusions.values.map do |item|
+            "#{specification.target}/#{item.name} (#{item.reason})"
+          end
+        end
+        text += "; excluded: #{exclusions.join(", ")}" unless exclusions.empty?
         text += " (#{completion})"
         $stdout.puts(text)
       end

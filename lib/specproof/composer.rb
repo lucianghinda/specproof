@@ -13,12 +13,24 @@ module SpecProof
       targets.map do |target|
         specification = specifications_by_target[target]
         target_facts = facts_by_target.fetch(target, {})
+        exclusions = specification&.exclusions || {}
+        conflict = target_facts.keys & exclusions.keys
+        unless conflict.empty?
+          name = conflict.min_by(&:to_s)
+          raise ConfigurationError.new("type fact collides with excluded input #{target} / #{name}",
+                                       code: "input_exclusion_overlap", source: target_facts.fetch(name).source)
+        end
         input_names = ((specification&.inputs&.keys || []) | target_facts.keys).sort_by(&:to_s)
         inputs = input_names.to_h do |name|
           [name, compose_input(target, name, specification&.inputs&.[](name), target_facts[name])]
         end
         source = specification&.source || canonical_source(target_facts.values.map(&:source))
-        Specification.new(target: target, inputs: inputs, source: source)
+        if inputs.empty?
+          raise ConfigurationError.new(
+            "target must declare at least one analyzed input: #{target}", code: "inputs_required", source: source
+          )
+        end
+        Specification.new(target: target, inputs: inputs, exclusions: exclusions, source: source)
       end.freeze
     end
 

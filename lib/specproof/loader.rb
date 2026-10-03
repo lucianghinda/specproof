@@ -6,18 +6,20 @@ module SpecProof
   module Loader
     # Collects the inputs declared for one target.
     class Builder
-      attr_reader :target, :source, :inputs
+      attr_reader :target, :source, :inputs, :exclusions
 
       def initialize(target, source)
         @target = target
         @source = source
         @inputs = {}
+        @exclusions = {}
       end
 
       def input(name, **options, &block)
         location = Loader.call_source
         name = valid_name(name, location, "input")
         duplicate!(inputs, name, "duplicate_input", location)
+        overlap!(name, location)
         domain, form = parse_domain(options, location)
         exhaustive = flag(options, :exhaustive, location)
         disjoint = flag(options, :disjoint, location)
@@ -36,6 +38,19 @@ module SpecProof
 
         inputs[name] = Input.new(name: name, domain: domain, partitions: partitions,
                                  exhaustive: exhaustive, disjoint: disjoint, source: location)
+      end
+
+      def exclude_input(name, reason:)
+        location = Loader.call_source
+        name = valid_name(name, location, "input")
+        duplicate!(exclusions, name, "duplicate_exclusion", location)
+        overlap!(name, location)
+        unless reason.is_a?(String) && !reason.strip.empty?
+          raise ConfigurationError.new("exclusion reason must be a non-blank String",
+                                       code: "invalid_exclusion_reason", source: location)
+        end
+
+        exclusions[name] = Exclusion.new(name: name, reason: reason, source: location)
       end
 
       private
@@ -75,6 +90,13 @@ module SpecProof
         return unless collection.key?(name)
 
         raise ConfigurationError.new("duplicate declaration for #{name.inspect}", code: code, source: source)
+      end
+
+      def overlap!(name, source)
+        return unless inputs.key?(name) || exclusions.key?(name)
+
+        raise ConfigurationError.new("input #{name.inspect} cannot be both analyzed and excluded",
+                                     code: "input_exclusion_overlap", source: source)
       end
 
       def unknown_option!(option, source)
@@ -130,7 +152,7 @@ module SpecProof
     end
 
     class << self
-      def load(paths)
+      def load(paths, allow_exclusion_only: false)
         paths = Array(paths)
         raise ConfigurationError.new("provide at least one specification file", code: "paths_required") if paths.empty?
         raise ConfigurationError.new("nested specification loading is not supported", code: "nested_load") if @active
@@ -138,6 +160,7 @@ module SpecProof
         declarations = {}
         owns_context = false
         @active = declarations
+        @allow_exclusion_only = allow_exclusion_only
         owns_context = true
         paths.map { |path| File.expand_path(File.path(path)) }.sort.each do |path|
           unless File.file?(path)
@@ -159,6 +182,7 @@ module SpecProof
       ensure
         if owns_context
           @active = nil
+          @allow_exclusion_only = nil
           @current_path = nil
         end
       end
@@ -182,12 +206,13 @@ module SpecProof
 
         builder = Builder.new(target, source)
         builder.instance_eval(&block)
-        if builder.inputs.empty?
+        if builder.inputs.empty? && !(@allow_exclusion_only && !builder.exclusions.empty?)
           raise ConfigurationError.new("target must declare at least one input", code: "inputs_required",
                                                                                  source: source)
         end
 
-        @active[target] = Specification.new(target: target, inputs: builder.inputs, source: source)
+        @active[target] = Specification.new(target: target, inputs: builder.inputs, exclusions: builder.exclusions,
+                                            source: source)
       end
 
       def call_source

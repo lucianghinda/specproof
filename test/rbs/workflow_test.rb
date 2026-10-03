@@ -24,6 +24,93 @@ class RBSWorkflowTest < Minitest::Test
     end
   end
 
+  def test_excluded_hash_input_is_skipped_while_finite_sibling_is_composed
+    with_inputs do |directory|
+      dsl = write(directory, "policy.rb", <<~RUBY)
+        SpecProof.define "Registration#save" do
+          exclude_input :payload, reason: "Payload contents outside file-ID scope"
+        end
+      RUBY
+      rbs = write(directory, "registration.rbs", <<~RBS)
+        class Registration
+          def save: (payload: Hash[String, untyped], active: bool) -> void
+        end
+      RBS
+
+      specification = SpecProof.load([dsl], rbs: [rbs], targets: ["Registration#save"]).fetch(0)
+
+      assert_equal [:active], specification.inputs.keys
+      assert_equal [false, true], specification.inputs.fetch(:active).domain.values
+      assert_equal "Payload contents outside file-ID scope", specification.exclusions.fetch(:payload).reason
+    end
+  end
+
+  def test_excluded_name_must_exist_in_full_rbs_signature
+    with_inputs do |directory|
+      dsl = write(directory, "policy.rb", <<~RUBY)
+        SpecProof.define "Registration#save" do
+          exclude_input :paylod, reason: "Outside selected scope"
+        end
+      RUBY
+      rbs = write(directory, "registration.rbs", <<~RBS)
+        class Registration
+          def save: (payload: Hash[String, untyped]) -> void
+        end
+      RBS
+
+      error = assert_raises(SpecProof::ConfigurationError) do
+        SpecProof.load([dsl], rbs: [rbs], targets: ["Registration#save"])
+      end
+
+      assert_equal "rbs_input_mismatch", error.code
+      assert_includes error.message, "paylod"
+    end
+  end
+
+  def test_unknown_analyzed_name_is_rejected_when_all_rbs_facts_are_excluded
+    with_inputs do |directory|
+      dsl = write(directory, "policy.rb", <<~RUBY)
+        SpecProof.define "Registration#save" do
+          exclude_input :payload, reason: "Outside selected scope"
+          input :bogus, values: [1]
+        end
+      RUBY
+      rbs = write(directory, "registration.rbs", <<~RBS)
+        class Registration
+          def save: (payload: Hash[String, untyped]) -> void
+        end
+      RBS
+
+      error = assert_raises(SpecProof::ConfigurationError) do
+        SpecProof.load([dsl], rbs: [rbs], targets: ["Registration#save"])
+      end
+
+      assert_equal "rbs_input_mismatch", error.code
+      assert_includes error.message, "bogus"
+    end
+  end
+
+  def test_all_excluded_mixed_target_is_rejected
+    with_inputs do |directory|
+      dsl = write(directory, "policy.rb", <<~RUBY)
+        SpecProof.define "Registration#save" do
+          exclude_input :payload, reason: "Outside selected scope"
+        end
+      RUBY
+      rbs = write(directory, "registration.rbs", <<~RBS)
+        class Registration
+          def save: (payload: Hash[String, untyped]) -> void
+        end
+      RBS
+
+      error = assert_raises(SpecProof::ConfigurationError) do
+        SpecProof.load([dsl], rbs: [rbs], targets: ["Registration#save"])
+      end
+
+      assert_equal "inputs_required", error.code
+    end
+  end
+
   def test_rbs_age_refines_dsl_input_and_preserves_all_dsl_targets
     with_inputs do |directory|
       dsl = write(directory, "policy.rb", <<~RUBY)
@@ -394,6 +481,83 @@ class RBSWorkflowTest < Minitest::Test
     end
   end
 
+  def test_offline_and_runtime_reports_share_excluded_input_scope_and_identity
+    with_inputs do |directory|
+      dsl = write(directory, "policy.rb", <<~RUBY)
+        SpecProof.define "Registration#save" do
+          input :active, values: [false, true]
+          exclude_input :payload, reason: "Payload contents outside file-ID scope"
+        end
+      RUBY
+      rbs = write(directory, "registration.rbs", <<~RBS)
+        class Registration
+          def save: (payload: Hash[String, untyped], active: bool) -> bool
+        end
+      RBS
+      offline = JSON.parse(invoke("plan", dsl, "--rbs", rbs, "--target", "Registration#save", "--format", "json").first)
+      report_path = File.join(directory, "coverage.json")
+      options = {
+        specifications: [dsl], rbs: [rbs], targets: ["Registration#save"], report_path: report_path,
+        method_body: "def save(payload:, active:) = active",
+        test_body: "assert Registration.new.save(payload: { secret: Object.new }, active: true)"
+      }
+      stdout, stderr, status = run_minitest(
+        directory, **options
+      )
+
+      assert status.success?, stderr + stdout
+      runtime = JSON.parse(File.read(report_path))
+      assert_equal offline.fetch("contract_digest"), runtime.fetch("contract_digest")
+      assert_equal offline.fetch("obligations").map { |row| row.fetch("id") }.sort,
+                   runtime.fetch("obligations").map { |row| row.fetch("id") }.sort
+      assert_equal offline.fetch("scope"), runtime.fetch("scope").slice("completeness_scope", "input_scope")
+      exclusion = runtime.dig("scope", "input_scope", 0, "excluded_inputs", 0)
+      assert_equal "Payload contents outside file-ID scope", exclusion.fetch("reason")
+      assert_includes stdout, "payload (Payload contents outside file-ID scope)"
+    end
+  end
+
+  def test_selected_nonprimitive_marks_only_analyzed_scope_incomplete
+    with_inputs do |directory|
+      dsl, rbs = selection_sources(directory)
+      report_path = File.join(directory, "coverage.json")
+      options = {
+        specifications: [dsl], rbs: [rbs], targets: ["Registration#save"], report_path: report_path,
+        method_body: "def save(payload:, active:) = true",
+        test_body: "assert Registration.new.save(payload: Object.new, active: Object.new)"
+      }
+      _stdout, _stderr, _status = run_minitest(
+        directory, **options
+      )
+
+      report = JSON.parse(File.read(report_path))
+      assert_equal "incomplete", report.fetch("completion")
+      assert_equal "non_primitive_argument", report.fetch("errors").fetch(0).fetch("code")
+      assert_equal "analyzed_inputs", report.dig("scope", "completeness_scope")
+    end
+  end
+
+  def test_excluded_binding_does_not_mask_original_target_test_failure
+    with_inputs do |directory|
+      dsl, rbs = selection_sources(directory)
+      report_path = File.join(directory, "coverage.json")
+      options = {
+        specifications: [dsl], rbs: [rbs], targets: ["Registration#save"], report_path: report_path,
+        method_body: "def save(payload:, active:) = raise('original target failure')",
+        test_body: "Registration.new.save(payload: Object.new, active: true)"
+      }
+      stdout, _stderr, status = run_minitest(
+        directory, **options
+      )
+
+      report = JSON.parse(File.read(report_path))
+      assert_equal 1, status.exitstatus
+      assert_includes stdout, "original target failure"
+      assert_equal false, report.fetch("tests_passed")
+      assert_empty report.fetch("errors")
+    end
+  end
+
   def test_minitest_filtered_rbs_run_reports_missing_boundary_and_fresh_run_identity
     with_inputs do |directory|
       dsl, rbs = registration_sources(directory)
@@ -642,6 +806,21 @@ class RBSWorkflowTest < Minitest::Test
     rbs = write(directory, "registration.rbs", <<~RBS)
       class Registration
         def eligible?: (age: Integer, ?consent: bool?) -> bool
+      end
+    RBS
+    [dsl, rbs]
+  end
+
+  def selection_sources(directory)
+    dsl = write(directory, "selection.rb", <<~RUBY)
+      SpecProof.define "Registration#save" do
+        input :active, values: [false, true]
+        exclude_input :payload, reason: "Payload outside scope"
+      end
+    RUBY
+    rbs = write(directory, "selection.rbs", <<~RBS)
+      class Registration
+        def save: (payload: Hash[String, untyped], active: bool) -> bool
       end
     RBS
     [dsl, rbs]

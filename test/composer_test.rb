@@ -55,6 +55,39 @@ class ComposerTest < Minitest::Test
     assert_equal [nil, 0, 1], first.first.inputs[:x].domain.values
   end
 
+  def test_preserves_exclusions_and_rejects_type_fact_collisions
+    dsl_source = source("spec.rb", 2)
+    exclusion = SpecProof::Exclusion.new(name: :payload, reason: "outside scope", source: dsl_source)
+    specification = SpecProof::Specification.new(
+      target: "Person#register",
+      inputs: { enabled: input(:enabled, SpecProof::FiniteDomain.new([true]), source: dsl_source) },
+      exclusions: { payload: exclusion }, source: dsl_source
+    )
+    fact = fact("Person#register", :enabled, constraint(values: [true]), source("types.rbs", 9))
+
+    composed = SpecProof::Composer.compose(specifications: [specification], type_facts: [fact]).fetch(0)
+
+    assert_equal specification.exclusions, composed.exclusions
+    error = assert_raises(SpecProof::ConfigurationError) do
+      SpecProof::Composer.compose(specifications: [specification],
+                                  type_facts: [fact("Person#register", :payload, constraint(values: [true]),
+                                                    source("types.rbs", 10))])
+    end
+    assert_equal "input_exclusion_overlap", error.code
+  end
+
+  def test_rejects_composition_without_an_analyzed_input
+    exclusion = SpecProof::Exclusion.new(name: :payload, reason: "outside scope", source: source("spec.rb", 2))
+    specification = SpecProof::Specification.new(target: "Person#register", inputs: {},
+                                                 exclusions: { payload: exclusion }, source: exclusion.source)
+
+    error = assert_raises(SpecProof::ConfigurationError) do
+      SpecProof::Composer.compose(specifications: [specification], type_facts: [])
+    end
+
+    assert_equal "inputs_required", error.code
+  end
+
   def test_integer_any_without_dsl_refinement_requires_a_finite_domain
     type_source = source("types.rbs", 4)
     error = assert_raises(SpecProof::ConfigurationError) do

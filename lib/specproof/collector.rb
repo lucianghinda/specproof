@@ -118,11 +118,7 @@ module SpecProof
                                                                                      code: "invalid_method")
       end
 
-      input_names = specification.inputs.keys
-      unless input_names.all?(Symbol)
-        raise_configuration_error("#{target_name} inputs must use symbol names", target: target_name,
-                                                                                 code: "invalid_inputs")
-      end
+      input_names, exclusion_names = declaration_names(specification, target_name)
 
       parameters = method.parameters
       unless parameters.all? { |kind, _name| %i[req opt keyreq key].include?(kind) }
@@ -131,12 +127,10 @@ module SpecProof
       end
 
       declared_names = parameters.map(&:last)
-      input_names_match = specification.inputs.all? do |name, input|
-        input.name == name
-      end
-      names_match = declared_names.none?(&:nil?) && declared_names.sort == input_names.sort
+      input_names_match = specification.inputs.all? { |name, input| input.name == name }
+      names_match = valid_parameter_names?(declared_names, input_names, exclusion_names)
       unless names_match && input_names_match
-        raise_configuration_error("#{target_name} parameters must exactly match declared input names",
+        raise_configuration_error("#{target_name} parameters must exactly match analyzed and excluded input names",
                                   target: target_name, code: "parameter_mismatch")
       end
 
@@ -153,7 +147,7 @@ module SpecProof
         method_name: method_symbol,
         method: method,
         method_ids: method_ids.freeze,
-        input_names: declared_names.freeze
+        input_names: declared_names.select { |name| input_names.include?(name) }.freeze
       ).freeze
     end
 
@@ -165,6 +159,28 @@ module SpecProof
       end
 
       [match[1].split("::"), match[2]]
+    end
+
+    def declaration_names(specification, target_name)
+      input_names = specification.inputs.keys
+      exclusions = specification.respond_to?(:exclusions) ? specification.exclusions : {}
+      exclusion_names = exclusions.keys
+      unless input_names.all?(Symbol)
+        raise_configuration_error("#{target_name} inputs must use symbol names", target: target_name,
+                                                                                 code: "invalid_inputs")
+      end
+      unless exclusion_names.all?(Symbol) && exclusions.all? do |name, item|
+        item.name == name && item.reason.is_a?(String) && !item.reason.strip.empty?
+      end
+        raise_configuration_error("#{target_name} exclusions must have valid names and reasons",
+                                  target: target_name, code: "invalid_exclusions")
+      end
+      [input_names, exclusion_names]
+    end
+
+    def valid_parameter_names?(declared_names, input_names, exclusion_names)
+      declared_names.none?(&:nil?) && declared_names.sort == (input_names | exclusion_names).sort &&
+        !input_names.intersect?(exclusion_names)
     end
 
     def resolve_class(constant_names, target_name)

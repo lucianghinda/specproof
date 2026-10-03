@@ -42,12 +42,34 @@ module SpecProof
         end
       end
       declarations = declarations.sort_by { |entry| [entry[:target], entry[:input]] }
+      exclusions = specifications.flat_map do |specification|
+        names = specification.exclusions.keys.sort_by(&:to_s).map(&:to_s)
+        names.empty? ? [] : [{ target: specification.target, excluded_inputs: names }]
+      end
+      exclusions.sort_by! { |entry| [entry[:target], entry[:excluded_inputs]] }
+      declarations.concat(exclusions)
       Digest::SHA256.hexdigest(JSON.generate(declarations))
+    end
+
+    def input_scope(specifications)
+      {
+        completeness_scope: "analyzed_inputs",
+        input_scope: specifications.sort_by(&:target).map do |specification|
+          {
+            target: specification.target,
+            analyzed_inputs: specification.inputs.keys.sort_by(&:to_s).map(&:to_s),
+            excluded_inputs: specification.exclusions.values.sort_by { |item| item.name.to_s }.map do |item|
+              { name: item.name.to_s, reason: item.reason, source: source(item.source) }
+            end
+          }
+        end
+      }
     end
 
     def check(specifications:, findings:, errors: [])
       envelope(kind: "check", errors: errors).merge(
         contract_digest: digest(specifications),
+        scope: input_scope(specifications),
         findings: findings.map { |finding| finding_hash(finding) }
       )
     end
@@ -55,6 +77,7 @@ module SpecProof
     def plan(specifications:, obligations:, criterion: "input-basics-v1", errors: [])
       envelope(kind: "plan", errors: errors).merge(
         contract_digest: digest(specifications), criterion: criterion,
+        scope: input_scope(specifications),
         obligations: obligations.map { |item| obligation(item) }
       )
     end
@@ -81,8 +104,20 @@ module SpecProof
       end.join(", ")})"
     end
 
-    def human_plan(obligations, criterion: "input-basics-v1")
-      obligations.group_by { |item| [item.target, item.input] }.map do |(target, input), items|
+    def human_scope(specifications)
+      lines = ["Completeness scope: analyzed inputs only"]
+      specifications.sort_by(&:target).each do |specification|
+        exclusions = specification.exclusions.values.sort_by { |item| item.name.to_s }
+        next if exclusions.empty?
+
+        details = exclusions.map { |item| "#{item.name} (#{item.reason})" }.join(", ")
+        lines << "Excluded for #{specification.target}: #{details}"
+      end
+      lines.join("\n")
+    end
+
+    def human_plan(obligations, criterion: "input-basics-v1", specifications: [])
+      rows = obligations.group_by { |item| [item.target, item.input] }.map do |(target, input), items|
         values = items.map { |item| human_value(item.value) }.join(", ")
         ["#{target} / #{input}", "Criterion: #{criterion}", "Candidates: #{values}"]
           .concat(items.map do |item|
@@ -90,6 +125,7 @@ module SpecProof
             "#{human_value(item.value)}: #{item.reasons.join("; ")}\n    #{locations}"
           end).join("\n")
       end.join("\n\n")
+      [rows, human_scope(specifications)].reject(&:empty?).join("\n\n")
     end
 
     def human_value(value)

@@ -6,7 +6,8 @@ require "specproof/collector"
 
 class CollectorTest < Minitest::Test
   Input = Struct.new(:name, :domain, keyword_init: true)
-  Specification = Struct.new(:target, :inputs, keyword_init: true)
+  Exclusion = Struct.new(:name, :reason, :source, keyword_init: true)
+  Specification = Struct.new(:target, :inputs, :exclusions, keyword_init: true)
 
   class Observer
     attr_reader :calls
@@ -280,6 +281,34 @@ class CollectorTest < Minitest::Test
     refute collector.enabled?
   end
 
+  def test_excluded_binding_is_never_read_or_retained
+    poison = Object.new
+    %i[nil? is_a? to_json inspect].each do |method_name|
+      poison.define_singleton_method(method_name) { |*| raise "excluded value inspected" }
+    end
+    specification = spec("RuntimeFixtures::Target#calculate", :value,
+                         exclusions: { label: Exclusion.new(name: :label, reason: "Opaque metadata", source: nil) })
+    collector = SpecProof::Collector.new(specifications: [specification], observer: @observer)
+    collector.start
+    result = RuntimeFixtures::Target.new.calculate(17, label: poison)
+    collector.stop
+
+    assert_equal [17, poison], result
+    assert_equal [["RuntimeFixtures::Target#calculate", { value: 17 }]], @observer.calls
+    assert_empty collector.issues
+  end
+
+  def test_exclusions_do_not_allow_new_undeclared_runtime_parameters
+    specification = spec("RuntimeFixtures::Target#calculate", :value,
+                         exclusions: { other: Exclusion.new(name: :other, reason: "ignored", source: nil) })
+    collector = SpecProof::Collector.new(specifications: [specification], observer: @observer)
+
+    error = assert_raises(SpecProof::ConfigurationError) { collector.start }
+
+    assert_equal "parameter_mismatch", error.code
+    refute collector.enabled?
+  end
+
   def test_start_rejects_alias_declarations
     collector = collector_for("RuntimeFixtures::Target#calculate_alias", :value, :label)
 
@@ -509,8 +538,9 @@ class CollectorTest < Minitest::Test
 
   private
 
-  def spec(target, *inputs)
-    Specification.new(target: target, inputs: inputs.to_h { |name| [name, Input.new(name: name)] }.freeze)
+  def spec(target, *inputs, exclusions: {})
+    Specification.new(target: target, inputs: inputs.to_h { |name| [name, Input.new(name: name)] }.freeze,
+                      exclusions: exclusions)
   end
 
   def collector_for(target, *inputs)

@@ -4,11 +4,13 @@ module SpecProof
   module Sources
     # Projects selected RBS methods into SpecProof's deliberately small scalar model.
     class RBSProjector
-      def initialize(target, environment, paths, rbs)
+      def initialize(target, environment, paths, rbs, declaration: nil)
         @target = target
         @environment = environment
         @paths = paths
         @rbs = rbs
+        @declaration = declaration
+        @exclusions = declaration&.exclusions || {}
       end
 
       def facts
@@ -16,7 +18,7 @@ module SpecProof
         declarations = owner_declarations(owner, @environment, @paths)
         method, visibility = select_method(@target, declarations, @rbs)
         validate_method!(@target, method, visibility, generic_owner?(owner, @environment))
-        input_facts(@target, method, @rbs)
+        input_facts(@target, method, @rbs, @exclusions)
       end
 
       private
@@ -137,7 +139,7 @@ module SpecProof
         unsupported_signature!(target, method, "blocks, rest arguments, and forwarding are not supported")
       end
 
-      def input_facts(target, method, rbs)
+      def input_facts(target, method, rbs, exclusions)
         function = method.overloads.fetch(0).method_type.type
         params = function.required_positionals + function.optional_positionals + function.trailing_positionals
         params.each do |param|
@@ -156,11 +158,41 @@ module SpecProof
 
         named_params = params.map { |param| [param.name.to_sym, param] } +
                        keyword_params.map { |name, param| [name.to_sym, param] }
+        validate_exclusions!(target, exclusions, names)
+        validate_declared_names!(target, method, @declaration, names)
         named_params.map do |name, param|
+          next if exclusions.key?(name)
+
           constraint = map_type(param.type, target, name, rbs)
           InputTypeFact.new(target: target, input: name, constraint: constraint,
                             source: source_for(param))
-        end
+        end.compact
+      end
+
+      def validate_exclusions!(target, exclusions, names)
+        unknown = exclusions.keys - names
+        return if unknown.empty?
+
+        name = unknown.min_by(&:to_s)
+        exclusion = exclusions.fetch(name)
+        source = exclusion.respond_to?(:source) ? exclusion.source : nil
+        raise ConfigurationError.new("excluded RBS input #{name.inspect} is not declared by RBS for #{target}",
+                                     code: "rbs_input_mismatch", source: source, path: source&.path)
+      end
+
+      def validate_declared_names!(target, method, declaration, names)
+        return unless declaration
+
+        unknown = declaration.inputs.keys - names
+        return if unknown.empty?
+
+        name = unknown.min_by(&:to_s)
+        input = declaration.inputs.fetch(name)
+        source = input.source
+        rbs_source = source_for(method)
+        location = rbs_source ? " at #{rbs_source.path}:#{rbs_source.line}" : ""
+        raise ConfigurationError.new("DSL input #{name.inspect} is not declared by RBS for #{target}#{location}",
+                                     code: "rbs_input_mismatch", source: source, path: source&.path)
       end
 
       def map_type(type, target, input, rbs)
