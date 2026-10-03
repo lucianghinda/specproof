@@ -167,5 +167,8 @@ normalization occurs. SpecProof copies and freezes owned declaration and
 method-entry snapshots without freezing application values; post-entry
 mutation cannot change matching. A direct Coverage observation likewise owns
 retained strings. Outside-domain string witnesses retain the full string even
-though only a bounded number of witnesses are retained. RBS string types and
-literals remain unsupported, including in unions, and fail atomically.
+though only a bounded number of witnesses are retained. Explicitly selected
+RBS string literals and finite unions of supported literals provide exact
+scenarios; unrestricted RBS `String` and unions containing unsupported members
+remain unsupported and fail atomically. Verify support from a fresh plan; do
+not infer it from `0.1.x`.

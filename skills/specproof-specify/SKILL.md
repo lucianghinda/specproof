@@ -34,7 +34,10 @@ intended policy from a method's current behavior.
    selected RBS target, finite supported inputs can be imported without
    duplicate DSL values; DSL exclusions can account for deliberately
    out-of-scope or unsupported type-only parameters. Unsupported selected union
-   types remain atomic failures. Do not infer a finite range for unrestricted
+   types remain atomic failures. RBS string literals and finite unions of
+   supported string literals are exact finite scenarios; unrestricted RBS
+   `String` and unions containing unsupported members remain unsupported. Do
+   not infer a finite range for unrestricted
    `Integer`, guess from a name or implementation, or write partial obligations
    for unsupported input types or union members. Stop and report the selected
    target/input and source location whenever a type is unsupported or needs a
@@ -199,9 +202,12 @@ domains, partition policies, and sorted excluded input names, not exclusion
 reasons/source locations, all declaration text, a full RBS signature, or
 implementation correctness. Existing no-exclusion digests and obligation IDs
 remain stable. Run fresh checks and reports after any input source changes.
-RBS string types and string literals remain unsupported, including inside
-unions, and fail atomically. DSL finite-string support does not widen the RBS
-adapter.
+RBS string literals, finite unions of supported literals, and optional literal
+forms provide exact finite string scenarios without duplicate DSL inputs.
+Unrestricted RBS `String` and selected unions containing unsupported members
+fail atomically. Return types remain ignored and do not supply an expected
+result. DSL finite-string support does not widen the RBS adapter to unrestricted
+strings. Verify support from a fresh plan; do not infer it from `0.1.x`.
 Load specification files only from trusted project sources;
 they are executable Ruby. SpecProof does not load the application class while
 checking or planning.

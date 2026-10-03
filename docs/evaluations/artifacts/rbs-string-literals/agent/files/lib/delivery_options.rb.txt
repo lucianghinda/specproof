@@ -1,0 +1,8 @@
+# frozen_string_literal: true
+
+class DeliveryOptions
+  def build(country:, expedited:)
+    shipping = expedited ? "express" : "standard"
+    "#{country}:#{shipping}"
+  end
+end

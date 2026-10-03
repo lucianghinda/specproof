@@ -87,8 +87,10 @@ Strings are not trimmed, case-folded, or Unicode-normalized. Owned frozen
 snapshots protect matching from later application mutation without freezing the
 application value. Direct Coverage observations also retain owned snapshots.
 A retained outside-domain string witness is full-sized although witness count
-is bounded. RBS string types and literals remain unsupported, including in
-unions, and fail atomically.
+is bounded. Explicitly selected RBS string literals and finite unions of
+supported literals provide exact scenarios. Unrestricted RBS `String` and
+selected unions containing unsupported members fail atomically. Verify support
+with a fresh plan; do not infer it from `0.1.x`.
 
 For a mixed DSL/RBS target, pass the same explicit source options to the
 adapter that you used for offline check and plan:

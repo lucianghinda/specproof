@@ -211,7 +211,7 @@ module SpecProof
         when rbs::Types::Literal
           value = type.literal
           supported = value.nil? || value.equal?(true) || value.equal?(false) ||
-                      value.is_a?(Integer) || value.is_a?(Symbol)
+                      value.is_a?(Integer) || value.is_a?(Symbol) || Domains.supported_string?(value)
           unsupported_type!(target, input, type) unless supported
           ScalarTypeConstraint.new(integer_any: false, values: [value])
         when rbs::Types::ClassInstance

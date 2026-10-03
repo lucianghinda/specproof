@@ -140,9 +140,11 @@ fields. A source's `kind` identifies its family but does not change obligation
 identity. Read the coverage reference for runtime `declaration_sources` and
 collection scope; offline check/plan scope describes the declaration and does
 not attest runtime binding or that tests loaded.
-RBS string types and string literals remain unsupported, including inside
-unions; these selected inputs fail atomically even when DSL finite strings are
-supported.
+RBS string literals, finite unions of supported literals, and optional literal
+forms provide exact finite scenarios without duplicate DSL inputs. Unrestricted
+RBS `String` and selected unions containing unsupported members fail atomically.
+Return types are ignored and do not supply expected behavior. Verify support
+with a fresh plan; do not infer it from `0.1.x`.
 
 ## Pairwise suggestions
 

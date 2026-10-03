@@ -93,7 +93,12 @@ module SpecProof
         end
 
         def parse(path, rbs)
-          buffer = rbs::Buffer.new(name: Pathname(path), content: File.read(path))
+          content = File.read(path, encoding: "UTF-8")
+          unless content.valid_encoding?
+            raise ConfigurationError.new("RBS signature file must be valid UTF-8", code: "rbs_parse_error", path: path)
+          end
+
+          buffer = rbs::Buffer.new(name: Pathname(path), content: content)
           buffer, directives, declarations = rbs::Parser.parse_signature(buffer)
           [buffer, directives, declarations].freeze
         rescue rbs::ParsingError => e

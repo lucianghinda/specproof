@@ -1,0 +1,27 @@
+require "digest"
+require "json"
+require "specproof"
+
+root = "/private/tmp/specproof-rbs-strings-installed"
+manifest = JSON.parse(File.read(File.join(root, "source-sha256.json")))
+loaded = $LOADED_FEATURES.select { |path| path.include?("/specproof") }
+checks = manifest.select { |relative, _| relative.start_with?("lib/") }.to_h do |relative, expected|
+  path = File.join(root, "gems/gems/specproof-0.1.0", relative)
+  actual = Digest::SHA256.file(path).hexdigest
+  [relative, {expected: expected, actual: actual, match: expected == actual}]
+end
+skill_checks = manifest.select { |path, _| path.start_with?("skills/") }.to_h do |relative, expected|
+  path = File.join(root, relative)
+  actual = Digest::SHA256.file(path).hexdigest
+  [relative, {expected: expected, actual: actual, match: expected == actual}]
+end
+result = {
+  gem_spec: Gem::Specification.find_by_name("specproof").full_gem_path,
+  version: SpecProof::VERSION,
+  loaded_features: loaded,
+  installed_lib_sha256: checks,
+  exported_skill_sha256: skill_checks
+}
+output = JSON.pretty_generate(result) + "\n"
+File.write(File.join(__dir__, "provenance.json"), output)
+puts output

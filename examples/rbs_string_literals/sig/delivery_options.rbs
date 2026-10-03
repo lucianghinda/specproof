@@ -1,0 +1,3 @@
+class DeliveryOptions
+  def build: (country: ("ro" | "de"), expedited: bool) -> String
+end

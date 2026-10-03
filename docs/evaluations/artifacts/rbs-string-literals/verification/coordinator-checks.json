@@ -1,0 +1,22 @@
+{
+  "default_locked_core": {
+    "exit": 0,
+    "tests": 250,
+    "assertions": 1297
+  },
+  "lint": {
+    "exit": 0,
+    "files": 130
+  },
+  "packaging": {
+    "exit": 0,
+    "tests": 2,
+    "assertions": 76,
+    "syntax_and_build": "passed"
+  },
+  "reviews": {
+    "specification": "approved by Luna",
+    "quality": "approved by Luna"
+  },
+  "note": "Coordinator-observed results; full matrix and installed-exercise command outputs are retained separately."
+}

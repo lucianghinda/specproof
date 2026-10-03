@@ -1,0 +1,150 @@
+{
+  "gem_spec": "/private/tmp/specproof-rbs-strings-installed/gems/gems/specproof-0.1.0",
+  "version": "0.1.0",
+  "loaded_features": [
+    "/private/tmp/specproof-rbs-strings-installed/gems/gems/specproof-0.1.0/lib/specproof/version.rb",
+    "/private/tmp/specproof-rbs-strings-installed/gems/gems/specproof-0.1.0/lib/specproof/model.rb",
+    "/private/tmp/specproof-rbs-strings-installed/gems/gems/specproof-0.1.0/lib/specproof/domains.rb",
+    "/private/tmp/specproof-rbs-strings-installed/gems/gems/specproof-0.1.0/lib/specproof/type_constraints.rb",
+    "/private/tmp/specproof-rbs-strings-installed/gems/gems/specproof-0.1.0/lib/specproof/combinations.rb",
+    "/private/tmp/specproof-rbs-strings-installed/gems/gems/specproof-0.1.0/lib/specproof/loader.rb",
+    "/private/tmp/specproof-rbs-strings-installed/gems/gems/specproof-0.1.0/lib/specproof/composer.rb",
+    "/private/tmp/specproof-rbs-strings-installed/gems/gems/specproof-0.1.0/lib/specproof/checker.rb",
+    "/private/tmp/specproof-rbs-strings-installed/gems/gems/specproof-0.1.0/lib/specproof/planner.rb",
+    "/private/tmp/specproof-rbs-strings-installed/gems/gems/specproof-0.1.0/lib/specproof/report.rb",
+    "/private/tmp/specproof-rbs-strings-installed/gems/gems/specproof-0.1.0/lib/specproof/coverage_report.rb",
+    "/private/tmp/specproof-rbs-strings-installed/gems/gems/specproof-0.1.0/lib/specproof/suggestions.rb",
+    "/private/tmp/specproof-rbs-strings-installed/gems/gems/specproof-0.1.0/lib/specproof/coverage.rb",
+    "/private/tmp/specproof-rbs-strings-installed/gems/gems/specproof-0.1.0/lib/specproof/skills.rb",
+    "/private/tmp/specproof-rbs-strings-installed/gems/gems/specproof-0.1.0/lib/specproof.rb"
+  ],
+  "installed_lib_sha256": {
+    "lib/specproof.rb": {
+      "expected": "37995dbcd1f2ddcb0c74e8c327a8a48f44073357a7edeadb5ea4ea4bdcbba9ea",
+      "actual": "37995dbcd1f2ddcb0c74e8c327a8a48f44073357a7edeadb5ea4ea4bdcbba9ea",
+      "match": true
+    },
+    "lib/specproof/checker.rb": {
+      "expected": "03bbf67b3f614535bbdf58c9a3cbc99d11a3c3a9d6e69aceeaf50b27d443292e",
+      "actual": "03bbf67b3f614535bbdf58c9a3cbc99d11a3c3a9d6e69aceeaf50b27d443292e",
+      "match": true
+    },
+    "lib/specproof/cli.rb": {
+      "expected": "a49141a8aac27bddf6e5f0aea039d3130a05df9d16fdbdc6d3b67579eeb25952",
+      "actual": "a49141a8aac27bddf6e5f0aea039d3130a05df9d16fdbdc6d3b67579eeb25952",
+      "match": true
+    },
+    "lib/specproof/collector.rb": {
+      "expected": "b0d015a699301588d15d5ef1245c395fec4a488e3ea391a22ca35cebdac2a140",
+      "actual": "b0d015a699301588d15d5ef1245c395fec4a488e3ea391a22ca35cebdac2a140",
+      "match": true
+    },
+    "lib/specproof/combinations.rb": {
+      "expected": "71b1610fc6f0eaa169d925c10b2ce524e6df5d52903b07068ba807641e9eafbc",
+      "actual": "71b1610fc6f0eaa169d925c10b2ce524e6df5d52903b07068ba807641e9eafbc",
+      "match": true
+    },
+    "lib/specproof/composer.rb": {
+      "expected": "c578d00343354079cc6a285f4c05e2c56eb9a14b3e7d9c9b9bee261d832fe5d2",
+      "actual": "c578d00343354079cc6a285f4c05e2c56eb9a14b3e7d9c9b9bee261d832fe5d2",
+      "match": true
+    },
+    "lib/specproof/coverage.rb": {
+      "expected": "6719e13af2d81b56750cabdfe34700c1a495b9420927ed5927f3b7788e554ded",
+      "actual": "6719e13af2d81b56750cabdfe34700c1a495b9420927ed5927f3b7788e554ded",
+      "match": true
+    },
+    "lib/specproof/coverage_report.rb": {
+      "expected": "aaae6a553f74e4fae7d2c91d82e5bf65c3dedaa28cd2d6adda59dcfbd5db6d33",
+      "actual": "aaae6a553f74e4fae7d2c91d82e5bf65c3dedaa28cd2d6adda59dcfbd5db6d33",
+      "match": true
+    },
+    "lib/specproof/domains.rb": {
+      "expected": "a8562d8b707f9a661b904bef80e65fc698f685e9ceeea57b4da2ea2ed68822a5",
+      "actual": "a8562d8b707f9a661b904bef80e65fc698f685e9ceeea57b4da2ea2ed68822a5",
+      "match": true
+    },
+    "lib/specproof/loader.rb": {
+      "expected": "cc303fb249eb22e1007eeabccd13369fa33cf48bd67bf27e4a50575ed0722848",
+      "actual": "cc303fb249eb22e1007eeabccd13369fa33cf48bd67bf27e4a50575ed0722848",
+      "match": true
+    },
+    "lib/specproof/minitest.rb": {
+      "expected": "891b3af020e07a06f5d73fe2e51593a8aa1bf7327f2d4821c2d955728121f2e2",
+      "actual": "891b3af020e07a06f5d73fe2e51593a8aa1bf7327f2d4821c2d955728121f2e2",
+      "match": true
+    },
+    "lib/specproof/model.rb": {
+      "expected": "85e15049793e75864282b2c5985c413cbfca34b8ff59e4a0c739a9086c96b33e",
+      "actual": "85e15049793e75864282b2c5985c413cbfca34b8ff59e4a0c739a9086c96b33e",
+      "match": true
+    },
+    "lib/specproof/planner.rb": {
+      "expected": "717d90b667dd6eb01301f3c529b77ed566fa7e0b8f67ff4775b5831f343611d6",
+      "actual": "717d90b667dd6eb01301f3c529b77ed566fa7e0b8f67ff4775b5831f343611d6",
+      "match": true
+    },
+    "lib/specproof/report.rb": {
+      "expected": "2fcde499d1e6db5d1da2ba8f1380db5200e0dd5fb0c8bee82c69fed1d72af6b7",
+      "actual": "2fcde499d1e6db5d1da2ba8f1380db5200e0dd5fb0c8bee82c69fed1d72af6b7",
+      "match": true
+    },
+    "lib/specproof/skills.rb": {
+      "expected": "7eeae2f70b6e1ee6af95883ebd4fd69557c0cfc30c05c159ffe42f7870162e6f",
+      "actual": "7eeae2f70b6e1ee6af95883ebd4fd69557c0cfc30c05c159ffe42f7870162e6f",
+      "match": true
+    },
+    "lib/specproof/sources/rbs.rb": {
+      "expected": "d95b541ce36092b347136d0e1c3a478f1b6422575aa08635e6090b166f1fa2a2",
+      "actual": "d95b541ce36092b347136d0e1c3a478f1b6422575aa08635e6090b166f1fa2a2",
+      "match": true
+    },
+    "lib/specproof/sources/rbs_projector.rb": {
+      "expected": "26112a70443f942518cd57b56ffaa2e0bfd177f3678988461de226a13b8ef29a",
+      "actual": "26112a70443f942518cd57b56ffaa2e0bfd177f3678988461de226a13b8ef29a",
+      "match": true
+    },
+    "lib/specproof/suggestion_report.rb": {
+      "expected": "3d73cd1d8ffe8fd909c3091e5c954ecbfda3c611673b76b7f25825549b566813",
+      "actual": "3d73cd1d8ffe8fd909c3091e5c954ecbfda3c611673b76b7f25825549b566813",
+      "match": true
+    },
+    "lib/specproof/suggestions.rb": {
+      "expected": "9fd57c4cf200ae68c688ddedb078a1f74b1fcbd4cfa168417fd3177aee92f651",
+      "actual": "9fd57c4cf200ae68c688ddedb078a1f74b1fcbd4cfa168417fd3177aee92f651",
+      "match": true
+    },
+    "lib/specproof/type_constraints.rb": {
+      "expected": "a6a41e19b89e9b39e18b7c7ebb519ce7360b6da1574900ad9eb360cc9d822300",
+      "actual": "a6a41e19b89e9b39e18b7c7ebb519ce7360b6da1574900ad9eb360cc9d822300",
+      "match": true
+    },
+    "lib/specproof/version.rb": {
+      "expected": "770cd5018d68868abf30e1b808c02ceda3d4c866e3e0e1c8ea282f5b6e61e014",
+      "actual": "770cd5018d68868abf30e1b808c02ceda3d4c866e3e0e1c8ea282f5b6e61e014",
+      "match": true
+    }
+  },
+  "exported_skill_sha256": {
+    "skills/specproof-specify/SKILL.md": {
+      "expected": "6f2a6f7d427ade8c4437c75bd1320b14f6c4b0c2a345391245e0dbf6cc3027e1",
+      "actual": "6f2a6f7d427ade8c4437c75bd1320b14f6c4b0c2a345391245e0dbf6cc3027e1",
+      "match": true
+    },
+    "skills/specproof-specify/references/usage.md": {
+      "expected": "a284646012a5510c9f823bb5e8b7997a1a73a041b3a7f1a44e72c1ef12ae7594",
+      "actual": "a284646012a5510c9f823bb5e8b7997a1a73a041b3a7f1a44e72c1ef12ae7594",
+      "match": true
+    },
+    "skills/specproof-test-gaps/SKILL.md": {
+      "expected": "1d44188006dcd0dd1a0f6d01ca7fdb53dde98b6cffe286727d404d8924cc9c48",
+      "actual": "1d44188006dcd0dd1a0f6d01ca7fdb53dde98b6cffe286727d404d8924cc9c48",
+      "match": true
+    },
+    "skills/specproof-test-gaps/references/usage.md": {
+      "expected": "01ed134effb71961c124696858ae1b6f85ee6b0c9390a8ab352d8d4b79d3264c",
+      "actual": "01ed134effb71961c124696858ae1b6f85ee6b0c9390a8ab352d8d4b79d3264c",
+      "match": true
+    }
+  }
+}

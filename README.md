@@ -33,7 +33,7 @@ end
 
 The declaration is executable Ruby. Use it only for trusted specification files. SpecProof does not resolve or autoload the declared application targets during offline analysis; the declaration file itself can execute any Ruby its author writes. Integer ranges are inclusive at both ends unless written with `...`; finite domains accept `nil`, booleans, integers, symbols, and explicitly listed text values.
 
-Finite strings are exact values, not a general String domain. For example, `values: [nil, 1, "user_123"]` describes three scenario values; `"user_123"` is distinct from `:user_123`. Only exact `String` instances with valid UTF-8 or US-ASCII encoding are accepted, and US-ASCII is canonicalized to UTF-8. Empty strings, whitespace, Unicode, and embedded NUL are valid; invalid bytes, other encodings, and String subclasses are rejected. Text is not trimmed, case-folded, or normalized. SpecProof uses owned snapshots without changing application strings. RBS string types and literals remain unsupported, including in unions, and fail atomically.
+Finite strings are exact values, not a general String domain. For example, `values: [nil, 1, "user_123"]` describes three scenario values; `"user_123"` is distinct from `:user_123`. Only exact `String` instances with valid UTF-8 or US-ASCII encoding are accepted, and US-ASCII is canonicalized to UTF-8. Empty strings, whitespace, Unicode, and embedded NUL are valid; invalid bytes, other encodings, and String subclasses are rejected. Text is not trimmed, case-folded, or normalized. SpecProof uses owned snapshots without changing application strings. RBS string literals and finite unions of supported literals provide exact string scenarios; unrestricted `String` remains unsupported, and a selected union containing an unsupported member fails atomically.
 
 Run the checker and planner:
 
@@ -75,6 +75,13 @@ the opt-in adapter bundle in this checkout, the [registration example](examples/
 `sig/registration.rbs` with a DSL age refinement. Its independent
 [eligibility rule](examples/rbs_registration/requirements.md) says an applicant
 is eligible exactly when `age >= 18` and consent is true.
+
+The compact [finite string example](examples/rbs_string_literals) imports
+`country: ("ro" | "de")` and `expedited: bool` without duplicate DSL inputs.
+Its plan includes the exact country strings. String values remain distinct
+from same-spelling symbols. RBS `String` remains an unrestricted domain and is
+not supported. RBS return types are ignored; expected behavior must come from
+an independent requirement.
 
 From this checkout, run the check and plan with the explicit file and target:
 

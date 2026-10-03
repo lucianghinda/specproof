@@ -1,0 +1,46 @@
+require "digest"
+require "json"
+require "open3"
+require "fileutils"
+
+root = File.expand_path(__dir__)
+files = File.join(root, "files")
+reports = File.join(root, "reports")
+FileUtils.mkdir_p(reports)
+base_env = {
+  "PATH" => "/Users/luciang/.rubies/ruby-4.0.1/bin:/private/tmp/specproof-rbs-strings-installed/gems/bin:/usr/bin:/bin",
+  "GEM_HOME" => "/private/tmp/specproof-rbs-strings-installed/gems",
+  "GEM_PATH" => "/private/tmp/specproof-rbs-strings-installed/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+  "MT_NO_PLUGINS" => "1"
+}
+spec = File.join(files, "specification.rb")
+sig = File.join(files, "sig/delivery_options.rbs")
+target = "DeliveryOptions#build"
+bin = "/private/tmp/specproof-rbs-strings-installed/gems/bin/specproof"
+ruby = "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby"
+
+commands = [
+  ["check", [bin, "check", spec, "--rbs", sig, "--target", target, "--format", "json"], base_env],
+  ["plan", [bin, "plan", spec, "--rbs", sig, "--target", target, "--criterion", "pairwise-finite-v1", "--format", "json"], base_env],
+  ["baseline", [ruby, File.join(files, "test_delivery_options.rb")], base_env.merge("SPEC_PROOF_REPORT" => File.join(reports, "baseline.json"))],
+  ["suggest", [bin, "suggest", spec, "--rbs", sig, "--target", target, "--report", File.join(reports, "baseline.json"), "--format", "json"], base_env],
+  ["complete", [ruby, File.join(files, "test_delivery_options.rb")], base_env.merge("SPEC_PROOF_REPORT" => File.join(reports, "complete.json"), "CHECK_GAP" => "1")],
+  ["final_suggest", [bin, "suggest", spec, "--rbs", sig, "--target", target, "--report", File.join(reports, "complete.json"), "--format", "json"], base_env]
+]
+
+probes = [
+  ["unrestricted_string", File.join(files, "sig/unrestricted_string.rbs")],
+  ["literal_object_union", File.join(files, "sig/literal_object_union.rbs")]
+]
+probes.each do |name, probe_sig|
+  commands << ["probe_#{name}", [bin, "plan", spec, "--rbs", probe_sig, "--target", target, "--criterion", "pairwise-finite-v1", "--format", "json"], base_env]
+end
+
+results = []
+commands.each do |name, argv, env|
+  stdout, stderr, status = Open3.capture3(env, *argv, chdir: files)
+  results << {name: name, argv: argv, cwd: files, environment: env, stdout: stdout, stderr: stderr, exit: status.exitstatus}
+  puts "#{name}: exit=#{status.exitstatus} stdout_bytes=#{stdout.bytesize} stderr_bytes=#{stderr.bytesize}"
+end
+
+File.write(File.join(root, "command-evidence.json"), JSON.pretty_generate(results) + "\n")

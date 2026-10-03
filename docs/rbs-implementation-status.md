@@ -64,7 +64,16 @@ live in `skills/`, `examples/rbs_registration/`, and the linked documentation.
 
 ## Remaining limits
 
-Only verified RBS 4.2.0 is supported. Inputs are booleans, nil, supported primitive literals, supported unions/optionals, and resolved built-in Integer with explicit refinement where needed. Selected strings, nominal objects, aliases, generics, collections, overloads, inherited/singleton/generated methods, rest/block/unnamed forms, and zero-input targets remain excluded. Return types are parsed but not analyzed. Full RBS arity/order/subtyping conformance, omission coverage, nullable interval domains, automatic discovery, Sorbet, state analysis, and SMT reasoning remain separate work.
+Only verified RBS 4.2.0 is supported. Inputs are booleans, nil, supported primitive literals (including finite string literals), supported unions/optionals, and resolved built-in Integer with explicit refinement where needed. Unrestricted `String`, nominal objects, aliases, generics, collections, overloads, inherited/singleton/generated methods, rest/block/unnamed forms, and zero-input targets remain excluded. A selected union containing an unsupported member fails atomically. RBS return types are ignored and provide no expected-result oracle. Full RBS arity/order/subtyping conformance, omission coverage, nullable interval domains, automatic discovery, Sorbet, state analysis, and SMT reasoning remain separate work.
+
+### Finite RBS strings
+
+The finite-string extension accepts RBS string literals, their supported finite
+unions, and optional forms. These reuse the exact finite-string input domain:
+strings remain distinct from same-spelling symbols, and no text normalization
+is performed. An unrestricted `String` input is still outside the adapter's
+finite scenario model. Return types remain ignored, so expected results must
+come from an independent requirement. See the [compact DeliveryOptions example](../examples/rbs_string_literals/README.md).
 
 Matching digests establish equivalent normalized behavioral input contracts, not current implementation text or correctness. Obtain fresh runtime evidence after any source change. Historical evaluation and pilot artifacts remain unchanged; their original hashes are audited separately. Final independent specification/quality review and evidence audit are recorded in the concluding commits.
 

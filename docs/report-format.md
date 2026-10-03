@@ -69,10 +69,12 @@ For a target also selected from RBS, DSL refinements must name parameters in
 that selected signature. An extra DSL input produces configuration error
 `rbs_input_mismatch`, with its DSL source and the RBS location in the message;
 check/plan exit 2 without a successful partial plan. Unselected DSL-only targets
-remain valid. RBS string types and string literals remain unsupported,
-including as members of unions, and fail atomically; finite DSL string support
-does not widen the RBS adapter. This checks declaration names, not Ruby
-arity/order or output conformance.
+remain valid. RBS string literals, finite unions of supported string literals,
+and optional string-literal forms import exact finite string scenarios without
+duplicate DSL inputs. Same-spelling strings and symbols remain distinct.
+Unrestricted `String` and selected unions with unsupported members fail
+atomically. RBS return types are ignored; this checks input declaration names,
+not Ruby arity/order or output conformance.
 
 Finding witnesses use the same tagged primitive values, including the string kind above. Integer gap and containment witnesses are an array of two tagged integers denoting inclusive lower and upper bounds. Overlap witnesses are one tagged primitive. An empty-domain witness is either an empty finite array or the normalized, inverted integer bounds. For example, a gap from 65 through 120 is `[{"kind":"integer","value":"65"},{"kind":"integer","value":"120"}]`. Human reports quote and escape string values; other values retain ordinary Ruby notation.
 

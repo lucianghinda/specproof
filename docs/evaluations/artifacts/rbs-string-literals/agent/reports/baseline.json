@@ -1,0 +1,321 @@
+{
+  "schema_version": 1,
+  "specproof_version": "0.1.0",
+  "kind": "coverage",
+  "errors": [],
+  "contract_digest": "83778699bc9585c2b03f391d6973033733a799cd9b0f379a058b6a71f30cc624",
+  "criterion": "pairwise-finite-v1",
+  "run_id": "d1ab8232-f6ea-4c19-9c18-7713b8283baf",
+  "scope": {
+    "ruby_engine": "ruby",
+    "pid": 52743,
+    "thread": 120,
+    "window": "minitest_run",
+    "method_identity": "direct_owner_definition",
+    "input_semantics": "effective_bound_values",
+    "argument_presence": "not_observed",
+    "targets": [
+      "DeliveryOptions#build"
+    ],
+    "declaration_sources": {
+      "specifications": [
+        "/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb"
+      ],
+      "rbs": [
+        "/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs"
+      ],
+      "targets": [
+        "DeliveryOptions#build"
+      ]
+    },
+    "arguments": [],
+    "filter": null,
+    "exclude": null,
+    "completeness_scope": "analyzed_inputs",
+    "input_scope": [
+      {
+        "target": "DeliveryOptions#build",
+        "analyzed_inputs": [
+          "country",
+          "expedited"
+        ],
+        "excluded_inputs": [],
+        "combination_group": {
+          "inputs": [
+            "country",
+            "expedited"
+          ]
+        }
+      }
+    ]
+  },
+  "evidence_mode": "obligation_hits",
+  "replay": false,
+  "obligations": [
+    {
+      "id": "8ec0c339f7a2d60916fb6a0f71d3c87f4459a903cea5f03037a7b5069c50236e",
+      "target": "DeliveryOptions#build",
+      "inputs": {
+        "country": {
+          "kind": "string",
+          "value": "de"
+        },
+        "expedited": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs",
+          "line": 2,
+          "kind": "rbs"
+        },
+        {
+          "path": "/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "a22f307d3310a455376899f73e5b65163e12d421507043f80e5cf2adcb7d04e6",
+      "target": "DeliveryOptions#build",
+      "inputs": {
+        "country": {
+          "kind": "string",
+          "value": "de"
+        },
+        "expedited": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs",
+          "line": 2,
+          "kind": "rbs"
+        },
+        {
+          "path": "/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        }
+      ],
+      "status": "not_observed",
+      "hits": 0
+    },
+    {
+      "id": "33362cc6631164cc2cdf3c52cf476fc2f23dacc925938b2f94013526e1bd7db7",
+      "target": "DeliveryOptions#build",
+      "inputs": {
+        "country": {
+          "kind": "string",
+          "value": "ro"
+        },
+        "expedited": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs",
+          "line": 2,
+          "kind": "rbs"
+        },
+        {
+          "path": "/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "58cd65cf0dd6770356764bee32707fcbb8272f7a9fe8d92b292bdd496610adc2",
+      "target": "DeliveryOptions#build",
+      "inputs": {
+        "country": {
+          "kind": "string",
+          "value": "ro"
+        },
+        "expedited": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs",
+          "line": 2,
+          "kind": "rbs"
+        },
+        {
+          "path": "/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    }
+  ],
+  "missing": [
+    {
+      "id": "a22f307d3310a455376899f73e5b65163e12d421507043f80e5cf2adcb7d04e6",
+      "target": "DeliveryOptions#build",
+      "inputs": {
+        "country": {
+          "kind": "string",
+          "value": "de"
+        },
+        "expedited": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs",
+          "line": 2,
+          "kind": "rbs"
+        },
+        {
+          "path": "/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        }
+      ],
+      "status": "not_observed",
+      "hits": 0
+    }
+  ],
+  "exercised": [
+    {
+      "id": "8ec0c339f7a2d60916fb6a0f71d3c87f4459a903cea5f03037a7b5069c50236e",
+      "target": "DeliveryOptions#build",
+      "inputs": {
+        "country": {
+          "kind": "string",
+          "value": "de"
+        },
+        "expedited": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs",
+          "line": 2,
+          "kind": "rbs"
+        },
+        {
+          "path": "/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "33362cc6631164cc2cdf3c52cf476fc2f23dacc925938b2f94013526e1bd7db7",
+      "target": "DeliveryOptions#build",
+      "inputs": {
+        "country": {
+          "kind": "string",
+          "value": "ro"
+        },
+        "expedited": {
+          "kind": "boolean",
+          "value": false
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs",
+          "line": 2,
+          "kind": "rbs"
+        },
+        {
+          "path": "/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "58cd65cf0dd6770356764bee32707fcbb8272f7a9fe8d92b292bdd496610adc2",
+      "target": "DeliveryOptions#build",
+      "inputs": {
+        "country": {
+          "kind": "string",
+          "value": "ro"
+        },
+        "expedited": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs",
+          "line": 2,
+          "kind": "rbs"
+        },
+        {
+          "path": "/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    }
+  ],
+  "exercised_count": 3,
+  "obligation_count": 4,
+  "missing_count": 1,
+  "unknown_count": 0,
+  "not_observed_count": 1,
+  "completion_percent": 75.0,
+  "outside_domain": {},
+  "incomplete_reasons": [],
+  "outside_combinations": {},
+  "excluded_pairs": [],
+  "completion": "completed",
+  "integrity": true,
+  "tests_passed": true
+}

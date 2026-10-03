@@ -1,0 +1,9 @@
+# Installed finite-string skill exercise
+
+The exported `specproof-specify` and `specproof-test-gaps` workflows were applied to the installed gem's `rbs_string_literals` example under the requested clean environment. The copied contract leaves `country` and `expedited` to the selected RBS signature; its only DSL declaration is the `all_allowed` combination group. The check has no findings, and the fresh pairwise plan has four obligations, with "ro" and "de" represented as typed string values. Its digest is `83778699bc9585c2b03f391d6973033733a799cd9b0f379a058b6a71f30cc624`.
+
+The baseline Minitest run passed and exercised 3/4 obligations. The baseline suggestion supplied `country: "de", expedited: true`, with no expected result. The completion run passed and exercised 4/4 with zero missing or unknown obligations; the final suggestion returned zero candidates. Input scope includes both named RBS inputs with no exclusions, and obligation provenance points to the RBS signature and combination declaration.
+
+Separate selected-signature probes failed atomically with exit 2: unrestricted `String` and `("ro" | Object)` both produced `unsupported_rbs_type` for `country` and no partial plan. The source fixture and its contract were left unchanged.
+
+`command-evidence.json` records exact argv, cwd, environment, stdout, stderr, and exit code for check, plan, baseline, suggestion, completion, final suggestion, and both probes. `reports/` contains the baseline and completed runtime reports. `provenance.json` records loaded gem paths and SHA-256 comparisons for installed library files and exported skills against `source-sha256.json`; all comparisons match the final source after the locale and invalid-encoding fixes. The coordinator rebuilt the gem and replayed the captured commands in a clean environment. Baseline run: `d1ab8232-f6ea-4c19-9c18-7713b8283baf`; complete run: `8599e054-7519-4718-91bc-56508193b5c6`.

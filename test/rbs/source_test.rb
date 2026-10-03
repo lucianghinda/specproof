@@ -97,7 +97,15 @@ class RBSSourceTest < Minitest::Test
       "boolean literal" => ["true", [true]],
       "symbol literal" => [":ready", [:ready]],
       "nullable integer" => ["Integer?", [nil]],
-      "symbol and integer union" => ["Integer | :ready", [:ready]]
+      "symbol and integer union" => ["Integer | :ready", [:ready]],
+      "integer and string literal union" => ['Integer | "ready"', ["ready"]],
+      "string literal" => ['"ready"', ["ready"]],
+      "string literal union" => ['"ready" | "done"', %w[done ready]],
+      "nilable string literal" => ['"ready"?', [nil, "ready"]],
+      "mixed literal union" => ['"ready" | :ready', [:ready, "ready"]],
+      "duplicate string literals" => ['"ready" | "ready"', ["ready"]],
+      "empty string literal" => ['""', [""]],
+      "whitespace string literal" => ['" \t"', [" \t"]]
     }
 
     signatures.each do |description, (type, expected_values)|
@@ -110,12 +118,70 @@ class RBSSourceTest < Minitest::Test
     end
   end
 
+  def test_canonicalizes_decoded_rbs_string_literals_without_changing_their_values
+    contents = ["class Registration", '  def save: ("é" | "\u00e9" value) -> void', "end", ""].join("\n")
+    original_encoding = Encoding.default_external
+    Encoding.default_external = Encoding::US_ASCII
+    begin
+      facts = with_rbs(contents) do |path|
+        SpecProof::Sources::RBS.load(paths: [path], targets: ["Registration#save"])
+      end
+    ensure
+      Encoding.default_external = original_encoding
+    end
+
+    values = facts.fetch(0).constraint.values
+    assert_equal ["é"], values
+    value = values.fetch(0)
+    assert_equal Encoding::UTF_8, value.encoding
+    assert value.frozen?
+    assert_equal 2, facts.fetch(0).source.line
+  end
+
+  def test_string_literal_union_order_preserves_contract_ids_and_digest
+    first = with_rbs("class Registration\n def save: (\"ready\" | \"done\" value) -> void\nend\n") do |path|
+      SpecProof.load([], rbs: [path], targets: ["Registration#save"])
+    end
+    reversed = with_rbs("class Registration\n def save: (\"done\" | \"ready\" value) -> void\nend\n") do |path|
+      SpecProof.load([], rbs: [path], targets: ["Registration#save"])
+    end
+
+    assert_equal SpecProof::Report.digest(first), SpecProof::Report.digest(reversed)
+    assert_equal SpecProof.plan(first).map(&:id), SpecProof.plan(reversed).map(&:id)
+  end
+
+  def test_string_literal_union_refinement_accepts_subsets_and_reports_conflicts
+    Dir.mktmpdir("specproof-rbs-string-refinement", "/private/tmp") do |directory|
+      policy = File.join(directory, "policy.rb")
+      File.write(policy, <<~RUBY)
+        SpecProof.define "Registration#save" do
+          input :value, values: [1, "ready"]
+        end
+      RUBY
+      narrowed = with_rbs("class Registration\n def save: (Integer | \"ready\" value) -> void\nend\n") do |path|
+        SpecProof.load([policy], rbs: [path], targets: ["Registration#save"])
+      end
+      assert_empty SpecProof.check(narrowed)
+
+      File.write(policy, <<~RUBY)
+        SpecProof.define "Registration#save" do
+          input :value, values: [1, "outside"]
+        end
+      RUBY
+      conflicting = with_rbs("class Registration\n def save: (Integer | \"ready\" value) -> void\nend\n") do |path|
+        SpecProof.load([policy], rbs: [path], targets: ["Registration#save"])
+      end
+      finding = SpecProof.check(conflicting).fetch(0)
+      assert_equal :type_domain_conflict, finding.code
+      assert_equal "outside", finding.witness
+    end
+  end
+
   def test_rejects_unsupported_types_atomically
     types = {
-      "string" => "String",
-      "string literal" => '"ready"',
-      "string and integer union" => "String | Integer",
-      "integer and string literal union" => 'Integer | "ready"',
+      "unrestricted string" => "String",
+      "unrestricted string and literal union" => 'String | "ready"',
+      "string literal and unsupported union" => '"ready" | Object',
       "untyped" => "untyped",
       "type alias" => "flag",
       "unknown nominal" => "MissingType",
@@ -158,6 +224,22 @@ class RBSSourceTest < Minitest::Test
 
     assert_equal 4, facts.fetch(0).source.line
     assert facts.fetch(0).source.path.end_with?("/types.rbs")
+  end
+
+  def test_rejects_invalid_utf8_signature_content_with_rbs_parse_error
+    Dir.mktmpdir("specproof-rbs-invalid-utf8", "/private/tmp") do |directory|
+      path = File.join(directory, "types.rbs")
+      content = "class Registration\n def save: (\"".b + [0xFF].pack("C") + "\" value) -> void\nend\n".b
+      File.binwrite(path, content)
+
+      error = assert_raises(SpecProof::ConfigurationError) do
+        SpecProof::Sources::RBS.load(paths: [path], targets: ["Registration#save"])
+      end
+
+      assert_equal "rbs_parse_error", error.code
+      assert_equal path, error.path
+      assert error.message.ascii_only?
+    end
   end
 
   def test_rejects_missing_target_and_unsupported_selected_type

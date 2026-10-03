@@ -1,0 +1,193 @@
+[
+  {
+    "name": "check",
+    "argv": [
+      "/private/tmp/specproof-rbs-strings-installed/gems/bin/specproof",
+      "check",
+      "/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb",
+      "--rbs",
+      "/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs",
+      "--target",
+      "DeliveryOptions#build",
+      "--format",
+      "json"
+    ],
+    "cwd": "/private/tmp/specproof-rbs-strings-installed/exercise/files",
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/private/tmp/specproof-rbs-strings-installed/gems/bin:/usr/bin:/bin",
+      "GEM_HOME": "/private/tmp/specproof-rbs-strings-installed/gems",
+      "GEM_PATH": "/private/tmp/specproof-rbs-strings-installed/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+      "MT_NO_PLUGINS": "1"
+    },
+    "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"check\",\"errors\":[],\"contract_digest\":\"83778699bc9585c2b03f391d6973033733a799cd9b0f379a058b6a71f30cc624\",\"scope\":{\"completeness_scope\":\"analyzed_inputs\",\"input_scope\":[{\"target\":\"DeliveryOptions#build\",\"analyzed_inputs\":[\"country\",\"expedited\"],\"excluded_inputs\":[],\"combination_group\":{\"inputs\":[\"country\",\"expedited\"]}}]},\"findings\":[]}\n",
+    "stderr": "",
+    "exit": 0
+  },
+  {
+    "name": "plan",
+    "argv": [
+      "/private/tmp/specproof-rbs-strings-installed/gems/bin/specproof",
+      "plan",
+      "/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb",
+      "--rbs",
+      "/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs",
+      "--target",
+      "DeliveryOptions#build",
+      "--criterion",
+      "pairwise-finite-v1",
+      "--format",
+      "json"
+    ],
+    "cwd": "/private/tmp/specproof-rbs-strings-installed/exercise/files",
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/private/tmp/specproof-rbs-strings-installed/gems/bin:/usr/bin:/bin",
+      "GEM_HOME": "/private/tmp/specproof-rbs-strings-installed/gems",
+      "GEM_PATH": "/private/tmp/specproof-rbs-strings-installed/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+      "MT_NO_PLUGINS": "1"
+    },
+    "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"plan\",\"errors\":[],\"contract_digest\":\"83778699bc9585c2b03f391d6973033733a799cd9b0f379a058b6a71f30cc624\",\"criterion\":\"pairwise-finite-v1\",\"scope\":{\"completeness_scope\":\"analyzed_inputs\",\"input_scope\":[{\"target\":\"DeliveryOptions#build\",\"analyzed_inputs\":[\"country\",\"expedited\"],\"excluded_inputs\":[],\"combination_group\":{\"inputs\":[\"country\",\"expedited\"]}}]},\"obligations\":[{\"id\":\"8ec0c339f7a2d60916fb6a0f71d3c87f4459a903cea5f03037a7b5069c50236e\",\"target\":\"DeliveryOptions#build\",\"inputs\":{\"country\":{\"kind\":\"string\",\"value\":\"de\"},\"expedited\":{\"kind\":\"boolean\",\"value\":false}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb\",\"line\":6,\"kind\":\"dsl\"}]},{\"id\":\"a22f307d3310a455376899f73e5b65163e12d421507043f80e5cf2adcb7d04e6\",\"target\":\"DeliveryOptions#build\",\"inputs\":{\"country\":{\"kind\":\"string\",\"value\":\"de\"},\"expedited\":{\"kind\":\"boolean\",\"value\":true}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb\",\"line\":6,\"kind\":\"dsl\"}]},{\"id\":\"33362cc6631164cc2cdf3c52cf476fc2f23dacc925938b2f94013526e1bd7db7\",\"target\":\"DeliveryOptions#build\",\"inputs\":{\"country\":{\"kind\":\"string\",\"value\":\"ro\"},\"expedited\":{\"kind\":\"boolean\",\"value\":false}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb\",\"line\":6,\"kind\":\"dsl\"}]},{\"id\":\"58cd65cf0dd6770356764bee32707fcbb8272f7a9fe8d92b292bdd496610adc2\",\"target\":\"DeliveryOptions#build\",\"inputs\":{\"country\":{\"kind\":\"string\",\"value\":\"ro\"},\"expedited\":{\"kind\":\"boolean\",\"value\":true}},\"reasons\":[\"feasible input pair\"],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb\",\"line\":6,\"kind\":\"dsl\"}]}],\"excluded_pairs\":[]}\n",
+    "stderr": "",
+    "exit": 0
+  },
+  {
+    "name": "baseline",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+      "/private/tmp/specproof-rbs-strings-installed/exercise/files/test_delivery_options.rb"
+    ],
+    "cwd": "/private/tmp/specproof-rbs-strings-installed/exercise/files",
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/private/tmp/specproof-rbs-strings-installed/gems/bin:/usr/bin:/bin",
+      "GEM_HOME": "/private/tmp/specproof-rbs-strings-installed/gems",
+      "GEM_PATH": "/private/tmp/specproof-rbs-strings-installed/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+      "MT_NO_PLUGINS": "1",
+      "SPEC_PROOF_REPORT": "/private/tmp/specproof-rbs-strings-installed/exercise/reports/baseline.json"
+    },
+    "stdout": "Run options: --seed 26737\n\n# Running:\n\n.\n\nFinished in 0.000526s, 1901.1405 runs/s, 5703.4215 assertions/s.\n\n1 runs, 3 assertions, 0 failures, 0 errors, 0 skips\nSpecProof coverage run d1ab8232-f6ea-4c19-9c18-7713b8283baf: 3/4 obligations exercised, 1 missing; missing values: DeliveryOptions#build/country=\"de\",expedited=true; completeness scope: analyzed inputs only; 0 excluded pairs; criterion: pairwise-finite-v1; group: DeliveryOptions#build(country, expedited) (completed)\n",
+    "stderr": "",
+    "exit": 0
+  },
+  {
+    "name": "suggest",
+    "argv": [
+      "/private/tmp/specproof-rbs-strings-installed/gems/bin/specproof",
+      "suggest",
+      "/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb",
+      "--rbs",
+      "/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs",
+      "--target",
+      "DeliveryOptions#build",
+      "--report",
+      "/private/tmp/specproof-rbs-strings-installed/exercise/reports/baseline.json",
+      "--format",
+      "json"
+    ],
+    "cwd": "/private/tmp/specproof-rbs-strings-installed/exercise/files",
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/private/tmp/specproof-rbs-strings-installed/gems/bin:/usr/bin:/bin",
+      "GEM_HOME": "/private/tmp/specproof-rbs-strings-installed/gems",
+      "GEM_PATH": "/private/tmp/specproof-rbs-strings-installed/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+      "MT_NO_PLUGINS": "1"
+    },
+    "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"suggestions\",\"errors\":[],\"criterion\":\"pairwise-finite-v1\",\"strategy\":\"greedy-pairwise-v1\",\"assignment_scope\":\"combination_group\",\"minimality\":\"not_guaranteed\",\"contract_digest\":\"83778699bc9585c2b03f391d6973033733a799cd9b0f379a058b6a71f30cc624\",\"source_run_id\":\"d1ab8232-f6ea-4c19-9c18-7713b8283baf\",\"source_tests_passed\":true,\"source_scope\":{\"ruby_engine\":\"ruby\",\"pid\":52743,\"thread\":120,\"window\":\"minitest_run\",\"method_identity\":\"direct_owner_definition\",\"input_semantics\":\"effective_bound_values\",\"argument_presence\":\"not_observed\",\"targets\":[\"DeliveryOptions#build\"],\"declaration_sources\":{\"specifications\":[\"/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb\"],\"rbs\":[\"/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs\"],\"targets\":[\"DeliveryOptions#build\"]},\"arguments\":[],\"filter\":null,\"exclude\":null,\"completeness_scope\":\"analyzed_inputs\",\"input_scope\":[{\"target\":\"DeliveryOptions#build\",\"analyzed_inputs\":[\"country\",\"expedited\"],\"excluded_inputs\":[],\"combination_group\":{\"inputs\":[\"country\",\"expedited\"]}}]},\"missing_obligation_count\":1,\"covered_obligation_count\":1,\"suggestion_count\":1,\"suggestions\":[{\"id\":\"fd66c5072c631dd0bc87ec27cd5e2ce31a40ad7c2b7acb8f45ced2a027b69e9c\",\"target\":\"DeliveryOptions#build\",\"inputs\":{\"country\":{\"kind\":\"string\",\"value\":\"de\"},\"expedited\":{\"kind\":\"boolean\",\"value\":true}},\"covers\":[\"a22f307d3310a455376899f73e5b65163e12d421507043f80e5cf2adcb7d04e6\"],\"unassigned_inputs\":[],\"sources\":[{\"path\":\"/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs\",\"line\":2,\"kind\":\"rbs\"},{\"path\":\"/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb\",\"line\":6,\"kind\":\"dsl\"}]}]}\n",
+    "stderr": "",
+    "exit": 0
+  },
+  {
+    "name": "complete",
+    "argv": [
+      "/Users/luciang/.rubies/ruby-4.0.1/bin/ruby",
+      "/private/tmp/specproof-rbs-strings-installed/exercise/files/test_delivery_options.rb"
+    ],
+    "cwd": "/private/tmp/specproof-rbs-strings-installed/exercise/files",
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/private/tmp/specproof-rbs-strings-installed/gems/bin:/usr/bin:/bin",
+      "GEM_HOME": "/private/tmp/specproof-rbs-strings-installed/gems",
+      "GEM_PATH": "/private/tmp/specproof-rbs-strings-installed/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+      "MT_NO_PLUGINS": "1",
+      "SPEC_PROOF_REPORT": "/private/tmp/specproof-rbs-strings-installed/exercise/reports/complete.json",
+      "CHECK_GAP": "1"
+    },
+    "stdout": "Run options: --seed 63280\n\n# Running:\n\n..\n\nFinished in 0.000628s, 3184.7133 runs/s, 6369.4267 assertions/s.\n\n2 runs, 4 assertions, 0 failures, 0 errors, 0 skips\nSpecProof coverage run 8599e054-7519-4718-91bc-56508193b5c6: 4/4 obligations exercised; completeness scope: analyzed inputs only; 0 excluded pairs; criterion: pairwise-finite-v1; group: DeliveryOptions#build(country, expedited) (completed)\n",
+    "stderr": "",
+    "exit": 0
+  },
+  {
+    "name": "final_suggest",
+    "argv": [
+      "/private/tmp/specproof-rbs-strings-installed/gems/bin/specproof",
+      "suggest",
+      "/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb",
+      "--rbs",
+      "/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs",
+      "--target",
+      "DeliveryOptions#build",
+      "--report",
+      "/private/tmp/specproof-rbs-strings-installed/exercise/reports/complete.json",
+      "--format",
+      "json"
+    ],
+    "cwd": "/private/tmp/specproof-rbs-strings-installed/exercise/files",
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/private/tmp/specproof-rbs-strings-installed/gems/bin:/usr/bin:/bin",
+      "GEM_HOME": "/private/tmp/specproof-rbs-strings-installed/gems",
+      "GEM_PATH": "/private/tmp/specproof-rbs-strings-installed/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+      "MT_NO_PLUGINS": "1"
+    },
+    "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"suggestions\",\"errors\":[],\"criterion\":\"pairwise-finite-v1\",\"strategy\":\"greedy-pairwise-v1\",\"assignment_scope\":\"combination_group\",\"minimality\":\"not_guaranteed\",\"contract_digest\":\"83778699bc9585c2b03f391d6973033733a799cd9b0f379a058b6a71f30cc624\",\"source_run_id\":\"8599e054-7519-4718-91bc-56508193b5c6\",\"source_tests_passed\":true,\"source_scope\":{\"ruby_engine\":\"ruby\",\"pid\":52983,\"thread\":120,\"window\":\"minitest_run\",\"method_identity\":\"direct_owner_definition\",\"input_semantics\":\"effective_bound_values\",\"argument_presence\":\"not_observed\",\"targets\":[\"DeliveryOptions#build\"],\"declaration_sources\":{\"specifications\":[\"/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb\"],\"rbs\":[\"/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/delivery_options.rbs\"],\"targets\":[\"DeliveryOptions#build\"]},\"arguments\":[],\"filter\":null,\"exclude\":null,\"completeness_scope\":\"analyzed_inputs\",\"input_scope\":[{\"target\":\"DeliveryOptions#build\",\"analyzed_inputs\":[\"country\",\"expedited\"],\"excluded_inputs\":[],\"combination_group\":{\"inputs\":[\"country\",\"expedited\"]}}]},\"missing_obligation_count\":0,\"covered_obligation_count\":0,\"suggestion_count\":0,\"suggestions\":[]}\n",
+    "stderr": "",
+    "exit": 0
+  },
+  {
+    "name": "probe_unrestricted_string",
+    "argv": [
+      "/private/tmp/specproof-rbs-strings-installed/gems/bin/specproof",
+      "plan",
+      "/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb",
+      "--rbs",
+      "/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/unrestricted_string.rbs",
+      "--target",
+      "DeliveryOptions#build",
+      "--criterion",
+      "pairwise-finite-v1",
+      "--format",
+      "json"
+    ],
+    "cwd": "/private/tmp/specproof-rbs-strings-installed/exercise/files",
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/private/tmp/specproof-rbs-strings-installed/gems/bin:/usr/bin:/bin",
+      "GEM_HOME": "/private/tmp/specproof-rbs-strings-installed/gems",
+      "GEM_PATH": "/private/tmp/specproof-rbs-strings-installed/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+      "MT_NO_PLUGINS": "1"
+    },
+    "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"plan\",\"errors\":[{\"code\":\"unsupported_rbs_type\",\"message\":\"unsupported RBS input type ::String: DeliveryOptions#build / input country\",\"source\":{\"path\":\"/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/unrestricted_string.rbs\",\"line\":2,\"kind\":\"rbs\"}}],\"criterion\":\"pairwise-finite-v1\"}\n",
+    "stderr": "",
+    "exit": 2
+  },
+  {
+    "name": "probe_literal_object_union",
+    "argv": [
+      "/private/tmp/specproof-rbs-strings-installed/gems/bin/specproof",
+      "plan",
+      "/private/tmp/specproof-rbs-strings-installed/exercise/files/specification.rb",
+      "--rbs",
+      "/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/literal_object_union.rbs",
+      "--target",
+      "DeliveryOptions#build",
+      "--criterion",
+      "pairwise-finite-v1",
+      "--format",
+      "json"
+    ],
+    "cwd": "/private/tmp/specproof-rbs-strings-installed/exercise/files",
+    "environment": {
+      "PATH": "/Users/luciang/.rubies/ruby-4.0.1/bin:/private/tmp/specproof-rbs-strings-installed/gems/bin:/usr/bin:/bin",
+      "GEM_HOME": "/private/tmp/specproof-rbs-strings-installed/gems",
+      "GEM_PATH": "/private/tmp/specproof-rbs-strings-installed/gems:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0",
+      "MT_NO_PLUGINS": "1"
+    },
+    "stdout": "{\"schema_version\":1,\"specproof_version\":\"0.1.0\",\"kind\":\"plan\",\"errors\":[{\"code\":\"unsupported_rbs_type\",\"message\":\"unsupported RBS input type ::Object: DeliveryOptions#build / input country\",\"source\":{\"path\":\"/private/tmp/specproof-rbs-strings-installed/exercise/files/sig/literal_object_union.rbs\",\"line\":2,\"kind\":\"rbs\"}}],\"criterion\":\"pairwise-finite-v1\"}\n",
+    "stderr": "",
+    "exit": 2
+  }
+]
