@@ -37,8 +37,13 @@ intended policy from a method's current behavior.
    types remain atomic failures. Do not infer a finite range for unrestricted
    `Integer`, guess from a name or implementation, or write partial obligations
    for unsupported input types or union members. Stop and report the selected
-   target/input and source location when the type is unsupported or needs a
-   bounded refinement.
+   target/input and source location whenever a type is unsupported or needs a
+   bounded refinement. Finite DSL strings are available only when a fresh
+   `check` and `plan` from the installed build
+   accept and report the string kind; a `0.1.x` version alone does not establish
+   support. If a required string value is unsupported, preserve it in the
+   reported request and stop. Do not substitute a same-spelling symbol, drop
+   the string, or report an invalid/partial plan as valid.
 4. Mark a partition family `exhaustive: true` only when the requirements say it
    covers the entire input domain. Mark it `disjoint: true` only when the
    requirements say the partitions cannot overlap. Leave either promise out
@@ -67,9 +72,19 @@ read [the bundled command and report reference](references/usage.md).
 ## Supported declarations
 
 SpecProof accepts bounded integer ranges and finite arrays of `nil`, booleans,
-integers, or symbols. Integer range endpoints are inclusive unless Ruby's
-exclusive range form (`...`) is used. A specification declares a target and
-one or more named inputs:
+integers, and symbols. Builds with finite-string support also accept explicitly
+listed text values. Integer range endpoints are inclusive unless Ruby's
+exclusive range form (`...`) is used. For example, `values: [nil, 1,
+"user_123"]` describes those three exact candidates; it is a finite scenario,
+not the full String domain. String and symbol values with identical spelling
+are distinct. Strings must be exact `String` instances encoded as valid UTF-8
+or US-ASCII; US-ASCII is canonicalized to UTF-8. Empty, whitespace, Unicode,
+and embedded-NUL strings are valid. Invalid byte sequences, other encodings,
+and String subclasses are rejected. No trimming, case folding, or Unicode
+normalization occurs. A specification declares a target and one or more named
+inputs. The existing partition membership, gap, overlap, exhaustive, and
+disjoint checks apply to explicitly enumerated string values; strings are not
+coerced to symbols or other scalar types:
 
 ```ruby
 require "specproof"
@@ -99,7 +114,12 @@ analyze at least one input. Domains describe effective values at method entry,
 after Ruby applies defaults; they do not assert whether the caller omitted an
 argument. Excluded values are not read by runtime collection; selected
 non-primitive values still make collection incomplete. Do not evaluate or guess
-default expressions while authoring the domain.
+default expressions while authoring the domain. SpecProof copies and freezes
+owned declaration and entry-observation snapshots, so later application
+mutation cannot change matching and application-owned strings are not frozen.
+Direct Coverage observation also owns retained string witnesses; an
+outside-domain string witness is full-sized even though witness count is
+bounded.
 
 ## Explicit RBS inputs
 
@@ -119,6 +139,9 @@ domains, partition policies, and sorted excluded input names, not exclusion
 reasons/source locations, all declaration text, a full RBS signature, or
 implementation correctness. Existing no-exclusion digests and obligation IDs
 remain stable. Run fresh checks and reports after any input source changes.
+RBS string types and string literals remain unsupported, including inside
+unions, and fail atomically. DSL finite-string support does not widen the RBS
+adapter.
 Load specification files only from trusted project sources;
 they are executable Ruby. SpecProof does not load the application class while
 checking or planning.

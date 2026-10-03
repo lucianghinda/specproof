@@ -49,6 +49,28 @@ class PlannerTest < Minitest::Test
     assert(obligations.all? { |obligation| obligation.reasons == obligation.reasons.uniq })
   end
 
+  def test_finite_strings_partition_and_plan_with_string_symbol_identity
+    specs = load_text(<<~RUBY)
+      SpecProof.define "Example#value" do
+        input :value, values: ["", :ready, "ready", "ready"], exhaustive: true, disjoint: true do
+          partition :empty, values: [""]
+          partition :symbol, values: [:ready]
+          partition :text, values: ["ready"]
+        end
+      end
+    RUBY
+
+    assert_empty SpecProof.check(specs)
+    first = SpecProof.plan(specs)
+    second = SpecProof.plan(specs)
+
+    assert_equal [:ready, "", "ready"], first.map(&:value)
+    assert_equal first.map(&:id), second.map(&:id)
+    assert_equal 3, first.map(&:id).uniq.length
+    kinds = first.map { |item| SpecProof::Report.value(item.value).fetch(:kind) }
+    assert_equal %w[symbol string string], kinds
+  end
+
   private
 
   def fixture(name)

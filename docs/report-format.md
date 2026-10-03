@@ -17,16 +17,20 @@ named runtime parameter must be analyzed or explicitly excluded, and at least
 one must be analyzed. Check/plan scope describes the requested declaration;
 it does not attest runtime binding or test execution.
 
-Plan results include `criterion` (`input-basics-v1`) and `obligations`. Each obligation has a stable `id`, target, input, typed value, merged reasons, and source locations. Values have a `kind`: integer values are decimal strings, symbols are names, booleans are JSON booleans, and nil has a JSON null value. Candidates are marginal inputs and do not specify expected method results or form a complete test suite.
+Plan results include `criterion` (`input-basics-v1`) and `obligations`. Each obligation has a stable `id`, target, input, typed value, merged reasons, and source locations. Values have a `kind`: integer values are decimal strings, symbols are names, booleans are JSON booleans, nil has a JSON null value, and finite strings use `{ "kind": "string", "value": "..." }`. String values are exact text snapshots. This is an additive value kind under schema version 1; consumers must handle it explicitly and tolerate it wherever typed primitive values occur, including witnesses and coverage rows. Strings and same-spelling symbols have distinct identities. Finite string values are deduplicated and ordered deterministically after existing scalar types. Existing nonstring IDs and digests remain unchanged. Existing partition, exhaustive, and disjoint checks apply to the explicitly enumerated string scenario. Candidates are marginal inputs and do not specify expected method results or form a complete test suite.
+
+Finite string support is feature-specific, not guaranteed by a `0.1.x` version number. Check a fresh plan from the installed build for typed string obligations before relying on the kind. A finite string declaration enumerates scenario values and does not represent the full String domain. Only exact String instances with valid UTF-8 or US-ASCII encoding are supported; US-ASCII is canonicalized to UTF-8. Empty strings, whitespace, Unicode, and embedded NUL are valid text. Invalid byte sequences, other encodings, and String subclasses are rejected. No trimming, case folding, or Unicode normalization is applied. Declaration values and observed values are copied into frozen SpecProof-owned snapshots. The entry snapshot is used for matching even if the method mutates its argument, and direct Coverage observation also owns retained strings. A bounded outside-domain witness count does not bound witness bytes: a retained string witness is the full immutable string.
 
 For a target also selected from RBS, DSL refinements must name parameters in
 that selected signature. An extra DSL input produces configuration error
 `rbs_input_mismatch`, with its DSL source and the RBS location in the message;
 check/plan exit 2 without a successful partial plan. Unselected DSL-only targets
-remain valid. This checks declaration names, not Ruby arity/order or output
-conformance.
+remain valid. RBS string types and string literals remain unsupported,
+including as members of unions, and fail atomically; finite DSL string support
+does not widen the RBS adapter. This checks declaration names, not Ruby
+arity/order or output conformance.
 
-Finding witnesses use the same tagged primitive values. Integer gap and containment witnesses are an array of two tagged integers denoting inclusive lower and upper bounds. Overlap witnesses are one tagged primitive. An empty-domain witness is either an empty finite array or the normalized, inverted integer bounds. For example, a gap from 65 through 120 is `[{"kind":"integer","value":"65"},{"kind":"integer","value":"120"}]`. Human reports retain ordinary Ruby notation.
+Finding witnesses use the same tagged primitive values, including the string kind above. Integer gap and containment witnesses are an array of two tagged integers denoting inclusive lower and upper bounds. Overlap witnesses are one tagged primitive. An empty-domain witness is either an empty finite array or the normalized, inverted integer bounds. For example, a gap from 65 through 120 is `[{"kind":"integer","value":"65"},{"kind":"integer","value":"120"}]`. Human reports quote and escape string values; other values retain ordinary Ruby notation.
 
 `specproof skills export --to DIRECTORY --format json` results use `kind: "skills_export"` and add the expanded `destination` plus sorted `exported` and `unchanged` path arrays. The exporter requires an explicit destination and does not modify client or global configuration. A conflict is reported under `errors` before new files are copied.
 
@@ -48,7 +52,7 @@ The optional adapter writes a JSON file with `kind: "coverage"` and prints a sum
 | `missing`, `exercised` | Projections of the corresponding obligation rows |
 | `exercised_count`, `missing_count`, `unknown_count`, `not_observed_count`, `obligation_count` | Counts over the fixed planned denominator |
 | `completion_percent` | Percentage of exercised obligations for an intact observed run, including partial coverage; `null` when collection is incomplete or no target call was observed |
-| `outside_domain` | Per-target count and at most one typed primitive tuple witness, or an `invalid_tuple` marker; these calls fulfill no valid-input obligations |
+| `outside_domain` | Per-target count and at most one typed primitive tuple witness (including string values), or an `invalid_tuple` marker; these calls fulfill no valid-input obligations |
 | `incomplete_reasons`, `errors` | Bounded diagnostics explaining missing integrity or unsupported collection |
 | `evidence_mode`, `replay` | `obligation_hits` and `false`; no full event trace is retained |
 

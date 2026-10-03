@@ -39,6 +39,64 @@ class DomainsTest < Minitest::Test
   end
 
   def test_finite_domain_rejects_unsupported_values
-    assert_raises(ArgumentError) { SpecProof::FiniteDomain.new(["text"]) }
+    assert_equal ["text"], SpecProof::FiniteDomain.new(["text"]).values
+    assert_raises(ArgumentError) { SpecProof::FiniteDomain.new([(+"\xFF").force_encoding(Encoding::UTF_8)]) }
+  end
+
+  def test_finite_strings_are_copied_frozen_canonical_and_sorted_after_symbols
+    ascii = +"ready"
+    domain = SpecProof::Domains.from_values(["z", :ready, ascii, "ready", "", "é"])
+
+    assert_equal [:ready, "", "ready", "z", "é"], domain.values
+    refute ascii.frozen?
+    ascii.replace("changed")
+    assert domain.include?("ready")
+    refute domain.include?("changed")
+    strings_are_copied = domain.values.last(4).all? { |value| value.instance_of?(String) && value.frozen? }
+    assert strings_are_copied
+    assert_equal Encoding::UTF_8, domain.values.last(4).first.encoding
+    assert_equal Encoding::UTF_8, domain.values.last(4).last.encoding
+  end
+
+  def test_finite_strings_preserve_symbol_identity_and_match_by_exact_type
+    domain = SpecProof::Domains.from_values(["ready", :ready])
+
+    assert_equal [:ready, "ready"], domain.values
+    assert domain.include?("ready")
+    assert domain.include?(:ready)
+    refute domain.include?("other")
+    refute domain.include?(Class.new(String).new("ready"))
+  end
+
+  def test_string_snapshots_ignore_singleton_copy_and_comparison_hooks
+    value = +"ready"
+    def value.eql?(_other)
+      raise "application comparison hook should not run"
+    end
+
+    def value.class
+      raise "application class hook should not run"
+    end
+
+    domain = SpecProof::Domains.from_values([value])
+
+    refute value.frozen?
+    assert domain.include?(value)
+    assert_equal ["ready"], domain.values
+    assert domain.values.fetch(0).frozen?
+  end
+
+  def test_finite_strings_accept_only_valid_utf8_or_us_ascii
+    ascii = (+"abc").force_encoding(Encoding::US_ASCII)
+    utf8 = "é"
+    invalid = (+"\xFF").force_encoding(Encoding::UTF_8)
+    binary = "abc".b
+    subclass = Class.new(String).new("abc")
+
+    [ascii, utf8, "", " \0é"].each { |value| assert SpecProof::Domains.from_values([value]).include?(value) }
+    [invalid, binary, subclass].each do |value|
+      error = assert_raises(SpecProof::ConfigurationError) { SpecProof::Domains.from_values([value]) }
+      assert_equal "unsupported_value", error.code
+    end
   end
 end

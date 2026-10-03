@@ -28,6 +28,13 @@ tests, infer expected results, or prove application correctness.
    candidate's stable obligation ID, value,
    and source locations, plus every excluded input and its reason. A plan's
    candidate set covers only its analyzed inputs.
+   For a finite-string scenario such as `values: [nil, 1, "user_123"]`, keep
+   each value and type exactly as required; `"user_123"` and `:user_123` are
+   distinct. Use finite strings only after a fresh plan reports a string value.
+   Do not infer support from `0.1.x`, and do not drop or relabel a required
+   string to obtain a valid report. If the installed build rejects a required
+   string, report that unsupported value rather than substituting a symbol or
+   omitting it.
 3. Before editing tests or production code, run the intended current suite in a
    fresh process and capture its coverage report as the baseline. Check its run
    ID, digest, input scope, completion, integrity, and original test result.
@@ -111,3 +118,15 @@ behavioral output assertions. Derive each assertion from an independent rule
 or trusted stated requirement. A coverage candidate or a successful hit
 establishes only that an input obligation was exercised; it does not establish
 the expected result or prove correctness.
+
+Finite strings are explicitly enumerated text scenarios, not open-ended String
+coverage. A supported build accepts only exact String instances containing
+valid UTF-8 or US-ASCII text (canonicalized to UTF-8); empty strings,
+whitespace, Unicode, and embedded NUL are valid. Invalid bytes, other encodings,
+and String subclasses are rejected. No trimming, case folding, or Unicode
+normalization occurs. SpecProof copies and freezes owned declaration and
+method-entry snapshots without freezing application values; post-entry
+mutation cannot change matching. A direct Coverage observation likewise owns
+retained strings. Outside-domain string witnesses retain the full string even
+though only a bounded number of witnesses are retained. RBS string types and
+literals remain unsupported, including in unions, and fail atomically.

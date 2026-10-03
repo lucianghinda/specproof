@@ -7,7 +7,7 @@ module SpecProof
         raise ArgumentError, "integer_any must be true or false"
       end
       unless values.is_a?(Array) && values.all? { |value| Domains.primitive?(value) }
-        raise ArgumentError, "scalar type values must be integers, symbols, booleans, or nil"
+        raise ArgumentError, "scalar type values must be integers, symbols, strings, booleans, or nil"
       end
 
       normalized = Domains.from_values(values).values
@@ -27,6 +27,7 @@ module SpecProof
       return true if constraint.integer_any && value.is_a?(Integer)
       return false unless Domains.primitive?(value)
 
+      value = Domains.canonical_string(value) if Domains.supported_string?(value)
       constraint.values.any? { |member| member.instance_of?(value.class) && member.eql?(value) }
     end
 

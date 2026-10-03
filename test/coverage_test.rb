@@ -112,9 +112,40 @@ class CoverageTest < Minitest::Test
     assert_equal false, report.key?(:raw_events)
   end
 
+  def test_direct_observation_owns_outside_string_witnesses
+    specifications = string_specification(["expected"])
+    coverage = SpecProof::Coverage.new(obligations: SpecProof.plan(specifications), specifications: specifications)
+    outside = +"outside"
+
+    refute coverage.observe(target: "Strings#call", arguments: { value: outside })
+    outside.replace("changed")
+
+    assert_equal({ "value" => { kind: "string", value: "outside" } },
+                 coverage.to_report.fetch(:outside_domain).fetch("Strings#call").fetch(:witness))
+  end
+
+  def test_runtime_unsupported_strings_mark_observation_outside_without_inspecting_strings
+    specifications = string_specification(["expected"])
+    coverage = SpecProof::Coverage.new(obligations: SpecProof.plan(specifications), specifications: specifications)
+    invalid = (+"\xFF").force_encoding(Encoding::UTF_8)
+
+    refute coverage.observe(target: "Strings#call", arguments: { value: invalid })
+    report = coverage.to_report
+    assert_equal 1, report.fetch(:outside_domain).fetch("Strings#call").fetch(:count)
+    assert_equal({ kind: "invalid_tuple" }, report.fetch(:outside_domain).fetch("Strings#call").fetch(:witness))
+  end
+
   private
 
   def fixture(name)
     File.expand_path("fixtures/specifications/#{name}", __dir__)
+  end
+
+  def string_specification(values)
+    source = SpecProof::Source.new(path: "string_spec.rb", line: 1)
+    domain = SpecProof::Domains.from_values(values)
+    input = SpecProof::Input.new(name: :value, domain: domain, partitions: [], exhaustive: false,
+                                 disjoint: false, source: source)
+    [SpecProof::Specification.new(target: "Strings#call", inputs: { value: input }, source: source)]
   end
 end

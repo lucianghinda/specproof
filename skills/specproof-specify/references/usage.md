@@ -2,8 +2,11 @@
 
 This reference targets SpecProof `0.1.x`, JSON schema `1`, and
 `input-basics-v1`. Confirm `specproof --version` and the report's
-`specproof_version` before applying it; report unsupported versions instead of
-guessing field meanings.
+`specproof_version`, but do not infer finite-string support from a `0.1.x`
+version alone. A fresh `plan` from the installed build must accept the
+declaration and report a typed string value; otherwise preserve the requested
+value and report that the build does not support it. Report unsupported
+versions or value kinds instead of guessing field meanings.
 
 Run commands from the application project and use its normal Ruby/Bundler
 environment:
@@ -43,6 +46,8 @@ stable `id`, target, input name, typed value, reasons, and source locations.
 Integer values are decimal strings inside a typed value object. Compare the
 digest when comparing reports; compare obligation IDs when linking tests to
 planned values. Re-run the current command before relying on old output.
+Finite strings add `{ "kind": "string", "value": "..." }` under schema 1.
+Consumers must handle this kind wherever typed values and witnesses occur.
 
 Use only the declaration forms supported by SpecProof:
 
@@ -54,6 +59,19 @@ SpecProof.define "Checkout#shipping" do
   end
 end
 ```
+
+When finite-string support is present, enumerate exact text values with
+`values`, for example `values: [nil, 1, "user_123"]`. This is a finite scenario
+subset, not a model of all strings. Symbols and strings with the same spelling
+are distinct values. Only exact `String` instances containing valid UTF-8 or
+US-ASCII are accepted; US-ASCII is canonicalized to UTF-8. Empty strings,
+whitespace, Unicode, and embedded NUL are valid. Invalid bytes, other encodings,
+and String subclasses are rejected. Values are not trimmed, case-folded, or
+Unicode-normalized. SpecProof owns frozen copies of declared strings and
+observed entry values, so mutating an application argument after method entry
+does not alter matching or freeze the application's string. A retained
+outside-domain string witness is full-sized even though witness count is
+bounded.
 
 Do not add inferred partitions to close a gap or remove an overlap. Explain
 the witnesses and ask for the intended policy.
@@ -81,3 +99,6 @@ fields. A source's `kind` identifies its family but does not change obligation
 identity. Read the coverage reference for runtime `declaration_sources` and
 collection scope; offline check/plan scope describes the declaration and does
 not attest runtime binding or that tests loaded.
+RBS string types and string literals remain unsupported, including inside
+unions; these selected inputs fail atomically even when DSL finite strings are
+supported.

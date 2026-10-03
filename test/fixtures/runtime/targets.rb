@@ -107,6 +107,12 @@ module RuntimeFixtures
   class Dynamic
     define_method(:run) { |value| value }
   end
+
+  class StringMutation
+    def mutate(value)
+      value.replace("changed")
+    end
+  end
 end
 
 RuntimeFixturesAlias = RuntimeFixtures::Target

@@ -130,19 +130,12 @@ module SpecProof
         return nil unless key.is_a?(Symbol)
 
         name = key
-        return nil unless primitive?(value)
+        return nil unless Domains.primitive?(value)
 
-        normalized[name] = value
+        normalized[name] = Domains.supported_string?(value) ? Domains.canonical_string(value) : value
       rescue NoMethodError
         return nil
       end.freeze
-    end
-
-    def primitive?(value)
-      case value
-      when NilClass, TrueClass, FalseClass, Integer, Symbol then true
-      else false
-      end
     end
 
     def record_outside(target, tuple)

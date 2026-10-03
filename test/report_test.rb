@@ -5,11 +5,12 @@ require "json"
 
 class ReportTest < Minitest::Test
   def test_typed_json_keeps_symbols_booleans_nil_and_large_integers_distinct
-    values = [nil, false, true, :ro, 10**100].map { |value| SpecProof::Report.value(value) }
+    values = [nil, false, true, :ro, "ro", 10**100].map { |value| SpecProof::Report.value(value) }
     parsed = JSON.parse(JSON.generate(values))
-    assert_equal(%w[nil boolean boolean symbol integer], parsed.map { |item| item.fetch("kind") })
+    assert_equal(%w[nil boolean boolean symbol string integer], parsed.map { |item| item.fetch("kind") })
     assert_equal "ro", parsed[3].fetch("value")
-    assert_equal (10**100).to_s, parsed[4].fetch("value")
+    assert_equal "ro", parsed[4].fetch("value")
+    assert_equal (10**100).to_s, parsed[5].fetch("value")
   end
 
   def test_contract_digest_excludes_source_lines
@@ -49,7 +50,7 @@ class ReportTest < Minitest::Test
   end
 
   def test_finding_witnesses_use_the_same_typed_primitive_values_as_obligations
-    [nil, false, true, :ro, 10**100].each do |value|
+    [nil, false, true, :ro, "ro", 10**100].each do |value|
       finding = SpecProof::Finding.new(code: :partition_gap, target: "Example#call", input: :value,
                                        witness: value, sources: [])
       assert_equal SpecProof::Report.value(value), SpecProof::Report.finding_hash(finding).fetch(:witness)
@@ -58,6 +59,10 @@ class ReportTest < Minitest::Test
                                      witness: [65, 120], sources: [])
     expected = [65, 120].map { |value| SpecProof::Report.value(value) }
     assert_equal expected, SpecProof::Report.finding_hash(finding).fetch(:witness)
+  end
+
+  def test_string_human_values_are_quoted_and_escaped
+    assert_equal "\"a\\n\\\"b\"", SpecProof::Report.human_value("a\n\"b")
   end
 
   private

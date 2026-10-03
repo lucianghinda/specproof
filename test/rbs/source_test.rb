@@ -114,6 +114,8 @@ class RBSSourceTest < Minitest::Test
     types = {
       "string" => "String",
       "string literal" => '"ready"',
+      "string and integer union" => "String | Integer",
+      "integer and string literal union" => 'Integer | "ready"',
       "untyped" => "untyped",
       "type alias" => "flag",
       "unknown nominal" => "MissingType",

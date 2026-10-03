@@ -14,6 +14,10 @@ module SpecProof
       when TrueClass, FalseClass then { kind: "boolean", value: value }
       when Integer then { kind: "integer", value: value.to_s }
       when Symbol then { kind: "symbol", value: value.to_s }
+      when String
+        raise ArgumentError, "unsupported report value String" unless Domains.supported_string?(value)
+
+        { kind: "string", value: Domains.canonical_string(value) }
       else
         raise ArgumentError, "unsupported report value #{value.class}"
       end
@@ -129,7 +133,10 @@ module SpecProof
     end
 
     def human_value(value)
-      value.is_a?(Symbol) ? ":#{value}" : value.inspect
+      return ":#{value}" if value.is_a?(Symbol)
+      return Domains.canonical_string(value).inspect if Domains.supported_string?(value)
+
+      value.inspect
     end
 
     def normalized_domain(domain)

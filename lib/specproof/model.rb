@@ -19,12 +19,13 @@ module SpecProof
   FiniteDomain = Struct.new(:values, keyword_init: true) do # rubocop:disable Lint/StructNewOverride
     def initialize(positional_values = nil, values: positional_values)
       unless values.is_a?(Array) && values.all? do |value|
-        value.nil? || value.equal?(true) || value.equal?(false) || value.is_a?(Integer) || value.is_a?(Symbol)
+        Domains.primitive?(value)
       end
-        raise ArgumentError, "finite domain values must be integers, symbols, booleans, or nil"
+        raise ArgumentError, "finite domain values must be integers, symbols, strings, booleans, or nil"
       end
 
-      copied = values.uniq.sort_by { |value| Domains.sort_key(value) }.freeze
+      copied = values.map { |value| Domains.supported_string?(value) ? Domains.canonical_string(value) : value }
+                     .uniq.sort_by { |value| Domains.sort_key(value) }.freeze
       super(values: copied)
       freeze
     end

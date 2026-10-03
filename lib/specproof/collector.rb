@@ -226,15 +226,12 @@ module SpecProof
         value = binding.local_variable_get(name)
         raise ArgumentError, "non_primitive_argument" unless primitive?(value)
 
-        [name, value]
+        [name, Domains.supported_string?(value) ? Domains.canonical_string(value) : value]
       end.freeze
     end
 
     def primitive?(value)
-      case value
-      when NilClass, TrueClass, FalseClass, Integer, Symbol then true
-      else false
-      end
+      Domains.primitive?(value)
     end
 
     def error_code(error)

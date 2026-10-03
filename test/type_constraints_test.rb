@@ -16,15 +16,37 @@ class TypeConstraintsTest < Minitest::Test
       SpecProof::ScalarTypeConstraint.new(integer_any: :yes, values: [])
     end
     assert_raises(ArgumentError) do
-      SpecProof::ScalarTypeConstraint.new(integer_any: false, values: ["text"])
+      SpecProof::ScalarTypeConstraint.new(integer_any: false, values: ["\xFF".dup.force_encoding(Encoding::UTF_8)])
     end
   end
 
   def test_membership_uses_primitive_identity
-    constraint = SpecProof::ScalarTypeConstraint.new(integer_any: false, values: [nil, false, true, 1, :ro])
+    constraint = SpecProof::ScalarTypeConstraint.new(integer_any: false, values: [nil, false, true, 1, :ro, "ro"])
 
-    [nil, false, true, 1, :ro].each { |value| assert SpecProof::TypeConstraints.include?(constraint, value) }
-    [1.0, "ro", Object.new].each { |value| refute SpecProof::TypeConstraints.include?(constraint, value) }
+    [nil, false, true, 1, :ro, "ro"].each { |value| assert SpecProof::TypeConstraints.include?(constraint, value) }
+    [1.0, "other", Object.new, Class.new(String).new("ro")].each do |value|
+      refute SpecProof::TypeConstraints.include?(constraint, value)
+    end
+  end
+
+  def test_string_constraint_values_are_snapshotted_and_compose_with_finite_domains
+    declared = +"known"
+    constraint = SpecProof::ScalarTypeConstraint.new(integer_any: false, values: [declared, :known])
+    domain = SpecProof::Domains.from_values(["known", :known, "outside"])
+    input = SpecProof::Input.new(name: :value, domain: domain, partitions: [], exhaustive: false,
+                                 disjoint: false, source: SpecProof::Source.new(path: "x.rb", line: 1),
+                                 type_constraint: constraint)
+    specification = SpecProof::Specification.new(target: "Strings#call", inputs: { value: input },
+                                                 source: input.source)
+
+    declared.replace("mutated")
+    assert constraint.values.last.frozen?
+    assert_equal [:known, "known"], constraint.values
+    assert SpecProof::TypeConstraints.include?(constraint, "known")
+    refute SpecProof::TypeConstraints.include?(constraint, Class.new(String).new("known"))
+    finding = SpecProof::Checker.new([specification]).findings.find { |item| item.code == :type_domain_conflict }
+    assert_equal "outside", finding.witness
+    assert_equal ["known"], SpecProof::TypeConstraints.finite_domain(constraint).values.grep(String)
   end
 
   def test_integer_any_accepts_every_integer_and_has_no_finite_projection

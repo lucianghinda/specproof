@@ -40,6 +40,21 @@ class CollectorTest < Minitest::Test
     assert_empty @collector.issues
   end
 
+  def test_string_arguments_are_snapshotted_at_method_entry
+    collector = collector_for("RuntimeFixtures::StringMutation#mutate", :value)
+    argument = +"before"
+    collector.start
+    RuntimeFixtures::StringMutation.new.mutate(argument)
+    collector.stop
+
+    snapshot = @observer.calls.fetch(0).fetch(1).fetch(:value)
+    assert_equal "changed", argument
+    assert_equal "before", snapshot
+    assert snapshot.frozen?
+    refute_same argument, snapshot
+    assert_empty collector.issues
+  end
+
   def test_tracepoint_call_binding_contains_applied_optional_defaults
     captured = []
     tracepoint = TracePoint.new(:call) do |trace|
@@ -391,6 +406,18 @@ class CollectorTest < Minitest::Test
     assert_equal [2, :still_app_works], next_result
     assert_empty @observer.calls
     assert_equal(["non_primitive_argument"], @collector.issues.map { |issue| issue[:code] })
+  end
+
+  def test_unsupported_string_encoding_makes_collector_incomplete
+    collector = collector_for("RuntimeFixtures::StringMutation#mutate", :value)
+    invalid = (+"\xFF").force_encoding(Encoding::UTF_8)
+    collector.start
+    RuntimeFixtures::StringMutation.new.mutate(invalid)
+    collector.stop
+
+    assert_empty @observer.calls
+    issue_codes = collector.issues.map { |issue| issue[:code] }
+    assert_equal ["non_primitive_argument"], issue_codes
   end
 
   def test_disables_only_the_target_with_a_nonprimitive_argument

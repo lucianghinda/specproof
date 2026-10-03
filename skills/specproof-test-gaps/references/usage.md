@@ -6,7 +6,9 @@ This reference targets SpecProof `0.1.x`, JSON schema `1`, and
 Prefer `~> 5.26.2` when using published packages; a mislabeled package is
 rejected even when its metadata alone falls within the supported range.
 Confirm `specproof --version` and `specproof_version`; report unsupported
-versions instead of guessing field meanings.
+versions instead of guessing field meanings. Do not infer finite-string support
+from the `0.1.x` version range; verify with a fresh check and plan from the
+installed build.
 
 Run the full test suite as a fresh process, for example:
 
@@ -57,6 +59,21 @@ that every candidate for those inputs was exercised during the reported run; it
 says nothing about excluded values or behavior, output assertions, interactions,
 or complete method correctness. An intentionally filtered scenario report may
 establish only that explicitly named run scope, never total project coverage.
+
+Finite strings are explicitly enumerated text scenarios, not open-ended String
+coverage. For a required scenario such as `values: [nil, 1, "user_123"]`, retain
+all three types and values; `"user_123"` is distinct from `:user_123`. Do not
+substitute a symbol or omit the string when a required value cannot be planned.
+A fresh plan must report a typed string value before relying on this feature.
+Only exact `String` instances with valid UTF-8 or US-ASCII are accepted; US-ASCII
+is canonicalized to UTF-8. Empty strings, whitespace, Unicode, and embedded NUL
+are valid; invalid bytes, other encodings, and String subclasses are rejected.
+Strings are not trimmed, case-folded, or Unicode-normalized. Owned frozen
+snapshots protect matching from later application mutation without freezing the
+application value. Direct Coverage observations also retain owned snapshots.
+A retained outside-domain string witness is full-sized although witness count
+is bounded. RBS string types and literals remain unsupported, including in
+unions, and fail atomically.
 
 For a mixed DSL/RBS target, pass the same explicit source options to the
 adapter that you used for offline check and plan:

@@ -34,6 +34,58 @@ class MinitestIntegrationTest < Minitest::Test
     end
   end
 
+  def test_finite_string_values_are_reported_and_match_the_entry_snapshot
+    Dir.mktmpdir("specproof-string-minitest") do |directory|
+      specification_path = File.join(directory, "strings_spec.rb")
+      report_path = File.join(directory, "coverage.json")
+      File.write(specification_path, <<~SPEC)
+        SpecProof.define "StringPolicy#accepts?" do
+          input :value, values: ["first", "second"]
+        end
+      SPEC
+      script = <<~RUBY
+        gem "minitest", "~> 5.26.2"
+        $LOAD_PATH.unshift ENV.fetch("SPECPROOF_LIB")
+        require "specproof"
+        require "minitest/autorun"
+
+        class StringPolicy
+          def accepts?(value)
+            original = value.dup
+            value.replace("mutated")
+            original == "first"
+          end
+        end
+
+        class StringCoverageTest < Minitest::Test
+          def test_strings
+            assert StringPolicy.new.accepts?(+"first")
+            refute StringPolicy.new.accepts?(+"second")
+          end
+        end
+
+        require "specproof/minitest"
+        SpecProof::Minitest.install!(specifications: [ENV.fetch("SPEC_PATH")], output: ENV.fetch("REPORT_PATH"))
+      RUBY
+      env = {
+        "RUBYOPT" => nil, "RUBYLIB" => nil, "BUNDLE_GEMFILE" => nil, "BUNDLE_LOCKFILE" => nil,
+        "BUNDLE_BIN_PATH" => nil, "BUNDLER_SETUP" => nil, "BUNDLER_VERSION" => nil,
+        "MT_NO_PLUGINS" => "1", "SPECPROOF_LIB" => File.expand_path("../lib", __dir__),
+        "SPEC_PATH" => specification_path, "REPORT_PATH" => report_path
+      }
+      _stdout, stderr, status = Open3.capture3(env, RbConfig.ruby, "-e", script, chdir: directory)
+
+      assert status.success?, stderr
+      report = JSON.parse(File.read(report_path))
+      assert_equal true, report.fetch("tests_passed")
+      assert_equal "string", report.fetch("obligations").first.dig("value", "kind")
+      statuses = report.fetch("obligations").map { |item| item.fetch("status") }
+      hits = report.fetch("obligations").map { |item| item.fetch("hits") }
+      assert_equal %w[exercised exercised], statuses
+      assert_equal [1, 1], hits
+    end
+  end
+
   def test_interrupted_run_replaces_stale_report_with_a_running_marker
     Dir.mktmpdir("specproof-minitest") do |directory|
       report_path = File.join(directory, "coverage.json")

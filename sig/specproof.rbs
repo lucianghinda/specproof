@@ -53,7 +53,7 @@ module SpecProof
   end
 
   class FiniteDomain
-    attr_reader values: Array[nil | bool | Integer | Symbol]
+    attr_reader values: Array[nil | bool | Integer | Symbol | String]
     def include?: (untyped value) -> bool
   end
 
@@ -65,8 +65,8 @@ module SpecProof
 
   class ScalarTypeConstraint
     attr_reader integer_any: bool
-    attr_reader values: Array[nil | bool | Integer | Symbol]
-    def initialize: (integer_any: bool, values: Array[nil | bool | Integer | Symbol]) -> void
+    attr_reader values: Array[nil | bool | Integer | Symbol | String]
+    def initialize: (integer_any: bool, values: Array[nil | bool | Integer | Symbol | String]) -> void
   end
 
   class InputTypeFact
@@ -96,7 +96,7 @@ module SpecProof
     attr_reader id: String
     attr_reader target: String
     attr_reader input: Symbol
-    attr_reader value: nil | bool | Integer | Symbol
+    attr_reader value: nil | bool | Integer | Symbol | String
     attr_reader reasons: Array[String]
     attr_reader sources: Array[Source]
   end
