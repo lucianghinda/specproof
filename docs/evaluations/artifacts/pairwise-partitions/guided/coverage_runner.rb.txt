@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+require "minitest/autorun"
+require_relative "lib/age_policy"
+require "specproof/minitest"
+
+SpecProof::Minitest.install!(
+  specifications: ["specification.rb"],
+  criterion: "pairwise-partitions-v1",
+  output: ENV.fetch("SPEC_PROOF_REPORT"),
+  fail_on_missing: false
+)
+
+require_relative "test_age_policy"
+require_relative "test_missing_category" if ENV["SPECPROOF_ADDED_TEST"] == "1"

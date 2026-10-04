@@ -4,12 +4,33 @@ require "digest"
 require "json"
 
 module SpecProof
-  # Builds the stable machine and human report representations.
+  # Builds stable machine and human report representations.
   module Report
     module_function
 
+    # Renders primitive and partition pair obligations for human plans.
+    module PairwisePlanRows
+      module_function
+
+      def render(obligations, criterion:)
+        grouped_rows = obligations.group_by { |item| [item.target, item.inputs.keys.map(&:to_s)] }
+        grouped_rows.map do |(target, names), items|
+          lines = ["#{target} / #{names.join(" × ")}", "Criterion: #{criterion}", "Pair obligations: #{items.length}"]
+          items.each do |item|
+            values = item.inputs.map { |name, item_value| "#{name}=#{Report.human_value(item_value)}" }.join(", ")
+            locations = item.sources.map { |item_source| "#{item_source.path}:#{item_source.line}" }.join(", ")
+            lines << "#{values}: #{item.reasons.join("; ")}\n    #{locations}"
+          end
+          lines.join("\n")
+        end
+        .join("\n\n")
+      end
+    end
+
     def value(value)
       case value
+      when PartitionLevel then { kind: "partition", name: value.name.to_s, lower: value.lower.to_s,
+                                 upper: value.upper.to_s }
       when NilClass then { kind: "nil", value: nil }
       when TrueClass, FalseClass then { kind: "boolean", value: value }
       when Integer then { kind: "integer", value: value.to_s }
@@ -112,11 +133,11 @@ module SpecProof
         scope: input_scope(specifications),
         obligations: obligations.map { |item| obligation(item) }
       )
-      if criterion == "pairwise-finite-v1"
+      if %w[pairwise-finite-v1 pairwise-partitions-v1].include?(criterion)
         result[:excluded_pairs] = specifications.flat_map do |specification|
           next [] unless specification.respond_to?(:combination_group) && specification.combination_group
 
-          space = CombinationSpace.new(specification)
+          space = PartitionSpace.for_specification(specification, criterion: criterion)
           space.excluded_pairs.map do |inputs|
             { target: specification.target,
               inputs: inputs.to_h { |name, item| [name.to_s, value(item)] },
@@ -177,7 +198,8 @@ module SpecProof
     end
 
     def human_plan(obligations, criterion: "input-basics-v1", specifications: [])
-      return human_pairwise_plan(obligations, specifications) if criterion == "pairwise-finite-v1"
+      return human_pairwise_plan(obligations, specifications, criterion: criterion) if
+        %w[pairwise-finite-v1 pairwise-partitions-v1].include?(criterion)
 
       rows = obligations.group_by { |item| [item.target, item.input] }.map do |(target, input), items|
         values = items.map { |item| human_value(item.value) }.join(", ")
@@ -190,33 +212,20 @@ module SpecProof
       [rows, human_scope(specifications)].reject(&:empty?).join("\n\n")
     end
 
-    def human_pairwise_plan(obligations, specifications)
-      rows = pairwise_plan_rows(obligations)
+    def human_pairwise_plan(obligations, specifications, criterion:)
+      rows = PairwisePlanRows.render(obligations, criterion: criterion)
       excluded_count = specifications.sum do |specification|
         next 0 unless specification.respond_to?(:combination_group) && specification.combination_group
 
-        CombinationSpace.new(specification).excluded_pairs.length
+        space = PartitionSpace.for_specification(specification, criterion: criterion)
+        space.excluded_pairs.length
       end
-      rows = "Total pair obligations: #{obligations.length}\n\n#{rows}"
-      rows += "\n\nExcluded pairs: #{excluded_count}"
+      rows = "Total pair obligations: #{obligations.length}\n\n#{rows}\n\nExcluded pairs: #{excluded_count}"
       [rows, human_scope(specifications)].reject(&:empty?).join("\n\n")
     end
 
-    def pairwise_plan_rows(obligations)
-      grouped_rows = obligations.group_by { |item| [item.target, item.inputs.keys.map(&:to_s)] }
-      grouped_rows.map do |(target, names), items|
-        lines = ["#{target} / #{names.join(" × ")}", "Criterion: pairwise-finite-v1",
-                 "Pair obligations: #{items.length}"]
-        items.each do |item|
-          values = item.inputs.map { |name, item_value| "#{name}=#{human_value(item_value)}" }.join(", ")
-          locations = item.sources.map { |item_source| "#{item_source.path}:#{item_source.line}" }.join(", ")
-          lines << "#{values}: #{item.reasons.join("; ")}\n    #{locations}"
-        end
-        lines.join("\n")
-      end.join("\n\n")
-    end
-
     def human_value(value)
+      return "#{value.name}[#{value.lower}..#{value.upper}]" if value.is_a?(PartitionLevel)
       return ":#{value}" if value.is_a?(Symbol)
       return Domains.canonical_string(value).inspect if Domains.supported_string?(value)
 

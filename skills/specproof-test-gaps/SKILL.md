@@ -42,7 +42,12 @@ tests, infer expected results, or prove application correctness.
    is valid, not a claim of behavioral independence. A `forbid` clause must
    come from a requirement; never add one to erase a missing pair. Pair
    feasibility depends on an allowed full assignment, including all other
-   group inputs.
+   group inputs. For bounded integer inputs, use `pairwise-partitions-v1` only
+   when each grouped range has an explicit exhaustive, disjoint partition, all
+   other grouped inputs are finite values, and every combination is allowed.
+   This criterion rejects `forbid` rules and explicit partitions on
+   finite-valued inputs. It counts category pairs, not boundary candidates or
+   inferred behavior equivalence.
 3. Before editing tests or production code, run the intended current suite in a
    fresh process and capture its coverage report as the baseline. Check its run
    ID, digest, input scope, completion, integrity, and original test result.
@@ -50,6 +55,9 @@ tests, infer expected results, or prove application correctness.
    report cannot establish a baseline gap. Preserve the baseline result as
    recorded, including `tests_passed: false` when the current suite fails.
    For pairwise runs, compare the exact planned pair IDs and typed assignments.
+   Partition-pair rows identify category names and bounds; a suggestion uses a
+   lower-endpoint input representative. That input is not a behavioral oracle
+   or a boundary-coverage claim.
    A method call can satisfy only pairs present together in that valid tuple;
    evidence from separate calls is never combined into a synthetic pair.
 4. For each uncovered value, derive its expected result from an independent
@@ -92,8 +100,9 @@ tests, infer expected results, or prove application correctness.
    turn a failing result green.
 
 For a pairwise baseline, you may use `specproof suggest PATH --report FILE`
-after checking the report against a fresh pairwise plan. Suggestions require a
-completed, intact report with exact typed obligations, current digest and
+after checking the report against a fresh plan with the criterion named in the
+coverage report. `suggest` infers that criterion and accepts no `--criterion`
+option. Suggestions require a completed, intact report with exact typed obligations, current digest and
 declared scope, consistent rows and projections, no errors or unknowns, and a
 Boolean original `tests_passed` value. A failing test result is accepted and
 preserved. A filtered report supports only its recorded scope. Do not infer
@@ -114,10 +123,13 @@ When testing a pairwise interaction, derive the expected output from an
 independent rule for each combination. A pair coverage hit says only that the
 input combination reached the method. Keep the baseline, any newly failing
 requirement-backed assertion, and any corrected implementation run in separate
-fresh processes, with a fresh report and run ID for each. A passing
-`pairwise-finite-v1` report and passing assertions establish evidence only for
-the declared finite inputs and assertions; they do not prove exhaustive tuple
-coverage or behavioral independence.
+fresh processes, with a fresh report and run ID for each. A passing pairwise
+report and passing assertions establish evidence only for the declared inputs
+and assertions; they do not prove exhaustive tuple coverage or behavioral
+independence. `pairwise-partitions-v1` records whether an observed value belongs
+to a declared category. It does not prove that all values in that category
+behave alike or that a category pair was tested at its boundaries. Derive each
+expected result from an independent requirement.
 
 For adapter setup, report fields, and evidence checks, read
 [the bundled coverage report reference](references/usage.md).

@@ -1,0 +1,453 @@
+{
+  "schema_version": 1,
+  "specproof_version": "0.1.0",
+  "kind": "coverage",
+  "errors": [],
+  "contract_digest": "ce20c25f686bcb8e62d8979816858f2937dc6cee570898107ef416093687a79c",
+  "criterion": "pairwise-partitions-v1",
+  "run_id": "ca09e606-c617-4fa7-8515-2974cea71977",
+  "scope": {
+    "ruby_engine": "ruby",
+    "pid": 69276,
+    "thread": 96,
+    "window": "minitest_run",
+    "method_identity": "direct_owner_definition",
+    "input_semantics": "effective_bound_values",
+    "argument_presence": "not_observed",
+    "targets": [
+      "AgePolicy#eligible?"
+    ],
+    "declaration_sources": {
+      "specifications": [
+        "/private/tmp/specproof-partitions-agent-check/guided/specification.rb"
+      ],
+      "rbs": [],
+      "targets": []
+    },
+    "arguments": [],
+    "filter": null,
+    "exclude": null,
+    "completeness_scope": "analyzed_inputs",
+    "input_scope": [
+      {
+        "target": "AgePolicy#eligible?",
+        "analyzed_inputs": [
+          "age",
+          "country"
+        ],
+        "excluded_inputs": [],
+        "combination_group": {
+          "inputs": [
+            "age",
+            "country"
+          ]
+        }
+      }
+    ]
+  },
+  "evidence_mode": "obligation_hits",
+  "replay": false,
+  "obligations": [
+    {
+      "id": "e47c6c3a0035ee9e317ea90df1dde67dc0d834624b89f6f3936a19f355c29b37",
+      "target": "AgePolicy#eligible?",
+      "inputs": {
+        "age": {
+          "kind": "partition",
+          "name": "minor",
+          "lower": "0",
+          "upper": "16"
+        },
+        "country": {
+          "kind": "string",
+          "value": "de"
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 11,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 12,
+          "kind": "dsl"
+        }
+      ],
+      "status": "not_observed",
+      "hits": 0
+    },
+    {
+      "id": "55b00794549580aae00deb68e4e3a4751fab451138b7f0c8a08adc63eb076afc",
+      "target": "AgePolicy#eligible?",
+      "inputs": {
+        "age": {
+          "kind": "partition",
+          "name": "minor",
+          "lower": "0",
+          "upper": "16"
+        },
+        "country": {
+          "kind": "string",
+          "value": "ro"
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 11,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 12,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "b581f2190a5d1d8b565bdd53e5c87005dcb14ba471c4e5b7215c765b86b3eddb",
+      "target": "AgePolicy#eligible?",
+      "inputs": {
+        "age": {
+          "kind": "partition",
+          "name": "adult",
+          "lower": "18",
+          "upper": "120"
+        },
+        "country": {
+          "kind": "string",
+          "value": "de"
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 11,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 12,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "ee3acdbc5d1692d098e61bb3df23a9347ea3678ca466365cd8bb29ba25aec06f",
+      "target": "AgePolicy#eligible?",
+      "inputs": {
+        "age": {
+          "kind": "partition",
+          "name": "adult",
+          "lower": "18",
+          "upper": "120"
+        },
+        "country": {
+          "kind": "string",
+          "value": "ro"
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 11,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 12,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    }
+  ],
+  "missing": [
+    {
+      "id": "e47c6c3a0035ee9e317ea90df1dde67dc0d834624b89f6f3936a19f355c29b37",
+      "target": "AgePolicy#eligible?",
+      "inputs": {
+        "age": {
+          "kind": "partition",
+          "name": "minor",
+          "lower": "0",
+          "upper": "16"
+        },
+        "country": {
+          "kind": "string",
+          "value": "de"
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 11,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 12,
+          "kind": "dsl"
+        }
+      ],
+      "status": "not_observed",
+      "hits": 0
+    }
+  ],
+  "exercised": [
+    {
+      "id": "55b00794549580aae00deb68e4e3a4751fab451138b7f0c8a08adc63eb076afc",
+      "target": "AgePolicy#eligible?",
+      "inputs": {
+        "age": {
+          "kind": "partition",
+          "name": "minor",
+          "lower": "0",
+          "upper": "16"
+        },
+        "country": {
+          "kind": "string",
+          "value": "ro"
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 11,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 12,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "b581f2190a5d1d8b565bdd53e5c87005dcb14ba471c4e5b7215c765b86b3eddb",
+      "target": "AgePolicy#eligible?",
+      "inputs": {
+        "age": {
+          "kind": "partition",
+          "name": "adult",
+          "lower": "18",
+          "upper": "120"
+        },
+        "country": {
+          "kind": "string",
+          "value": "de"
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 11,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 12,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    },
+    {
+      "id": "ee3acdbc5d1692d098e61bb3df23a9347ea3678ca466365cd8bb29ba25aec06f",
+      "target": "AgePolicy#eligible?",
+      "inputs": {
+        "age": {
+          "kind": "partition",
+          "name": "adult",
+          "lower": "18",
+          "upper": "120"
+        },
+        "country": {
+          "kind": "string",
+          "value": "ro"
+        }
+      },
+      "reasons": [
+        "feasible input pair"
+      ],
+      "sources": [
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 6,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 7,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 8,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 11,
+          "kind": "dsl"
+        },
+        {
+          "path": "/private/tmp/specproof-partitions-agent-check/guided/specification.rb",
+          "line": 12,
+          "kind": "dsl"
+        }
+      ],
+      "status": "exercised",
+      "hits": 1
+    }
+  ],
+  "exercised_count": 3,
+  "obligation_count": 4,
+  "missing_count": 1,
+  "unknown_count": 0,
+  "not_observed_count": 1,
+  "completion_percent": 75.0,
+  "outside_domain": {},
+  "incomplete_reasons": [],
+  "outside_combinations": {},
+  "excluded_pairs": [],
+  "completion": "completed",
+  "integrity": true,
+  "tests_passed": true
+}

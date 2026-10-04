@@ -32,7 +32,7 @@ module SpecProof
         end
         composed = Specification.new(target: target, inputs: inputs, exclusions: exclusions,
                                      combination_group: specification&.combination_group, source: source)
-        CombinationSpace.new(composed) if composed.combination_group
+        PartitionSpace.for_specification(composed, validate_geometry: false) if composed.combination_group
         composed
       end.freeze
     end

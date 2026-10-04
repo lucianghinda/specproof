@@ -1,0 +1,8 @@
+# frozen_string_literal: true
+
+class AgePolicyMissingCategoryTest < Minitest::Test
+  def test_minor_from_de_is_ineligible
+    refute AgePolicy.new.eligible?(age: 0, country: "de"),
+           "pair e47c6c3a0035ee9e317ea90df1dde67dc0d834624b89f6f3936a19f355c29b37; requirements.md: every applicant under 18 is ineligible"
+  end
+end

@@ -63,6 +63,32 @@ all be valid even when the combination group covers only a subset. Excluded
 runtime inputs remain outside the claim, including any behavior involving
 their values.
 
+## Pairwise partition criterion
+
+`pairwise-partitions-v1` is a separate explicit criterion. It requires a
+`combinations` group for every target. Each grouped integer input must have a
+bounded range declared `exhaustive: true` and `disjoint: true`, with explicit
+partitions. Other grouped inputs use finite values as singleton categories.
+Only `all_allowed: true` is supported; `forbid` rules and explicit partitions
+on finite-valued inputs are configuration errors for this criterion. The
+default scalar criterion and `pairwise-finite-v1` keep their existing behavior.
+
+Plan and runtime pair rows use the same `inputs` structure as finite pairwise
+rows. Integer categories serialize as
+`{ "kind": "partition", "name": "minor", "lower": "0", "upper": "17" }`;
+the reported bounds are inclusive. Finite values retain their ordinary typed
+form. Pair IDs include the criterion and category identity and bounds. Coverage
+counts a call when its integer value belongs to the planned category in the
+same fully valid tuple. It does not count as exact-value or boundary coverage,
+and it does not claim equivalent behavior within a category.
+
+CLI `suggest` infers this criterion from a valid, checked coverage report; its
+command continues to reject `--criterion`. Suggested category assignments
+replace each partition object with a concrete integer at that partition's
+lower endpoint. That value is a representative call input only. The output
+uses `strategy: "greedy-partition-pairwise-v1"`; it supplies no expected
+result or behavior rule.
+
 Finite string support is feature-specific, not guaranteed by a `0.1.x` version number. Check a fresh plan from the installed build for typed string obligations before relying on the kind. A finite string declaration enumerates scenario values and does not represent the full String domain. Only exact String instances with valid UTF-8 or US-ASCII encoding are supported; US-ASCII is canonicalized to UTF-8. Empty strings, whitespace, Unicode, and embedded NUL are valid text. Invalid byte sequences, other encodings, and String subclasses are rejected. No trimming, case folding, or Unicode normalization is applied. Declaration values and observed values are copied into frozen SpecProof-owned snapshots. The entry snapshot is used for matching even if the method mutates its argument, and direct Coverage observation also owns retained strings. A bounded outside-domain witness count does not bound witness bytes: a retained string witness is the full immutable string.
 
 For a target also selected from RBS, DSL refinements must name parameters in
@@ -88,7 +114,7 @@ The optional adapter writes a JSON file with `kind: "coverage"` and prints a sum
 
 | Field | Meaning |
 | --- | --- |
-| `contract_digest`, `criterion` | Current normalized specification and selected input criterion (`input-basics-v1` or `pairwise-finite-v1`); compare with a current plan |
+| `contract_digest`, `criterion` | Current normalized specification and selected input criterion (`input-basics-v1`, `pairwise-finite-v1`, or `pairwise-partitions-v1`); compare with a current plan |
 | `scope.completeness_scope`, `scope.input_scope` | Declared input scope: analyzed parameter names plus explicitly excluded names and their reasons/sources |
 | `run_id` | Fresh UUID for the invocation, also printed in its summary |
 | `completion` | `running`, `completed`, or `incomplete` |
@@ -103,7 +129,7 @@ The optional adapter writes a JSON file with `kind: "coverage"` and prints a sum
 | `incomplete_reasons`, `errors` | Bounded diagnostics explaining missing integrity or unsupported collection |
 | `evidence_mode`, `replay` | `obligation_hits` and `false`; no full event trace is retained |
 
-An obligation is `exercised` when a valid analyzed-input tuple supplied its candidate value; `not_observed` when collection was intact but no such tuple was seen; or `unknown` when an integrity limitation prevents concluding absence. Positive hits remain positive after an integrity failure, but unhit affected obligations become unknown. The `missing` array contains only `not_observed` rows. Every analyzed input in a call must satisfy its domain before any candidate from that call counts. Explicitly excluded values are outside the tuple and are never read by the collector; their values and behavior are not covered. An analyzed non-primitive value still makes collection incomplete. The collector does not silently drop undeclared parameter fields to make a tuple count: declaration names must account for the selected target's complete named runtime signature, split only between analyzed and explicitly excluded inputs.
+An obligation is `exercised` when a valid analyzed-input tuple supplied its candidate value or category; `not_observed` when collection was intact but no such tuple was seen; or `unknown` when an integrity limitation prevents concluding absence. For partition rows, an observed integer exercises a category when it falls within the category's inclusive bounds. Positive hits remain positive after an integrity failure, but unhit affected obligations become unknown. The `missing` array contains only `not_observed` rows. Every analyzed input in a call must satisfy its domain before any candidate from that call counts. Explicitly excluded values are outside the tuple and are never read by the collector; their values and behavior are not covered. An analyzed non-primitive value still makes collection incomplete. The collector does not silently drop undeclared parameter fields to make a tuple count: declaration names must account for the selected target's complete named runtime signature, split only between analyzed and explicitly excluded inputs.
 
 Runtime `scope.targets` lists every target in the composed contract, and runtime `scope.declaration_sources` records the supplied declaration inputs as `{ "specifications": [...], "rbs": [...], "targets": [...] }`: canonical DSL and RBS paths, plus explicitly selected RBS targets. These runtime-only invocation fields do not attest that expected test files were loaded. Runtime scope also includes the shared `completeness_scope` and `input_scope` fields described above, plus the Ruby engine, process ID, run thread identity, run arguments, recognized inclusion `filter` and `exclude` patterns, `window: "minitest_run"`, and `method_identity: "direct_owner_definition"`. It records `input_semantics: "effective_bound_values"` and `argument_presence: "not_observed"`. Inspect the original arguments as well as the pattern summaries before treating the invocation as the intended full suite; patterns do not attest which test files the caller loaded. Reports apply to the current process, selected thread, and Minitest run window. They do not merge child-process or child-thread activity or identify individual tests.
 
@@ -120,8 +146,9 @@ Missing input obligations are informational by default. Strict missing mode can 
 ## Pairwise suggestions
 
 `specproof suggest PATH --report FILE --format json` reads exactly one
-completed coverage report and always uses `pairwise-finite-v1` with the
-`greedy-pairwise-v1` strategy. It accepts the same optional `--rbs FILE` and
+completed coverage report and infers its criterion from that checked report.
+It uses `greedy-pairwise-v1` for `pairwise-finite-v1` and
+`greedy-partition-pairwise-v1` for `pairwise-partitions-v1`. It accepts the same optional `--rbs FILE` and
 `--target TARGET` selectors as the other declaration commands. `--criterion`
 is rejected because suggestions are defined only for pairwise reports.
 Suggestions replan the supplied current declarations and validate the report
@@ -136,8 +163,8 @@ Filtered reports are accepted for their recorded scope. The output preserves
 filtered run a full-suite claim.
 
 The JSON suggestion document has schema 1, kind `suggestions`, no errors,
-`criterion: "pairwise-finite-v1"`, `strategy: "greedy-pairwise-v1"`,
-`assignment_scope: "combination_group"`, and
+and records the criterion and strategy selected from its source report, plus
+`assignment_scope: "combination_group"` and
 `minimality: "not_guaranteed"`. It includes the current `contract_digest`,
 source provenance and scope, and `missing_obligation_count`,
 `covered_obligation_count`, and `suggestion_count`. Each suggestion row has a
@@ -149,12 +176,18 @@ explicitly excluded inputs appear in `unassigned_inputs`; the caller must
 supply them. Every analyzed runtime input, including those names, must still
 be valid for a call to count.
 
+For partition rows, source obligations contain the typed category name and
+inclusive bounds; suggestion `inputs` instead contain the lower-endpoint
+integer representative. Do not interpret a category hit as a boundary test or
+as evidence that all values in the category share behavior.
+
 Suggestions are unexecuted test inputs and contain no expected outputs. Use an
 independent requirement as the assertion oracle, and never derive expected
 values from the implementation or the suggestions. Do not copy a candidate
 into a test without adding a meaningful assertion. A passing pairwise report
-or a union of suggested pairs is evidence only for those finite input
-combinations and assertions. The contract digest does not fingerprint
+or a union of suggested pairs is evidence only for the declared pair or
+category obligations and assertions; it is not exhaustive full-tuple coverage.
+The contract digest does not fingerprint
 implementation or test bytes, so rerun the intended test suite in a fresh
 process after either changes and inspect its new run ID and test result.
 

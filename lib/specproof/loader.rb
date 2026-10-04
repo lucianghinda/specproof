@@ -213,7 +213,9 @@ module SpecProof
 
         unless allow_exclusion_only
           declarations.each_value do |specification|
-            CombinationSpace.new(specification) if specification.combination_group
+            next unless specification.combination_group
+
+            PartitionSpace.for_specification(specification, validate_geometry: false)
           end
         end
 

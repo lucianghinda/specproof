@@ -194,6 +194,17 @@ requirement-backed failing assertion, and a fresh corrected run. It also shows
 one suggested three-boolean assignment covering several missing pairs, with
 the other method inputs left for the caller to supply when outside the group.
 
+## Pairwise coverage over integer partitions
+
+`pairwise-partitions-v1` pairs explicitly exhaustive and disjoint integer
+categories with other finite inputs. It requires `all_allowed: true` and does
+not support forbidden assignments or explicit partitions on finite-valued
+inputs. Category coverage is not boundary-value coverage and does not assert
+equivalent behavior throughout a category. The runnable [partition example](examples/pairwise_partitions/README.md)
+shows a missing minor/`"de"` category pair and an input suggestion derived from
+the report. See the [implementation results](docs/pairwise-partitions-results.md)
+for limits and verification evidence.
+
 ## Development
 
 Run the test and lint tasks with `bundle exec rake`. The default task runs Minitest and RuboCop. The CI matrix covers Ruby 3.3, 3.4, and 4.0.

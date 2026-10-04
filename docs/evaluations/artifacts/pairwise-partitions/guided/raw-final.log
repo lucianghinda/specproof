@@ -1,0 +1,10 @@
+Run options: --seed 5824
+
+# Running:
+
+..
+
+Finished in 0.000700s, 2857.1425 runs/s, 5714.2850 assertions/s.
+
+2 runs, 4 assertions, 0 failures, 0 errors, 0 skips
+SpecProof coverage run a8ad2e14-4a2d-4f39-b716-09c18d5cd59e: 4/4 pair obligations exercised; completeness scope: analyzed inputs only; 0 excluded pairs; criterion: pairwise-partitions-v1; group: AgePolicy#eligible?(age, country) (completed)

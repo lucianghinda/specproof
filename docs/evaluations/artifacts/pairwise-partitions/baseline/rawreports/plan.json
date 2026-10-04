@@ -1,0 +1,1 @@
+{"schema_version":1,"specproof_version":"0.1.0","kind":"plan","errors":[{"code":"finite_combinations_required","message":"combinations input :age must have finite values","source":{"path":"/private/tmp/specproof-partitions-agent-check/baseline/specification.rb","line":6,"kind":"dsl"}}],"criterion":"pairwise-finite-v1"}

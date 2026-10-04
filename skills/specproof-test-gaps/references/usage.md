@@ -1,8 +1,9 @@
 # Minitest coverage report reference
 
 This reference targets SpecProof `0.1.x`, JSON schema `1`, and
-`input-basics-v1` by default. `pairwise-finite-v1` is opt-in and must be
-selected explicitly in both plan and Minitest setup. Use Minitest
+`input-basics-v1` by default. `pairwise-finite-v1` and
+`pairwise-partitions-v1` are opt-in and must be selected explicitly in both
+plan and Minitest setup. Use Minitest
 `>= 5.26.2` and `< 5.28.0` on CRuby `3.3`,
 `3.4`, or `4.0`. The package/runtime major and minor versions must match.
 Prefer `~> 5.26.2` when using published packages; a mislabeled package is
@@ -75,6 +76,19 @@ Each `forbid` clause must be based on requirements. Never change restrictions
 to make missing pairs disappear. Pair hits do not establish expected results;
 assertions need an independent behavior oracle.
 
+With `pairwise-partitions-v1`, each grouped integer range needs explicit
+`exhaustive: true`, `disjoint: true` partitions. Other grouped inputs use
+finite values as singleton categories, and the group must declare
+`all_allowed: true`. This criterion rejects `forbid` rules and explicit
+partitions on finite-valued inputs. A category pair is hit when an observed
+integer belongs to that category; this does not mean every value in the
+category was observed or that the values behave equivalently. Compare typed
+partition rows such as
+`{ "kind": "partition", "name": "minor", "lower": "0", "upper": "17" }`
+with a fresh plan. Suggestions use the category's lower endpoint as a concrete
+integer; that representative does not provide a behavior oracle or boundary
+coverage claim.
+
 Finite strings are explicitly enumerated text scenarios, not open-ended String
 coverage. For a required scenario such as `values: [nil, 1, "user_123"]`, retain
 all three types and values; `"user_123"` is distinct from `:user_123`. Do not
@@ -105,9 +119,10 @@ SpecProof::Minitest.install!(
 )
 ```
 
-For pairwise evidence, also pass `criterion: "pairwise-finite-v1"` here and
-use the same explicit criterion for the offline `plan` command. Leaving it out
-keeps the scalar `input-basics-v1` behavior.
+For pairwise evidence, pass the same explicit criterion to `install!` and the
+offline `plan` command. Use `pairwise-finite-v1` or `pairwise-partitions-v1`
+only when the contract meets that criterion's group rules. Leaving it out
+keeps scalar `input-basics-v1` behavior.
 
 For RBS-only input, use `specifications: []` and supply both non-empty `rbs:`
 and `targets:` arrays. Pass `--rbs FILE` and `--target 'Class#instance_method'`
@@ -120,7 +135,7 @@ current suite covered its plan:
 
 - `schema_version` is `1` and `kind` is `"coverage"`.
 - `criterion` matches the selected plan (`"input-basics-v1"` by default or
-  `"pairwise-finite-v1"` when requested), and `contract_digest` matches a
+  either explicit pairwise criterion), and `contract_digest` matches a
   fresh plan report for the same specifications and criterion.
 - `run_id` is present and belongs to the latest full-suite execution; confirm
   it matches the run summary emitted by that invocation.
@@ -174,8 +189,10 @@ scope, row statuses and hit counts, counters and projections. The report must
 be completed and intact with no errors, incomplete reasons, or unknown
 observations. It accepts either Boolean `tests_passed` value and copies that
 value with the source run ID and scope. Filtered reports remain limited to
-their recorded scope. `suggest` always uses `pairwise-finite-v1` and
-`greedy-pairwise-v1`, requires exactly one report, and rejects `--criterion`.
+their recorded scope. `suggest` infers the criterion from that validated
+report, requires exactly one report, and rejects `--criterion`. It uses
+`greedy-pairwise-v1` for `pairwise-finite-v1` and
+`greedy-partition-pairwise-v1` for `pairwise-partitions-v1`.
 
 Each result row contains a full allowed combination-group assignment and the
 missing obligation IDs it newly covers. `unassigned_inputs` lists analyzed

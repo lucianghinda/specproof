@@ -1,0 +1,10 @@
+Command: env -i PATH=/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin GEM_HOME=/private/tmp/specproof-partitions-installed GEM_PATH=/private/tmp/specproof-partitions-installed:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0 MT_NO_PLUGINS=1 /Users/luciang/.rubies/ruby-4.0.1/bin/ruby /private/tmp/specproof-partitions-installed/gems/specproof-0.1.0/exe/specproof --version
+Output: SpecProof 0.1.0
+
+Command: env -i PATH=/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin GEM_HOME=/private/tmp/specproof-partitions-installed GEM_PATH=/private/tmp/specproof-partitions-installed:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0 MT_NO_PLUGINS=1 /Users/luciang/.rubies/ruby-4.0.1/bin/ruby /private/tmp/specproof-partitions-installed/gems/specproof-0.1.0/exe/specproof check specification.rb --format json
+Output: {"schema_version":1,"specproof_version":"0.1.0","kind":"check","errors":[],"contract_digest":"ce20c25f686bcb8e62d8979816858f2937dc6cee570898107ef416093687a79c","scope":{"completeness_scope":"analyzed_inputs","input_scope":[{"target":"AgePolicy#eligible?","analyzed_inputs":["age","country"],"excluded_inputs":[],"combination_group":{"inputs":["age","country"]}}]},"findings":[]}
+
+Command: env -i PATH=/Users/luciang/.rubies/ruby-4.0.1/bin:/usr/bin:/bin GEM_HOME=/private/tmp/specproof-partitions-installed GEM_PATH=/private/tmp/specproof-partitions-installed:/private/tmp/specproof-selection-40/vendor/bundle/ruby/4.0.0 MT_NO_PLUGINS=1 /Users/luciang/.rubies/ruby-4.0.1/bin/ruby /private/tmp/specproof-partitions-installed/gems/specproof-0.1.0/exe/specproof plan specification.rb --criterion pairwise-finite-v1 --format json
+Output: {"schema_version":1,"specproof_version":"0.1.0","kind":"plan","errors":[{"code":"finite_combinations_required","message":"combinations input :age must have finite values","source":{"path":"/private/tmp/specproof-partitions-agent-check/baseline/specification.rb","line":6,"kind":"dsl"}}],"criterion":"pairwise-finite-v1"}
+
+No Minitest runner was executed because the pairwise plan did not succeed; `suggest` requires a completed intact pairwise coverage report and cannot be used from this state.

@@ -3,8 +3,10 @@
 module SpecProof
   # Finds contradictions between declared domains and partitions.
   class Checker
-    def initialize(specifications)
+    def initialize(specifications, criterion: nil, check_combinations: true)
       @specifications = specifications
+      @criterion = criterion
+      @check_combinations = check_combinations
     end
 
     def findings
@@ -13,7 +15,7 @@ module SpecProof
         specification.inputs.each_value do |input|
           check_input(specification, input, results)
         end
-        check_combinations(specification, results) if specification.combination_group
+        check_combinations(specification, results) if @check_combinations && specification.combination_group
       end
       results.sort_by do |finding|
         if finding.is_a?(CombinationFinding)
@@ -27,11 +29,15 @@ module SpecProof
     private
 
     def check_combinations(specification, results)
-      space = CombinationSpace.new(specification)
+      space = combination_space(specification)
       return unless space.allowed_count.zero?
 
       results << CombinationFinding.new(code: :unsatisfiable_combinations, target: specification.target,
                                         inputs: specification.combination_group.inputs, sources: space.sources)
+    end
+
+    def combination_space(specification)
+      PartitionSpace.for_specification(specification, criterion: @criterion, validate_geometry: false)
     end
 
     def check_input(specification, input, results)

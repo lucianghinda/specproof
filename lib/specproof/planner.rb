@@ -8,9 +8,10 @@ module SpecProof
   class Planner
     CRITERION = "input-basics-v1"
     PAIRWISE_CRITERION = "pairwise-finite-v1"
+    PARTITION_PAIRWISE_CRITERION = "pairwise-partitions-v1"
 
     def initialize(specifications, criterion: CRITERION)
-      unless [CRITERION, PAIRWISE_CRITERION].include?(criterion)
+      unless [CRITERION, PAIRWISE_CRITERION, PARTITION_PAIRWISE_CRITERION].include?(criterion)
         raise ConfigurationError.new("unsupported criterion #{criterion.inspect}", code: "unknown_criterion")
       end
 
@@ -19,10 +20,10 @@ module SpecProof
     end
 
     def obligations
-      findings = Checker.new(@specifications).findings
+      findings = Checker.new(@specifications, criterion: @criterion).findings
       raise InvalidSpecificationError, findings unless findings.empty?
 
-      return pair_obligations if @criterion == PAIRWISE_CRITERION
+      return pair_obligations if [PAIRWISE_CRITERION, PARTITION_PAIRWISE_CRITERION].include?(@criterion)
 
       candidates = {}
       @specifications.each do |specification|
@@ -55,7 +56,7 @@ module SpecProof
       spaces = []
       count = 0
       @specifications.each do |specification|
-        space = CombinationSpace.new(specification)
+        space = pairwise_space(specification)
         next_count = count + space.pairs.length
         if next_count > CombinationSpace::MAX_PAIR_ROWS
           raise ConfigurationError.new("pairwise plan has #{next_count} pair obligations; limit is 10000",
@@ -77,8 +78,20 @@ module SpecProof
       end
       obligations.sort_by do |obligation|
         [obligation.target, obligation.inputs.keys.map(&:to_s),
-         obligation.inputs.values.map { |value| Domains.sort_key(value) }]
+         obligation.inputs.values.map { |value| sort_key(value) }]
       end.freeze
+    end
+
+    def pairwise_space(specification)
+      if @criterion == PARTITION_PAIRWISE_CRITERION
+        PartitionSpace.new(specification)
+      else
+        CombinationSpace.new(specification)
+      end
+    end
+
+    def sort_key(value)
+      value.is_a?(PartitionLevel) ? value.sort_key : Domains.sort_key(value)
     end
 
     def input_candidates(_specification, input)

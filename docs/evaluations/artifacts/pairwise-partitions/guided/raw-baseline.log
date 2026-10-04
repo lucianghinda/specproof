@@ -1,0 +1,10 @@
+Run options: --seed 43736
+
+# Running:
+
+.
+
+Finished in 0.000475s, 2105.2631 runs/s, 6315.7894 assertions/s.
+
+1 runs, 3 assertions, 0 failures, 0 errors, 0 skips
+SpecProof coverage run ca09e606-c617-4fa7-8515-2974cea71977: 3/4 pair obligations exercised, 1 missing; missing values: AgePolicy#eligible?/age=minor[0..17],country="de"; completeness scope: analyzed inputs only; 0 excluded pairs; criterion: pairwise-partitions-v1; group: AgePolicy#eligible?(age, country) (completed)

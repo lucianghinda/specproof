@@ -15,6 +15,39 @@ module SpecProof
     end
   end
 
+  # A normalized inclusive category for an integer input.
+  class PartitionLevel
+    attr_reader :name, :lower, :upper
+
+    def initialize(name:, lower:, upper:)
+      @name = name.to_sym
+      @lower = Integer(lower)
+      @upper = Integer(upper)
+      freeze
+    end
+
+    def include?(value)
+      value.instance_of?(Integer) && value.between?(lower, upper)
+    end
+
+    def representative
+      lower
+    end
+
+    def ==(other)
+      other.instance_of?(self.class) && [name, lower, upper] == [other.name, other.lower, other.upper]
+    end
+    alias eql? ==
+
+    def hash
+      [self.class, name, lower, upper].hash
+    end
+
+    def sort_key
+      [2, lower, upper, name.to_s]
+    end
+  end
+
   # `values` is the stable domain record field and intentionally shadows Struct#values.
   FiniteDomain = Struct.new(:values, keyword_init: true) do # rubocop:disable Lint/StructNewOverride
     def initialize(positional_values = nil, values: positional_values)

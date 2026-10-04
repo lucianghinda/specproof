@@ -1,0 +1,17 @@
+[
+  {
+    "check": "core",
+    "status": 0,
+    "log": "/private/tmp/specproof-partitions-verification/40/core.log"
+  },
+  {
+    "check": "rbs",
+    "status": 0,
+    "log": "/private/tmp/specproof-partitions-verification/40/rbs.log"
+  },
+  {
+    "check": "signatures",
+    "status": 0,
+    "log": "/private/tmp/specproof-partitions-verification/40/signatures.log"
+  }
+]

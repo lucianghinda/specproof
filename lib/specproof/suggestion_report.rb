@@ -10,24 +10,15 @@ module SpecProof
     module_function
 
     def from_file(specifications:, path:)
-      content = File.open(path, "rb") { |file| file.read(MAX_REPORT_BYTES + 1) } || ""
-      if content.bytesize > MAX_REPORT_BYTES
-        raise ConfigurationError.new("coverage report exceeds the 32 MiB limit",
-                                     code: "suggestion_limit_exceeded", path: path)
-      end
-
-      SpecProof.suggest(specifications, report: JSON.parse(content))
-    rescue JSON::ParserError => e
-      raise ConfigurationError.new("coverage report is not valid JSON: #{e.message}",
-                                   code: "invalid_coverage_report", path: path)
+      SpecProof.suggest(specifications, report: read_report(path))
     end
 
-    def findings(specifications:, error:, format:)
+    def findings(specifications:, error:, format:, criterion: Suggestions::CRITERION)
       if format == "json"
         JSON.generate(
           Report.envelope(kind: "suggestions").merge(
-            criterion: Suggestions::CRITERION,
-            strategy: Suggestions::STRATEGY,
+            criterion: criterion,
+            strategy: strategy_for(criterion),
             findings: error.findings.map { |finding| Report.finding_hash(finding) }
           )
         )
@@ -43,11 +34,15 @@ module SpecProof
     end
 
     def execute(specifications:, path:, format:, stdout:)
-      result = from_file(specifications: specifications, path: path)
+      criterion = nil
+      report = read_report(path)
+      criterion = criterion_from(report)
+      result = SpecProof.suggest(specifications, report: report)
       stdout.puts(render(result, format: format))
       0
     rescue InvalidSpecificationError => e
-      stdout.puts(findings(specifications: specifications, error: e, format: format))
+      stdout.puts(findings(specifications: specifications, error: e, format: format,
+                           criterion: criterion || Suggestions::CRITERION))
       1
     end
 
@@ -69,8 +64,8 @@ module SpecProof
     def document(result)
       covered_ids = result.suggestions.flat_map(&:covers).uniq
       Report.envelope(kind: "suggestions").merge(
-        criterion: Suggestions::CRITERION,
-        strategy: Suggestions::STRATEGY,
+        criterion: result.criterion,
+        strategy: result.strategy,
         assignment_scope: "combination_group",
         minimality: "not_guaranteed",
         contract_digest: result.contract_digest,
@@ -87,7 +82,7 @@ module SpecProof
     def human(result)
       lines = ["Source run: #{result.source_run_id}",
                "Source tests: #{result.source_tests_passed ? "passed" : "failed"}",
-               "Criterion: #{Suggestions::CRITERION}; strategy: #{Suggestions::STRATEGY}",
+               "Criterion: #{result.criterion}; strategy: #{result.strategy}",
                "Source arguments: #{result.source_scope.fetch("arguments").inspect}",
                "Source scope: #{human_scope(result.source_scope)}",
                "Missing pair obligations: #{result.missing_count}",
@@ -133,5 +128,32 @@ module SpecProof
       pieces.empty? ? "all recorded targets" : pieces.join("; ")
     end
     private_class_method :human_scope
+
+    def read_report(path)
+      content = File.open(path, "rb") { |file| file.read(MAX_REPORT_BYTES + 1) } || ""
+      if content.bytesize > MAX_REPORT_BYTES
+        raise ConfigurationError.new("coverage report exceeds the 32 MiB limit",
+                                     code: "suggestion_limit_exceeded", path: path)
+      end
+
+      JSON.parse(content)
+    rescue JSON::ParserError => e
+      raise ConfigurationError.new("coverage report is not valid JSON: #{e.message}",
+                                   code: "invalid_coverage_report", path: path)
+    end
+    private_class_method :read_report
+
+    def criterion_from(report)
+      return Suggestions::PARTITION_CRITERION if report.is_a?(Hash) &&
+                                                 report["criterion"] == Suggestions::PARTITION_CRITERION
+
+      Suggestions::CRITERION
+    end
+    private_class_method :criterion_from
+
+    def strategy_for(criterion)
+      criterion == Suggestions::PARTITION_CRITERION ? Suggestions::PARTITION_STRATEGY : Suggestions::STRATEGY
+    end
+    private_class_method :strategy_for
   end
 end

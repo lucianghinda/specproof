@@ -55,6 +55,7 @@ module SpecProof
     SCHEMA_VERSION = 1
     KIND = "coverage"
     CRITERION = "pairwise-finite-v1"
+    PARTITION_CRITERION = "pairwise-partitions-v1"
     REQUIRED_SCOPE = {
       "window" => "minitest_run",
       "method_identity" => "direct_owner_definition",
@@ -67,11 +68,12 @@ module SpecProof
       not_observed_count completion_percent completion integrity tests_passed incomplete_reasons
     ].freeze
 
-    attr_reader :contract_digest, :missing_ids, :run_id, :tests_passed, :scope, :scope_snapshot
+    attr_reader :contract_digest, :missing_ids, :run_id, :tests_passed, :scope, :scope_snapshot, :criterion
 
-    def initialize(report, specifications:, obligations:)
+    def initialize(report, specifications:, obligations:, criterion: CRITERION)
       @specifications = specifications
       @obligations = obligations
+      @criterion = criterion.is_a?(String) ? criterion.dup.freeze : criterion
       validate_document!(report)
       @contract_digest, @run_id = report.values_at("contract_digest", "run_id").map { |value| value.dup.freeze }
       @scope = @scope_snapshot = deep_copy_freeze(report.fetch("scope"))
@@ -97,7 +99,8 @@ module SpecProof
 
     def validate_identity!(report)
       unless report["schema_version"].is_a?(Integer) && report["schema_version"] == SCHEMA_VERSION &&
-             report["kind"] == KIND && report["criterion"] == CRITERION
+             report["kind"] == KIND && [CRITERION, PARTITION_CRITERION].include?(criterion) &&
+             report["criterion"] == criterion
         unsupported!("coverage report schema, kind, or criterion is unsupported")
       end
       unless report["run_id"].is_a?(String) && !report["run_id"].empty?
@@ -230,15 +233,25 @@ module SpecProof
     end
 
     def valid_typed_value?(typed)
-      return false unless typed.is_a?(Hash) && typed.keys.all?(String) &&
-                          typed.keys.sort == %w[kind value] && typed["kind"].is_a?(String)
+      return false unless typed.is_a?(Hash) && typed.keys.all?(String) && typed["kind"].is_a?(String)
 
       case typed["kind"]
-      when "nil" then typed["value"].nil?
-      when "boolean" then [true, false].include?(typed["value"])
-      when "integer", "symbol", "string" then typed["value"].is_a?(String)
+      when "nil" then typed.keys.sort == %w[kind value] && typed["value"].nil?
+      when "boolean" then typed.keys.sort == %w[kind value] && [true, false].include?(typed["value"])
+      when "integer", "symbol", "string"
+        typed.keys.sort == %w[kind value] && typed["value"].is_a?(String)
+      when "partition"
+        typed.keys.sort == %w[kind lower name upper] && typed["name"].is_a?(String) &&
+          canonical_integer_string?(typed["lower"]) && canonical_integer_string?(typed["upper"]) &&
+          Integer(typed["lower"], 10) <= Integer(typed["upper"], 10)
       else false
       end
+    rescue ArgumentError
+      false
+    end
+
+    def canonical_integer_string?(value)
+      value.is_a?(String) && value.match?(/\A-?(?:0|[1-9]\d*)\z/) && Integer(value, 10).to_s == value
     end
 
     def validate_counts!(report)
@@ -314,7 +327,7 @@ module SpecProof
     def typed_inputs(inputs)
       inputs.to_h do |name, value|
         typed = Report.value(value)
-        [name.to_s, { "kind" => typed.fetch(:kind), "value" => typed.fetch(:value) }]
+        [name.to_s, typed.to_h { |key, item| [key.to_s, item] }]
       end
     end
   end

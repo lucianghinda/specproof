@@ -29,16 +29,22 @@ module SpecProof
 
   # The suggestions and the exact evidence snapshot they were derived from.
   class SuggestionResult
-    attr_reader :suggestions, :contract_digest, :source_run_id, :source_tests_passed, :source_scope, :missing_count
+    LEGACY_CRITERION = "pairwise-finite-v1"
+    LEGACY_STRATEGY = "greedy-pairwise-v1"
+
+    attr_reader :suggestions, :contract_digest, :source_run_id, :source_tests_passed, :source_scope, :missing_count,
+                :criterion, :strategy
 
     def initialize(suggestions:, contract_digest:, source_run_id:, source_tests_passed:, source_scope:,
-                   missing_count:) # rubocop:disable Metrics/ParameterLists
+                   missing_count:, criterion: LEGACY_CRITERION, strategy: LEGACY_STRATEGY) # rubocop:disable Metrics/ParameterLists
       @suggestions = suggestions.dup.freeze
       @contract_digest = contract_digest.to_s.dup.freeze
       @source_run_id = source_run_id.to_s.dup.freeze
       @source_tests_passed = source_tests_passed
       @source_scope = immutable_value(source_scope)
       @missing_count = Integer(missing_count)
+      @criterion = criterion.to_s.dup.freeze
+      @strategy = strategy.to_s.dup.freeze
       freeze
     end
 
@@ -59,6 +65,9 @@ module SpecProof
   class Suggestions
     CRITERION = "pairwise-finite-v1"
     STRATEGY = "greedy-pairwise-v1"
+    PARTITION_CRITERION = "pairwise-partitions-v1"
+    PARTITION_STRATEGY = "greedy-partition-pairwise-v1"
+    STRATEGIES = { CRITERION => STRATEGY, PARTITION_CRITERION => PARTITION_STRATEGY }.freeze
     MAX_ASSIGNMENTS = 10_000
     MAX_PAIR_ROWS = 10_000
     MAX_MISSING_MEMBERSHIPS = 1_000_000
@@ -72,27 +81,38 @@ module SpecProof
     end
 
     def result
-      preflight_limits
-      findings = Checker.new(@specifications).findings
+      criterion = criterion_for_report
+      preflight_limits(criterion)
+      findings = Checker.new(@specifications, criterion: criterion).findings
       raise InvalidSpecificationError, findings unless findings.empty?
 
-      obligations = Planner.new(@specifications, criterion: CRITERION).obligations
-      evidence = CoverageReport.new(@report, specifications: @specifications, obligations: obligations)
+      obligations = Planner.new(@specifications, criterion: criterion).obligations
+      evidence = CoverageReport.new(@report, specifications: @specifications, obligations: obligations,
+                                             criterion: criterion)
       missing_ids = evidence.missing_ids
-      suggestions = missing_ids.empty? ? [] : select_suggestions(obligations, missing_ids)
+      suggestions = missing_ids.empty? ? [] : select_suggestions(obligations, missing_ids, criterion)
 
       SuggestionResult.new(suggestions: suggestions, contract_digest: evidence.contract_digest,
                            source_run_id: evidence.run_id, source_tests_passed: evidence.tests_passed,
-                           source_scope: evidence.scope_snapshot, missing_count: missing_ids.length)
+                           source_scope: evidence.scope_snapshot, missing_count: missing_ids.length,
+                           criterion: criterion, strategy: STRATEGIES.fetch(criterion))
     end
 
     private
 
-    def preflight_limits
+    def criterion_for_report
+      criterion = @report.is_a?(Hash) && @report["criterion"]
+      return CRITERION if criterion.nil? || criterion == false
+      return criterion if [CRITERION, PARTITION_CRITERION].include?(criterion)
+
+      raise ConfigurationError.new("coverage report criterion is unsupported", code: "unsupported_coverage_report")
+    end
+
+    def preflight_limits(criterion)
       assignment_total = 0
       pair_total = 0
 
-      groups = @specifications.sort_by(&:target).map { |specification| preflight_group(specification) }
+      groups = @specifications.sort_by(&:target).map { |specification| preflight_group(specification, criterion) }
       groups.each do |group, target_assignments, target_pairs|
         assignment_total += target_assignments
         pair_total += target_pairs
@@ -100,7 +120,7 @@ module SpecProof
       end
     end
 
-    def preflight_group(specification)
+    def preflight_group(specification, criterion)
       group = specification.combination_group
       unless group
         raise ConfigurationError.new("target has no combinations declaration: #{specification.target}",
@@ -110,7 +130,11 @@ module SpecProof
         raise ConfigurationError.new("a combinations group requires at least two inputs",
                                      code: "invalid_combination_inputs", source: group.source)
       end
-      sizes = group.inputs.map { |name| preflight_domain_size(specification, group, name) }
+      if criterion == PARTITION_CRITERION && !group.forbidden.empty?
+        raise ConfigurationError.new("partition pairwise suggestions require all_allowed: true",
+                                     code: "partition_forbidden_combinations", source: group.source)
+      end
+      sizes = group.inputs.map { |name| preflight_domain_size(specification, group, name, criterion) }
       assignments = preflight_assignment_count(sizes, group)
       pair_rows = preflight_pair_row_count(sizes, group)
       [group, assignments, pair_rows]
@@ -147,7 +171,7 @@ module SpecProof
       pair_rows
     end
 
-    def preflight_domain_size(specification, group, name)
+    def preflight_domain_size(specification, group, name, criterion)
       if specification.exclusions.key?(name)
         raise ConfigurationError.new("excluded input #{name.inspect} cannot be in a combinations group",
                                      code: "excluded_combination_input", source: group.source)
@@ -156,6 +180,21 @@ module SpecProof
       unless input
         raise ConfigurationError.new("unknown combinations input #{name.inspect}",
                                      code: "unknown_combination_input", source: group.source)
+      end
+      if criterion == PARTITION_CRITERION
+        if input.domain.is_a?(IntegerDomain)
+          unless input.partitions.any? && input.exhaustive && input.disjoint
+            raise ConfigurationError.new("integer combinations inputs require exhaustive disjoint partitions",
+                                         code: "partition_policy_required", source: input.source)
+          end
+          return input.partitions.length
+        end
+        unless input.domain.is_a?(FiniteDomain) && input.partitions.empty?
+          raise ConfigurationError.new("partition combinations inputs must be integer partitions or " \
+                                       "unpartitioned finite values",
+                                       code: "partition_domain_required", source: input.source)
+        end
+        return input.domain.values.length
       end
       unless input.domain.is_a?(FiniteDomain)
         raise ConfigurationError.new("combinations input #{name.inspect} must have finite values",
@@ -171,10 +210,10 @@ module SpecProof
                                    code: "suggestion_limit_exceeded", source: group.source)
     end
 
-    def select_suggestions(obligations, missing_ids)
+    def select_suggestions(obligations, missing_ids, criterion)
       missing = missing_ids.to_h { |id| [id, true] }
       specifications = @specifications.sort_by(&:target)
-      spaces = specifications.map { |specification| [specification, CombinationSpace.new(specification)] }
+      spaces = specifications.map { |specification| [specification, space_for(specification, criterion)] }
       missing_pair_ids = missing_pair_id_index(obligations, missing)
       candidates = []
       membership_total = 0
@@ -202,7 +241,13 @@ module SpecProof
         end
       end
 
-      build_greedy_result(candidates, obligations, missing_ids)
+      build_greedy_result(candidates, obligations, missing_ids, criterion)
+    end
+
+    def space_for(specification, criterion)
+      return PartitionSpace.new(specification) if criterion == PARTITION_CRITERION
+
+      CombinationSpace.new(specification)
     end
 
     def missing_pair_id_index(obligations, missing)
@@ -236,17 +281,17 @@ module SpecProof
       ids.sort.freeze
     end
 
-    def build_greedy_result(candidates, obligations, missing_ids)
+    def build_greedy_result(candidates, obligations, missing_ids, criterion)
       missing_lookup = missing_ids.to_h { |id| [id, true] }
       missing_by_target = obligations.select { |obligation| missing_lookup.key?(obligation.id) }
                                      .group_by(&:target)
                                      .transform_values { |items| items.map(&:id) }
       candidates.group_by(&:target).sort_by(&:first).flat_map do |target, target_candidates|
-        greedy_target(target_candidates, missing_by_target.fetch(target, []))
+        greedy_target(target_candidates, missing_by_target.fetch(target, []), criterion)
       end.freeze
     end
 
-    def greedy_target(candidates, missing_ids)
+    def greedy_target(candidates, missing_ids, criterion)
       candidates_by_missing = Hash.new { |hash, id| hash[id] = [] }
       scores = candidates.map.with_index do |candidate, index|
         candidate.missing_ids.each { |id| candidates_by_missing[id] << index }
@@ -269,9 +314,9 @@ module SpecProof
         candidate = candidates.fetch(best_index)
         newly_covered = candidate.missing_ids.select { |id| uncovered.key?(id) }.sort
         selected << Suggestion.new(
-          id: suggestion_id(candidate.target, candidate.assignment),
+          id: suggestion_id(candidate.target, candidate.assignment, criterion),
           target: candidate.target,
-          inputs: candidate.assignment,
+          inputs: native_assignment(candidate.assignment),
           covers: newly_covered,
           unassigned_inputs: candidate.unassigned_inputs,
           sources: candidate.sources
@@ -296,10 +341,16 @@ module SpecProof
       end
     end
 
-    def suggestion_id(target, assignment)
+    def native_assignment(assignment)
+      assignment.to_h do |name, value|
+        [name, value.is_a?(PartitionLevel) ? value.representative : value]
+      end
+    end
+
+    def suggestion_id(target, assignment, criterion)
       encoded = assignment.sort_by { |name, _value| name.to_s }
                           .map { |name, value| [name.to_s, Report.value(value)] }
-      Digest::SHA256.hexdigest(JSON.generate([target, encoded, CRITERION, STRATEGY]))
+      Digest::SHA256.hexdigest(JSON.generate([target, encoded, criterion, STRATEGIES.fetch(criterion)]))
     end
   end
 end

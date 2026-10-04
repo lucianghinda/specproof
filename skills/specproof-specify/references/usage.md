@@ -12,7 +12,8 @@ Pairwise finite planning is opt-in and supported when the installed build
 accepts `--criterion pairwise-finite-v1`. The default remains
 `input-basics-v1`; verify the actual `criterion` in every report rather than
 inferring it from a package version. A pairwise plan requires a `combinations`
-group for every target.
+group for every target. `pairwise-partitions-v1` is a separate opt-in criterion
+for complete, disjoint integer partitions crossed with finite values.
 
 Run commands from the application project and use its normal Ruby/Bundler
 environment:
@@ -45,8 +46,8 @@ a specification with no semantic findings and uses the `input-basics-v1`
 criterion. It proposes domain endpoints, neighboring values, and declared
 partition boundaries; its output is a set of candidates for review.
 
-For pairwise finite scenarios, declare one `combinations` group per target and
-select the criterion explicitly:
+For finite joint scenarios, declare one `combinations` group per target and
+select `pairwise-finite-v1` explicitly:
 
 ```ruby
 SpecProof.define "DeliveryOptions#build" do
@@ -70,6 +71,28 @@ The CLI form is
 does not accept a criterion. Pairwise plans require a group for every supplied
 target and reject oversized domains rather than sampling them.
 
+Use `pairwise-partitions-v1` only when every grouped integer range has
+`exhaustive: true`, `disjoint: true`, and explicit partitions, and every other
+grouped input uses finite values. This criterion supports only
+`combinations ..., all_allowed: true`; it rejects `forbid` assignments and
+explicit partitions on finite-valued inputs. The partitions form categories,
+and each finite value is a singleton category. It reports category pairs, not
+boundary candidates or a claim of behavioral equivalence.
+
+```ruby
+SpecProof.define "AgePolicy#eligible?" do
+  input :age, range: 0..120, exhaustive: true, disjoint: true do
+    partition :minor, range: 0...18
+    partition :adult, range: 18..120
+  end
+  input :country, values: ["ro", "de"]
+  combinations :age, :country, all_allowed: true
+end
+```
+
+Run `specproof plan spec/age.rb --criterion pairwise-partitions-v1 --format json`.
+`check` remains criterion-independent.
+
 JSON reports use `schema_version: 1`. Check reports include `kind: "check"`,
 `contract_digest`, and `findings`. Plan reports include `kind: "plan"`, the
 same digest, `criterion`, and `obligations`. Every planned obligation has a
@@ -89,6 +112,13 @@ are excluded from the denominator. Runtime rows add status and hit counts to
 the planned pair fields. A forbidden runtime tuple satisfies no pair
 obligations. Keep pair coverage separate from test assertions and output
 correctness.
+
+For `pairwise-partitions-v1`, the `age` typed value is a category object, for
+example `{ "kind": "partition", "name": "minor", "lower": "0", "upper": "17" }`.
+Bounds are inclusive in the report. Other finite input values retain their
+ordinary typed value. A pair row therefore describes categories, not a set of
+boundary-value obligations. Runtime collection counts a call when its actual
+integer belongs to the declared category.
 
 Use only the declaration forms supported by SpecProof:
 
@@ -156,11 +186,13 @@ specproof suggest spec/delivery.rb --report tmp/coverage.json --format json
 specproof suggest --rbs sig/delivery.rbs --target 'Delivery#build' spec/delivery.rb --report tmp/coverage.json --format json
 ```
 
-There must be exactly one nonempty `--report`. The command always uses
-`pairwise-finite-v1` and `greedy-pairwise-v1`; it rejects `--criterion` and
-does not add a new default to check or plan. It replans the supplied current
-declarations, then checks schema 1, `kind: "coverage"`, the pairwise
-criterion, digest, exact target and analyzed/excluded/group scope, exact typed
+There must be exactly one nonempty `--report`. The command infers its criterion
+from the validated coverage report and rejects `--criterion`; it does not add
+a new default to check or plan. It uses `greedy-pairwise-v1` for
+`pairwise-finite-v1` and `greedy-partition-pairwise-v1` for
+`pairwise-partitions-v1`. It replans the supplied current declarations, then
+checks schema 1, `kind: "coverage"`, the pairwise criterion, digest, exact
+target and analyzed/excluded/group scope, exact typed
 obligation denominator, row statuses/hits, counters, and missing/exercised
 projections. The report must be completed, intact, free of errors and
 incomplete reasons, and have no unknown observations. `tests_passed` must be a
@@ -175,6 +207,11 @@ must equal the source missing set. `unassigned_inputs` lists every analyzed
 parameter outside the group and every explicitly excluded parameter; the
 caller remains responsible for supplying those values. Runtime evidence still
 requires all analyzed inputs to be valid.
+
+For a partition pair, the typed plan contains category names and bounds, while
+the suggestion contains an ordinary concrete integer using that category's
+lower endpoint. It is a representative call value only; it does not establish
+boundary coverage or expected behavior.
 
 No candidate is executed and no expected output is inferred. Use a separate
 requirement as the assertion oracle before writing an assertion. The digest

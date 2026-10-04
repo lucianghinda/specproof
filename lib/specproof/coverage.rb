@@ -15,7 +15,8 @@ module SpecProof
       @spaces = specifications.filter_map do |specification|
         next unless specification.respond_to?(:combination_group) && specification.combination_group
 
-        [specification.target, CombinationSpace.new(specification)]
+        space = PartitionSpace.for_specification(specification)
+        [specification.target, space]
       end.to_h.freeze
       @outside_counts = Hash.new(0)
       @outside_witnesses = Hash.new { |hash, target| hash[target] = [] }
@@ -49,7 +50,10 @@ module SpecProof
         next unless obligation.target == target
 
         if obligation.respond_to?(:inputs) && obligation.inputs
-          next unless obligation.inputs.all? { |name, value| tuple.fetch(name) == value }
+          next unless obligation.inputs.all? do |name, value|
+            actual = tuple.fetch(name)
+            value.is_a?(PartitionLevel) ? value.include?(actual) : actual == value
+          end
         else
           next unless tuple.fetch(obligation.input) == obligation.value
         end

@@ -360,7 +360,8 @@ module SpecProof
 
       def print_summary(projection, completion)
         text = "SpecProof coverage run #{@run_id}: " \
-               "#{projection.fetch(:exercised_count)}/#{projection.fetch(:obligation_count)} obligations exercised"
+               "#{projection.fetch(:exercised_count)}/#{projection.fetch(:obligation_count)} " \
+               "#{@criterion == "pairwise-partitions-v1" ? "pair obligations" : "obligations"} exercised"
         text += ", #{projection.fetch(:missing_count)} missing" if projection.fetch(:missing_count).positive?
         text += ", #{projection.fetch(:unknown_count)} unknown" if projection.fetch(:unknown_count).positive?
         missing_values = projection.fetch(:missing).first(10).map do |item|
@@ -390,7 +391,7 @@ module SpecProof
       end
 
       def pairwise_summary
-        return "" unless @criterion == "pairwise-finite-v1"
+        return "" unless %w[pairwise-finite-v1 pairwise-partitions-v1].include?(@criterion)
 
         groups = @specifications.filter_map do |specification|
           group = specification.respond_to?(:combination_group) && specification.combination_group
@@ -404,6 +405,7 @@ module SpecProof
         when "nil" then "nil"
         when "boolean" then value[:value] ? "true" : "false"
         when "integer" then value[:value]
+        when "partition" then "#{value[:name]}[#{value[:lower]}..#{value[:upper]}]"
         when "symbol" then ":#{value[:value]}"
         when "string" then value[:value].inspect
         else "?"
@@ -431,9 +433,7 @@ module SpecProof
         end
       end
 
-      def safe_error(error)
-        safe_string(error.message.to_s.empty? ? error.class.name : error.message)
-      end
+      def safe_error(error) = safe_string(error.message.to_s.empty? ? error.class.name : error.message)
 
       def safe_string(value)
         value.to_s.encode("UTF-8", invalid: :replace, undef: :replace, replace: "?").byteslice(0, 240).to_s

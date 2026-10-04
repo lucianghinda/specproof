@@ -113,7 +113,7 @@ module SpecProof
   class PairObligation
     attr_reader id: String
     attr_reader target: String
-    attr_reader inputs: Hash[Symbol, nil | bool | Integer | Symbol | String]
+    attr_reader inputs: Hash[Symbol, nil | bool | Integer | Symbol | String | PartitionLevel]
     attr_reader reasons: Array[String]
     attr_reader sources: Array[Source]
   end
@@ -139,6 +139,41 @@ module SpecProof
     def allowed?: (Hash[Symbol, nil | bool | Integer | Symbol | String] arguments) -> bool
   end
 
+  class PartitionLevel
+    attr_reader name: Symbol
+    attr_reader lower: Integer
+    attr_reader upper: Integer
+    def initialize: (name: Symbol, lower: Integer, upper: Integer) -> void
+    def include?: (untyped value) -> bool
+    def representative: () -> Integer
+    def ==: (untyped other) -> bool
+    def eql?: (untyped other) -> bool
+    def hash: () -> Integer
+    def sort_key: () -> Array[untyped]
+  end
+
+  class PartitionSpace
+    attr_reader pairs: Array[Hash[Symbol, nil | bool | Integer | Symbol | String | PartitionLevel]]
+    attr_reader excluded_pairs: Array[Hash[Symbol, nil | bool | Integer | Symbol | String | PartitionLevel]]
+    attr_reader allowed_count: Integer
+    attr_reader allowed_assignments: Array[Hash[Symbol, nil | bool | Integer | Symbol | String | PartitionLevel]]
+    attr_reader sources: Array[Source]
+    def self.for_specification: (Specification specification, ?criterion: String?, ?validate_geometry: bool) -> (PartitionSpace | CombinationSpace)
+    def initialize: (Specification specification, ?validate_geometry: bool) -> void
+    def allowed?: (Hash[Symbol, nil | bool | Integer | Symbol | String] arguments) -> bool
+  end
+
+  class CoverageReport
+    attr_reader contract_digest: String
+    attr_reader missing_ids: Array[String]
+    attr_reader run_id: String
+    attr_reader tests_passed: bool
+    attr_reader scope: Hash[String, untyped]
+    attr_reader scope_snapshot: Hash[String, untyped]
+    attr_reader criterion: String
+    def initialize: (Hash[String, untyped] report, specifications: Array[Specification], obligations: Array[Obligation | PairObligation], ?criterion: String) -> void
+  end
+
   class Suggestion
     attr_reader id: String
     attr_reader target: String
@@ -155,6 +190,9 @@ module SpecProof
     attr_reader source_tests_passed: bool
     attr_reader source_scope: Hash[String, untyped]
     attr_reader missing_count: Integer
+    attr_reader criterion: String
+    attr_reader strategy: String
+    def initialize: (suggestions: Array[Suggestion], contract_digest: String, source_run_id: String, source_tests_passed: bool, source_scope: Hash[String, untyped], missing_count: Integer, ?criterion: String, ?strategy: String) -> void
   end
 
   def self.define: (String target) { () -> void } -> Specification

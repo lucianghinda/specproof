@@ -61,7 +61,9 @@ intended policy from a method's current behavior.
    the check is clean, run `specproof plan` with the same source and target
    options. Use the default `input-basics-v1` criterion for marginal input
    candidates. Select `--criterion pairwise-finite-v1` only when requirements
-   describe finite joint scenarios and every target has an explicit group.
+   describe finite joint scenarios and every target has an explicit group. Use
+   `pairwise-partitions-v1` only for integer ranges with explicit complete,
+   disjoint partitions crossed with finite inputs and an all-allowed group.
    Compare the criterion, candidate values or typed pairs, reasons, IDs, and
    source locations with the stated contract. Optional parameters and nullable
    types are distinct: optionality permits omission, while `T?` permits an
@@ -78,9 +80,10 @@ read [the bundled command and report reference](references/usage.md).
 ## Finite joint scenarios
 
 Use `combinations` only when the independent requirements describe a bounded
-joint input scenario and all group inputs have finite analyzed domains. A
-group names at least two unique inputs and can select a subset of analyzed
-inputs. Each analyzed input is still checked before a runtime tuple counts.
+joint input scenario. For `pairwise-finite-v1`, all group inputs must have
+finite analyzed domains. A group names at least two unique inputs and can
+select a subset of analyzed inputs. Each analyzed input is still checked
+before a runtime tuple counts.
 Choose exactly one explicit mode:
 
 ```ruby
@@ -106,6 +109,29 @@ allowed value of the third input. Pairwise planning rejects oversized spaces
 instead of sampling. A valid group with no allowed tuple is a semantic finding
 that must be resolved against requirements.
 
+For `pairwise-partitions-v1`, each grouped integer input must declare an
+exhaustive, disjoint partition of its bounded range, and the group must use
+`all_allowed: true`. Other grouped inputs use finite values as singleton
+categories. Explicit partitions on finite-valued inputs and `forbid` rules are
+unsupported for this criterion. It plans category pairs, not boundary
+candidates; category coverage does not establish boundary coverage or
+equivalent behavior throughout a category.
+
+```ruby
+SpecProof.define "AgePolicy#eligible?" do
+  input :age, range: 0..120, exhaustive: true, disjoint: true do
+    partition :minor, range: 0...18
+    partition :adult, range: 18..120
+  end
+  input :country, values: ["ro", "de"]
+  combinations :age, :country, all_allowed: true
+end
+```
+
+Select `--criterion pairwise-partitions-v1` explicitly when planning this
+contract. The scalar and `pairwise-finite-v1` criteria keep their existing
+behavior.
+
 The CLI criterion is explicit and does not change the default scalar plan:
 
 ```sh
@@ -118,7 +144,9 @@ Read the usage reference before interpreting the pair-row `inputs` object and
 `excluded_pairs` list.
 
 After an intended Minitest run, `specproof suggest PATH --report FILE` can
-propose allowed full group assignments for missing pairs. Use it only with a
+propose allowed full group assignments for missing pairs. It selects the
+pairwise criterion from the validated coverage report; do not pass a criterion
+to `suggest`. Use it only with a
 freshly inspected, completed and intact coverage report whose current digest,
 typed obligation denominator, input scope, counters, and missing/exercised
 projections agree with a new pairwise plan. A false `tests_passed` value is
@@ -131,6 +159,11 @@ assertion. Keep every out-of-group or explicitly excluded parameter in the
 reported `unassigned_inputs` list and supply a valid value for each when
 writing a call. Never add a `forbid` or exclusion to make a missing-pair report
 look complete.
+
+For partition-pair suggestions, the typed plan row identifies category names
+and inclusive bounds, while each suggested concrete input uses the partition's
+lower endpoint. This representative is a call value, not a boundary-testing
+claim or an assertion oracle.
 
 ## Supported declarations
 
