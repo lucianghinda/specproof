@@ -10,7 +10,7 @@ class PartitionCoverageReportTest < Minitest::Test
   def setup
     @specifications = load_text(<<~RUBY)
       SpecProof.define "AgePolicy#call" do
-        input :age, range: 0..120, exhaustive: true, disjoint: true do
+        input :age, range: 0..120, allow_gaps: false, allow_overlaps: false do
           partition :minor, range: 0...18
           partition :adult, range: 18..120
         end
@@ -29,6 +29,26 @@ class PartitionCoverageReportTest < Minitest::Test
 
     assert_equal report.fetch("missing").map { |row| row.fetch("id") }, validated.missing_ids
     assert_equal CRITERION, validated.criterion
+  end
+
+  def test_accepts_legacy_reports_for_readable_partition_policies
+    legacy = load_text(<<~RUBY)
+      SpecProof.define "AgePolicy#call" do
+        input :age, range: 0..120, exhaustive: true, disjoint: true do
+          partition :minor, range: 0...18
+          partition :adult, range: 18..120
+        end
+        input :country, values: [:ro, :de]
+        combinations :age, :country, all_allowed: true
+      end
+    RUBY
+    legacy_obligations = SpecProof.plan(legacy, criterion: CRITERION)
+    report = coverage_document(legacy, legacy_obligations)
+
+    validated = SpecProof::CoverageReport.new(report, specifications: @specifications,
+                                                      obligations: @obligations, criterion: CRITERION)
+
+    assert_equal report.fetch("missing").map { |row| row.fetch("id") }, validated.missing_ids
   end
 
   def test_rejects_partition_reports_when_the_finite_default_is_used
@@ -82,21 +102,21 @@ class PartitionCoverageReportTest < Minitest::Test
     end
   end
 
-  def coverage_document
-    coverage = SpecProof::Coverage.new(obligations: @obligations, specifications: @specifications)
+  def coverage_document(specifications = @specifications, obligations = @obligations)
+    coverage = SpecProof::Coverage.new(obligations: obligations, specifications: specifications)
     coverage.observe(target: "AgePolicy#call", arguments: { age: 16, country: :ro })
     projection = coverage.to_report.transform_keys(&:to_s)
     scope = {
       "ruby_engine" => RUBY_ENGINE, "pid" => Process.pid, "thread" => Thread.current.object_id,
       "window" => "minitest_run", "method_identity" => "direct_owner_definition",
       "input_semantics" => "effective_bound_values", "argument_presence" => "not_observed",
-      "targets" => @specifications.map(&:target),
+      "targets" => specifications.map(&:target),
       "declaration_sources" => { "specifications" => [], "rbs" => [], "targets" => [] },
       "arguments" => [], "filter" => nil, "exclude" => nil
-    }.merge(SpecProof::Report.input_scope(@specifications).transform_keys(&:to_s))
+    }.merge(SpecProof::Report.input_scope(specifications).transform_keys(&:to_s))
     document = {
       "schema_version" => 1, "kind" => "coverage", "errors" => [],
-      "contract_digest" => SpecProof::Report.digest(@specifications), "criterion" => CRITERION,
+      "contract_digest" => SpecProof::Report.digest(specifications), "criterion" => CRITERION,
       "run_id" => "partition-validation-run", "scope" => scope,
       "evidence_mode" => "obligation_hits", "replay" => false,
       "completion" => "completed", "integrity" => true, "tests_passed" => true

@@ -53,7 +53,7 @@ class PartitionSuggestionsTest < Minitest::Test
   def test_one_suggestion_covers_multiple_missing_pairs_across_three_inputs
     specifications = load_text(<<~RUBY)
       SpecProof.define "AgePolicy#matrix" do
-        input :age, range: 0..120, exhaustive: true, disjoint: true do
+        input :age, range: 0..120, allow_gaps: false, allow_overlaps: false do
           partition :minor, range: 0...18
           partition :adult, range: 18..120
         end
@@ -74,7 +74,7 @@ class PartitionSuggestionsTest < Minitest::Test
   def test_large_integer_width_does_not_increase_partition_assignment_count
     specifications = load_text(<<~RUBY)
       SpecProof.define "AgePolicy#huge" do
-        input :age, range: 0..(10**100), exhaustive: true, disjoint: true do
+        input :age, range: 0..(10**100), allow_gaps: false, allow_overlaps: false do
           partition :minor, range: 0...(10**50)
           partition :adult, range: (10**50)..(10**100)
         end
@@ -130,6 +130,26 @@ class PartitionSuggestionsTest < Minitest::Test
     assert_equal false, result.source_tests_passed
   end
 
+  def test_missing_partition_policy_error_uses_readable_option_names
+    specifications = load_text(<<~RUBY, allow_exclusion_only: true)
+      SpecProof.define "Example#missing_policy" do
+        input :age, range: 0..20 do
+          partition :all, range: 0..20
+        end
+        input :country, values: [:ro]
+        combinations :age, :country, all_allowed: true
+      end
+    RUBY
+
+    error = assert_raises(SpecProof::ConfigurationError) do
+      SpecProof.suggest(specifications, report: { "criterion" => CRITERION })
+    end
+
+    assert_equal "partition_policy_required", error.code
+    assert_includes error.message, "allow_gaps: false"
+    assert_includes error.message, "allow_overlaps: false"
+  end
+
   def test_unknown_or_incomplete_source_evidence_is_rejected
     coverage = SpecProof::Coverage.new(obligations: @obligations, specifications: @specifications)
     report = coverage_document(coverage, @specifications)
@@ -153,7 +173,7 @@ class PartitionSuggestionsTest < Minitest::Test
       report_path = File.join(directory, "coverage.json")
       File.write(spec_path, <<~RUBY)
         SpecProof.define "AgePolicy#call" do
-          input :age, range: 0..120, exhaustive: true, disjoint: true do
+          input :age, range: 0..120, allow_gaps: false, allow_overlaps: false do
             partition :minor, range: 0...18
             partition :adult, range: 18..120
           end
@@ -181,7 +201,7 @@ class PartitionSuggestionsTest < Minitest::Test
       report_path = File.join(directory, "coverage.json")
       File.write(spec_path, <<~RUBY)
         SpecProof.define "AgePolicy#call" do
-          input :age, range: 0..120, exhaustive: true, disjoint: true do
+          input :age, range: 0..120, allow_gaps: false, allow_overlaps: false do
             partition :minor, range: 0...18
             partition :adult, range: 19..120
           end
@@ -205,11 +225,11 @@ class PartitionSuggestionsTest < Minitest::Test
 
   private
 
-  def load_text(text)
+  def load_text(text, allow_exclusion_only: false)
     Tempfile.create(["partition-suggestions", ".rb"]) do |file|
       file.write(text)
       file.flush
-      SpecProof.load([file.path])
+      SpecProof::Loader.load([file.path], allow_exclusion_only: allow_exclusion_only)
     end
   end
 
@@ -221,7 +241,7 @@ class PartitionSuggestionsTest < Minitest::Test
                  end
     load_text(<<~RUBY)
       SpecProof.define "AgePolicy#call" do
-        input :age, range: 0..120, exhaustive: true, disjoint: true do
+        input :age, range: 0..120, allow_gaps: false, allow_overlaps: false do
           #{partitions}
         end
         input :country, values: [:ro, :de]

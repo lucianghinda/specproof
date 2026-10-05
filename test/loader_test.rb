@@ -82,6 +82,85 @@ class LoaderTest < Minitest::Test
     end
   end
 
+  def test_readable_partition_policies_map_to_legacy_input_fields
+    {
+      "allow_gaps: false, allow_overlaps: false" => [true, true],
+      "allow_gaps: false, allow_overlaps: true" => [true, false],
+      "allow_gaps: true, allow_overlaps: false" => [false, true],
+      "allow_gaps: true, allow_overlaps: true" => [false, false]
+    }.each do |options, expected|
+      specification = load_specification(<<~RUBY)
+        SpecProof.define('Example#call') do
+          input :x, range: 0..2, #{options} do
+            partition :all, range: 0..2
+          end
+        end
+      RUBY
+
+      assert_equal expected, [specification.inputs.fetch(:x).exhaustive, specification.inputs.fetch(:x).disjoint]
+    end
+  end
+
+  def test_partition_policies_default_to_permissive_and_allow_mixing_spellings
+    declarations = [
+      ["range: 0..2", [false, false]],
+      ["range: 0..2, exhaustive: true, allow_overlaps: false", [true, true]],
+      ["range: 0..2, allow_gaps: false, disjoint: true", [true, true]]
+    ]
+
+    declarations.each do |options, expected|
+      specification = load_specification(<<~RUBY)
+        SpecProof.define('Example#call') do
+          input :x, #{options} do
+            partition :all, range: 0..2
+          end
+        end
+      RUBY
+
+      assert_equal expected, [specification.inputs.fetch(:x).exhaustive, specification.inputs.fetch(:x).disjoint]
+    end
+  end
+
+  def test_partition_policy_flags_require_strict_booleans
+    %w[allow_gaps allow_overlaps].each do |flag|
+      ["nil", '"false"', "0"].each do |value|
+        error = assert_configuration_error(<<~RUBY)
+          SpecProof.define('Example#call') do
+            input :x, range: 0..2, #{flag}: #{value} do
+              partition :all, range: 0..2
+            end
+          end
+        RUBY
+
+        assert_equal "invalid_flag", error.code
+        assert_equal 2, error.source.line
+        assert_equal @last_spec_path, error.source.path
+        assert_includes error.message, flag
+      end
+    end
+  end
+
+  def test_duplicate_partition_policy_spellings_are_rejected
+    [
+      "exhaustive: true, allow_gaps: false",
+      "exhaustive: false, allow_gaps: true",
+      "disjoint: true, allow_overlaps: false",
+      "disjoint: false, allow_overlaps: true"
+    ].each do |options|
+      error = assert_configuration_error(<<~RUBY)
+        SpecProof.define('Example#call') do
+          input :x, range: 0..2, #{options} do
+            partition :all, range: 0..2
+          end
+        end
+      RUBY
+
+      assert_equal "duplicate_partition_policy", error.code
+      assert_equal 2, error.source.line
+      assert_equal @last_spec_path, error.source.path
+    end
+  end
+
   def test_empty_file_set_and_target_without_inputs_are_rejected
     empty_paths = assert_raises(SpecProof::ConfigurationError) { SpecProof.load([]) }
     assert_equal "paths_required", empty_paths.code

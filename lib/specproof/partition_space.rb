@@ -90,7 +90,7 @@ module SpecProof
     def validate_integer_input(input)
       if input.partitions.empty? || !input.exhaustive || !input.disjoint
         raise ConfigurationError.new(
-          "integer combinations input #{input.name.inspect} requires partitions, exhaustive: true, and disjoint: true",
+          "integer input needs partitions with allow_gaps: false, allow_overlaps: false",
           code: "partition_policy_required", source: input.source
         )
       end

@@ -13,7 +13,7 @@ accepts `--criterion pairwise-finite-v1`. The default remains
 `input-basics-v1`; verify the actual `criterion` in every report rather than
 inferring it from a package version. A pairwise plan requires a `combinations`
 group for every target. `pairwise-partitions-v1` is a separate opt-in criterion
-for complete, disjoint integer partitions crossed with finite values.
+for complete, non-overlapping integer partitions crossed with finite values.
 
 Run commands from the application project and use its normal Ruby/Bundler
 environment:
@@ -72,7 +72,7 @@ does not accept a criterion. Pairwise plans require a group for every supplied
 target and reject oversized domains rather than sampling them.
 
 Use `pairwise-partitions-v1` only when every grouped integer range has
-`exhaustive: true`, `disjoint: true`, and explicit partitions, and every other
+`allow_gaps: false`, `allow_overlaps: false`, and explicit partitions, and every other
 grouped input uses finite values. This criterion supports only
 `combinations ..., all_allowed: true`; it rejects `forbid` assignments and
 explicit partitions on finite-valued inputs. The partitions form categories,
@@ -81,7 +81,7 @@ boundary candidates or a claim of behavioral equivalence.
 
 ```ruby
 SpecProof.define "AgePolicy#eligible?" do
-  input :age, range: 0..120, exhaustive: true, disjoint: true do
+  input :age, range: 0..120, allow_gaps: false, allow_overlaps: false do
     partition :minor, range: 0...18
     partition :adult, range: 18..120
   end
@@ -124,7 +124,7 @@ Use only the declaration forms supported by SpecProof:
 
 ```ruby
 SpecProof.define "Checkout#shipping" do
-  input :cents, range: 0..100_000, exhaustive: true, disjoint: true do
+  input :cents, range: 0..100_000, allow_gaps: false, allow_overlaps: false do
     partition :standard, range: 0..4_999
     partition :free, range: 5_000..100_000
   end

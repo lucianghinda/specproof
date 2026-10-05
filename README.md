@@ -24,7 +24,7 @@ Create a Ruby file that declares the target method and the input values it accep
 require "specproof"
 
 SpecProof.define "AgePolicy#adult?" do
-  input :age, range: 0..120, exhaustive: true, disjoint: true do
+  input :age, range: 0..120, allow_gaps: false, allow_overlaps: false do
     partition :minor, range: 0...18
     partition :adult, range: 18..120
   end
@@ -34,6 +34,19 @@ end
 The declaration is executable Ruby. Use it only for trusted specification files. SpecProof does not resolve or autoload the declared application targets during offline analysis; the declaration file itself can execute any Ruby its author writes. Integer ranges are inclusive at both ends unless written with `...`; finite domains accept `nil`, booleans, integers, symbols, and explicitly listed text values.
 
 Finite strings are exact values, not a general String domain. For example, `values: [nil, 1, "user_123"]` describes three scenario values; `"user_123"` is distinct from `:user_123`. Only exact `String` instances with valid UTF-8 or US-ASCII encoding are accepted, and US-ASCII is canonicalized to UTF-8. Empty strings, whitespace, Unicode, and embedded NUL are valid; invalid bytes, other encodings, and String subclasses are rejected. Text is not trimmed, case-folded, or normalized. SpecProof uses owned snapshots without changing application strings. RBS string literals and finite unions of supported literals provide exact string scenarios; unrestricted `String` remains unsupported, and a selected union containing an unsupported member fails atomically.
+
+`allow_gaps: false` requires every value in the input domain to belong to at
+least one partition. `allow_overlaps: false` requires it to belong to at most
+one. Together, every valid value belongs to exactly one partition. These rules
+check the specification's grouping; they do not require testing every value.
+Omitting either option permits that condition, equivalent to setting it to
+`true`. Partition-based pairwise coverage requires both options to be `false`.
+
+Existing specifications can still use `exhaustive: true` in place of
+`allow_gaps: false`, and `disjoint: true` in place of `allow_overlaps: false`.
+Their `false` values map to the new options' `true` values. Use only one
+spelling per policy in a declaration. Equivalent spellings preserve contract
+digests and obligation IDs.
 
 Run the checker and planner:
 
@@ -196,7 +209,7 @@ the other method inputs left for the caller to supply when outside the group.
 
 ## Pairwise coverage over integer partitions
 
-`pairwise-partitions-v1` pairs explicitly exhaustive and disjoint integer
+`pairwise-partitions-v1` pairs explicitly complete and non-overlapping integer
 categories with other finite inputs. It requires `all_allowed: true` and does
 not support forbidden assignments or explicit partitions on finite-valued
 inputs. Category coverage is not boundary-value coverage and does not assert

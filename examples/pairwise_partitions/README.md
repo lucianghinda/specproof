@@ -1,6 +1,6 @@
 # Pairwise coverage by integer partitions
 
-This example declares an age range split into the exhaustive, disjoint
+This example declares an age range split into the complete, non-overlapping
 categories `minor` (`0...18`) and `adult` (`18..120`), plus the finite country
 values `"ro"` and `"de"`. All combinations are allowed. The independent
 [requirement](requirements.md) says eligibility requires age 18 or older and
@@ -31,4 +31,4 @@ boundary-value coverage, does not establish equivalence within a category, and
 does not infer expected outputs. The assertion oracle remains the separate
 requirement. Existing `pairwise-finite-v1` and scalar plans retain their
 behavior; this criterion supports only integer ranges with explicit complete,
-disjoint partitions and `all_allowed: true`.
+non-overlapping partitions and `all_allowed: true`.

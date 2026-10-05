@@ -43,11 +43,15 @@ tests, infer expected results, or prove application correctness.
    come from a requirement; never add one to erase a missing pair. Pair
    feasibility depends on an allowed full assignment, including all other
    group inputs. For bounded integer inputs, use `pairwise-partitions-v1` only
-   when each grouped range has an explicit exhaustive, disjoint partition, all
+   when each grouped range has an explicit complete, non-overlapping partition, all
    other grouped inputs are finite values, and every combination is allowed.
    This criterion rejects `forbid` rules and explicit partitions on
    finite-valued inputs. It counts category pairs, not boundary candidates or
-   inferred behavior equivalence.
+   inferred behavior equivalence. Use `allow_gaps: false` and
+   `allow_overlaps: false` to require that grouping. Omitted options allow
+   gaps/overlaps. When migrating legacy specifications, invert the booleans:
+   `exhaustive: true` becomes `allow_gaps: false`, and `disjoint: true` becomes
+   `allow_overlaps: false`. Do not weaken either policy to close a reported gap.
 3. Before editing tests or production code, run the intended current suite in a
    fresh process and capture its coverage report as the baseline. Check its run
    ID, digest, input scope, completion, integrity, and original test result.

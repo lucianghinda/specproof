@@ -86,6 +86,29 @@ class CheckerTest < Minitest::Test
     assert_empty SpecProof.check(adjacent)
   end
 
+  def test_readable_partition_policies_control_integer_and_finite_checks
+    integer = load_text(<<~RUBY)
+      SpecProof.define "Example#integer" do
+        input :value, range: 0..4, allow_gaps: false, allow_overlaps: true do
+          partition :first, range: 0..2
+          partition :second, range: 2..3
+        end
+      end
+    RUBY
+    assert_equal [:partition_gap], SpecProof.check(integer).map(&:code)
+
+    finite = load_text(<<~RUBY)
+      SpecProof.define "Example#finite" do
+        input :value, values: [:a, :b], allow_gaps: true, allow_overlaps: false do
+          partition :first, values: [:a, :outside]
+          partition :second, values: [:a]
+        end
+      end
+    RUBY
+    findings = SpecProof.check(finite)
+    assert_equal %i[partition_outside_domain partition_overlap], findings.map(&:code).sort
+  end
+
   def test_small_integer_sweeps_match_enumerated_reference
     interval_sets = [
       [[-3, -1], [0, 3]],

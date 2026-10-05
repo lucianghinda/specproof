@@ -22,9 +22,9 @@ module SpecProof
         duplicate!(inputs, name, "duplicate_input", location)
         overlap!(name, location)
         domain, form = parse_domain(options, location)
-        exhaustive = flag(options, :exhaustive, location)
-        disjoint = flag(options, :disjoint, location)
-        unknown = options.keys - %i[range values exhaustive disjoint]
+        exhaustive = partition_policy(options, :exhaustive, :allow_gaps, location)
+        disjoint = partition_policy(options, :disjoint, :allow_overlaps, location)
+        unknown = options.keys - %i[range values exhaustive disjoint allow_gaps allow_overlaps]
         unknown_option!(unknown.first, location) unless unknown.empty?
         partitions = []
         if block
@@ -112,6 +112,18 @@ module SpecProof
         return value if value.equal?(true) || value.equal?(false)
 
         raise ConfigurationError.new("#{key} must be true or false", code: "invalid_flag", source: source)
+      end
+
+      def partition_policy(options, legacy_key, readable_key, source)
+        if options.key?(legacy_key) && options.key?(readable_key)
+          raise ConfigurationError.new("declare only one of #{legacy_key}: or #{readable_key}:",
+                                       code: "duplicate_partition_policy", source: source)
+        end
+
+        return flag(options, legacy_key, source) if options.key?(legacy_key)
+        return !flag(options, readable_key, source) if options.key?(readable_key)
+
+        false
       end
 
       def valid_name(name, source, type)

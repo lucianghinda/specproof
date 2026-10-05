@@ -2,7 +2,7 @@
 
 This example imports `age: Integer` and optional nullable `consent: bool?`
 from [the explicit RBS signature](sig/registration.rbs), then uses the DSL
-only to refine age to `0..120` with exhaustive, disjoint minor/adult
+only to refine age to `0..120` with complete, non-overlapping minor/adult
 partitions. The independent rule is in [requirements.md](requirements.md): an
 applicant is eligible exactly when age is at least 18 and consent is true.
 Missing consent and explicit false both deny eligibility.

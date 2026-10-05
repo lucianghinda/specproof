@@ -37,6 +37,33 @@ class PartitionPairwisePlannerTest < Minitest::Test
                  RUBY
   end
 
+  def test_readable_partition_policies_preserve_legacy_digests_and_obligation_ids
+    legacy = load_text(<<~RUBY)
+      SpecProof.define "AgePolicy#compatible" do
+        input :age, range: 0..20, exhaustive: true, disjoint: true do
+          partition :minor, range: 0...18
+          partition :adult, range: 18..20
+        end
+        input :country, values: [:ro, :de]
+        combinations :age, :country, all_allowed: true
+      end
+    RUBY
+    readable = load_text(<<~RUBY)
+      SpecProof.define "AgePolicy#compatible" do
+        input :age, range: 0..20, allow_gaps: false, allow_overlaps: false do
+          partition :minor, range: 0...18
+          partition :adult, range: 18..20
+        end
+        input :country, values: [:ro, :de]
+        combinations :age, :country, all_allowed: true
+      end
+    RUBY
+
+    assert_equal SpecProof::Report.digest(legacy), SpecProof::Report.digest(readable)
+    assert_equal SpecProof.plan(legacy, criterion: CRITERION).map(&:id),
+                 SpecProof.plan(readable, criterion: CRITERION).map(&:id)
+  end
+
   def test_partition_levels_have_value_equality_and_integer_membership
     level = SpecProof::PartitionLevel.new(name: :minor, lower: 0, upper: 17)
 
@@ -181,6 +208,8 @@ class PartitionPairwisePlannerTest < Minitest::Test
         SpecProof.plan(specs, criterion: CRITERION)
       end
       assert_equal "partition_policy_required", error.code
+      assert_includes error.message, "allow_gaps: false"
+      assert_includes error.message, "allow_overlaps: false"
     end
   end
 

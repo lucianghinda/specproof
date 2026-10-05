@@ -47,11 +47,17 @@ intended policy from a method's current behavior.
    support. If a required string value is unsupported, preserve it in the
    reported request and stop. Do not substitute a same-spelling symbol, drop
    the string, or report an invalid/partial plan as valid.
-4. Mark a partition family `exhaustive: true` only when the requirements say it
-   covers the entire input domain. Mark it `disjoint: true` only when the
+4. Mark a partition family `allow_gaps: false` only when the requirements say it
+   covers the entire input domain. Mark it `allow_overlaps: false` only when the
    requirements say the partitions cannot overlap. Leave either promise out
    when the requirement is unknown, then ask about the missing policy rather
-   than choosing a boundary.
+   than choosing a boundary. The options default to `true` (gaps/overlaps
+   permitted); `false` requires the corresponding check. They describe the
+   partitions, not which values the tests must execute. Prefer these spellings
+   for new declarations. When migrating, `exhaustive: true` becomes
+   `allow_gaps: false` and `disjoint: true` becomes `allow_overlaps: false`;
+   invert `false` to `true` as well. Legacy spellings remain accepted, but do
+   not supply both spellings for the same policy.
 5. Run `specproof check PATH --format json` and inspect the structured
    `findings`, `errors`, and `contract_digest`. For RBS, pass each selected file
    with `--rbs FILE` and each target with `--target 'Class#method'`; a target
@@ -63,7 +69,7 @@ intended policy from a method's current behavior.
    candidates. Select `--criterion pairwise-finite-v1` only when requirements
    describe finite joint scenarios and every target has an explicit group. Use
    `pairwise-partitions-v1` only for integer ranges with explicit complete,
-   disjoint partitions crossed with finite inputs and an all-allowed group.
+   non-overlapping partitions crossed with finite inputs and an all-allowed group.
    Compare the criterion, candidate values or typed pairs, reasons, IDs, and
    source locations with the stated contract. Optional parameters and nullable
    types are distinct: optionality permits omission, while `T?` permits an
@@ -110,7 +116,7 @@ instead of sampling. A valid group with no allowed tuple is a semantic finding
 that must be resolved against requirements.
 
 For `pairwise-partitions-v1`, each grouped integer input must declare an
-exhaustive, disjoint partition of its bounded range, and the group must use
+complete, non-overlapping partition of its bounded range, and the group must use
 `all_allowed: true`. Other grouped inputs use finite values as singleton
 categories. Explicit partitions on finite-valued inputs and `forbid` rules are
 unsupported for this criterion. It plans category pairs, not boundary
@@ -119,7 +125,7 @@ equivalent behavior throughout a category.
 
 ```ruby
 SpecProof.define "AgePolicy#eligible?" do
-  input :age, range: 0..120, exhaustive: true, disjoint: true do
+  input :age, range: 0..120, allow_gaps: false, allow_overlaps: false do
     partition :minor, range: 0...18
     partition :adult, range: 18..120
   end
@@ -178,15 +184,15 @@ or US-ASCII; US-ASCII is canonicalized to UTF-8. Empty, whitespace, Unicode,
 and embedded-NUL strings are valid. Invalid byte sequences, other encodings,
 and String subclasses are rejected. No trimming, case folding, or Unicode
 normalization occurs. A specification declares a target and one or more named
-inputs. The existing partition membership, gap, overlap, exhaustive, and
-disjoint checks apply to explicitly enumerated string values; strings are not
+inputs. Partition membership, gap, and overlap checks also apply to
+explicitly enumerated string values; strings are not
 coerced to symbols or other scalar types:
 
 ```ruby
 require "specproof"
 
 SpecProof.define "Registration#adult?" do
-  input :age, range: 0..120, exhaustive: true, disjoint: true do
+  input :age, range: 0..120, allow_gaps: false, allow_overlaps: false do
     partition :minor, range: 0...18
     partition :adult, range: 18..120
   end

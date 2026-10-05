@@ -6,6 +6,14 @@ Every document includes `schema_version` (`1`), `specproof_version`, `kind`, and
 
 Check and plan results include `contract_digest`, a SHA-256 digest of normalized declarations, behavioral input domains, partition policies, and sorted explicitly excluded input names. Exclusion reason, source location, and declaration order do not change the digest. With no exclusions, existing digests and criterion/obligation IDs remain unchanged. Source locations are excluded from this digest. For composed DSL/RBS declarations, the digest fingerprints the resulting behavioral input domains: broader type constraints, provenance, RBS text, parser version, and implementation behavior do not change it. Obtain a fresh runtime report after changing a source or implementation; matching digests establish the same analyzed input obligations and excluded names, not that a particular implementation is correct. Check results include `findings`, each with a semantic `code`, target and input names, a concrete `witness`, and source locations. Findings never appear in `errors`.
 
+The DSL options `allow_gaps` and `allow_overlaps` default to `true`; `false`
+requires coverage of the whole input domain or prevents partition overlaps,
+respectively. Legacy `exhaustive` and `disjoint` spellings remain accepted with
+inverted booleans. Equivalent spellings normalize to the same policies and
+preserve digests and obligation IDs; no report schema change is required.
+Supplying both spellings of one policy is a `duplicate_partition_policy`
+configuration error, even when their values express the same requirement.
+
 Successful check, plan, and runtime coverage documents share a `scope` object
 with `completeness_scope: "analyzed_inputs"` and `input_scope`. Each input
 scope entry identifies one target, its `analyzed_inputs` names, and its
@@ -17,7 +25,7 @@ named runtime parameter must be analyzed or explicitly excluded, and at least
 one must be analyzed. Check/plan scope describes the requested declaration;
 it does not attest runtime binding or test execution.
 
-Plan results default to `criterion: "input-basics-v1"` and include `obligations`. Each scalar obligation has a stable `id`, target, input, typed value, merged reasons, and source locations. Values have a `kind`: integer values are decimal strings, symbols are names, booleans are JSON booleans, nil has a JSON null value, and finite strings use `{ "kind": "string", "value": "..." }`. String values are exact text snapshots. This is an additive value kind under schema version 1; consumers must handle it explicitly and tolerate it wherever typed primitive values occur, including witnesses and coverage rows. Strings and same-spelling symbols have distinct identities. Finite string values are deduplicated and ordered deterministically after existing scalar types. Existing nonstring IDs and digests remain unchanged. Existing partition, exhaustive, and disjoint checks apply to the explicitly enumerated string scenario. Scalar candidates are marginal inputs and do not specify expected method results or form a complete test suite.
+Plan results default to `criterion: "input-basics-v1"` and include `obligations`. Each scalar obligation has a stable `id`, target, input, typed value, merged reasons, and source locations. Values have a `kind`: integer values are decimal strings, symbols are names, booleans are JSON booleans, nil has a JSON null value, and finite strings use `{ "kind": "string", "value": "..." }`. String values are exact text snapshots. This is an additive value kind under schema version 1; consumers must handle it explicitly and tolerate it wherever typed primitive values occur, including witnesses and coverage rows. Strings and same-spelling symbols have distinct identities. Finite string values are deduplicated and ordered deterministically after existing scalar types. Existing nonstring IDs and digests remain unchanged. Existing partition membership, gap, and overlap checks apply to the explicitly enumerated string scenario. Scalar candidates are marginal inputs and do not specify expected method results or form a complete test suite.
 
 ## Pairwise finite criterion
 
@@ -67,7 +75,7 @@ their values.
 
 `pairwise-partitions-v1` is a separate explicit criterion. It requires a
 `combinations` group for every target. Each grouped integer input must have a
-bounded range declared `exhaustive: true` and `disjoint: true`, with explicit
+bounded range declared `allow_gaps: false` and `allow_overlaps: false`, with explicit
 partitions. Other grouped inputs use finite values as singleton categories.
 Only `all_allowed: true` is supported; `forbid` rules and explicit partitions
 on finite-valued inputs are configuration errors for this criterion. The

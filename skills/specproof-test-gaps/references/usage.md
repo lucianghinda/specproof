@@ -77,7 +77,7 @@ to make missing pairs disappear. Pair hits do not establish expected results;
 assertions need an independent behavior oracle.
 
 With `pairwise-partitions-v1`, each grouped integer range needs explicit
-`exhaustive: true`, `disjoint: true` partitions. Other grouped inputs use
+`allow_gaps: false`, `allow_overlaps: false` partitions. Other grouped inputs use
 finite values as singleton categories, and the group must declare
 `all_allowed: true`. This criterion rejects `forbid` rules and explicit
 partitions on finite-valued inputs. A category pair is hit when an observed

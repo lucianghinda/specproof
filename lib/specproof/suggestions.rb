@@ -184,7 +184,7 @@ module SpecProof
       if criterion == PARTITION_CRITERION
         if input.domain.is_a?(IntegerDomain)
           unless input.partitions.any? && input.exhaustive && input.disjoint
-            raise ConfigurationError.new("integer combinations inputs require exhaustive disjoint partitions",
+            raise ConfigurationError.new("integer inputs require allow_gaps: false and allow_overlaps: false",
                                          code: "partition_policy_required", source: input.source)
           end
           return input.partitions.length
