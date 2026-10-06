@@ -13,8 +13,10 @@ tests, infer expected results, or prove application correctness.
 ## Workflow
 
 1. Read the request, independent behavior requirements, target method, current
-   tests, and the input specification. Confirm that the target and parameter
-   names match the real method signature. Default scope is strict: every named
+   tests, and the input specification. Confirm that the canonical target
+   (`Owner#method` for an instance method or `Owner.method` for a class/module
+   singleton method) and parameter names match the real method signature.
+   Default scope is strict: every named
    parameter is analyzed. If the task deliberately covers only some inputs,
    every other name must have an explicit `exclude_input :name, reason: "..."`
    declaration, and at least one input must remain analyzed. Do not introduce
@@ -145,6 +147,22 @@ For adapter setup, report fields, and evidence checks, read
 [the bundled coverage report reference](references/usage.md).
 
 ## Minitest adapter setup
+
+Use canonical string targets for offline planning and when the application
+owner may not be loaded; strings do not resolve or autoload that owner. Use
+`Owner.instance_method(:name)` or `Owner.method(:name)` when code is already
+loaded and a method object is useful. These use reflection without invocation
+and are accepted only for directly defined public methods on named classes or
+modules. Unbound instance methods identify their defining class. Aliases,
+inherited singleton methods, anonymous owners, and methods bound to arbitrary
+instances are unsupported. Recheck object targets against the current direct
+definition when declaring them. Equivalent strings and method objects share
+canonical string report targets and obligation IDs. Navigation from a target
+name depends on the editor's language server. For live collection, require the
+application code before installing the adapter. Method objects and matching
+digests say nothing about returned values; derive assertions from the
+independent requirement and collect a fresh report after any implementation,
+specification, or test change.
 
 Keep Minitest in the application's test environment and use the supported
 version range `>= 5.26.2` and `< 5.28.0`, with matching package/runtime major

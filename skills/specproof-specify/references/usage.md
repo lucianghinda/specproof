@@ -41,6 +41,31 @@ RBS options:
 bundle exec specproof plan --rbs sig/registration.rbs --target 'Registration#eligible?' --format json
 ```
 
+The DSL also accepts Ruby method objects for directly defined public methods
+on named classes and modules:
+
+```ruby
+SpecProof.define DeliveryOptions.instance_method(:build) do
+  input :quantity, range: 0..100
+end
+
+SpecProof.define DeliveryOptions.method(:build) do
+  input :quantity, range: 0..100
+end
+```
+
+Use a canonical string target such as `"DeliveryOptions#build"` or
+`"DeliveryOptions.build"` when checking/planning offline or when loading the
+owner would trigger autoload. Strings do not resolve the target. Use an
+`UnboundMethod`/`Method` object when the owner is already loaded and reflection
+is useful; target methods are not invoked. Equivalent forms normalize to the
+same canonical target, digest, and obligation IDs. Instance objects must be
+unbound; aliases, inherited singleton methods, anonymous owners, and methods
+bound to arbitrary instances are unsupported. RBS selectors remain explicit
+strings and can select `def self.method` on a named class or module. Reports
+retain string target identities, while source navigation depends on editor LSP
+support.
+
 `check` returns declared gap, overlap, empty-domain, and out-of-domain findings.
 It cannot decide which of two conflicting policies is intended. `plan` requires
 a specification with no semantic findings and uses the `input-basics-v1`

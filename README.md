@@ -33,6 +33,20 @@ end
 
 The declaration is executable Ruby. Use it only for trusted specification files. SpecProof does not resolve or autoload the declared application targets during offline analysis; the declaration file itself can execute any Ruby its author writes. Integer ranges are inclusive at both ends unless written with `...`; finite domains accept `nil`, booleans, integers, symbols, and explicitly listed text values.
 
+Targets can be written as canonical strings or as Ruby `Method`/`UnboundMethod`
+objects. For example, `"DeliveryOptions#build"` and
+`DeliveryOptions.instance_method(:build)` normalize to the same target. A
+class or module singleton method uses a dot, as in `"DeliveryOptions.build"`
+or `DeliveryOptions.method(:build)`. Strings are useful for offline
+specifications: normalization does not load or autoload the application owner.
+Method objects are convenient when the application code is already loaded;
+they use Ruby reflection and do not invoke the method. The declaration-time
+method must be a directly defined public method on a named class or module;
+aliases, inherited singleton methods, anonymous owners, and methods bound to
+arbitrary instances are unsupported. See the runnable
+[method targets example](examples/method_targets/README.md) and
+[verification results](docs/method-targets-results.md).
+
 Finite strings are exact values, not a general String domain. For example, `values: [nil, 1, "user_123"]` describes three scenario values; `"user_123"` is distinct from `:user_123`. Only exact `String` instances with valid UTF-8 or US-ASCII encoding are accepted, and US-ASCII is canonicalized to UTF-8. Empty strings, whitespace, Unicode, and embedded NUL are valid; invalid bytes, other encodings, and String subclasses are rejected. Text is not trimmed, case-folded, or normalized. SpecProof uses owned snapshots without changing application strings. RBS string literals and finite unions of supported literals provide exact string scenarios; unrestricted `String` remains unsupported, and a selected union containing an unsupported member fails atomically.
 
 `allow_gaps: false` requires every value in the input domain to belong to at
@@ -63,7 +77,9 @@ The age example plans `0`, `1`, `17`, `18`, `119`, and `120`. The shipping examp
 ## Reuse an explicit RBS signature
 
 RBS can supply supported finite scalar input types for explicitly selected
-instance-method targets. Add only behavioral bounds and partitions that the
+instance-method and singleton-method targets. Selectors use `Class#method` for
+instance methods and `Class.method` or `Module.method` for singleton methods.
+Add only behavioral bounds and partitions that the
 signature cannot express; an unrestricted `Integer` needs such a refinement.
 For a target selected from RBS, each DSL `input` or `exclude_input` must use a
 name declared in that signature. By default all named signature parameters
@@ -114,7 +130,16 @@ checkpoint runs in its own process. See the example README for exact commands.
 
 ## Observe an existing Minitest suite
 
-The optional adapter records calls to directly owned public instance methods with named required or optional positional/keyword parameters. By default, analyze every parameter, including optional ones. A deliberately partial input scope must explicitly exclude every other named parameter with `exclude_input :name, reason: "..."`, and at least one input must remain analyzed. It observes effective bound scalar values at method entry after Ruby applies defaults; an omitted argument and an explicitly supplied equal value exercise the same obligation. A default that raises before entry contributes no entry observation. Rest, keyword-rest, forwarding, and explicit block parameters remain unsupported.
+The optional adapter records calls to directly defined public instance methods
+and class/module singleton methods with named required or optional
+positional/keyword parameters. By default, analyze every parameter, including
+optional ones. A deliberately partial input scope must explicitly exclude every
+other named parameter with `exclude_input :name, reason: "..."`, and at least
+one input must remain analyzed. It observes effective bound scalar values at
+method entry after Ruby applies defaults; an omitted argument and an explicitly
+supplied equal value exercise the same obligation. A default that raises before
+entry contributes no entry observation. Rest, keyword-rest, forwarding, and
+explicit block parameters remain unsupported.
 
 When only some parameters have finite input domains, you may explicitly exclude
 the remaining named parameters with a reason. The declaration must still account
@@ -125,7 +150,17 @@ while an object-valued selected input still makes collection incomplete. This
 scope says nothing about excluded values or behavior involving their content.
 See the runnable [input selection example](examples/input_selection/README.md).
 
-It observes the selected owner's method definition during the original test run in the same process and thread. Calling an alias of that definition counts; a subclass override counts only when it calls the selected definition through `super`. Aliased target declarations and inherited target declarations are unsupported. It does not replay tests, capture return values, inspect assertions, infer defaults, or infer expected outcomes. A non-primitive effective value for an analyzed input makes collection incomplete, even if it comes from an optional default.
+It resolves the selected owner's canonical method name afresh when collection
+starts, then observes that directly defined method during the original test
+run in the same process and thread. A method object supplied at declaration
+time must still describe that current direct definition; declaration and
+collection both reject changed method identity. Calling an alias of the
+selected definition counts; a subclass override counts only when it calls the
+selected definition through `super`. Aliased target declarations and inherited
+target declarations are unsupported. It does not replay tests, capture return
+values, inspect assertions, infer defaults, or infer expected outcomes. A
+non-primitive effective value for an analyzed input makes collection
+incomplete, even if it comes from an optional default.
 
 Add a separate test entrypoint after Minitest and your application code have loaded:
 

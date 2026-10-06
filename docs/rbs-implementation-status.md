@@ -1,5 +1,11 @@
 # RBS scalar integration results
 
+This page records the RBS scalar integration as delivered on 2026-10-02. Its
+implementation slices, verification counts, pilots, and limitations below are
+historical evidence for that change. The method-target extension delivered on
+2026-10-06 supersedes the target-form limitations described in the historical
+sections; those earlier artifacts are retained as originally recorded.
+
 The approved [plan](superpowers/plans/2026-10-02-rbs-scalar-integration.md), commit `49a233a`, is implemented on `implement/rbs-scalar-integration` in the isolated `tmp/worktrees/rbs-scalar-integration` worktree. The original checkout remains on `implement/first-usable-release`. No push, publication, or merge is included.
 
 ## Delivered behavior
@@ -62,9 +68,33 @@ live in `skills/`, `examples/rbs_registration/`, and the linked documentation.
 
 **Existing RBS adoption.** BranchProof commit `85611af97461d1714bffffff42a4719952b9cbc4` supplies the unchanged `Branchproof::ComparisonReport#exit_code` signature. RBS-only planning yields two boolean obligations; the unchanged focused test passes 2 tests/8 assertions and exercises both. All 59 snapshot files match original source hashes. No test or gap was manufactured, and no full BranchProof suite result is claimed. Rejected candidates from the seven-location survey are documented separately.
 
-## Remaining limits
+## Historical remaining limits at RBS integration
 
 Only verified RBS 4.2.0 is supported. Inputs are booleans, nil, supported primitive literals (including finite string literals), supported unions/optionals, and resolved built-in Integer with explicit refinement where needed. Unrestricted `String`, nominal objects, aliases, generics, collections, overloads, inherited/singleton/generated methods, rest/block/unnamed forms, and zero-input targets remain excluded. A selected union containing an unsupported member fails atomically. RBS return types are ignored and provide no expected-result oracle. Full RBS arity/order/subtyping conformance, omission coverage, nullable interval domains, automatic discovery, Sorbet, state analysis, and SMT reasoning remain separate work.
+
+## Current method target forms
+
+The method-target extension supports canonical string and Ruby method-object
+targets for DSL declarations, including directly defined public instance
+methods on named classes and singleton methods on named classes or modules.
+Equivalent string and object forms normalize to the same target identity,
+digest, and obligation IDs. String declarations stay offline and do not
+autoload owners. Method-object declarations require loaded code and use Ruby
+reflection without invoking the target. RBS selection continues to use
+explicit canonical string selectors and now supports `def self.method` on
+named classes and modules, subject to the existing RBS shape limitations.
+
+Method objects are validated at declaration time against the current direct
+definition. Aliases, inherited singleton methods, anonymous owners, and bound
+methods on arbitrary instances remain unsupported. Collection resolves
+canonical names afresh at start and retains the runtime method identity,
+constant binding, redefinition, and duplicate-binding guards. Reports continue
+to use canonical string targets. Navigation from these names remains dependent
+on language-server support.
+
+These target-form additions do not change the historical RBS pilot outputs or
+claims. The RBS return type still supplies no expected-result oracle; behavior
+assertions must come from independent requirements.
 
 ### Finite RBS strings
 

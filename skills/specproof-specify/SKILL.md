@@ -13,10 +13,12 @@ intended policy from a method's current behavior.
 ## Workflow
 
 1. Read the user request, relevant product requirements, the target Ruby method,
-   and its existing tests. Identify the exact `Class#instance_method` target and
-   each requested input. Distinguish explicit requirements from assumptions.
+   and its existing tests. Identify the canonical target (`Owner#method` for an
+   instance method, `Owner.method` for a class/module singleton method) and each
+   requested input. Distinguish explicit requirements from assumptions.
    When RBS is supplied, inspect explicitly selected RBS target signatures
-   first. Reuse supported finite input types directly;
+   first, including explicit `def self.method` selectors on named classes and
+   modules. Reuse supported finite input types directly;
    add a DSL declaration only for a behavioral range or partition the type
    cannot express. Do not search for other signatures or duplicate finite
    values in the DSL.
@@ -82,6 +84,20 @@ intended policy from a method's current behavior.
 Use the project's established command environment. For a Bundler-managed
 project, prefix commands with `bundle exec`. For JSON output and schema details,
 read [the bundled command and report reference](references/usage.md).
+
+Choose the target representation for the work: use a canonical string when
+checking or planning offline, when the application owner may not be loaded, or
+when avoiding autoload is important. Strings normalize without loading the
+owner. Use `Owner.instance_method(:name)` or `Owner.method(:name)` when the
+named owner is already loaded and a method object is clearer; SpecProof uses
+reflection and does not call it. Object targets are accepted only for directly
+defined public methods on named classes/modules. An unbound instance method
+names its defining class; aliases, inherited singleton methods, anonymous
+owners, and bound methods on arbitrary instances are unsupported. Validate
+method objects against the current definition when declaring them. Equivalent
+string/object forms share the canonical target identity, digest, and
+obligation IDs. Reports keep string target names, and editor navigation from
+those names depends on the language server.
 
 ## Finite joint scenarios
 

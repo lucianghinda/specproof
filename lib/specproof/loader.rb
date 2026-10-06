@@ -249,10 +249,7 @@ module SpecProof
           raise ConfigurationError.new("SpecProof.define may only be called while loading a specification",
                                        code: "outside_load", source: source)
         end
-        unless valid_target?(target)
-          raise ConfigurationError.new("target must use ClassName#instance_method syntax", code: "invalid_target",
-                                                                                           source: source)
-        end
+        target = TargetName.normalize(target, source: source)
         if @active.key?(target)
           raise ConfigurationError.new("duplicate target #{target}", code: "duplicate_target", source: source)
         end
@@ -278,10 +275,6 @@ module SpecProof
         end
         path = location&.absolute_path || location&.path || @current_path || "(unknown)"
         Source.new(path: path, line: location&.lineno || 1)
-      end
-
-      def valid_target?(target)
-        target.is_a?(String) && target.match?(/\A[A-Z]\w*(?:::[A-Z]\w*)*#[a-z_]\w*[!?=]?\z/)
       end
     end
   end

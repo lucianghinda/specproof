@@ -1,0 +1,8 @@
+class RBSDelivery
+  def self.build: (Integer quantity) -> void
+  def build: ("ready" quantity) -> void
+end
+
+module RBSRegistry
+  def self.fetch: (Integer id) -> void
+end

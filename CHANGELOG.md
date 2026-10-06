@@ -1,5 +1,8 @@
 ## [Unreleased]
 
+- Accept canonical string and Ruby method-object DSL targets for directly defined public instance methods on named classes and singleton methods on named classes/modules; equivalent forms share identities and IDs, while strings remain offline and object targets are checked against current definitions.
+- Support explicit RBS selectors for `def self.method` on named classes and modules, and document supported target choices, runtime binding guards, and editor-dependent navigation.
+- Add a runnable example comparing string and method-object declarations for equivalent class and module method contracts with independent requirements.
 - Prefer `allow_gaps` and `allow_overlaps` in input declarations, examples, and agent skills. Setting either to `false` requires that partition check; omitted options remain permissive. Keep `exhaustive` and `disjoint` as compatibility aliases with inverted booleans and preserve equivalent contract digests and obligation IDs.
 - Suggest deterministic allowed group assignments for missing pairwise obligations from validated coverage reports, with explicit source run, scope, and unassigned parameters.
 - Reject incompatible or incomplete suggestion evidence, preserve assertion failures, and update the packaged agent workflows.

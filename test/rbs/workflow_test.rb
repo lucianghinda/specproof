@@ -276,7 +276,7 @@ class RBSWorkflowTest < Minitest::Test
         SpecProof.load([], rbs: [rbs_path], targets: ["Registration#save", "Registration#save"])
       end
       assert_code("invalid_target") do
-        SpecProof.load([], rbs: [rbs_path], targets: ["Registration.save"])
+        SpecProof.load([], rbs: [rbs_path], targets: ["Registration!save"])
       end
     end
   end

@@ -14,10 +14,10 @@ module SpecProof
       end
 
       def facts
-        owner = @target.split("#", 2).first
+        owner, method_name, kind = TargetName.parse(@target)
         declarations = owner_declarations(owner, @environment, @paths)
-        method, visibility = select_method(@target, declarations, @rbs)
-        validate_method!(@target, method, visibility, generic_owner?(owner, @environment))
+        method, visibility = select_method(@target, method_name.to_s, kind, declarations, @rbs)
+        validate_method!(@target, method, visibility, generic_owner?(owner, @environment), kind)
         input_facts(@target, method, @rbs, @exclusions)
       end
 
@@ -46,26 +46,25 @@ module SpecProof
         end
       end
 
-      def select_method(target, declarations, rbs)
-        method_name = target.split("#", 2).last
-        matches = matching_members(method_name, declarations, rbs)
-        module_method = matching_module_method(method_name, declarations, rbs)
+      def select_method(target, method_name, kind, declarations, rbs)
+        matches = matching_members(method_name, kind, declarations, rbs)
+        module_method = matching_module_method(method_name, declarations, rbs) if kind == :instance
         unsupported_signature!(target, module_method, "module owners are not supported") if module_method
+        if matches[:unsupported_kind]
+          unsupported_signature!(target, matches[:unsupported_kind],
+                                 "singleton_instance method signatures are not supported")
+        end
 
         if matches[:attribute]
           unsupported_signature!(target, matches[:attribute], "generated attribute methods are not supported")
         end
-        if matches[:instance_alias]
-          unsupported_signature!(target, matches[:instance_alias], "method aliases are not supported")
-        end
-        methods = matches[:instance]
+        alias_member = matches[:"#{kind}_alias"]
+        unsupported_signature!(target, alias_member, "method aliases are not supported") if alias_member
+        methods = matches[kind]
         if methods.empty?
-          if matches[:instance_alias] || matches[:singleton_alias]
-            unsupported_signature!(target, matches[:instance_alias] || matches[:singleton_alias],
-                                   "method aliases are not supported")
-          end
-          if matches[:singleton]
-            unsupported_signature!(target, matches[:singleton], "singleton methods are not supported")
+          if kind == :instance && !matches[:singleton].empty?
+            unsupported_signature!(target, matches[:singleton].first.first,
+                                   "singleton methods are not supported for instance targets")
           end
           raise ConfigurationError.new("RBS target was not found: #{target}", code: "rbs_target_not_found")
         end
@@ -77,8 +76,9 @@ module SpecProof
         methods.first
       end
 
-      def matching_members(method_name, declarations, rbs)
-        matches = { instance: [], singleton: nil, instance_alias: nil, singleton_alias: nil, attribute: nil }
+      def matching_members(method_name, kind, declarations, rbs)
+        matches = { instance: [], singleton: [], instance_alias: nil, singleton_alias: nil, attribute: nil,
+                    unsupported_kind: nil }
         declarations.each do |declaration|
           visibility = :public
           declaration.members.each do |member|
@@ -93,7 +93,11 @@ module SpecProof
                 matches[key] = member
               end
             when rbs::AST::Members::Attribute
-              matches[:attribute] = member if generated_attribute?(member, method_name, rbs)
+              if member.kind == :singleton_instance && generated_attribute?(member, method_name, rbs)
+                matches[:unsupported_kind] = member
+              elsif member.kind == kind && generated_attribute?(member, method_name, rbs)
+                matches[:attribute] = member
+              end
             end
           end
         end
@@ -103,13 +107,17 @@ module SpecProof
       def add_matching_method(matches, member, visibility, method_name)
         return unless member.name.to_s == method_name
 
-        member.instance? ? matches[:instance] << [member, visibility] : matches[:singleton] = member
+        case member.kind
+        when :instance then matches[:instance] << [member, visibility]
+        when :singleton then matches[:singleton] << [member, visibility]
+        when :singleton_instance then matches[:unsupported_kind] = member
+        end
       end
 
       def generated_attribute?(member, method_name, rbs)
         reader = member.name.to_s == method_name && !member.is_a?(rbs::AST::Members::AttrWriter)
         writer = method_name == "#{member.name}=" && !member.is_a?(rbs::AST::Members::AttrReader)
-        member.kind == :instance && (reader || writer)
+        %i[instance singleton].include?(member.kind) && (reader || writer)
       end
 
       def matching_module_method(method_name, declarations, rbs)
@@ -118,11 +126,13 @@ module SpecProof
         end
       end
 
-      def validate_method!(target, method, visibility, generic_owner)
+      def validate_method!(target, method, visibility, generic_owner, kind)
+        method_kind = kind == :singleton ? "singleton" : "instance"
         if (method.visibility || visibility) != :public
-          unsupported_signature!(target, method, "only directly declared public instance methods are supported")
+          unsupported_signature!(target, method, "only directly declared public #{method_kind} methods are supported")
         end
-        unsupported_signature!(target, method, "singleton methods are not supported") if method.singleton?
+        expected_kind = kind == :singleton ? :singleton : :instance
+        unsupported_signature!(target, method, "unsupported method kind") unless method.kind == expected_kind
         if method.overloading? || method.overloads.length != 1
           unsupported_signature!(target, method, "overloaded method signatures are not supported")
         end

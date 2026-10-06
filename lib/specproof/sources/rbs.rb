@@ -65,16 +65,26 @@ module SpecProof
           raise ConfigurationError.new("provide at least one RBS target", code: "targets_required") if values.empty?
 
           values.each do |target|
-            unless Loader.valid_target?(target)
-              raise ConfigurationError.new("target must use ClassName#instance_method syntax: #{target.inspect}",
-                                           code: "invalid_target")
-            end
+            next if valid_target?(target)
+
+            message = "target must use ClassName#instance_method or " \
+                      "ClassName.singleton_method syntax: #{target.inspect}"
+            raise ConfigurationError.new(message, code: "invalid_target")
           end
           if values.uniq.length != values.length
             raise ConfigurationError.new("RBS targets must be unique", code: "duplicate_target")
           end
 
           values.sort.freeze
+        end
+
+        def valid_target?(target)
+          return false unless target.is_a?(String)
+
+          TargetName.parse(target)
+          true
+        rescue ConfigurationError
+          false
         end
 
         def load_dependency

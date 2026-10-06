@@ -74,6 +74,89 @@ class RBSSourceTest < Minitest::Test
     assert_equal 2, facts.first.source.line
   end
 
+  def test_loads_class_and_module_singleton_methods_and_keeps_instance_names_distinct
+    path = File.expand_path("../fixtures/rbs/method_object_targets.rbs", __dir__)
+    facts = SpecProof::Sources::RBS.load(
+      paths: [path], targets: ["RBSDelivery#build", "RBSDelivery.build", "RBSRegistry.fetch"]
+    )
+
+    assert_equal ["RBSDelivery#build", "RBSDelivery.build", "RBSRegistry.fetch"], facts.map(&:target).uniq
+    actual = facts.map do |fact|
+      [fact.input, fact.constraint.integer_any, fact.constraint.values]
+    end.take(2)
+    assert_equal [[:quantity, false, ["ready"]], [:quantity, true, []]], actual
+    assert_equal [:id], facts.select { |fact| fact.target == "RBSRegistry.fetch" }.map(&:input)
+  end
+
+  def test_composes_rbs_singleton_facts_with_dsl_declarations
+    with_rbs("class RBSDelivery\n def self.build: (Integer quantity) -> void\nend\n") do |rbs_path|
+      with_spec("SpecProof.define(\"RBSDelivery.build\") { input :quantity, range: 1..3 }\n") do |spec_path|
+        specifications = SpecProof.load([spec_path], rbs: [rbs_path], targets: ["RBSDelivery.build"])
+
+        assert_equal ["RBSDelivery.build"], specifications.map(&:target)
+        assert_equal [:quantity], specifications.fetch(0).inputs.keys
+        assert_equal true, specifications.fetch(0).inputs.fetch(:quantity).type_constraint.integer_any
+      end
+    end
+  end
+
+  def test_rejects_singleton_aliases_and_duplicate_reopenings
+    contents = "class RBSDelivery\n alias self.copy self.build\n def self.build: (Integer quantity) -> void\nend\n"
+    with_rbs(contents) do |path|
+      error = assert_raises(SpecProof::ConfigurationError) do
+        SpecProof::Sources::RBS.load(paths: [path], targets: ["RBSDelivery.copy"])
+      end
+      assert_equal "unsupported_rbs_signature", error.code
+      assert_includes error.message, "method aliases"
+    end
+
+    with_rbs("class RBSDelivery\n def self.build: (Integer quantity) -> void\nend\n" \
+             "class RBSDelivery\n def self.build: (Integer quantity) -> void\nend\n") do |path|
+      error = assert_raises(SpecProof::ConfigurationError) do
+        SpecProof::Sources::RBS.load(paths: [path], targets: ["RBSDelivery.build"])
+      end
+      assert_equal "unsupported_rbs_signature", error.code
+      assert_includes error.message, "more than once"
+    end
+  end
+
+  def test_rejects_private_singleton_methods_and_module_instance_methods
+    with_rbs("class RBSDelivery\n private def self.build: (Integer quantity) -> void\nend\n") do |path|
+      error = assert_raises(SpecProof::ConfigurationError) do
+        SpecProof::Sources::RBS.load(paths: [path], targets: ["RBSDelivery.build"])
+      end
+      assert_equal "unsupported_rbs_signature", error.code
+    end
+
+    with_rbs("module RBSRegistry\n def fetch: (Integer id) -> void\nend\n") do |path|
+      error = assert_raises(SpecProof::ConfigurationError) do
+        SpecProof::Sources::RBS.load(paths: [path], targets: ["RBSRegistry#fetch"])
+      end
+      assert_equal "unsupported_rbs_signature", error.code
+      assert_includes error.message, "module owners"
+    end
+  end
+
+  def test_rejects_singleton_instance_and_unsupported_singleton_signatures
+    with_rbs("class RBSDelivery\n def self?.build: (Integer quantity) -> void\nend\n") do |path|
+      error = assert_raises(SpecProof::ConfigurationError) do
+        SpecProof::Sources::RBS.load(paths: [path], targets: ["RBSDelivery.build"])
+      end
+      assert_equal "unsupported_rbs_signature", error.code
+      assert_includes error.message, "singleton_instance"
+    end
+
+    signatures = [["(Object quantity)", "unsupported_rbs_type"], ["[A] (A quantity)", "unsupported_rbs_signature"]]
+    signatures.each do |signature, code|
+      with_rbs("class RBSDelivery\n def self.build: #{signature} -> void\nend\n") do |path|
+        error = assert_raises(SpecProof::ConfigurationError) do
+          SpecProof::Sources::RBS.load(paths: [path], targets: ["RBSDelivery.build"])
+        end
+        assert_equal code, error.code
+      end
+    end
+  end
+
   def test_resolves_absolute_integer_and_nested_class_names
     facts = with_rbs(<<~RBS) do |path|
       module Shop
@@ -542,6 +625,14 @@ class RBSSourceTest < Minitest::Test
   def with_rbs(content)
     Dir.mktmpdir do |directory|
       path = File.join(directory, "types.rbs")
+      File.write(path, content)
+      yield path
+    end
+  end
+
+  def with_spec(content)
+    Dir.mktmpdir do |directory|
+      path = File.join(directory, "specification.rb")
       File.write(path, content)
       yield path
     end

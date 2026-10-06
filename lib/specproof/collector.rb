@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
+require_relative "target_name"
+
 module SpecProof
   # Captures method calls during a test run and matches them to obligations.
   class Collector
     # `method` is part of the collector's internal target record.
     # rubocop:disable-next Lint/StructNewOverride
-    Target = Struct.new(:name, :owner, :constant_names, :method_name, :method, :method_ids, :input_names,
+    Target = Struct.new(:name, :owner, :constant_names, :method_owner, :method_name, :method, :method_ids, :input_names,
                         keyword_init: true)
 
     def initialize(specifications:, observer:)
@@ -32,7 +34,7 @@ module SpecProof
       duplicate_binding = {}
       targets.each do |target|
         target.method_ids.each do |method_id|
-          binding = [target.owner, method_id]
+          binding = [target.method_owner, method_id]
           if duplicate_binding.key?(binding)
             raise_configuration_error("multiple targets resolve to the same runtime method binding",
                                       target: target.name, code: "duplicate_binding")
@@ -95,28 +97,7 @@ module SpecProof
         raise_configuration_error("target must be a non-empty String", code: "invalid_target")
       end
 
-      owner_name, method_name = parse_target(target_name)
-      owner = resolve_class(owner_name, target_name)
-      unless owner.is_a?(Class)
-        raise_configuration_error("target owner must be a Class", target: target_name, code: "invalid_target_owner")
-      end
-
-      method_symbol = method_name.to_sym
-      unless owner.public_method_defined?(method_symbol, false)
-        raise_configuration_error("#{target_name} must name a directly defined public instance method",
-                                  target: target_name, code: "invalid_method")
-      end
-
-      method = owner.instance_method(method_symbol)
-      unless method.owner == owner && method.original_name == method_symbol
-        raise_configuration_error("#{target_name} cannot name an inherited or aliased method", target: target_name,
-                                                                                               code: "invalid_method")
-      end
-
-      if method.source_location.nil?
-        raise_configuration_error("#{target_name} must have a Ruby source location", target: target_name,
-                                                                                     code: "invalid_method")
-      end
+      owner, owner_names, method_owner, method_symbol, method = resolve_target(target_name)
 
       input_names, exclusion_names = declaration_names(specification, target_name)
 
@@ -134,8 +115,8 @@ module SpecProof
                                   target: target_name, code: "parameter_mismatch")
       end
 
-      method_ids = owner.public_instance_methods(false).select do |candidate|
-        owner.instance_method(candidate) == method
+      method_ids = method_owner.public_instance_methods(false).select do |candidate|
+        method_owner.instance_method(candidate) == method
       rescue NameError
         false
       end
@@ -143,7 +124,8 @@ module SpecProof
       Target.new(
         name: target_name.freeze,
         owner: owner,
-        constant_names: owner_name.map(&:freeze).freeze,
+        constant_names: owner_names.map(&:freeze).freeze,
+        method_owner: method_owner,
         method_name: method_symbol,
         method: method,
         method_ids: method_ids.freeze,
@@ -151,14 +133,34 @@ module SpecProof
       ).freeze
     end
 
-    def parse_target(target_name)
-      match = /\A(?:::)?([A-Z]\w*(?:::[A-Z]\w*)*)#([a-zA-Z_]\w*[!?=]?)\z/.match(target_name)
-      unless match
-        raise_configuration_error("target must use Class::Name#method syntax", target: target_name,
-                                                                               code: "invalid_target")
+    def resolve_target(target_name)
+      owner_name, method_name, kind = TargetName.parse(target_name)
+      owner_names = owner_name.delete_prefix("::").split("::")
+      owner = resolve_class(owner_names, target_name)
+      unless owner.is_a?(Module) && (kind == :singleton || owner.is_a?(Class))
+        raise_configuration_error("target owner must be a named Class or Module",
+                                  target: target_name, code: "invalid_target_owner")
       end
 
-      [match[1].split("::"), match[2]]
+      method_owner = kind == :singleton ? owner.singleton_class : owner
+      method_symbol = method_name.to_sym
+      unless method_owner.public_method_defined?(method_symbol, false)
+        visibility = kind == :singleton ? "public singleton method" : "public instance method"
+        raise_configuration_error("#{target_name} must name a directly defined #{visibility}",
+                                  target: target_name, code: "invalid_method")
+      end
+
+      method = method_owner.instance_method(method_symbol)
+      unless method.owner == method_owner && method.original_name == method_symbol
+        raise_configuration_error("#{target_name} cannot name an inherited or aliased method", target: target_name,
+                                                                                               code: "invalid_method")
+      end
+      if method.source_location.nil?
+        raise_configuration_error("#{target_name} must have a Ruby source location", target: target_name,
+                                                                                     code: "invalid_method")
+      end
+
+      [owner, owner_names, method_owner, method_symbol, method]
     end
 
     def declaration_names(specification, target_name)
@@ -206,7 +208,7 @@ module SpecProof
 
       target = @target_methods[[trace.defined_class, trace.method_id]]
       return unless target
-      return if target.owner != trace.defined_class
+      return if target.method_owner != trace.defined_class
       return if @disabled_targets[target.name]
 
       unless method_unchanged?(target)
@@ -274,7 +276,7 @@ module SpecProof
     end
 
     def method_unchanged?(target)
-      target.owner.instance_method(target.method_name) == target.method
+      target.method_owner.instance_method(target.method_name) == target.method
     rescue NameError
       false
     end

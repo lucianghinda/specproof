@@ -25,6 +25,19 @@ direct calls to supported methods during the original Minitest run. It does not
 inspect assertions or replay tests. Unsupported signatures, collector errors,
 and out-of-domain inputs cannot be counted as successful obligation evidence.
 
+Targets may be canonical strings (`"Owner#instance_method"` or
+`"Owner.singleton_method"`) or Ruby method objects for directly defined public
+methods on named classes/modules. Prefer strings for offline check/plan and
+when an owner might autoload; they remain unresolved. Prefer `Owner.method(:x)`
+or `Owner.instance_method(:x)` when code is loaded and reflection is useful;
+the method is not invoked, and the object must still identify the current direct
+definition when declared. Equivalent forms share canonical target strings,
+digests, and obligation IDs. Bound methods on arbitrary instances, aliases,
+inherited singleton methods, and anonymous owners are unsupported. Reports
+retain string target names; editor navigation depends on language-server
+support. Minitest collection also supports selected singleton methods on named
+classes and modules.
+
 After the declaration passes check and plan, capture a fresh report from the
 intended current test suite before editing tests or production code. Inspect its
 `run_id`, digest, input scope, completion, integrity, and `tests_passed` value.
