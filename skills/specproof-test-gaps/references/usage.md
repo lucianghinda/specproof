@@ -78,16 +78,23 @@ assertions need an independent behavior oracle.
 
 With `pairwise-partitions-v1`, each grouped integer range needs explicit
 `allow_gaps: false`, `allow_overlaps: false` partitions. Other grouped inputs use
-finite values as singleton categories, and the group must declare
-`all_allowed: true`. This criterion rejects `forbid` rules and explicit
-partitions on finite-valued inputs. A category pair is hit when an observed
-integer belongs to that category; this does not mean every value in the
-category was observed or that the values behave equivalently. Compare typed
-partition rows such as
+finite values as singleton categories. Use `all_allowed: true` only when every
+full assignment is allowed; otherwise use requirement-backed `forbid` clauses.
+Integer restrictions select whole partitions with `in_partition(:name)`;
+finite restrictions use exact values. A pair is required only when an allowed
+full completion exists, including values of other group inputs, so exclusions
+can be indirect. A forbidden runtime tuple contributes no pair coverage. Never
+change restrictions to make missing pairs disappear. Explicit partitions on
+finite-valued inputs remain unsupported. A category pair is hit when an
+observed integer belongs to that category in a fully allowed tuple; this does
+not mean every value in the category was observed or that the values behave
+equivalently. Compare typed partition rows such as
 `{ "kind": "partition", "name": "minor", "lower": "0", "upper": "17" }`
 with a fresh plan. Suggestions use the category's lower endpoint as a concrete
 integer; that representative does not provide a behavior oracle or boundary
-coverage claim.
+coverage claim. The normalized constraint value used for the contract digest
+has its own encoding, `{ "kind": "partition_reference", "name": "minor" }`;
+obligation rows keep the existing partition encoding.
 
 Finite strings are explicitly enumerated text scenarios, not open-ended String
 coverage. For a required scenario such as `values: [nil, 1, "user_123"]`, retain

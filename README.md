@@ -210,13 +210,22 @@ the other method inputs left for the caller to supply when outside the group.
 ## Pairwise coverage over integer partitions
 
 `pairwise-partitions-v1` pairs explicitly complete and non-overlapping integer
-categories with other finite inputs. It requires `all_allowed: true` and does
-not support forbidden assignments or explicit partitions on finite-valued
-inputs. Category coverage is not boundary-value coverage and does not assert
-equivalent behavior throughout a category. The runnable [partition example](examples/pairwise_partitions/README.md)
-shows a missing minor/`"de"` category pair and an input suggestion derived from
-the report. See the [implementation results](docs/pairwise-partitions-results.md)
-for limits and verification evidence.
+categories with other finite inputs. It supports `all_allowed: true` or
+requirement-backed `forbid` assignments that select whole integer
+partitions with `in_partition(:name)` and exact finite values. Each clause
+forbids matching full assignments; required and excluded pairs are derived
+from whether an allowed full completion exists. An excluded pair can therefore
+be impossible indirectly through a restriction on a third input. Integer
+restrictions must select a whole partition; raw integer values and partial
+range predicates are not supported. Finite inputs continue to use exact values.
+Category coverage is not boundary-value coverage and does not assert equivalent
+behavior throughout a category. The runnable [unrestricted partition
+example](examples/pairwise_partitions/README.md) shows a missing minor/`"de"`
+category pair. The [constrained example](examples/constrained_partition_pairs/README.md)
+shows requirement-backed restrictions, an excluded category pair, and allowed
+assignment suggestions. See the [initial partition results](docs/pairwise-partitions-results.md)
+and [constrained partition results](docs/constrained-partition-pairs-results.md)
+for verification evidence.
 
 ## Development
 

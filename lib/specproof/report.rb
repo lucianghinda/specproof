@@ -31,6 +31,7 @@ module SpecProof
       case value
       when PartitionLevel then { kind: "partition", name: value.name.to_s, lower: value.lower.to_s,
                                  upper: value.upper.to_s }
+      when PartitionReference then { kind: "partition_reference", name: value.name.to_s }
       when NilClass then { kind: "nil", value: nil }
       when TrueClass, FalseClass then { kind: "boolean", value: value }
       when Integer then { kind: "integer", value: value.to_s }

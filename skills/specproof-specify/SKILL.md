@@ -115,13 +115,18 @@ allowed value of the third input. Pairwise planning rejects oversized spaces
 instead of sampling. A valid group with no allowed tuple is a semantic finding
 that must be resolved against requirements.
 
-For `pairwise-partitions-v1`, each grouped integer input must declare an
-complete, non-overlapping partition of its bounded range, and the group must use
-`all_allowed: true`. Other grouped inputs use finite values as singleton
-categories. Explicit partitions on finite-valued inputs and `forbid` rules are
-unsupported for this criterion. It plans category pairs, not boundary
-candidates; category coverage does not establish boundary coverage or
-equivalent behavior throughout a category.
+For `pairwise-partitions-v1`, each grouped integer input must declare a
+complete, non-overlapping partition of its bounded range. Other grouped inputs
+use finite values as singleton categories; explicit partitions on finite-valued
+inputs remain unsupported. Choose `all_allowed: true` only when every full
+assignment is allowed. Otherwise, use a nonempty block of requirement-backed
+`forbid` assignments. Integer selectors must name whole declared partitions
+with `in_partition(:name)`, while finite inputs use exact values. Restrictions
+are partial assignments over full tuples: required and excluded pairs depend on
+whether any allowed completion exists, including assignments to other inputs.
+Never add a restriction to hide an uncovered pair. This criterion plans
+category pairs, not boundary candidates; category coverage does not establish
+boundary coverage or equivalent behavior throughout a category.
 
 ```ruby
 SpecProof.define "AgePolicy#eligible?" do
@@ -137,6 +142,15 @@ end
 Select `--criterion pairwise-partitions-v1` explicitly when planning this
 contract. The scalar and `pairwise-finite-v1` criteria keep their existing
 behavior.
+
+When requirements restrict tuples, replace `all_allowed: true` with explicit
+clauses, for example:
+
+```ruby
+combinations :age, :account, :country do
+  forbid age: in_partition(:minor), account: "business"
+end
+```
 
 The CLI criterion is explicit and does not change the default scalar plan:
 

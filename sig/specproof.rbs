@@ -125,8 +125,13 @@ module SpecProof
   end
 
   class ForbiddenAssignment
-    attr_reader assignments: Hash[Symbol, nil | bool | Integer | Symbol | String]
+    attr_reader assignments: Hash[Symbol, nil | bool | Integer | Symbol | String | PartitionReference]
     attr_reader source: Source
+  end
+
+  class PartitionReference
+    attr_reader name: Symbol
+    def initialize: (Symbol name) -> void
   end
 
   class CombinationSpace

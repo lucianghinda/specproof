@@ -43,11 +43,17 @@ tests, infer expected results, or prove application correctness.
    come from a requirement; never add one to erase a missing pair. Pair
    feasibility depends on an allowed full assignment, including all other
    group inputs. For bounded integer inputs, use `pairwise-partitions-v1` only
-   when each grouped range has an explicit complete, non-overlapping partition, all
-   other grouped inputs are finite values, and every combination is allowed.
-   This criterion rejects `forbid` rules and explicit partitions on
-   finite-valued inputs. It counts category pairs, not boundary candidates or
-   inferred behavior equivalence. Use `allow_gaps: false` and
+   when each grouped range has an explicit complete, non-overlapping partition
+   and all other grouped inputs are finite values. Use `all_allowed: true` only
+   when every full tuple is allowed; otherwise encode stated restrictions with
+   a nonempty block of `forbid` assignments. Integer selectors must use
+   `in_partition(:name)` for a whole declared partition; finite inputs require
+   exact values. Pair feasibility depends on whether any allowed full
+   completion exists, including the values of other group inputs. A call that
+   matches a forbidden assignment contributes no pair coverage. Never change
+   restrictions to remove a missing pair. Explicit partitions on finite-valued
+   inputs remain unsupported. This criterion counts category pairs, not
+   boundary candidates or inferred behavior equivalence. Use `allow_gaps: false` and
    `allow_overlaps: false` to require that grouping. Omitted options allow
    gaps/overlaps. When migrating legacy specifications, invert the booleans:
    `exhaustive: true` becomes `allow_gaps: false`, and `disjoint: true` becomes

@@ -71,6 +71,31 @@ class PartitionSuggestionsTest < Minitest::Test
     assert_equal obligations.map(&:id).sort, result.suggestions.flat_map(&:covers).sort
   end
 
+  def test_constrained_partition_suggestions_cover_only_feasible_missing_pairs
+    specifications = constrained_partition_specifications
+    obligations = SpecProof.plan(specifications, criterion: CRITERION)
+    assert_equal 11, obligations.length
+    assert_equal 1, SpecProof::PartitionSpace.new(specifications.first).excluded_pairs.length
+
+    coverage = SpecProof::Coverage.new(obligations: obligations, specifications: specifications)
+    [
+      { age: 16, account: :personal, country: :ro },
+      { age: 30, account: :business, country: :ro },
+      { age: 30, account: :personal, country: :de }
+    ].each { |inputs| assert coverage.observe(target: "Registration#submit", arguments: inputs) }
+    assert_equal 9, coverage.to_report.fetch(:exercised_count)
+
+    result = SpecProof.suggest(specifications, report: coverage_document(coverage, specifications))
+
+    assert_equal 2, result.suggestions.length
+    assert_equal 2, result.missing_count
+    result.suggestions.each do |suggestion|
+      assert SpecProof::PartitionSpace.new(specifications.first).allowed?(suggestion.inputs)
+      assert_includes [0, 18], suggestion.inputs.fetch(:age)
+    end
+    assert_equal result.missing_count, result.suggestions.flat_map(&:covers).uniq.length
+  end
+
   def test_large_integer_width_does_not_increase_partition_assignment_count
     specifications = load_text(<<~RUBY)
       SpecProof.define "AgePolicy#huge" do
@@ -195,6 +220,49 @@ class PartitionSuggestionsTest < Minitest::Test
     end
   end
 
+  def test_cli_suggest_accepts_constraints_and_returns_only_feasible_assignments
+    Dir.mktmpdir("specproof-partition-constrained-cli") do |directory|
+      spec_path = File.join(directory, "registration.rb")
+      report_path = File.join(directory, "coverage.json")
+      File.write(spec_path, <<~RUBY)
+        SpecProof.define "Registration#submit" do
+          input :age, range: 0..120, allow_gaps: false, allow_overlaps: false do
+            partition :minor, range: 0...18
+            partition :adult, range: 18..120
+          end
+          input :account, values: [:personal, :business]
+          input :country, values: [:ro, :de]
+          combinations :age, :account, :country do
+            forbid age: in_partition(:minor), account: :business
+          end
+        end
+      RUBY
+      specifications = SpecProof.load([spec_path])
+      obligations = SpecProof.plan(specifications, criterion: CRITERION)
+      coverage = SpecProof::Coverage.new(obligations: obligations, specifications: specifications)
+      [
+        { age: 16, account: :personal, country: :ro },
+        { age: 30, account: :business, country: :ro },
+        { age: 30, account: :personal, country: :de }
+      ].each { |inputs| coverage.observe(target: "Registration#submit", arguments: inputs) }
+      File.write(report_path, JSON.generate(coverage_document(coverage, specifications)))
+
+      stdout, stderr, status = Open3.capture3(RbConfig.ruby, "-Ilib", "exe/specproof", "suggest", spec_path,
+                                              "--report", report_path, "--format", "json",
+                                              chdir: File.expand_path("..", __dir__))
+
+      assert status.success?, stderr
+      result = JSON.parse(stdout)
+      assert_equal 2, result.fetch("suggestion_count")
+      result.fetch("suggestions").each do |suggestion|
+        values = suggestion.fetch("inputs")
+        assert_includes [0, 18], values.fetch("age").fetch("value").to_i
+        refute values.fetch("age").fetch("value").to_i < 18 &&
+               values.fetch("account").fetch("value") == "business"
+      end
+    end
+  end
+
   def test_cli_suggest_semantic_findings_keep_the_partition_criterion
     Dir.mktmpdir("specproof-partition-cli-invalid") do |directory|
       spec_path = File.join(directory, "age.rb")
@@ -246,6 +314,22 @@ class PartitionSuggestionsTest < Minitest::Test
         end
         input :country, values: [:ro, :de]
         combinations :age, :country, all_allowed: true
+      end
+    RUBY
+  end
+
+  def constrained_partition_specifications
+    load_text(<<~RUBY)
+      SpecProof.define "Registration#submit" do
+        input :age, range: 0..120, allow_gaps: false, allow_overlaps: false do
+          partition :minor, range: 0...18
+          partition :adult, range: 18..120
+        end
+        input :account, values: [:personal, :business]
+        input :country, values: [:ro, :de]
+        combinations :age, :account, :country do
+          forbid age: in_partition(:minor), account: :business
+        end
       end
     RUBY
   end

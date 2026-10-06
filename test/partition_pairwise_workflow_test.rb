@@ -64,6 +64,44 @@ class PartitionPairwiseWorkflowTest < Minitest::Test
     end
   end
 
+  def test_forbidden_partition_tuple_is_outside_combinations_and_hits_no_pair
+    Dir.mktmpdir("specproof-partition-forbidden") do |directory|
+      path = File.join(directory, "registration.rb")
+      File.write(path, <<~SPEC)
+        SpecProof.define "Registration#submit" do
+          input :age, range: 0..120, allow_gaps: false, allow_overlaps: false do
+            partition :minor, range: 0...18
+            partition :adult, range: 18..120
+          end
+          input :account, values: [:personal, :business]
+          input :country, values: [:ro, :de]
+          combinations :age, :account, :country do
+            forbid age: in_partition(:minor), account: :business
+          end
+        end
+      SPEC
+      specifications = SpecProof.load([path])
+      obligations = SpecProof.plan(specifications, criterion: CRITERION)
+      coverage = SpecProof::Coverage.new(obligations: obligations, specifications: specifications)
+
+      refute coverage.observe(target: "Registration#submit",
+                              arguments: { age: 16, account: :business, country: :ro })
+
+      report = coverage.to_report
+      assert_equal 0, report.fetch(:exercised_count)
+      assert_equal obligations.length, report.fetch(:missing_count)
+      assert_equal 1, report.fetch(:outside_combinations).fetch("Registration#submit").fetch(:count)
+
+      scalar_obligations = SpecProof.plan(specifications)
+      scalar_ids = scalar_obligations.map(&:id)
+      combined = SpecProof::Coverage.new(obligations: obligations + scalar_obligations,
+                                         specifications: specifications)
+      refute combined.observe(target: "Registration#submit",
+                              arguments: { age: 16, account: :business, country: :ro })
+      refute(combined.to_report.fetch(:exercised).any? { |item| scalar_ids.include?(item.fetch(:id)) })
+    end
+  end
+
   def test_scalar_obligations_in_the_same_specification_remain_exact
     Dir.mktmpdir("specproof-partition-scalar") do |directory|
       specifications = SpecProof.load([write_specification(directory)])

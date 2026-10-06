@@ -5,6 +5,7 @@ module SpecProof
   class PartitionSpace
     MAX_ASSIGNMENTS = 10_000
     MAX_PAIR_ROWS = 10_000
+    INVALID_CATEGORY = Object.new.freeze
 
     attr_reader :pairs, :excluded_pairs, :allowed_count, :sources
 
@@ -39,15 +40,17 @@ module SpecProof
       normalized = arguments.each_with_object({}) do |(name, value), values|
         values[name.to_sym] = canonical_value(value)
       end
-      return false unless @group.inputs.all? do |name|
-        normalized.key?(name) && allowed_value?(name, normalized.fetch(name))
+      categories = @group.inputs.to_h do |name|
+        value = normalized.fetch(name, INVALID_CATEGORY)
+        [name, value.equal?(INVALID_CATEGORY) ? INVALID_CATEGORY : category_value(name, value)]
       end
+      return false if categories.values.any? { |value| value.equal?(INVALID_CATEGORY) }
 
-      true
+      restrictions_allow?(categories)
     end
 
     def allowed_assignments
-      @allowed_assignments ||= complete_assignments.freeze
+      @allowed_assignments ||= complete_assignments.select { |assignment| restrictions_allow?(assignment) }.freeze
     end
 
     private
@@ -59,11 +62,43 @@ module SpecProof
       end
 
       @inputs = group_inputs.freeze
-      unless @group.forbidden.empty?
-        raise ConfigurationError.new("pairwise-partitions-v1 supports only all_allowed: true",
-                                     code: "invalid_combinations_mode", source: @group.forbidden.first.source)
-      end
+      validate_forbidden_assignments
       collect_sources
+    end
+
+    def validate_forbidden_assignments
+      @group.forbidden.each do |rule|
+        if rule.assignments.empty?
+          raise ConfigurationError.new("forbid requires at least one assignment",
+                                       code: "empty_forbidden_assignment", source: rule.source)
+        end
+        rule.assignments.each do |name, value|
+          input = @inputs[name]
+          unless input
+            raise ConfigurationError.new("forbidden assignment names non-group input #{name.inspect}",
+                                         code: "unknown_forbidden_input", source: rule.source)
+          end
+          if input.domain.is_a?(IntegerDomain)
+            unless value.is_a?(PartitionReference)
+              raise ConfigurationError.new("integer input #{name.inspect} restrictions must use in_partition(:name)",
+                                           code: "partition_selector_required", source: rule.source)
+            end
+            next if input.partitions.any? { |partition| partition.name == value.name }
+
+            raise ConfigurationError.new("unknown partition #{value.name.inspect} for #{name.inspect}",
+                                         code: "unknown_partition_reference", source: rule.source)
+          end
+
+          if value.is_a?(PartitionReference)
+            raise ConfigurationError.new("partition reference for #{name.inspect} requires an integer input",
+                                         code: "partition_reference_requires_integer_input", source: rule.source)
+          end
+          unless Domains.primitive?(value) && Domains.include?(input.domain, value)
+            raise ConfigurationError.new("forbidden value #{value.inspect} is outside #{name.inspect}'s finite domain",
+                                         code: "invalid_combination_value", source: rule.source)
+          end
+        end
+      end
     end
 
     def group_inputs
@@ -116,7 +151,8 @@ module SpecProof
 
     def collect_sources
       @sources = ([@group.source] + @inputs.values.flat_map(&:sources) +
-                  @inputs.values.flat_map { |input| input.partitions.map(&:source) })
+                  @inputs.values.flat_map { |input| input.partitions.map(&:source) } +
+                  @group.forbidden.map(&:source))
                  .compact.uniq.sort_by { |source| [source.path, source.line, source.kind] }.freeze
     end
 
@@ -139,7 +175,7 @@ module SpecProof
     end
 
     def enumerate
-      assignments = complete_assignments
+      assignments = allowed_assignments
       @allowed_count = assignments.length
       pair_rows = {}
       assignments.each do |assignment|
@@ -149,7 +185,14 @@ module SpecProof
         end
       end
       @pairs = pair_rows.values.sort_by { |row| row_key(row) }.freeze
-      @excluded_pairs = [].freeze
+      all_rows = []
+      each_input_pair do |left, right|
+        values_for(@inputs.fetch(left)).product(values_for(@inputs.fetch(right))).each do |left_value, right_value|
+          all_rows << { left => left_value, right => right_value }.freeze
+        end
+      end
+      feasible = pair_rows.keys.to_h { |key| [key, true] }
+      @excluded_pairs = all_rows.reject { |row| feasible.key?(pair_key(row)) }.sort_by { |row| row_key(row) }.freeze
     end
 
     def complete_assignments
@@ -172,15 +215,31 @@ module SpecProof
       end
     end
 
-    def allowed_value?(name, value)
+    def category_value(name, value)
       input = @inputs.fetch(name)
       if input.domain.is_a?(IntegerDomain)
-        return false unless value.instance_of?(Integer) && input.domain.include?(value)
+        return INVALID_CATEGORY unless value.instance_of?(Integer) && input.domain.include?(value)
 
         matching = input.partitions.select { |partition| partition.domain.include?(value) }
-        matching.length == 1
+        return INVALID_CATEGORY unless matching.length == 1
+
+        partition = matching.first
+        PartitionLevel.new(name: partition.name, lower: partition.domain.lower, upper: partition.domain.upper)
       else
-        Domains.include?(input.domain, value)
+        Domains.include?(input.domain, value) ? value : INVALID_CATEGORY
+      end
+    end
+
+    def restrictions_allow?(assignment)
+      @group.forbidden.none? do |rule|
+        rule.assignments.all? do |name, value|
+          assigned = assignment[name]
+          if value.is_a?(PartitionReference)
+            assigned.is_a?(PartitionLevel) && assigned.name == value.name
+          else
+            assigned.instance_of?(value.class) && assigned.eql?(value)
+          end
+        end
       end
     end
 

@@ -130,10 +130,6 @@ module SpecProof
         raise ConfigurationError.new("a combinations group requires at least two inputs",
                                      code: "invalid_combination_inputs", source: group.source)
       end
-      if criterion == PARTITION_CRITERION && !group.forbidden.empty?
-        raise ConfigurationError.new("partition pairwise suggestions require all_allowed: true",
-                                     code: "partition_forbidden_combinations", source: group.source)
-      end
       sizes = group.inputs.map { |name| preflight_domain_size(specification, group, name, criterion) }
       assignments = preflight_assignment_count(sizes, group)
       pair_rows = preflight_pair_row_count(sizes, group)

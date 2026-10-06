@@ -5,6 +5,8 @@
 - Reject incompatible or incomplete suggestion evidence, preserve assertion failures, and update the packaged agent workflows.
 - Add opt-in finite pairwise coverage with explicit allowed combinations, declarative forbidden assignments, feasible-pair planning, and joint-domain observation.
 - Add `pairwise-partitions-v1` for category-pair planning over explicitly complete and non-overlapping integer partitions crossed with finite inputs.
+- Support requirement-backed `forbid` assignments over whole integer partitions and finite values, deriving required and excluded category pairs from allowed completions.
+- Add a runnable constrained partition-pairs example with excluded-pair reporting and allowed-assignment suggestions.
 - Add a runnable age-by-country partition example with inferred-criterion suggestions and a requirement-backed category-gap assertion.
 - Explain excluded pairs and missing interactions in CLI and Minitest reports; include runnable examples and packaged agent guidance.
 - Import explicitly selected RBS scalar input types without a duplicate DSL declaration; require a behavioral refinement for unbounded integers and preserve honest limits for unsupported types.

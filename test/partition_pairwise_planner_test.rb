@@ -213,9 +213,9 @@ class PartitionPairwisePlannerTest < Minitest::Test
     end
   end
 
-  def test_new_criterion_rejects_finite_partitions_and_forbidden_assignments
+  def test_new_criterion_rejects_finite_partitions_but_accepts_integer_partition_restrictions
     declarations = [
-      <<~RUBY,
+      <<~RUBY
         input :age, range: 0..20, exhaustive: true, disjoint: true do
           partition :minor, range: 0...18
           partition :adult, range: 18..20
@@ -226,16 +226,6 @@ class PartitionPairwisePlannerTest < Minitest::Test
         end
         combinations :age, :country, all_allowed: true
       RUBY
-      <<~RUBY
-        input :age, range: 0..20, exhaustive: true, disjoint: true do
-          partition :minor, range: 0...18
-          partition :adult, range: 18..20
-        end
-        input :country, values: [:ro, :de]
-        combinations :age, :country do
-          forbid country: :de
-        end
-      RUBY
     ]
 
     declarations.each do |body|
@@ -243,8 +233,193 @@ class PartitionPairwisePlannerTest < Minitest::Test
       error = assert_raises(SpecProof::ConfigurationError) do
         SpecProof.plan(specs, criterion: CRITERION)
       end
-      assert_includes %w[finite_partitions_unsupported invalid_combinations_mode], error.code
+      assert_equal "finite_partitions_unsupported", error.code
     end
+  end
+
+  def test_partition_restrictions_filter_full_tuples_and_derive_feasible_pairs
+    specs = load_text(<<~RUBY)
+      SpecProof.define "Registration#eligible?" do
+        input :age, range: 0..20, exhaustive: true, disjoint: true do
+          partition :minor, range: 0...18
+          partition :adult, range: 18..20
+        end
+        input :account, values: [:personal, :business]
+        input :country, values: [:ro, :de]
+        combinations :age, :account, :country do
+          forbid age: in_partition(:minor), account: :business
+        end
+      end
+    RUBY
+
+    space = SpecProof::PartitionSpace.new(specs.first)
+    assert_equal 6, space.allowed_count
+    assert_equal 11, space.pairs.length
+    assert_equal [{ age: SpecProof::PartitionLevel.new(name: :minor, lower: 0, upper: 17), account: :business }],
+                 space.excluded_pairs
+    assert space.allowed?({ age: 17, account: :personal, country: :ro })
+    refute space.allowed?({ age: 17, account: :business, country: :ro })
+    assert_equal({ kind: "partition_reference", name: "minor" },
+                 SpecProof::Report.value(SpecProof::PartitionReference.new(:minor)))
+  end
+
+  def test_partition_restrictions_exclude_pairs_with_no_feasible_completion
+    specs = load_text(<<~RUBY)
+      SpecProof.define "Registration#indirect" do
+        input :age, range: 0..20, exhaustive: true, disjoint: true do
+          partition :minor, range: 0...18
+          partition :adult, range: 18..20
+        end
+        input :account, values: [:personal, :business]
+        input :country, values: [:ro, :de]
+        combinations :age, :account, :country do
+          forbid age: in_partition(:minor), country: :ro
+          forbid account: :business, country: :de
+        end
+      end
+    RUBY
+
+    space = SpecProof::PartitionSpace.new(specs.first)
+    assert_includes space.excluded_pairs,
+                    { age: SpecProof::PartitionLevel.new(name: :minor, lower: 0, upper: 17), account: :business }
+    assert(space.sources.include?(specs.first.combination_group.forbidden.first.source))
+  end
+
+  def test_unsatisfiable_partition_restrictions_remain_a_semantic_finding
+    specs = load_text(<<~RUBY)
+      SpecProof.define "Registration#impossible" do
+        input :age, range: 0..1, exhaustive: true, disjoint: true do
+          partition :minor, range: 0..0
+          partition :adult, range: 1..1
+        end
+        input :country, values: [:ro, :de]
+        combinations :age, :country do
+          forbid age: in_partition(:minor), country: :ro
+          forbid age: in_partition(:minor), country: :de
+          forbid age: in_partition(:adult), country: :ro
+          forbid age: in_partition(:adult), country: :de
+        end
+      end
+    RUBY
+
+    assert_equal [:unsatisfiable_combinations], SpecProof.check(specs).map(&:code)
+    error = assert_raises(SpecProof::InvalidSpecificationError) do
+      SpecProof.plan(specs, criterion: CRITERION)
+    end
+    assert_equal [:unsatisfiable_combinations], error.findings.map(&:code)
+  end
+
+  def test_partition_reference_validation_distinguishes_unknown_and_wrong_kind_selectors
+    [
+      ["in_partition(:unknown)", "unknown_partition_reference"],
+      [":minor", "partition_selector_required"],
+      ["17", "partition_selector_required"],
+      ["in_partition(:minor)", "partition_reference_requires_integer_input"]
+    ].each do |selector, expected_code|
+      finite_input = selector == "in_partition(:minor)"
+      integer_input = ["input :age, range: 0..20, exhaustive: true, disjoint: true do",
+                       "  partition :minor, range: 0..20", "end"].join("\n")
+      first_input, second_input, input_name = if finite_input
+                                                ["input :country, values: [:ro, :de]", integer_input, ":country"]
+                                              else
+                                                [integer_input, "input :country, values: [:ro, :de]", ":age"]
+                                              end
+      error = assert_raises(SpecProof::ConfigurationError) do
+        specs = load_text(<<~RUBY)
+          SpecProof.define "Example#invalid" do
+            #{first_input}
+            #{second_input}
+            combinations :age, :country do
+              forbid **{ #{input_name} => #{selector} }
+            end
+          end
+        RUBY
+        SpecProof.plan(specs, criterion: CRITERION)
+      end
+      assert_equal expected_code, error.code
+    end
+  end
+
+  def test_partition_references_are_input_scoped_and_finite_values_remain_typed
+    specs = load_text(<<~RUBY)
+      SpecProof.define "Example#scoped" do
+        input :left, range: 0..1, exhaustive: true, disjoint: true do
+          partition :minor, range: 0..0
+          partition :major, range: 1..1
+        end
+        input :right, range: 0..1, exhaustive: true, disjoint: true do
+          partition :minor, range: 0..0
+          partition :major, range: 1..1
+        end
+        input :choice, values: [nil, false, "ready", :ready]
+        combinations :left, :right, :choice do
+          forbid left: in_partition(:minor), right: in_partition(:minor), choice: "ready"
+        end
+      end
+    RUBY
+
+    space = SpecProof::PartitionSpace.new(specs.first)
+    refute space.allowed?({ left: 0, right: 0, choice: "ready" })
+    assert space.allowed?({ left: 0, right: 0, choice: :ready })
+    assert space.allowed?({ left: 0, right: 0, choice: nil })
+    assert space.allowed?({ left: 0, right: 0, choice: false })
+    assert_equal 15, space.allowed_count
+  end
+
+  def test_partition_reference_and_dsl_validate_non_symbol_names
+    assert_raises(ArgumentError) { SpecProof::PartitionReference.new("minor") }
+    ["\"minor\"", ":\"\"", "nil"].each do |name|
+      error = assert_raises(SpecProof::ConfigurationError) do
+        load_text(<<~RUBY)
+          SpecProof.define "Example#invalid_name" do
+            input :age, range: 0..1, exhaustive: true, disjoint: true do
+              partition :minor, range: 0..1
+            end
+            input :country, values: [:ro]
+            combinations :age, :country do
+              forbid age: in_partition(#{name})
+            end
+          end
+        RUBY
+      end
+      assert_equal "invalid_partition_reference", error.code
+    end
+  end
+
+  def test_partition_rule_order_and_duplicates_preserve_digest_and_pair_ids
+    first = load_text(<<~RUBY)
+      SpecProof.define "Example#canonical_restrictions" do
+        input :age, range: 0..1, exhaustive: true, disjoint: true do
+          partition :minor, range: 0..0
+          partition :adult, range: 1..1
+        end
+        input :account, values: [:personal, :business]
+        input :country, values: [:ro, :de]
+        combinations :age, :account, :country do
+          forbid age: in_partition(:minor), account: :business
+          forbid country: :de
+        end
+      end
+    RUBY
+    equivalent = load_text(<<~RUBY)
+      SpecProof.define "Example#canonical_restrictions" do
+        input :country, values: [:de, :ro]
+        input :account, values: [:business, :personal]
+        input :age, range: 0..1, exhaustive: true, disjoint: true do
+          partition :adult, range: 1..1
+          partition :minor, range: 0..0
+        end
+        combinations :country, :account, :age do
+          forbid country: :de
+          forbid account: :business, age: in_partition(:minor)
+          forbid age: in_partition(:minor), account: :business
+        end
+      end
+    RUBY
+
+    assert_equal SpecProof::Report.digest(first), SpecProof::Report.digest(equivalent)
+    assert_equal SpecProof.plan(first, criterion: CRITERION).map(&:id).sort,
+                 SpecProof.plan(equivalent, criterion: CRITERION).map(&:id).sort
   end
 
   def test_existing_finite_criterion_still_rejects_integer_group_inputs

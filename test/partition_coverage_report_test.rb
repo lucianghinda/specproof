@@ -92,6 +92,45 @@ class PartitionCoverageReportTest < Minitest::Test
     assert_mismatch(report)
   end
 
+  def test_rejects_report_when_partition_constraint_changes
+    constrained = load_text(<<~RUBY)
+      SpecProof.define "AgePolicy#call" do
+        input :age, range: 0..120, allow_gaps: false, allow_overlaps: false do
+          partition :minor, range: 0...18
+          partition :adult, range: 18..120
+        end
+        input :account, values: [:personal, :business]
+        input :country, values: [:ro, :de]
+        combinations :age, :account, :country do
+          forbid age: in_partition(:minor), account: :business
+        end
+      end
+    RUBY
+    changed = load_text(<<~RUBY)
+      SpecProof.define "AgePolicy#call" do
+        input :age, range: 0..120, allow_gaps: false, allow_overlaps: false do
+          partition :minor, range: 0...18
+          partition :adult, range: 18..120
+        end
+        input :account, values: [:personal, :business]
+        input :country, values: [:ro, :de]
+        combinations :age, :account, :country do
+          forbid age: in_partition(:adult), account: :business
+        end
+      end
+    RUBY
+    constrained_obligations = SpecProof.plan(constrained, criterion: CRITERION)
+    changed_obligations = SpecProof.plan(changed, criterion: CRITERION)
+    report = coverage_document(constrained, constrained_obligations)
+
+    error = assert_raises(SpecProof::ConfigurationError) do
+      SpecProof::CoverageReport.new(report, specifications: changed,
+                                            obligations: changed_obligations, criterion: CRITERION)
+    end
+
+    assert_equal "coverage_contract_mismatch", error.code
+  end
+
   private
 
   def load_text(text)

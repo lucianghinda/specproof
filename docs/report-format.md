@@ -75,11 +75,20 @@ their values.
 
 `pairwise-partitions-v1` is a separate explicit criterion. It requires a
 `combinations` group for every target. Each grouped integer input must have a
-bounded range declared `allow_gaps: false` and `allow_overlaps: false`, with explicit
-partitions. Other grouped inputs use finite values as singleton categories.
-Only `all_allowed: true` is supported; `forbid` rules and explicit partitions
-on finite-valued inputs are configuration errors for this criterion. The
-default scalar criterion and `pairwise-finite-v1` keep their existing behavior.
+bounded range declared `allow_gaps: false` and `allow_overlaps: false`, with
+explicit partitions. Other grouped inputs use finite values as singleton
+categories. A group may declare `all_allowed: true`, or give a nonempty block
+of requirement-backed `forbid` assignments. The default scalar criterion and
+`pairwise-finite-v1` keep their existing behavior.
+
+For a restricted group, `in_partition(:name)` selects an entire declared
+integer partition. Exact finite values select singleton categories. A clause
+is a partial assignment: it forbids each matching full assignment, and a tuple
+is forbidden when any clause matches. Integer restrictions cannot name raw
+integer values or partial ranges; selectors must refer to known partitions.
+The selector is distinct from a literal symbol and from a bounded
+`PartitionLevel`. Finite-valued inputs continue to require exact values.
+Clauses are requirement data, never executable predicates.
 
 Plan and runtime pair rows use the same `inputs` structure as finite pairwise
 rows. Integer categories serialize as
@@ -89,6 +98,18 @@ form. Pair IDs include the criterion and category identity and bounds. Coverage
 counts a call when its integer value belongs to the planned category in the
 same fully valid tuple. It does not count as exact-value or boundary coverage,
 and it does not claim equivalent behavior within a category.
+
+In a constrained plan, `excluded_pairs` contains category pairs with no
+allowed full completion and `reason: "no_allowed_completion"`. Check all group
+inputs when interpreting feasibility: a restriction on a third input can
+make a pair impossible even when no single clause names both pair members.
+Excluded pairs are outside the required denominator. At runtime, a call that
+matches a forbidden assignment contributes no pair coverage, including pairs
+that would otherwise be valid in some other full assignment. The normalized
+constraint value used for the contract digest encodes a typed restriction
+selector as
+`{ "kind": "partition_reference", "name": "minor" }`; this is separate
+from the existing `{ "kind": "partition", ... }` obligation encoding.
 
 CLI `suggest` infers this criterion from a valid, checked coverage report; its
 command continues to reject `--criterion`. Suggested category assignments

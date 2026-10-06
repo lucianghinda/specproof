@@ -11,6 +11,16 @@ module SpecProof
       @forbidden = []
     end
 
+    def in_partition(name)
+      source = Loader.call_source
+      unless name.is_a?(Symbol) && !name.to_s.empty?
+        raise ConfigurationError.new("partition reference name must be a non-empty symbol",
+                                     code: "invalid_partition_reference", source: source || @source)
+      end
+
+      PartitionReference.new(name)
+    end
+
     def forbid(**assignments)
       source = Loader.call_source
       if assignments.empty?
@@ -22,8 +32,8 @@ module SpecProof
         raise ConfigurationError.new("forbidden assignment names non-group input #{unknown.first.inspect}",
                                      code: "unknown_forbidden_input", source: source || @source)
       end
-      unless assignments.values.all? { |value| Domains.primitive?(value) }
-        raise ConfigurationError.new("forbidden values must be integers, symbols, strings, booleans, or nil",
+      unless assignments.values.all? { |value| Domains.primitive?(value) || value.is_a?(PartitionReference) }
+        raise ConfigurationError.new("forbidden values must be primitive values or whole partition references",
                                      code: "unsupported_value", source: source || @source)
       end
 
@@ -113,6 +123,10 @@ module SpecProof
           unless input
             raise ConfigurationError.new("forbidden assignment names non-group input #{name.inspect}",
                                          code: "unknown_forbidden_input", source: rule.source)
+          end
+          if value.is_a?(PartitionReference)
+            raise ConfigurationError.new("partition reference for #{name.inspect} requires an integer input",
+                                         code: "partition_reference_requires_integer_input", source: rule.source)
           end
           unless Domains.primitive?(value) && Domains.include?(input.domain, value)
             raise ConfigurationError.new("forbidden value #{value.inspect} is outside #{name.inspect}'s finite domain",

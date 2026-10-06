@@ -1,10 +1,15 @@
 # Pairwise partition coverage results
 
+This records the initial unrestricted implementation. Whole-partition
+restrictions have since been added; see the [constrained example](../examples/constrained_partition_pairs/README.md)
+and the current [report contract](report-format.md).
+
 `pairwise-partitions-v1` plans category pairs from explicit complete, disjoint
 integer partitions crossed with finite inputs. The scalar
 `input-basics-v1` and finite-value `pairwise-finite-v1` criteria retain their
-existing behavior. This criterion supports only `all_allowed: true`; forbidden
-assignments and explicit partitions on finite-valued inputs are rejected.
+existing behavior. At the time of this evaluation, the criterion supported
+only `all_allowed: true`; forbidden assignments and explicit partitions on
+finite-valued inputs were rejected.
 
 The runnable [age-by-country example](../examples/pairwise_partitions/README.md)
 uses age `0..120`, partitioned into minor `0...18` and adult `18..120`, crossed
@@ -35,7 +40,7 @@ and 1,440 assertions on each version. The optional RBS suite passed on each:
 No failures, errors, or skips occurred. Dependencies were reused from prepared
 local bundles; the feature adds no dependencies.
 
-Regression coverage includes category membership within one valid call,
+Regression coverage at that revision included category membership within one valid call,
 independent exact-value scalar obligations, canonical category identities,
 huge integer endpoints, invalid partition geometry and policies, unsupported
 forbidden assignments and finite partitions, multi-pair suggestions, bounded

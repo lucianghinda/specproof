@@ -48,6 +48,29 @@ module SpecProof
     end
   end
 
+  # Names one whole integer partition in a combinations restriction.
+  class PartitionReference
+    attr_reader :name
+
+    def initialize(name)
+      unless name.is_a?(Symbol) && !name.to_s.empty?
+        raise ArgumentError, "partition reference name must be a non-empty symbol"
+      end
+
+      @name = name.to_sym
+      freeze
+    end
+
+    def ==(other)
+      other.instance_of?(self.class) && name == other.name
+    end
+    alias eql? ==
+
+    def hash
+      [self.class, name].hash
+    end
+  end
+
   # `values` is the stable domain record field and intentionally shadows Struct#values.
   FiniteDomain = Struct.new(:values, keyword_init: true) do # rubocop:disable Lint/StructNewOverride
     def initialize(positional_values = nil, values: positional_values)

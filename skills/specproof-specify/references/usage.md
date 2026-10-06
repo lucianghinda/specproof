@@ -14,6 +14,7 @@ accepts `--criterion pairwise-finite-v1`. The default remains
 inferring it from a package version. A pairwise plan requires a `combinations`
 group for every target. `pairwise-partitions-v1` is a separate opt-in criterion
 for complete, non-overlapping integer partitions crossed with finite values.
+It supports all-allowed groups and explicit whole-partition restrictions.
 
 Run commands from the application project and use its normal Ruby/Bundler
 environment:
@@ -73,11 +74,25 @@ target and reject oversized domains rather than sampling them.
 
 Use `pairwise-partitions-v1` only when every grouped integer range has
 `allow_gaps: false`, `allow_overlaps: false`, and explicit partitions, and every other
-grouped input uses finite values. This criterion supports only
-`combinations ..., all_allowed: true`; it rejects `forbid` assignments and
-explicit partitions on finite-valued inputs. The partitions form categories,
-and each finite value is a singleton category. It reports category pairs, not
-boundary candidates or a claim of behavioral equivalence.
+grouped input uses finite values. The partitions form categories, and each
+finite value is a singleton category. Use `all_allowed: true` only when every
+full tuple is allowed; otherwise declare requirement-backed `forbid`
+assignments. Integer restrictions select a whole partition with
+`in_partition(:name)`, and finite inputs use exact values:
+
+```ruby
+combinations :age, :account, :country do
+  forbid age: in_partition(:minor), account: "business"
+end
+```
+
+Restrictions are partial assignments over full tuples. A pair is required only
+when an allowed full completion exists; a restriction involving a third input
+can exclude a pair indirectly. A forbidden runtime tuple fulfills no pair
+obligations. Integer restrictions cannot use raw values or partial ranges, and
+finite inputs continue to require exact values. The criterion reports category
+pairs, not boundary candidates or a claim of behavioral equivalence. Never add
+a restriction merely to erase a missing pair.
 
 ```ruby
 SpecProof.define "AgePolicy#eligible?" do
@@ -118,7 +133,10 @@ example `{ "kind": "partition", "name": "minor", "lower": "0", "upper": "17" }`.
 Bounds are inclusive in the report. Other finite input values retain their
 ordinary typed value. A pair row therefore describes categories, not a set of
 boundary-value obligations. Runtime collection counts a call when its actual
-integer belongs to the declared category.
+integer belongs to the declared category and its full assignment is allowed.
+The normalized constraint value used for the contract digest has a distinct
+canonical encoding, `{ "kind": "partition_reference", "name": "minor" }`;
+the existing partition obligation encoding is unchanged.
 
 Use only the declaration forms supported by SpecProof:
 
