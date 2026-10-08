@@ -241,9 +241,9 @@ class SingletonCollectorTest < Minitest::Test
       assert_equal true, report.fetch("integrity")
       assert_equal true, report.fetch("tests_passed")
       assert_equal ["SingletonPolicy.build"], report.dig("scope", "targets")
-      assert report.fetch("obligations").all? do |row|
+      assert(report.fetch("obligations").all? do |row|
         row.fetch("status") == "exercised" && row.fetch("hits") == 1
-      end
+      end)
     end
   end
 

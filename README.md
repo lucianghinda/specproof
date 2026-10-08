@@ -1,5 +1,9 @@
 # SpecProof
 
+**Proof of concept:** SpecProof is experimental and under active development.
+The public API, specification DSL, and report formats may change, including
+breaking changes between releases. Pin the gem version when trying it in a project.
+
 SpecProof checks a small, explicit contract about a Ruby method's inputs. It can find gaps or overlaps in declared input partitions, propose boundary-focused example values, and report which proposed values an existing Minitest suite actually passed to a method.
 
 SpecProof is an aid for reviewing test gaps. It does not prove application behavior, generate tests, infer expected results, or claim that a passing test suite establishes correctness.
@@ -8,9 +12,15 @@ Use the `SpecProof` namespace in new code. The previous `Specproof` constant rem
 
 ## Install
 
-SpecProof requires Ruby 3.3 or newer and has no runtime gem dependencies. This release is tested on CRuby 3.3, 3.4, and 4.0. Add it to an application's Gemfile from the distribution source your project uses. Runtime Minitest collection is optional and supports Minitest `>= 5.26.2` and `< 5.28.0` with matching package/runtime major and minor versions; keep Minitest in the application's test group. The development bundle selects `~> 5.26.2` because the published 5.27.0 package contains a mismatched runtime version; see [compatibility evidence](docs/minitest-compatibility.md).
+SpecProof requires Ruby 3.3 or newer and has no runtime gem dependencies. This release is tested on CRuby 3.3, 3.4, and 4.0. Add it to your application's Gemfile, pinning the version while the API is experimental:
 
-For development in this checkout, run commands from `gems/specproof` with `bundle exec`. To try this unpublished implementation in another application, use a local path dependency:
+```ruby
+gem "specproof", "0.1.0"
+```
+
+Runtime Minitest collection is optional and supports Minitest `>= 5.26.2` and `< 5.28.0` with matching package/runtime major and minor versions; keep Minitest in the application's test group. The development bundle selects `~> 5.26.2` because the published 5.27.0 package contains a mismatched runtime version; see [compatibility evidence](docs/minitest-compatibility.md).
+
+For development in this checkout, run commands from the gem root with `bundle exec`. To use a development checkout in another application, use a local path dependency:
 
 ```ruby
 gem "specproof", path: "/path/to/specproof/gems/specproof"

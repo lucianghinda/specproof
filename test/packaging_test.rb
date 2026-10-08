@@ -26,6 +26,14 @@ class PackagingTest < Minitest::Test
       assert_includes contents, "examples/rbs_registration/sig/registration.rbs"
       assert_includes contents, "examples/rbs_registration/requirements.md"
       assert_includes contents, "exe/specproof"
+      assert_includes contents, "docs/report-format.md"
+      assert_includes contents, "sig/specproof.rbs"
+      refute contents.any? { |path| path.match?(%r{\Adocs/(pilots|evaluations|superpowers)/}) },
+             "internal release evidence and workspaces must not ship in the gem"
+      refute(contents.any? { |path| path.end_with?(".tar.gz", ".jsonl") })
+      assert_equal "https://github.com/lucianghinda/specproof", package.spec.homepage
+      assert_equal "https://github.com/lucianghinda/specproof/blob/main/CHANGELOG.md",
+                   package.spec.metadata.fetch("changelog_uri")
 
       Gem::Installer.at(package_path, install_dir: gem_home, wrappers: true, force: true).install
       environment = {
